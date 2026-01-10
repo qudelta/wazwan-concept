@@ -223,17 +223,20 @@ body {
     /* Preserve natural shape within container */
 }
 
-/* Positioned at center, starting hidden */
+/* Starting off-screen on opposite sides */
 .kebab-1 {
     top: 52%;
-    left: 43%;
-    transform: translate(-50%, -50%) scale(0);
+    left: -30%;
+    /* Start off-screen left */
+    transform: translate(-50%, -50%) scale(2.7);
 }
 
 .kebab-2 {
     top: 48%;
-    left: 57%;
-    transform: translate(-50%, -50%) scale(0);
+    right: -30%;
+    /* Start off-screen right */
+    left: auto;
+    transform: translate(50%, -50%) scale(2.7);
 }
 
 /* Fried Chicken - Reduced to 2 pieces */

@@ -69,15 +69,21 @@ function initializeAnimations() {
     }, time);
     time += ITEM_DURATION + ITEM_GAP;
 
-    // 4. Kebab - 2 pieces diagonal
-    mainTimeline.to("#kebab-1, #kebab-2", {
+    // 4. Kebab - 2 pieces sliding in from opposite sides
+    mainTimeline.to("#kebab-1", {
         opacity: 1,
-        scale: 2.7,
+        left: "43%",
         rotation: 45,
         duration: ITEM_DURATION,
-        ease: "back.out(1.2)",
-        stagger: 0.2,
+        ease: "power2.out",
     }, time);
+    mainTimeline.to("#kebab-2", {
+        opacity: 1,
+        right: "43%",
+        rotation: 45,
+        duration: ITEM_DURATION,
+        ease: "power2.out",
+    }, time + 0.2);
     time += ITEM_DURATION + ITEM_GAP;
 
     // 5. Chicken - 2 pieces

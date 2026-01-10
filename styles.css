@@ -378,29 +378,36 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* .traem-container {
+    .traem-container {
         width: 90vw;
         height: 90vw;
         max-width: 500px;
         max-height: 500px;
     }
 
-    .kebab {
-        width: 100px;
-        height: 100px;
-    }
-
-    .chicken {
-        width: 80px;
-        height: 80px;
-    }
-
     .kebab-1 {
-        top: 25%;
-        left: 15%;
+        top: 3%;
+        left: 40%;
+        transform: translate(-150%, -150%) rotate(-0deg) scale(0.7);
     }
 
     .kebab-2 {
+        bottom: 3%;
+        right: 40%;
+        transform: translate(150%, 150%) rotate(-0deg) scale(0.7);
+    }
+
+    /* .chicken {
+        width: 80px;
+        height: 80px;
+    } */
+
+    /* .kebab-1 {
+        top: 25%;
+        left: 15%;
+    } */
+
+    /* .kebab-2 {
         bottom: 25%;
         right: 15%;
     } */

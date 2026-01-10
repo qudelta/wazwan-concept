@@ -1,0 +1,415 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --copper: #B87333;
+    --dark-copper: #8B5A2B;
+    --cream: #FFF8DC;
+    --deep-red: #8B0000;
+    --saffron: #F4C430;
+    --dark-bg: #1a1410;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(135deg, #1a1410 0%, #2d1810 100%);
+    color: var(--cream);
+    overflow-x: hidden;
+}
+
+/* Introduction Section */
+.intro-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at center, rgba(244, 196, 48, 0.1) 0%, transparent 70%);
+}
+
+.intro-content {
+    text-align: center;
+    z-index: 10;
+}
+
+.main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 700;
+    color: var(--saffron);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 40px rgba(244, 196, 48, 0.5);
+    letter-spacing: 0.1em;
+}
+
+.subtitle {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--copper);
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.intro-text {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--cream);
+    opacity: 0.8;
+    margin-bottom: 3rem;
+}
+
+.scroll-indicator {
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+    font-size: 3rem;
+    color: var(--saffron);
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Animation Container - Fixed Position */
+.animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.traem-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Traem (Copper Plate) */
+.traem {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow:
+        0 0 60px rgba(184, 115, 51, 0.6),
+        inset 0 0 40px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+}
+
+.traem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: brightness(1.1) contrast(1.2) saturate(1.3);
+}
+
+/* Food Items Base Styles */
+.food-items {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.food-item {
+    position: absolute;
+    opacity: 0;
+    transform-origin: center;
+}
+
+.food-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+/* Rice */
+.rice {
+    width: 70%;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 1;
+}
+
+/* Methi Maaz (Gravy) */
+.methi-maaz {
+    width: 20%;
+    height: 20%;
+    z-index: 2;
+}
+
+.methi-maaz img {
+    /* Feathered edges effect - only at edges, not entire image */
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
+    mask-image: radial-gradient(circle, black 70%, transparent 100%);
+    /* Remove drop-shadow so gravy appears flat on rice, not elevated */
+    filter: none;
+}
+
+/* Position 4 methi-maaz portions around rice edge */
+.methi-maaz-top {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+}
+
+.methi-maaz-right {
+    top: 50%;
+    right: 20%;
+    transform: translate(0, -50%) scale(0);
+}
+
+.methi-maaz-bottom {
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+}
+
+.methi-maaz-left {
+    top: 50%;
+    left: 20%;
+    transform: translate(0, -50%) scale(0);
+}
+
+/* Kebabs */
+.kebab {
+    /* width: 150px;
+    height: 150px; */
+    z-index: 3;
+}
+
+.kebab img {
+    border-radius: 20px;
+}
+
+.kebab-1 {
+    top: 17%;
+    left: 39%;
+    transform: translate(-150%, -150%) rotate(-0deg);
+}
+
+.kebab-2 {
+    bottom: 17%;
+    right: 39%;
+    transform: translate(150%, 150%) rotate(-0deg);
+}
+
+/* Fried Chicken - Reduced to 2 pieces */
+.chicken {
+    width: 120px;
+    height: 120px;
+    z-index: 4;
+}
+
+.chicken img {
+    border-radius: 15px;
+}
+
+.chicken-1 {
+    top: 30%;
+    left: 30%;
+    transform: translate(-200%, -200%) rotate(-20deg);
+}
+
+.chicken-2 {
+    bottom: 30%;
+    right: 30%;
+    transform: translate(200%, 200%) rotate(20deg);
+}
+
+/* Shank (Dani Phol) - Center position */
+.shank {
+    width: 30%;
+    height: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
+}
+
+/* Tabakh Maaz - 2 pieces diagonal */
+.tabakh-maaz {
+    width: 20%;
+    height: 20%;
+    z-index: 6;
+}
+
+.tabakh-maaz img {
+    border-radius: 15px;
+}
+
+.tabakh-maaz-1 {
+    top: 35%;
+    left: 35%;
+    transform: translate(-100%, -100%) scale(0);
+}
+
+.tabakh-maaz-2 {
+    bottom: 35%;
+    right: 35%;
+    transform: translate(100%, 100%) scale(0);
+}
+
+/* Covering Plate - Full overlay */
+.covering-plate {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 10;
+    opacity: 0;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.covering-plate img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Rista - 4 pieces */
+.rista {
+    width: 18%;
+    height: 18%;
+    z-index: 3;
+}
+
+.rista img {
+    border-radius: 50%;
+}
+
+/* All rista start in center */
+.rista-1,
+.rista-2,
+.rista-3,
+.rista-4 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+/* Scroll Sections */
+.scroll-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.step-label {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 600;
+    color: var(--copper);
+    text-align: center;
+    opacity: 0.3;
+    padding: 2rem;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* End Section */
+.end-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(139, 0, 0, 0.2) 0%, transparent 70%);
+}
+
+.end-content {
+    text-align: center;
+}
+
+.end-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    color: var(--saffron);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(244, 196, 48, 0.4);
+}
+
+.end-content p {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--cream);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .traem-container {
+        width: 90vw;
+        height: 90vw;
+        max-width: 500px;
+        max-height: 500px;
+    }
+
+    .kebab {
+        width: 100px;
+        height: 100px;
+    }
+
+    .chicken {
+        width: 80px;
+        height: 80px;
+    }
+
+    .kebab-1 {
+        top: 25%;
+        left: 15%;
+    }
+
+    .kebab-2 {
+        bottom: 25%;
+        right: 15%;
+    }
+}
+
+/* Performance Optimizations */
+.traem,
+.food-item {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}

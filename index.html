@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wazwan - A Kashmiri Culinary Journey</title>
+    <meta name="description"
+        content="Experience the traditional Kashmiri Wazwan feast through an interactive scroll journey">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <div class="intro-content">
+            <h1 class="main-title">Wazwan</h1>
+            <p class="subtitle">A Kashmiri Culinary Tradition</p>
+            <p class="intro-text">Scroll to witness the ceremonial assembly of this royal feast</p>
+            <div class="scroll-indicator">
+                <span>↓</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Animation Container -->
+    <div class="animation-container">
+        <div class="traem-container">
+            <!-- Traem (Copper Plate) -->
+            <div class="traem" id="traem">
+                <img src="images/traem/plate.png" alt="Traditional Copper Traem">
+            </div>
+
+            <!-- Food Items -->
+            <div class="food-items">
+                <!-- Rice -->
+                <div class="food-item rice" id="rice">
+                    <img src="images/rice/rice.png" alt="Basmati Rice">
+                </div>
+
+                <!-- Methi Maaz (Gravy) - 4 portions at cardinal positions -->
+                <div class="food-item methi-maaz methi-maaz-top" id="methi-maaz-top">
+                    <img src="images/gravy/methi-maaz.png" alt="Methi Maaz">
+                </div>
+                <div class="food-item methi-maaz methi-maaz-right" id="methi-maaz-right">
+                    <img src="images/gravy/methi-maaz.png" alt="Methi Maaz">
+                </div>
+                <div class="food-item methi-maaz methi-maaz-bottom" id="methi-maaz-bottom">
+                    <img src="images/gravy/methi-maaz.png" alt="Methi Maaz">
+                </div>
+                <div class="food-item methi-maaz methi-maaz-left" id="methi-maaz-left">
+                    <img src="images/gravy/methi-maaz.png" alt="Methi Maaz">
+                </div>
+
+                <!-- Kebabs -->
+                <div class="food-item kebab kebab-1" id="kebab-1">
+                    <img src="images/kebabs/kebab.png" alt="Seekh Kebab">
+                </div>
+                <div class="food-item kebab kebab-2" id="kebab-2">
+                    <img src="images/kebabs/kebab.png" alt="Seekh Kebab">
+                </div>
+
+                <!-- Fried Chicken Quarters - Reduced to 2 pieces -->
+                <div class="food-item chicken chicken-1" id="chicken-1">
+                    <img src="images/chicken/chicken.jpg" alt="Fried Chicken">
+                </div>
+                <div class="food-item chicken chicken-2" id="chicken-2">
+                    <img src="images/chicken/chicken.jpg" alt="Fried Chicken">
+                </div>
+
+                <!-- Shank (Dani Phol) - 1 piece center -->
+                <div class="food-item shank" id="shank">
+                    <img src="images/shank/shank.png" alt="Dani Phol">
+                </div>
+
+                <!-- Tabakh Maaz - 2 pieces -->
+                <div class="food-item tabakh-maaz tabakh-maaz-1" id="tabakh-maaz-1">
+                    <img src="images/tabakh-maaz/tabakh-maaz.png" alt="Tabakh Maaz">
+                </div>
+                <div class="food-item tabakh-maaz tabakh-maaz-2" id="tabakh-maaz-2">
+                    <img src="images/tabakh-maaz/tabakh-maaz.png" alt="Tabakh Maaz">
+                </div>
+
+                <!-- Rista - 4 pieces -->
+                <div class="food-item rista rista-1" id="rista-1">
+                    <img src="images/rista/rista.png" alt="Rista">
+                </div>
+                <div class="food-item rista rista-2" id="rista-2">
+                    <img src="images/rista/rista.png" alt="Rista">
+                </div>
+                <div class="food-item rista rista-3" id="rista-3">
+                    <img src="images/rista/rista.png" alt="Rista">
+                </div>
+                <div class="food-item rista rista-4" id="rista-4">
+                    <img src="images/rista/rista.png" alt="Rista">
+                </div>
+            </div>
+
+            <!-- Covering Plate - Overlays all food items -->
+            <div class="covering-plate" id="covering-plate">
+                <img src="images/covering-plate/plate.png" alt="Covering Plate">
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Spacer Sections -->
+    <section class="scroll-section" data-step="0">
+        <div class="step-label">The Traem Arrives</div>
+    </section>
+
+    <section class="scroll-section" data-step="1">
+        <div class="step-label">Fragrant Basmati Rice</div>
+    </section>
+
+    <section class="scroll-section" data-step="2">
+        <div class="step-label">Methi Maaz - The Aromatic Gravy</div>
+    </section>
+
+    <section class="scroll-section" data-step="3">
+        <div class="step-label">Seekh Kebabs</div>
+    </section>
+
+    <section class="scroll-section" data-step="4">
+        <div class="step-label">Golden Fried Chicken</div>
+    </section>
+
+    <section class="scroll-section" data-step="5">
+        <div class="step-label">The Feast Continues...</div>
+    </section>
+
+    <!-- End Section -->
+    <section class="end-section">
+        <div class="end-content">
+            <h2>Wazwan</h2>
+            <p>A symphony of flavors, tradition, and heritage</p>
+        </div>
+    </section>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

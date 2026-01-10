@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test - Wazwan</title>
+    <style>
+        body {
+            background: #1a1410;
+            color: white;
+            font-family: sans-serif;
+            padding: 2rem;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .image-test {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #2d1810;
+            border-radius: 8px;
+        }
+
+        .image-test h3 {
+            color: #F4C430;
+            margin-bottom: 1rem;
+        }
+
+        .image-test img {
+            max-width: 300px;
+            height: auto;
+            border: 2px solid #B87333;
+            border-radius: 8px;
+        }
+
+        .status {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .success {
+            color: #4ade80;
+        }
+
+        .error {
+            color: #f87171;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>Image Loading Test</h1>
+        <p>This page tests if your images are loading correctly.</p>
+
+        <div class="image-test">
+            <h3>Traem (Copper Plate)</h3>
+            <img src="images/traem/plate.png" alt="Traem" onload="showStatus(this, true)"
+                onerror="showStatus(this, false)">
+            <div class="status" id="status-traem">Loading...</div>
+        </div>
+
+        <div class="image-test">
+            <h3>Methi Maaz (Gravy)</h3>
+            <img src="images/gravy/methi-maaz.png" alt="Gravy" onload="showStatus(this, true)"
+                onerror="showStatus(this, false)">
+            <div class="status" id="status-gravy">Loading...</div>
+        </div>
+
+        <div class="image-test">
+            <h3>Rice (Not Added Yet)</h3>
+            <img src="images/rice/rice.png" alt="Rice" onload="showStatus(this, true)"
+                onerror="showStatus(this, false)">
+            <div class="status" id="status-rice">Loading...</div>
+        </div>
+
+        <div class="image-test">
+            <h3>Kebabs (Not Added Yet)</h3>
+            <img src="images/kebabs/kebab.png" alt="Kebabs" onload="showStatus(this, true)"
+                onerror="showStatus(this, false)">
+            <div class="status" id="status-kebabs">Loading...</div>
+        </div>
+
+        <div class="image-test">
+            <h3>Chicken (Not Added Yet)</h3>
+            <img src="images/chicken/chicken.jpg" alt="Chicken" onload="showStatus(this, true)"
+                onerror="showStatus(this, false)">
+            <div class="status" id="status-chicken">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        function showStatus(img, success) {
+            const statusId = 'status-' + img.alt.toLowerCase().split(' ')[0];
+            const statusEl = document.getElementById(statusId);
+
+            if (success) {
+                statusEl.innerHTML = `✅ <span class="success">Loaded successfully! (${img.naturalWidth}x${img.naturalHeight}px)</span>`;
+            } else {
+                statusEl.innerHTML = `❌ <span class="error">Failed to load. Check file path and name.</span>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

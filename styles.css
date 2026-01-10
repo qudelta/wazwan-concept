@@ -378,7 +378,7 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .traem-container {
+    /* .traem-container {
         width: 90vw;
         height: 90vw;
         max-width: 500px;
@@ -403,7 +403,7 @@ body {
     .kebab-2 {
         bottom: 25%;
         right: 15%;
-    }
+    } */
 }
 
 /* Performance Optimizations */

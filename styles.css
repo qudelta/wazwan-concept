@@ -105,8 +105,9 @@ body {
 
 .traem-container {
     position: relative;
-    width: 600px;
-    height: 600px;
+    /* Responsive sizing: min 300px, prefers 60vw, max 600px */
+    width: clamp(300px, 60vw, 600px);
+    height: clamp(300px, 60vw, 600px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -209,31 +210,38 @@ body {
 
 /* Kebabs */
 .kebab {
-    /* width: 150px;
-    height: 150px; */
+    /* Fixed percentage like methi-maaz for consistency */
+    width: 25%;
+    height: 25%;
     z-index: 3;
 }
 
 .kebab img {
     border-radius: 20px;
+    object-fit: cover;
+    object-fit: contain;
+    /* Preserve natural shape within container */
 }
 
+/* Positioned at center, starting hidden */
 .kebab-1 {
-    top: 17%;
-    left: 39%;
-    transform: translate(-150%, -150%) rotate(-0deg);
+    top: 52%;
+    left: 43%;
+    transform: translate(-50%, -50%) scale(0);
 }
 
 .kebab-2 {
-    bottom: 17%;
-    right: 39%;
-    transform: translate(150%, 150%) rotate(-0deg);
+    top: 48%;
+    left: 57%;
+    transform: translate(-50%, -50%) scale(0);
 }
 
 /* Fried Chicken - Reduced to 2 pieces */
 .chicken {
-    width: 120px;
-    height: 120px;
+    /* Size scales with container: min 60px, prefers 18% of container, max 120px */
+    width: clamp(60px, 18%, 120px);
+    height: auto;
+    /* Preserve aspect ratio */
     z-index: 4;
 }
 
@@ -376,41 +384,12 @@ body {
     font-style: italic;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - only needed for very small screens */
+@media (max-width: 400px) {
     .traem-container {
-        width: 90vw;
-        height: 90vw;
-        max-width: 500px;
-        max-height: 500px;
+        width: 95vw;
+        height: 95vw;
     }
-
-    .kebab-1 {
-        top: 3%;
-        left: 40%;
-        transform: translate(-150%, -150%) rotate(-0deg) scale(0.7);
-    }
-
-    .kebab-2 {
-        bottom: 3%;
-        right: 40%;
-        transform: translate(150%, 150%) rotate(-0deg) scale(0.7);
-    }
-
-    /* .chicken {
-        width: 80px;
-        height: 80px;
-    } */
-
-    /* .kebab-1 {
-        top: 25%;
-        left: 15%;
-    } */
-
-    /* .kebab-2 {
-        bottom: 25%;
-        right: 15%;
-    } */
 }
 
 /* Performance Optimizations */

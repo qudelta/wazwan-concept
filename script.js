@@ -28,7 +28,7 @@ function initializeAnimations() {
 
     // Continuous rotation based on scroll
     gsap.to(traemContainer, {
-        rotation: 360 * 1.5, // Increased for longer scroll
+        // rotation: 360 * 1.5, // Increased for longer scroll
         ease: "none",
         scrollTrigger: {
             trigger: ".scroll-section[data-step='0']",
@@ -72,11 +72,10 @@ function initializeAnimations() {
     // 4. Kebab - 2 pieces diagonal
     mainTimeline.to("#kebab-1, #kebab-2", {
         opacity: 1,
-        x: 0,
-        y: 0,
+        scale: 2.7,
         rotation: 45,
         duration: ITEM_DURATION,
-        ease: "power3.out",
+        ease: "back.out(1.2)",
         stagger: 0.2,
     }, time);
     time += ITEM_DURATION + ITEM_GAP;

@@ -76,19 +76,19 @@
   .photo{position:absolute;right:22px;bottom:0;height:750px;width:auto;filter:var(--photo-shadow);
     -webkit-mask-image:linear-gradient(180deg,#000 76%,transparent 98%);mask-image:linear-gradient(180deg,#000 76%,transparent 98%)}
 
-  .card{position:absolute;left:596px;top:694px;width:420px;z-index:6;padding:22px 24px 20px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
+  .card{position:absolute;left:596px;top:664px;width:420px;z-index:6;padding:22px 24px 20px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
   .card .who{display:flex;align-items:center;justify-content:space-between}
   .card .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
   .card .bar{width:34px;height:4px;border-radius:2px;background:var(--accent)}
   .card .name{margin-top:10px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1;letter-spacing:-.02em}
-  .card .role{margin-top:10px;font-size:13.5px;line-height:1.5;color:var(--ink-2);letter-spacing:-.005em}
+  .card .role{margin-top:10px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
   .card .role b{font-weight:600;color:var(--ink)}
   .card ul{list-style:none;margin-top:14px;padding-top:13px;border-top:1px solid var(--card-line);display:grid;gap:8px}
-  .card li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-2)}
-  .card li svg{flex:none;width:17px;height:17px;color:var(--accent-ink);stroke-width:1.9}
+  .card li{display:flex;align-items:flex-start;gap:10px;line-height:1.4;font-size:13.5px;color:var(--ink-2)}
+  .card li svg{flex:none;width:17px;height:17px;margin-top:1px;color:var(--accent-ink);stroke-width:1.9}
 
   /* outline */
-  .outline{position:absolute;left:64px;right:64px;top:962px;z-index:4}
+  .outline{position:absolute;left:64px;right:64px;top:976px;z-index:4}
   .ol-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
   .ol-head h2{font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
   .ol-head p{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.01em}
@@ -127,7 +127,7 @@
   <div class="facts">
     <div class="fact"><div class="n">08</div><div class="l">{{i:calendar-range}}Live sessions</div></div>
     <div class="fact"><div class="n">90<small>min</small></div><div class="l">{{i:timer}}Per session</div></div>
-    <div class="fact"><div class="n">12<small>hrs</small></div><div class="l">{{i:hourglass}}Of live coding</div></div>
+    <div class="fact"><div class="n">04<small>weeks</small></div><div class="l">{{i:hourglass}}Course duration</div></div>
   </div>
 
   <div class="list">
@@ -147,10 +147,10 @@
   <div class="card">
     <div class="who"><span class="lbl">Instructor</span><span class="bar"></span></div>
     <div class="name">Dr. Abdul Waris</div>
-    <p class="role"><b>Research Associate, University of Siegen, Germany</b><br>Ph.D., IIT Hyderabad · Prime Minister’s Research Fellow</p>
+    <p class="role">Research Associate, University of Siegen, Germany<br>Former Prime Minister’s Research Fellow<br>Ph.D., IIT Hyderabad</p>
     <ul>
       <li>{{i:award}}Research Excellence Award 2026, IIT Hyderabad</li>
-      <li>{{i:presentation}}Invited talks in the USA, Norway &amp; Spain</li>
+      <li>{{i:presentation}}<span>Invited talks at Oregon State University (USA),<br>Norway &amp; Spain</span></li>
     </ul>
   </div>
 

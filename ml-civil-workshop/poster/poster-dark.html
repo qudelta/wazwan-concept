@@ -76,19 +76,19 @@
   .photo{position:absolute;right:22px;bottom:0;height:750px;width:auto;filter:var(--photo-shadow);
     -webkit-mask-image:linear-gradient(180deg,#000 76%,transparent 98%);mask-image:linear-gradient(180deg,#000 76%,transparent 98%)}
 
-  .card{position:absolute;left:596px;top:694px;width:420px;z-index:6;padding:22px 24px 20px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
+  .card{position:absolute;left:596px;top:664px;width:420px;z-index:6;padding:22px 24px 20px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
   .card .who{display:flex;align-items:center;justify-content:space-between}
   .card .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
   .card .bar{width:34px;height:4px;border-radius:2px;background:var(--accent)}
   .card .name{margin-top:10px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1;letter-spacing:-.02em}
-  .card .role{margin-top:10px;font-size:13.5px;line-height:1.5;color:var(--ink-2);letter-spacing:-.005em}
+  .card .role{margin-top:10px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
   .card .role b{font-weight:600;color:var(--ink)}
   .card ul{list-style:none;margin-top:14px;padding-top:13px;border-top:1px solid var(--card-line);display:grid;gap:8px}
-  .card li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-2)}
-  .card li svg{flex:none;width:17px;height:17px;color:var(--accent-ink);stroke-width:1.9}
+  .card li{display:flex;align-items:flex-start;gap:10px;line-height:1.4;font-size:13.5px;color:var(--ink-2)}
+  .card li svg{flex:none;width:17px;height:17px;margin-top:1px;color:var(--accent-ink);stroke-width:1.9}
 
   /* outline */
-  .outline{position:absolute;left:64px;right:64px;top:962px;z-index:4}
+  .outline{position:absolute;left:64px;right:64px;top:976px;z-index:4}
   .ol-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
   .ol-head h2{font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
   .ol-head p{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.01em}
@@ -127,7 +127,7 @@
   <div class="facts">
     <div class="fact"><div class="n">08</div><div class="l"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M16 2v3" /> <path d="M3 9h18" /> <path d="M8 2v3" /> <path d="M17 13h-6" /> <path d="M13 17H7" /> <path d="M7 13h.01" /> <path d="M17 17h.01" /> </svg>Live sessions</div></div>
     <div class="fact"><div class="n">90<small>min</small></div><div class="l"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <line x1="10" x2="14" y1="2" y2="2" /> <line x1="12" x2="15" y1="14" y2="11" /> <circle cx="12" cy="14" r="8" /> </svg>Per session</div></div>
-    <div class="fact"><div class="n">12<small>hrs</small></div><div class="l"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 22h14" /> <path d="M5 2h14" /> <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" /> <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" /> </svg>Of live coding</div></div>
+    <div class="fact"><div class="n">04<small>weeks</small></div><div class="l"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 22h14" /> <path d="M5 2h14" /> <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" /> <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" /> </svg>Course duration</div></div>
   </div>
 
   <div class="list">
@@ -147,10 +147,10 @@
   <div class="card">
     <div class="who"><span class="lbl">Instructor</span><span class="bar"></span></div>
     <div class="name">Dr. Abdul Waris</div>
-    <p class="role"><b>Research Associate, University of Siegen, Germany</b><br>Ph.D., IIT Hyderabad · Prime Minister’s Research Fellow</p>
+    <p class="role">Research Associate, University of Siegen, Germany<br>Former Prime Minister’s Research Fellow<br>Ph.D., IIT Hyderabad</p>
     <ul>
       <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>Research Excellence Award 2026, IIT Hyderabad</li>
-      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg>Invited talks in the USA, Norway &amp; Spain</li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg><span>Invited talks at Oregon State University (USA),<br>Norway &amp; Spain</span></li>
     </ul>
   </div>
 

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI & ML for Civil Engineers — Poster</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  :root{
+    --bg:#040605;
+    --ink:#F3F7F5;
+    --muted:#A3AFA8;
+    --dim:#6E7B74;
+    --green:#00D26A;
+    --green-hi:#2BF394;
+    --green-deep:#00A855;
+    --line:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px;background:var(--bg)}
+  body{font-family:'Inter',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+
+  /* ---------- background ---------- */
+  .bg-grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:54px 54px;background-position:-1px -1px;
+    -webkit-mask-image:radial-gradient(120% 80% at 70% 30%,#000 30%,transparent 78%);mask-image:radial-gradient(120% 80% at 70% 30%,#000 30%,transparent 78%)}
+  .bg-glow{position:absolute;inset:0;
+    background:
+      radial-gradient(520px 520px at 812px 470px,rgba(0,210,106,.30),rgba(0,210,106,.10) 45%,transparent 70%),
+      radial-gradient(700px 420px at 0px 1350px,rgba(0,210,106,.10),transparent 70%),
+      radial-gradient(500px 300px at 150px 120px,rgba(0,210,106,.06),transparent 70%)}
+  .beam{position:absolute;width:1px;height:1700px;transform-origin:top center;
+    background:linear-gradient(180deg,transparent,rgba(0,210,106,.35) 35%,rgba(0,210,106,.05) 70%,transparent)}
+  .grain{position:absolute;inset:0;background:url(assets/grain.png);opacity:.55;mix-blend-mode:overlay;pointer-events:none}
+
+  /* ---------- top bar ---------- */
+  .topbar{position:absolute;top:50px;left:60px;right:60px;height:46px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+  .pill{display:inline-flex;align-items:center;gap:10px;height:38px;padding:0 16px 0 14px;border-radius:999px;
+    border:1px solid rgba(0,210,106,.35);background:rgba(0,210,106,.08);
+    font:600 12.5px/1 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#D9F7E7}
+  .pill .live{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(0,210,106,.18),0 0 14px var(--green)}
+  .pill .sep{color:rgba(255,255,255,.3)}
+  .partner{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+  .partner small{font:600 9.5px/1 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+  /* Qudelta wordmark */
+  .qd{display:inline-flex;align-items:center;font:500 15px/1 'Outfit',sans-serif;letter-spacing:.07em;color:#fff;white-space:nowrap}
+  .qd .q{height:1.42em;width:auto;margin-right:.04em;transform:translateY(.06em)}
+  .qd .colon{height:.8em;width:auto;margin:0 .38em 0 .08em;transform:translateY(-.02em)}
+
+  /* ---------- title ---------- */
+  .title{position:absolute;top:134px;left:60px;z-index:4}
+  .eyebrow{font:600 13px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--green);border-radius:2px}
+  h1{font:800 78px/.96 'Inter Tight',sans-serif;letter-spacing:-.048em}
+  h1 .amp{color:var(--green)}
+  h1 .g{display:inline-block;position:relative;padding-bottom:14px;
+    background:linear-gradient(92deg,#00C862 0%,#12E27F 55%,#3CF7A0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h1 .g::after{content:"";position:absolute;left:3px;right:6px;bottom:0;height:6px;border-radius:6px;background:linear-gradient(90deg,#00C862,#2BF394)}
+  .sub{margin-top:26px;width:500px;font:400 21px/1.42 'Inter',sans-serif;color:var(--muted);letter-spacing:-.005em}
+  .sub b{color:#fff;font-weight:600}
+
+  /* ---------- left column ---------- */
+  .left{position:absolute;left:60px;top:500px;width:470px;z-index:4}
+  .stats{display:flex;align-items:stretch;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0}
+  .stat{flex:1;padding-left:22px;border-left:1px solid var(--line)}
+  .stat:first-child{padding-left:0;border-left:0}
+  .stat .n{font:800 46px/1 'Inter Tight',sans-serif;letter-spacing:-.04em;color:#fff}
+  .stat .n span{font-size:22px;letter-spacing:-.02em;color:var(--green);margin-left:3px}
+  .stat .l{margin-top:8px;font:600 10.5px/1.2 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+  .colab{margin-top:24px;display:flex;gap:16px;align-items:center;padding:16px 18px;border-radius:18px;
+    background:linear-gradient(135deg,rgba(0,210,106,.18),rgba(0,210,106,.04));border:1px solid rgba(0,210,106,.38);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+  .colab .ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--green);color:#03170C;box-shadow:0 6px 18px rgba(0,210,106,.35)}
+  .colab .ic svg{width:24px;height:24px;stroke-width:2}
+  .colab h3{font:700 17px/1.2 'Inter Tight',sans-serif;letter-spacing:-.01em;color:#fff}
+  .colab p{margin-top:4px;font:400 13.5px/1.4 'Inter',sans-serif;color:#BFD0C6}
+
+  .feats{margin-top:22px;display:grid;gap:13px}
+  .feat{display:flex;gap:14px;align-items:center}
+  .feat .ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);color:var(--green)}
+  .feat .ic svg{width:20px;height:20px;stroke-width:1.9}
+  .feat h4{font:600 16px/1.2 'Inter Tight',sans-serif;color:#fff;letter-spacing:-.005em}
+  .feat p{margin-top:2px;font:400 13.5px/1.35 'Inter',sans-serif;color:var(--muted)}
+
+  /* ---------- instructor stage ---------- */
+  .stage{position:absolute;left:540px;top:110px;width:540px;height:800px;z-index:2}
+  .disc{position:absolute;left:92px;top:190px;width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,rgba(0,210,106,.26),rgba(0,210,106,.06) 60%,transparent 72%);
+    border:1px solid rgba(0,210,106,.28)}
+  .orbit{position:absolute;left:50%;top:50%;border-radius:50%;border:1.5px dashed rgba(0,210,106,.28)}
+  .o1{width:560px;height:190px;margin:-95px 0 0 -280px;transform:rotate(-14deg)}
+  .o2{width:520px;height:170px;margin:-85px 0 0 -260px;transform:rotate(58deg);border-color:rgba(120,170,255,.18);border-style:solid;border-width:1px}
+  .orbit-wrap{position:absolute;left:12px;top:40px;width:520px;height:560px}
+  .odot{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+  .photo{position:absolute;right:26px;bottom:0;height:770px;width:auto;
+    -webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 97%);mask-image:linear-gradient(180deg,#000 72%,transparent 97%);
+    filter:drop-shadow(0 20px 40px rgba(0,0,0,.55))}
+  .tile{position:absolute;width:62px;height:62px;border-radius:18px;display:grid;place-items:center;color:var(--green);z-index:3;
+    background:linear-gradient(145deg,#17201b,#0b100d);border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 14px 34px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08)}
+  .tile svg{width:28px;height:28px;stroke-width:1.8}
+  .tile::after{content:"";position:absolute;inset:-6px;border-radius:22px;border:1px solid rgba(255,255,255,.05)}
+
+  .card{position:absolute;left:600px;top:692px;width:420px;z-index:6;padding:20px 22px 18px;border-radius:22px;
+    background:linear-gradient(160deg,rgba(18,26,22,.94),rgba(7,11,9,.96));border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06)}
+  .card .k{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--green)}
+  .card .name{margin-top:10px;font:800 31px/1 'Inter Tight',sans-serif;letter-spacing:-.03em;color:#fff}
+  .card .role{margin-top:10px;font:500 14.5px/1.4 'Inter',sans-serif;color:#D5DED9}
+  .card .role2{margin-top:2px;font:400 13.5px/1.4 'Inter',sans-serif;color:var(--muted)}
+  .chips{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px 0 9px;border-radius:999px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);font:500 12px/1 'Inter',sans-serif;color:#E4ECE7;white-space:nowrap}
+  .chip svg{width:14px;height:14px;color:var(--green);stroke-width:2}
+
+  /* ---------- curriculum ---------- */
+  .curr{position:absolute;left:60px;right:60px;top:944px;z-index:4}
+  .curr-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  .curr-head h2{font:700 20px/1 'Inter Tight',sans-serif;letter-spacing:-.015em;color:#fff}
+  .curr-head h2 span{color:var(--green)}
+  .curr-head .flow{font:500 11px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
+  .curr-head .flow i{font-style:normal;color:var(--green);margin:0 5px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .s{position:relative;height:88px;padding:13px 14px 12px;border-radius:15px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);overflow:hidden}
+  .s .top{display:flex;justify-content:space-between;align-items:center}
+  .s .no{font:700 11.5px/1 'JetBrains Mono',monospace;letter-spacing:.08em;color:var(--green)}
+  .s .top svg{width:17px;height:17px;color:rgba(255,255,255,.55);stroke-width:1.8}
+  .s h5{margin-top:9px;font:600 14.5px/1.22 'Inter Tight',sans-serif;letter-spacing:-.01em;color:#fff}
+  .s p{margin-top:3px;font:400 11.5px/1.3 'Inter',sans-serif;color:var(--dim)}
+  .s.hl{background:linear-gradient(150deg,rgba(0,210,106,.16),rgba(0,210,106,.03));border-color:rgba(0,210,106,.35)}
+  .s.hl .top svg{color:var(--green)}
+  .s.hl p{color:#8FB9A2}
+
+  /* ---------- footer ---------- */
+  .foot{position:absolute;left:60px;right:60px;bottom:50px;height:92px;display:flex;align-items:center;justify-content:space-between;z-index:4;
+    border-top:1px solid var(--line);padding-top:22px}
+  .who .k{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  .who p{margin-top:9px;font:500 15px/1.4 'Inter',sans-serif;color:#E6EDE9}
+  .who p i{font-style:normal;color:var(--green);margin:0 7px}
+  .who .perks{margin-top:10px;display:flex;gap:18px;font:500 12.5px/1 'Inter',sans-serif;color:var(--muted)}
+  .who .perks span{display:inline-flex;align-items:center;gap:6px}
+  .who .perks svg{width:15px;height:15px;color:var(--green);stroke-width:2}
+  .cta{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+  .btn{display:inline-flex;align-items:center;gap:12px;height:54px;padding:0 10px 0 24px;border-radius:15px;
+    background:linear-gradient(180deg,#14E27F,#00C862);color:#02160B;font:700 18px/1 'Inter Tight',sans-serif;letter-spacing:-.01em;
+    box-shadow:0 10px 30px rgba(0,210,106,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+  .btn .arr{width:36px;height:36px;border-radius:10px;background:#03170C;color:var(--green);display:grid;place-items:center}
+  .btn .arr svg{width:19px;height:19px;stroke-width:2.4}
+  .cta small{font:500 12.5px/1 'Inter',sans-serif;color:var(--muted)}
+  .cta small b{color:#fff;font-weight:600}
+</style>
+</head>
+<body>
+<div class="poster">
+  <!-- background -->
+  <div class="bg-glow"></div>
+  <div class="bg-grid"></div>
+  <div class="beam" style="left:360px;top:-200px;transform:rotate(38deg);opacity:.5"></div>
+  <div class="beam" style="left:1000px;top:-120px;transform:rotate(24deg);opacity:.35"></div>
+  <div class="grain"></div>
+
+  <!-- top bar -->
+  <div class="topbar">
+    <div class="pill"><span class="live"></span>Live Online Workshop <span class="sep">/</span> Batch 01</div>
+    <div class="partner">
+      <small>Technology Partner</small>
+      {{logo}}
+    </div>
+  </div>
+
+  <!-- title -->
+  <div class="title">
+    <div class="eyebrow">Hands-on · Beginner friendly</div>
+    <h1>AI <span class="amp">&amp;</span> Machine<br>Learning for<br><span class="g">Civil Engineers.</span></h1>
+    <p class="sub">From engineering data to <b>prediction</b>, <b>explainability</b> &amp; <b>uncertainty</b> </p>
+  </div>
+
+  <!-- left column -->
+  <div class="left">
+    <div class="stats">
+      <div class="stat"><div class="n">08</div><div class="l">Live sessions</div></div>
+      <div class="stat"><div class="n">90<span>min</span></div><div class="l">Per session</div></div>
+      <div class="stat"><div class="n">12<span>hrs</span></div><div class="l">Live coding</div></div>
+    </div>
+
+    <div class="colab">
+      <div class="ic">{{i:cloud-check}}</div>
+      <div>
+        <h3>100% Google Colab — zero installs</h3>
+        <p>No setup. Runs in any browser — even on a Chromebook.</p>
+      </div>
+    </div>
+
+    <div class="feats">
+      <div class="feat"><div class="ic">{{i:sprout}}</div><div><h4>No prior Python or ML needed</h4><p>We start from engineering problems, not equations.</p></div></div>
+      <div class="feat"><div class="ic">{{i:code-xml}}</div><div><h4>Live code-along, real datasets</h4><p>Concrete, geotech, water &amp; transport data.</p></div></div>
+      <div class="feat"><div class="ic">{{i:notebook-pen}}</div><div><h4>Notebooks, assignments &amp; solutions</h4><p>Yours to keep and revisit after the course.</p></div></div>
+    </div>
+  </div>
+
+  <!-- instructor stage -->
+  <div class="stage">
+    <div class="disc"></div>
+    <div class="orbit-wrap">
+      <div class="orbit o1"></div>
+      <div class="orbit o2"></div>
+    </div>
+    <span class="odot" style="left:38px;top:338px"></span>
+    <span class="odot" style="left:512px;top:252px;width:7px;height:7px;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.8)"></span>
+    <img class="photo" src="assets/instructor.webp" alt="Dr. Abdul Waris">
+    <div class="tile" style="left:448px;top:132px">{{i:brain-circuit}}</div>
+    <div class="tile" style="left:40px;top:470px">{{i:chart-spline}}</div>
+  </div>
+
+  <div class="card">
+    <div class="k">Your instructor</div>
+    <div class="name">Dr. Abdul Waris</div>
+    <div class="role">Research Associate, University of Siegen, Germany</div>
+    <div class="role2">Ph.D., IIT Hyderabad · Prime Minister’s Research Fellow</div>
+    <div class="chips">
+      <span class="chip">{{i:medal}}Research Excellence Award 2026</span>
+      <span class="chip">{{i:globe}}Talks in USA · Norway · Spain</span>
+    </div>
+  </div>
+
+  <!-- curriculum -->
+  <div class="curr">
+    <div class="curr-head">
+      <h2>The 8-session journey <span>→</span></h2>
+      <div class="flow">Problem<i>›</i>Data<i>›</i>Model<i>›</i>Validate<i>›</i>Interpret<i>›</i>Decide</div>
+    </div>
+    <div class="grid">
+      <div class="s"><div class="top"><span class="no">S01</span>{{i:terminal}}</div><h5>Python for Civil Engineers</h5><p>Colab · NumPy · pandas</p></div>
+      <div class="s"><div class="top"><span class="no">S02</span>{{i:database}}</div><h5>Raw data to ML-ready</h5><p>EDA · outliers · leakage</p></div>
+      <div class="s"><div class="top"><span class="no">S03</span>{{i:chart-scatter}}</div><h5>Your first prediction model</h5><p>Regression · R² · validation</p></div>
+      <div class="s"><div class="top"><span class="no">S04</span>{{i:trees}}</div><h5>Trees &amp; ensembles</h5><p>Random Forest · boosting</p></div>
+      <div class="s"><div class="top"><span class="no">S05</span>{{i:split}}</div><h5>Classification for decisions</h5><p>Precision · recall · F1</p></div>
+      <div class="s"><div class="top"><span class="no">S06</span>{{i:brain-circuit}}</div><h5>Artificial neural networks</h5><p>Neurons to predictions</p></div>
+      <div class="s hl"><div class="top"><span class="no">S07</span>{{i:scan-search}}</div><h5>Explainable AI &amp; judgement</h5><p>SHAP · physical plausibility</p></div>
+      <div class="s hl"><div class="top"><span class="no">S08</span>{{i:dices}}</div><h5>Uncertainty &amp; reliability</h5><p>Monte Carlo · P(failure)</p></div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div class="foot">
+    <div class="who">
+      <div class="k">Who it’s for</div>
+      <p>B.Tech / M.Tech students<i>·</i>PhD scholars<i>·</i>Faculty<i>·</i>Practising engineers</p>
+      <div class="perks">
+        <span>{{i:award}}Certificate</span>
+        <span>{{i:circle-play}}Session recordings</span>
+        <span>{{i:users}}Limited seats</span>
+      </div>
+    </div>
+    <div class="cta">
+      <div class="btn">Register now <span class="arr">{{i:arrow-up-right}}</span></div>
+      <small><b>qudeltastudios.com</b> · Dates announced soon</small>
+    </div>
+  </div>
+</div>
+</body>
+</html>

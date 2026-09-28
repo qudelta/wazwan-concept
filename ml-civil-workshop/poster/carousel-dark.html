@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI &amp; ML for Civil Engineers — Carousel</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#39433D; --muted:#6F7973; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --accent-display:#00A656; --on-accent:#03140A;
+    --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F5F8F6; --surface-line:#E3E8E5;
+    --grid:rgba(10,40,25,.055);
+    --disc:radial-gradient(circle at 50% 42%,#C9F1DA 0%,#E4F8EC 48%,rgba(236,250,242,0) 71%);
+    --ring:rgba(0,191,99,.45);
+    --shadow:0 18px 44px rgba(8,40,22,.10),0 2px 6px rgba(8,40,22,.05);
+    --photo-shadow:drop-shadow(0 18px 30px rgba(10,40,25,.18));
+    --glow:transparent;
+    --code-bg:#F7F9F8; --kw:#0B7A45; --str:#B45309; --num:#1D4ED8; --com:#8A948F; --fn:#0A0F0C;
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#C4CDC8; --muted:#87928C; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --accent-display:#22D47C; --on-accent:#03140A;
+    --tint:rgba(0,191,99,.10); --tint-line:rgba(0,191,99,.30); --surface:#0E1411; --surface-line:rgba(255,255,255,.09);
+    --grid:rgba(255,255,255,.045);
+    --disc:radial-gradient(circle at 50% 42%,rgba(0,191,99,.34) 0%,rgba(0,191,99,.12) 48%,rgba(0,191,99,0) 71%);
+    --ring:rgba(0,191,99,.40);
+    --shadow:0 24px 60px rgba(0,0,0,.55);
+    --photo-shadow:drop-shadow(0 20px 40px rgba(0,0,0,.55));
+    --glow:radial-gradient(700px 520px at 100% 0%,rgba(0,191,99,.13),transparent 70%);
+    --code-bg:#0B100D; --kw:#3FE08F; --str:#F5B971; --num:#8AB4FF; --com:#6B776F; --fn:#F2F5F3;
+  }
+  @page{size:1080px 1350px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;font-stretch:100%;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg);break-after:page}
+  .glow{position:absolute;inset:0;background:var(--glow);pointer-events:none}
+  .grid{position:absolute;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);pointer-events:none}
+
+  /* chrome */
+  .sh{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
+  .sh .tag{font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+  .sh .course{font-size:13px;font-weight:500;color:var(--muted)}
+  .sf{position:absolute;left:64px;right:64px;bottom:46px;height:44px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid var(--rule);z-index:5}
+  .sf img{height:17px;width:auto;margin-bottom:1px}
+  .prog{display:flex;align-items:center;gap:14px}
+  .prog .pn{font-size:13px;font-weight:500;color:var(--muted);font-feature-settings:"tnum"}
+  .prog .pn b{color:var(--ink);font-weight:700}
+  .bars{display:flex;gap:4px}
+  .bars i{width:16px;height:3px;border-radius:2px;background:var(--rule)}
+  .bars i.on{background:var(--accent)}
+  .prog svg{width:20px;height:20px;color:var(--accent-ink);stroke-width:2.2}
+
+  /* type */
+  .body{position:absolute;left:64px;right:64px;top:142px}
+  h2{font-weight:800;font-stretch:87.5%;font-size:62px;line-height:1.0;letter-spacing:-.022em}
+  h2 em{font-style:normal;color:var(--accent-display)}
+  .lede{margin-top:22px;font-size:20px;line-height:1.45;color:var(--ink-2);max-width:900px}
+  .k{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .chip{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 13px;border-radius:999px;border:1px solid var(--surface-line);background:var(--surface);font-size:13.5px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+  .chip svg{width:15px;height:15px;color:var(--accent-ink);stroke-width:2}
+  .chip.g{background:var(--tint);border-color:var(--tint-line);color:var(--ink)}
+  .chip.solid{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+
+  .callout{display:flex;gap:18px;align-items:center;padding:22px 26px;border-radius:18px;background:var(--tint);border:1px solid var(--tint-line)}
+  .callout .ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent)}
+  .callout .ic svg{width:24px;height:24px;stroke-width:2}
+  .callout p{font-size:16.5px;line-height:1.45;color:var(--ink-2)}
+  .callout p b{color:var(--ink);font-weight:700}
+
+  /* 02 workflow */
+  .flow{margin-top:44px;position:relative}
+  .flow::before{content:"";position:absolute;left:27px;top:30px;bottom:30px;width:2px;background:linear-gradient(var(--accent),var(--tint-line))}
+  .step{position:relative;display:grid;grid-template-columns:56px 1fr auto;gap:22px;align-items:center;height:106px;border-bottom:1px solid var(--rule)}
+  .step:last-child{border-bottom:0}
+  .step .node{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--accent);color:var(--accent-ink);z-index:1}
+  .step .node svg{width:24px;height:24px;stroke-width:1.9}
+  .step:first-child .node{background:var(--accent);color:var(--on-accent)}
+  .step h4{font-weight:800;font-stretch:87.5%;font-size:25px;letter-spacing:-.01em}
+  .step p{margin-top:3px;font-size:15.5px;color:var(--muted)}
+  .step .n{font-weight:800;font-stretch:75%;font-size:40px;color:var(--rule);letter-spacing:-.02em}
+  .domains{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+  .domains .k{flex-basis:100%;margin-bottom:5px}
+
+  /* 03 audience */
+  .personas{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pc{height:206px;padding:26px 24px 22px;border-radius:18px;background:var(--surface);border:1px solid var(--surface-line)}
+  .pc .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--tint);color:var(--accent-ink)}
+  .pc .ic svg{width:24px;height:24px;stroke-width:1.8}
+  .pc h4{margin-top:24px;font-weight:800;font-stretch:87.5%;font-size:22px;letter-spacing:-.01em}
+  .pc p{margin-top:5px;font-size:14.5px;line-height:1.4;color:var(--muted)}
+  .pc.hl{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .pc.hl .ic{background:rgba(3,20,10,.12);color:var(--on-accent)}
+  .pc.hl p{color:rgba(3,20,10,.72)}
+  .req{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);border-radius:20px;overflow:hidden}
+  .req > div{padding:32px 32px}
+  .req > div + div{border-left:1px solid var(--rule)}
+  .req h5 svg{width:24px;height:24px;stroke-width:2}
+  .req h5{display:flex;align-items:center;gap:10px;font-weight:800;font-stretch:87.5%;font-size:22px;letter-spacing:-.01em}
+  .req ul{list-style:none;margin-top:20px;display:grid;gap:16px}
+  .req li{display:flex;gap:11px;align-items:flex-start;font-size:16.5px;line-height:1.35;color:var(--ink-2)}
+  .req li svg{flex:none;width:19px;height:19px;margin-top:1px;stroke-width:2.4}
+  .req .yes svg,.req .yes h5 svg{color:var(--accent-ink)}
+  .req .no svg{color:var(--muted)}
+  .req .no li{color:var(--muted)}
+  .req .no li s{text-decoration-thickness:1.5px;text-decoration-color:var(--muted)}
+
+  /* 04 outcomes */
+  .outs{margin-top:40px}
+  .out{display:grid;grid-template-columns:58px 1fr 44px;gap:22px;align-items:center;height:122px;border-top:1px solid var(--rule)}
+  .out:last-child{border-bottom:1px solid var(--rule)}
+  .out .ic{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--tint);color:var(--accent-ink)}
+  .out .ic svg{width:27px;height:27px;stroke-width:1.8}
+  .out h4{font-weight:800;font-stretch:87.5%;font-size:24px;letter-spacing:-.01em}
+  .out p{margin-top:4px;font-size:15.5px;color:var(--muted)}
+  .out .n{justify-self:end;font-weight:800;font-stretch:75%;font-size:22px;color:var(--accent-ink)}
+
+  /* 05/06 sessions */
+  .sess{margin-top:30px}
+  .se{display:grid;grid-template-columns:118px 1fr;gap:6px;padding:28px 0 28px;border-top:1px solid var(--rule)}
+  .se:last-child{border-bottom:1px solid var(--rule)}
+  .se .no{font-weight:800;font-stretch:75%;font-size:84px;line-height:.82;letter-spacing:-.03em;color:var(--accent-display)}
+  .se h4{font-weight:800;font-stretch:87.5%;font-size:27px;line-height:1.1;letter-spacing:-.012em}
+  .se .app{margin-top:9px;display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;color:var(--ink)}
+  .se .app svg{width:17px;height:17px;color:var(--accent-ink);stroke-width:2}
+  .se .app span{color:var(--muted);font-weight:500}
+  .se p{margin-top:7px;font-size:15.5px;line-height:1.4;color:var(--ink-2)}
+  .se .skills{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
+  .se .skills .chip{height:27px;font-size:12.5px;padding:0 11px}
+  .se .badge{display:inline-flex;align-items:center;gap:6px;margin-left:12px;height:24px;padding:0 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:5px}
+  .se .badge svg{width:13px;height:13px;stroke-width:2.4}
+
+  /* 07 session anatomy */
+  .anat{margin-top:52px}
+  .anat .scale{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:10px;font-feature-settings:"tnum"}
+  .bar{display:grid;grid-template-columns:25fr 45fr 20fr;gap:6px;height:210px}
+  .bar > div{border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
+  .bar .a{background:var(--ink);color:var(--bg)}
+  .bar .b{background:var(--accent);color:var(--on-accent)}
+  .bar .c{background:var(--tint);border:1px solid var(--tint-line);color:var(--ink)}
+  .bar .t{font-weight:800;font-stretch:87.5%;font-size:40px;letter-spacing:-.02em;line-height:1}
+  .bar .t small{font-size:15px;font-weight:700;margin-left:3px}
+  .bar .l{font-size:16px;font-weight:600;line-height:1.25}
+  .anat .cap{margin-top:12px;font-size:13.5px;color:var(--muted)}
+  .methods{margin-top:52px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+  .me{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:30px 0;border-top:1px solid var(--rule)}
+  .me:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
+  .me .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;border:1.5px solid var(--accent);color:var(--accent-ink)}
+  .me .ic svg{width:22px;height:22px;stroke-width:1.9}
+  .me h4{font-weight:700;font-size:18px;letter-spacing:-.005em}
+  .me p{margin-top:4px;font-size:14.5px;line-height:1.4;color:var(--muted)}
+
+  /* 08 notebook */
+  .nb{margin-top:40px;border-radius:18px;border:1px solid var(--surface-line);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+  .nb-top{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--surface-line)}
+  .nb-top .f{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500;color:var(--ink)}
+  .nb-top .f svg{width:18px;height:18px;color:var(--accent-ink);stroke-width:2}
+  .nb-top .st{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .nb-top .st i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .cell{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:18px 22px 0}
+  .cell:last-child{padding-bottom:22px}
+  .cell .ix{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);padding-top:14px}
+  .cell pre{font-family:'JetBrains Mono',monospace;font-size:15.5px;line-height:1.7;color:var(--fn);background:var(--code-bg);border:1px solid var(--surface-line);border-radius:10px;padding:13px 18px;white-space:pre}
+  .cell .res{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:14.5px;color:var(--ink-2);padding-left:16px}
+  .kw{color:var(--kw);font-weight:700}.sq{color:var(--str)}.nu{color:var(--num)}.co{color:var(--com);font-style:italic}
+  .stack{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .stack .k{margin-right:6px}
+  .ds{margin-top:48px;display:grid;grid-template-columns:300px 1fr;gap:34px;padding-top:26px;border-top:1.5px solid var(--ink)}
+  .ds h4{font-weight:800;font-stretch:87.5%;font-size:25px;line-height:1.12;letter-spacing:-.012em}
+  .ds .meta{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:22px 10px}
+  .ds .meta b{display:block;font-weight:800;font-stretch:87.5%;font-size:42px;letter-spacing:-.02em;line-height:1}
+  .ds .meta span{display:block;margin-top:4px;font-size:13px;color:var(--muted)}
+  .io .k{margin-bottom:12px}
+  .io .ins{display:flex;flex-wrap:wrap;gap:8px}
+  .io .to{margin:16px 0 12px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13.5px;font-weight:600}
+  .io .to svg{width:20px;height:20px;color:var(--accent-ink);transform:rotate(90deg);stroke-width:2.2}
+  .io .note{margin-top:22px;font-size:14.5px;line-height:1.45;color:var(--muted)}
+
+  /* 09 instructor */
+  .bio{position:absolute;left:64px;top:150px;width:500px;z-index:4}
+  .bio .name{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:66px;line-height:.98;letter-spacing:-.025em}
+  .bio .role{margin-top:18px;font-size:16px;line-height:1.5;font-weight:600}
+  .bio .role span{display:block;color:var(--ink-2);font-weight:500}
+  .bio p.txt{margin-top:18px;font-size:16px;line-height:1.55;color:var(--ink-2)}
+  .bio .chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:7px}
+  .bio .chips .chip{height:28px;font-size:12.5px}
+  .stage{position:absolute;left:560px;top:110px;width:520px;height:640px;z-index:2;overflow:hidden}
+  .stage .disc{position:absolute;left:40px;top:70px;width:420px;height:420px;border-radius:50%;background:var(--disc)}
+  .stage .ring{position:absolute;left:80px;top:110px;width:340px;height:340px;border-radius:50%;border:1.5px solid var(--ring)}
+  .stage .ring.r2{left:10px;top:40px;width:480px;height:480px;border:1px dashed var(--ring);opacity:.55}
+  .stage img{position:absolute;right:10px;top:40px;height:860px;filter:var(--photo-shadow);-webkit-mask-image:linear-gradient(180deg,#000 52%,transparent 68%);mask-image:linear-gradient(180deg,#000 52%,transparent 68%)}
+  .tl{position:absolute;left:64px;right:64px;top:790px;z-index:4}
+  .tl .k{margin-bottom:22px}
+  .tl-row{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .tl-row::before{content:"";position:absolute;left:0;right:0;top:8px;height:2px;background:var(--rule)}
+  .tl-row::after{content:"";position:absolute;left:0;width:78%;top:8px;height:2px;background:var(--accent)}
+  .ms{position:relative;padding-top:34px}
+  .ms::before{content:"";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);box-sizing:border-box}
+  .ms.now::before{background:var(--accent);box-shadow:0 0 0 6px var(--tint)}
+  .ms .yr{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--accent-ink);font-feature-settings:"tnum"}
+  .ms h5{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:21px;line-height:1.12;letter-spacing:-.01em}
+  .ms .in{margin-top:5px;font-size:14px;line-height:1.35;color:var(--ink-2);font-weight:500}
+  .ms .hon{margin-top:10px;display:flex;gap:7px;align-items:flex-start;font-size:13px;line-height:1.35;color:var(--muted)}
+  .ms .hon svg{flex:none;width:15px;height:15px;color:var(--accent-ink);stroke-width:2;margin-top:1px}
+  .tools{position:absolute;left:64px;right:64px;top:1116px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;z-index:4}
+  .tools .k{margin-right:8px}
+
+  /* 10 track record */
+  .stats{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid var(--ink)}
+  .stt{padding:20px 0 0 22px;border-left:1px solid var(--rule)}
+  .stt:first-child{padding-left:0;border-left:0}
+  .stt b{display:block;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1;letter-spacing:-.03em}
+  .stt b sup{font-size:30px;color:var(--accent-display);vertical-align:22px;margin-left:2px}
+  .stt span{display:block;margin-top:8px;font-size:14px;line-height:1.35;color:var(--muted)}
+  .pubs{margin-top:34px;padding:12px 0;display:flex;align-items:center;gap:26px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .pubs .k{margin-right:4px}
+  .pubs b{font-weight:800;font-stretch:87.5%;font-size:19px;letter-spacing:-.005em;color:var(--ink-2)}
+  .cols{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:44px}
+  .cols h5{display:flex;align-items:center;gap:9px;font-weight:800;font-stretch:87.5%;font-size:22px;letter-spacing:-.01em;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
+  .cols h5 svg{width:20px;height:20px;color:var(--accent-ink);stroke-width:2}
+  .it{padding:15px 0;border-bottom:1px solid var(--rule)}
+  .it b{display:block;font-size:15.5px;line-height:1.35;font-weight:700}
+  .it span{display:block;margin-top:5px;font-size:13.5px;line-height:1.4;color:var(--muted)}
+  .it span em{font-style:normal;color:var(--accent-ink);font-weight:600}
+
+  .teach{margin-top:34px}
+  .teach .tr{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:4px}
+  .teach .tc{padding-top:14px}
+  .teach .tc svg{width:22px;height:22px;color:var(--accent-ink);stroke-width:1.9}
+  .teach .tc b{display:block;margin-top:10px;font-size:15.5px;line-height:1.3;font-weight:700}
+  .teach .tc span{display:block;margin-top:4px;font-size:13.5px;line-height:1.4;color:var(--muted)}
+
+  /* 11 enrol */
+  .incl{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+  .inc{display:flex;align-items:center;gap:16px;padding:24px 0;border-top:1px solid var(--rule)}
+  .inc:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
+  .inc svg{flex:none;width:28px;height:28px;color:var(--accent-ink);stroke-width:1.8}
+  .inc b{font-size:18px;font-weight:700;letter-spacing:-.005em}
+  .inc span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+  .cta{position:absolute;left:0;right:0;bottom:0;height:640px;background:var(--accent);color:var(--on-accent);padding:60px 64px 0;z-index:3}
+  .cta .k{color:rgba(3,20,10,.66)}
+  .cta .date{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:.98;letter-spacing:-.025em}
+  .cta .facts{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+  .cta .facts span{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;background:rgba(3,20,10,.09);font-size:14px;font-weight:600}
+  .cta .facts svg{width:16px;height:16px;stroke-width:2.2}
+  .cta .reg{margin-top:34px;display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-radius:18px;background:#03140A;color:#fff}
+  .cta .reg .k{color:rgba(255,255,255,.55)}
+  .cta .reg .url{margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:38px;letter-spacing:-.02em}
+  .cta .reg .go{width:62px;height:62px;border-radius:16px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center}
+  .cta .reg .go svg{width:30px;height:30px;stroke-width:2.4}
+  .cta .seats{margin-top:18px;font-size:14.5px;font-weight:500;color:rgba(3,20,10,.78)}
+  .slide.end .sf{border-top-color:rgba(3,20,10,.22)}
+  .slide.end .prog .pn,.slide.end .prog .pn b{color:var(--on-accent)}
+  .slide.end .bars i{background:rgba(3,20,10,.2)}
+  .slide.end .bars i.on{background:var(--on-accent)}
+  .slide.end .sf img{filter:brightness(0);opacity:.85}
+  .slide.end .sf .partner{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:600;color:rgba(3,20,10,.7)}
+</style>
+</head>
+<body class="dark">
+
+<!-- 02 · Why -->
+<section class="slide">
+  <div class="glow"></div>
+  <div class="grid" style="right:-120px;top:80px;width:600px;height:600px"></div>
+  <header class="sh"><span class="tag">Why this workshop</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Most ML courses start with algorithms. This one starts with <em>engineering problems.</em></h2>
+    <p class="lede">Every session follows the workflow you would use on a real project, so every line of code has an engineering purpose.</p>
+    <div class="flow">
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <line x1="22" x2="18" y1="12" y2="12" /> <line x1="6" x2="2" y1="12" y2="12" /> <line x1="12" x2="12" y1="6" y2="2" /> <line x1="12" x2="12" y1="22" y2="18" /> </svg></div><div><h4>Define the problem</h4><p>Which mix-design inputs drive concrete strength?</p></div><span class="n">01</span></div>
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="18" height="18" x="3" y="3" rx="2" ry="2" /> <line x1="3" x2="21" y1="9" y2="9" /> <line x1="3" x2="21" y1="15" y2="15" /> <line x1="9" x2="9" y1="9" y2="21" /> <line x1="15" x2="15" y1="9" y2="21" /> </svg></div><div><h4>Understand the data</h4><p>Explore, clean and check it before you trust it.</p></div><span class="n">02</span></div>
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2" /> <rect x="14" y="2" width="8" height="8" rx="1" /> </svg></div><div><h4>Build a model</h4><p>Regression, trees, ensembles and neural networks.</p></div><span class="n">03</span></div>
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /> </svg></div><div><h4>Validate it</h4><p>Test on data the model has never seen.</p></div><span class="n">04</span></div>
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <circle cx="12" cy="12" r="3" /> <path d="m16 16-1.9-1.9" /> </svg></div><div><h4>Interpret it</h4><p>Does the model respect engineering physics?</p></div><span class="n">05</span></div>
+      <div class="step"><div class="node"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 3v18" /> <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" /> <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M7 21h10" /> </svg></div><div><h4>Decide responsibly</h4><p>Account for uncertainty before acting on a prediction.</p></div><span class="n">06</span></div>
+    </div>
+    <div class="domains">
+      <span class="k">Examples from</span>
+      <span class="chip"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 12h4" /> <path d="M10 8h4" /> <path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" /> <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" /> </svg>Concrete materials</span>
+      <span class="chip"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m8 3 4 8 5-5 5 15H2L8 3z" /> <path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19" /> </svg>Geotechnical</span>
+      <span class="chip"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="6" cy="19" r="3" /> <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" /> <circle cx="18" cy="5" r="3" /> </svg>Transportation</span>
+      <span class="chip"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /> </svg>Water &amp; environment</span>
+      <span class="chip"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg>Buildings &amp; energy</span>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>02</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 03 · Who -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Who it’s for</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Built for civil engineers<br>at <em>every stage.</em></h2>
+    <p class="lede">Whether you are still studying or already on site, you will leave able to apply ML to your own engineering problems.</p>
+    <div class="personas">
+      <div class="pc"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /> </svg></div><h4>UG students</h4><p>B.Tech / B.E. in civil engineering</p></div>
+      <div class="pc"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /> </svg></div><h4>PG students</h4><p>M.Tech / M.E. in any civil specialisation</p></div>
+      <div class="pc"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 18h8" /> <path d="M3 22h18" /> <path d="M14 22a7 7 0 1 0 0-14h-1" /> <path d="M9 14h2" /> <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /> <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" /> </svg></div><h4>PhD scholars</h4><p>and early-career researchers</p></div>
+      <div class="pc"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg></div><h4>Faculty members</h4><p>bringing data-driven methods into teaching</p></div>
+      <div class="pc"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg></div><h4>Practising engineers</h4><p>structural, geotech, transport, water</p></div>
+      <div class="pc hl"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" /> <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" /> <path d="M5 21h14" /> </svg></div><h4>Complete beginners</h4><p>never written a line of Python? Perfect.</p></div>
+    </div>
+    <div class="req">
+      <div class="yes">
+        <h5><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /> </svg>What you need</h5>
+        <ul>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg>Basic civil engineering concepts</li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg>Comfort with everyday engineering calculations</li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg>A Google account and a web browser</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h5><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg>What you don’t</h5>
+        <ul>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg><s>Prior Python or programming</s></li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg><s>Prior machine learning experience</s></li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg><s>Advanced mathematics</s></li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg><s>Anaconda, MATLAB or any installs</s></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>03</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 04 · Outcomes -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Learning outcomes</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>By the end, you’ll be <em>able to…</em></h2>
+    <div class="outs">
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="6" /> <circle cx="12" cy="12" r="2" /> </svg></div><div><h4>Frame engineering problems for ML</h4><p>Turn a civil engineering question into inputs, features and a target.</p></div><span class="n">01</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 9h18" /> <path d="M9 3v18" /> <rect x="3" y="3" width="18" height="18" rx="2" /> </svg></div><div><h4>Wrangle real engineering data</h4><p>Explore, clean and prepare datasets with Python, NumPy and pandas.</p></div><span class="n">02</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /> </svg></div><div><h4>Predict engineering quantities</h4><p>Build regression models for strength, response and performance.</p></div><span class="n">03</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 3h5v5" /> <path d="M8 3H3v5" /> <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3" /> <path d="m15 9 6-6" /> </svg></div><div><h4>Support engineering decisions</h4><p>Build classifiers and judge them with precision, recall and F1.</p></div><span class="n">04</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /> </svg></div><div><h4>Choose the right model</h4><p>Compare linear, tree-based, ensemble and neural-network approaches.</p></div><span class="n">05</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /> </svg></div><div><h4>Validate like an engineer</h4><p>Catch data leakage, overfitting and unsafe extrapolation.</p></div><span class="n">06</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <circle cx="12" cy="12" r="3" /> <path d="m16 16-1.9-1.9" /> </svg></div><div><h4>Explain what the model learned</h4><p>Use feature importance and SHAP to test physical plausibility.</p></div><span class="n">07</span></div>
+      <div class="out"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="12" height="12" x="2" y="10" rx="2" ry="2" /> <path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6" /> <path d="M6 18h.01" /> <path d="M10 14h.01" /> <path d="M15 6h.01" /> <path d="M18 9h.01" /> </svg></div><div><h4>Quantify uncertainty</h4><p>Estimate probability of failure with Monte Carlo and ML surrogates.</p></div><span class="n">08</span></div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>04</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 05 · Sessions 1-4 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Course outline · Part 1</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Sessions 01–04: <em>the foundations.</em></h2>
+    <p class="lede">Python, data preparation, regression and nonlinear models, on real civil engineering data.</p>
+    <div class="sess">
+      <div class="se"><span class="no">01</span><div>
+        <h4>AI &amp; ML for civil engineers: from problems to Python</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Concrete compressive strength</span></div>
+        <p>What AI, ML and deep learning really mean for engineers, then your first steps in Colab.</p>
+        <div class="skills"><span class="chip">AI/ML concepts</span><span class="chip">Google Colab</span><span class="chip">Python</span><span class="chip">NumPy</span><span class="chip">pandas</span><span class="chip">First plots</span></div>
+      </div></div>
+      <div class="se"><span class="no">02</span><div>
+        <h4>From raw engineering data to an ML-ready dataset</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Concrete + cross-domain engineering data</span></div>
+        <p>Learn to question a dataset before you model it.</p>
+        <div class="skills"><span class="chip">EDA</span><span class="chip">Data quality</span><span class="chip">Outliers</span><span class="chip">Correlations</span><span class="chip">Train/test split</span><span class="chip">Scaling</span><span class="chip">Leakage</span></div>
+      </div></div>
+      <div class="se"><span class="no">03</span><div>
+        <h4>Your first engineering prediction model</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Concrete compressive strength</span></div>
+        <p>Fit, score and diagnose a regression model the right way.</p>
+        <div class="skills"><span class="chip">Linear regression</span><span class="chip">MAE · MSE · RMSE</span><span class="chip">R²</span><span class="chip">Residuals</span><span class="chip">Cross-validation</span></div>
+      </div></div>
+      <div class="se"><span class="no">04</span><div>
+        <h4>Nonlinear engineering problems: trees &amp; ensembles</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Concrete + geotechnical response</span></div>
+        <p>When straight lines fail: models that capture nonlinear behaviour.</p>
+        <div class="skills"><span class="chip">Decision trees</span><span class="chip">Random Forest</span><span class="chip">Boosting</span><span class="chip">Model comparison</span></div>
+      </div></div>
+    </div>
+    <div class="callout" style="margin-top:30px"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 13v8" /> <path d="M12 3v3" /> <path d="M18.172 6a2 2 0 0 1 1.414.586l2.06 2.06a1.207 1.207 0 0 1 0 1.708l-2.06 2.06a2 2 0 0 1-1.414.586H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z" /> </svg></div><p><b>Milestone:</b> by session 04 you will have built, validated and compared linear, tree and ensemble models on real concrete data.</p></div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>05</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 06 · Sessions 5-8 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Course outline · Part 2</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Sessions 05–08: <em>prediction to decision.</em></h2>
+    <div class="sess">
+      <div class="se"><span class="no">05</span><div>
+        <h4>From prediction to engineering decision: classification</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Environmental / water + geotechnical classification</span></div>
+        <p>Move from “how much?” to “safe or unsafe?”.</p>
+        <div class="skills"><span class="chip">Logistic regression</span><span class="chip">Decision trees</span><span class="chip">Confusion matrix</span><span class="chip">Precision · Recall · F1</span></div>
+      </div></div>
+      <div class="se"><span class="no">06</span><div>
+        <h4>Artificial neural networks: from neurons to prediction</h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Concrete &amp; engineering response prediction</span></div>
+        <p>Open the black box: how a network learns, and when it overfits.</p>
+        <div class="skills"><span class="chip">ANN architecture</span><span class="chip">Activation</span><span class="chip">Loss</span><span class="chip">Epochs</span><span class="chip">Overfitting</span><span class="chip">Convergence</span></div>
+      </div></div>
+      <div class="se"><span class="no">07</span><div>
+        <h4>Can we trust our model? Explainability &amp; judgement<span class="badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 18h8" /> <path d="M3 22h18" /> <path d="M14 22a7 7 0 1 0 0-14h-1" /> <path d="M9 14h2" /> <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /> <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" /> </svg>Research area</span></h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Geotechnical research case study</span></div>
+        <p>Check whether a model’s reasoning makes engineering sense.</p>
+        <div class="skills"><span class="chip g">Feature importance</span><span class="chip g">Permutation importance</span><span class="chip g">SHAP</span><span class="chip g">Extrapolation</span><span class="chip g">Physical plausibility</span></div>
+      </div></div>
+      <div class="se"><span class="no">08</span><div>
+        <h4>From prediction to probability: uncertainty quantification<span class="badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 18h8" /> <path d="M3 22h18" /> <path d="M14 22a7 7 0 1 0 0-14h-1" /> <path d="M9 14h2" /> <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /> <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" /> </svg>Research area</span></h4>
+        <div class="app"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg>Case study <span>· Reliability / engineering exceedance</span></div>
+        <p>Why a single number is not enough, and what to report instead.</p>
+        <div class="skills"><span class="chip g">Monte Carlo simulation</span><span class="chip g">Surrogate models</span><span class="chip g">Probability of failure</span><span class="chip g">Uncertainty</span></div>
+      </div></div>
+    </div>
+    <div class="callout" style="margin-top:30px"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 18h8" /> <path d="M3 22h18" /> <path d="M14 22a7 7 0 1 0 0-14h-1" /> <path d="M9 14h2" /> <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /> <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" /> </svg></div><p><b>Beyond a typical ML course:</b> sessions 07 and 08 draw directly on the instructor’s research in explainable ML and reliability analysis.</p></div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>06</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 07 · Inside a session -->
+<section class="slide">
+  <div class="glow"></div>
+  <div class="grid" style="left:-160px;bottom:-120px;width:620px;height:620px"></div>
+  <header class="sh"><span class="tag">How you’ll learn</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Fewer slides. <em>More code.</em></h2>
+    <p class="lede">Every 90-minute session is live and instructor-led, and roughly half of it is spent writing code together.</p>
+    <div class="anat">
+      <div class="scale"><span>0 min</span><span>Inside one 90-minute session</span><span>90 min</span></div>
+      <div class="bar">
+        <div class="a"><span class="t">20–30<small>min</small></span><span class="l">Concepts</span></div>
+        <div class="b"><span class="t">40–50<small>min</small></span><span class="l">Guided live coding on engineering data</span></div>
+        <div class="c"><span class="t">10–20<small>min</small></span><span class="l">Interpret &amp; Q&amp;A</span></div>
+      </div>
+      <p class="cap">Short concept explanations, then hands-on coding, then what the results mean for an engineer.</p>
+    </div>
+    <div class="methods">
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m7 11 2-2-2-2" /> <path d="M11 13h4" /> <rect width="18" height="18" x="3" y="3" rx="2" ry="2" /> </svg></div><div><h4>Live instructor-led coding</h4><p>Code is written live with you, not pasted from slides.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <rect width="16" height="20" x="4" y="2" rx="2" /> <path d="M9.5 8h5" /> <path d="M9.5 12H16" /> <path d="M9.5 16H14" /> </svg></div><div><h4>Step-by-step notebooks</h4><p>Every step explained in plain language inside the notebook.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m17 2 4 4-4 4" /> <path d="M3 11v-1a4 4 0 0 1 4-4h14" /> <path d="m7 22-4-4 4-4" /> <path d="M21 13v1a4 4 0 0 1-4 4H3" /> </svg></div><div><h4>Worked example, then your turn</h4><p>Guided exercises follow every demonstration.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="8" height="4" x="8" y="2" rx="1" ry="1" /> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /> <path d="m9 14 2 2 4-4" /> </svg></div><div><h4>Assignments with solutions</h4><p>Practise on your own, then compare with the instructor’s.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /> <path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /> </svg></div><div><h4>Engineering discussion</h4><p>Ask questions and debate what the results really mean.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg></div><div><h4>Recordings for revision</h4><p>Missed a session? Catch up for up to a month.</p></div></div>
+    </div>
+    <div class="callout" style="margin-top:40px"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m12.99 6.74 1.93 3.44" /> <path d="M19.136 12a10 10 0 0 1-14.271 0" /> <path d="m21 21-2.16-3.84" /> <path d="m3 21 8.02-14.26" /> <circle cx="12" cy="5" r="2" /> </svg></div><p><b>Engineering judgement is built in.</b> Every session discusses model limitations, validation, extrapolation and physical plausibility, not just accuracy.</p></div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>07</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 08 · Colab + data -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Tools &amp; data</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Real engineering data. <em>Right in your browser.</em></h2>
+    <div class="nb">
+      <div class="nb-top"><span class="f"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <rect width="16" height="20" x="4" y="2" rx="2" /> <path d="M9.5 8h5" /> <path d="M9.5 12H16" /> <path d="M9.5 16H14" /> </svg>03_first_prediction_model.ipynb</span><span class="st"><i></i>Google Colab · Python 3</span></div>
+      <div class="cell"><span class="ix">[1]</span><div><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.read_csv(<span class="sq">"concrete_strength.csv"</span>)
+df.shape</pre><div class="res">(<span class="nu">1030</span>, <span class="nu">9</span>)</div></div></div>
+      <div class="cell"><span class="ix">[2]</span><pre><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+X, y = df.drop(columns=<span class="sq">"strength_mpa"</span>), df[<span class="sq">"strength_mpa"</span>]
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=<span class="nu">0.2</span>)</pre></div>
+      <div class="cell"><span class="ix">[3]</span><pre><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+model = LinearRegression().fit(X_tr, y_tr)   <span class="co"># your first model</span></pre></div>
+    </div>
+    <div class="stack"><span class="k">Zero installs</span><span class="chip g"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg>Works on any laptop or Chromebook</span><span class="chip">Python</span><span class="chip">NumPy</span><span class="chip">pandas</span><span class="chip">Matplotlib</span><span class="chip">scikit-learn</span><span class="chip">SciPy</span></div>
+    <div class="ds">
+      <div>
+        <div class="k">Primary dataset</div>
+        <h4 style="margin-top:10px">UCI Concrete Compressive Strength</h4>
+        <div class="meta">
+          <div><b>1,030</b><span>concrete mixes</span></div>
+          <div><b>8</b><span>input variables</span></div>
+          <div><b>0</b><span>missing values</span></div>
+          <div><b>CC BY</b><span>open licence (4.0)</span></div>
+        </div>
+      </div>
+      <div class="io">
+        <div class="k">What goes in</div>
+        <div class="ins"><span class="chip">Cement</span><span class="chip">Blast-furnace slag</span><span class="chip">Fly ash</span><span class="chip">Water</span><span class="chip">Superplasticizer</span><span class="chip">Coarse aggregate</span><span class="chip">Fine aggregate</span><span class="chip">Age (days)</span></div>
+        <div class="to"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg>What the model predicts</div>
+        <span class="chip solid">Compressive strength (MPa)</span>
+        <p class="note">Plus curated, licence-checked examples from geotechnical, water, transport and building-energy engineering.</p>
+      </div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>08</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 09 · Instructor -->
+<section class="slide">
+  <div class="glow"></div>
+  <div class="grid" style="left:520px;top:80px;width:620px;height:720px"></div>
+  <header class="sh"><span class="tag">Meet your instructor</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="stage">
+    <div class="disc"></div><div class="ring r2"></div><div class="ring"></div>
+    <img src="assets/instructor.webp" alt="Dr. Abdul Waris">
+  </div>
+  <div class="bio">
+    <div class="name">Dr. Abdul<br>Waris</div>
+    <div class="role">Research Associate<span>Universität Siegen (University of Siegen)</span><span>Former Prime Minister’s Research Fellow · Ph.D., IIT Hyderabad</span></div>
+    <p class="txt">A computational geomechanics researcher who uses machine learning, reliability analysis and uncertainty quantification to make engineering decisions safer. His Ph.D. developed data-driven frameworks for the reliability analysis of slopes under rainfall.</p>
+    <div class="chips"><span class="chip">Scientific ML</span><span class="chip">Explainable AI</span><span class="chip">Surrogate modelling</span><span class="chip">Reliability analysis</span><span class="chip">Uncertainty quantification</span><span class="chip">Offshore geotechnics</span></div>
+  </div>
+  <div class="tl">
+    <div class="k">Academic journey</div>
+    <div class="tl-row">
+      <div class="ms"><div class="yr">2016 – 2020</div><h5>B.Tech, Civil Engineering</h5><div class="in">IUST, Awantipora</div><div class="hon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" /> <path d="M11 12 5.12 2.2" /> <path d="m13 12 5.88-9.8" /> <path d="M8 7h8" /> <circle cx="12" cy="17" r="5" /> <path d="M12 18v-2h-.5" /> </svg>Ranked 2nd in a batch of 120+</div></div>
+      <div class="ms"><div class="yr">2020 – 2022</div><h5>M.Tech, Geotechnical Engg.</h5><div class="in">NIT Durgapur</div><div class="hon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" /> <path d="M11 12 5.12 2.2" /> <path d="m13 12 5.88-9.8" /> <path d="M8 7h8" /> <circle cx="12" cy="17" r="5" /> <path d="M12 18v-2h-.5" /> </svg>Institute Gold Medalist</div></div>
+      <div class="ms"><div class="yr">2022 – 2026</div><h5>Ph.D., Geotechnical Engg.</h5><div class="in">IIT Hyderabad</div><div class="hon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>PM Research Fellow · Research Excellence Award 2026</div></div>
+      <div class="ms now"><div class="yr">2026 – NOW</div><h5>Research Associate</h5><div class="in">Universität Siegen, Germany</div><div class="hon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /> </svg>Teaches &amp; supervises Master’s students</div></div>
+    </div>
+  </div>
+  <div class="tools"><span class="k">Works with</span><span class="chip">Python</span><span class="chip">MATLAB</span><span class="chip">PLAXIS</span><span class="chip">ABAQUS</span><span class="chip">HYDRUS</span><span class="chip">GIS</span><span class="chip">AutoCAD</span></div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>09</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 10 · Track record -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Research &amp; teaching</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Taught by someone who <em>publishes this work.</em></h2>
+    <div class="stats">
+      <div class="stt"><b>10</b><span>international journal papers</span></div>
+      <div class="stt"><b>8</b><span>in Q1-ranked journals</span></div>
+      <div class="stt"><b>9</b><span>conference papers &amp; book chapters</span></div>
+      <div class="stt"><b>4</b><span>countries where he has presented</span></div>
+    </div>
+    <div class="pubs"><span class="k">Published with</span><b>ASCE</b><b>Springer</b><b>Elsevier</b><b>Nature Portfolio</b></div>
+    <div class="cols">
+      <div>
+        <h5><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 5v16" /> <path d="M16 13h2" /> <path d="M16 9h2" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /> <path d="M6 13h2" /> <path d="M6 9h2" /> </svg>Selected ML publications</h5>
+        <div class="it"><b>Explainable ensemble learning for estimating strength and stiffness of clay-bearing rocks</b><span>Scientific Reports, Nature Portfolio · 2026</span></div>
+        <div class="it"><b>Reliability analysis of unsaturated soil slopes using advanced surrogate models</b><span>Journal of Computing in Civil Engineering, ASCE · in press</span></div>
+        <div class="it"><b>Detection and prediction of slope stability using interpretable machine learning</b><span>Modeling Earth Systems and Environment, Springer · 2025</span></div>
+        <div class="it"><b>Pseudo-static slope stability analysis using explainable ML techniques</b><span>Journal of Natural Hazards, Springer · 2024</span></div>
+      </div>
+      <div>
+        <h5><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 19v3" /> <path d="M19 10v2a7 7 0 0 1-14 0v-2" /> <rect x="9" y="2" width="6" height="13" rx="3" /> </svg>Invited lectures &amp; talks</h5>
+        <div class="it"><b>Machine Learning for Geotechnical Engineers: Fundamentals &amp; Practical Applications</b><span><em>Oregon State University, USA</em> · Invited talk · 2024</span></div>
+        <div class="it"><b>Five-day workshop: ML &amp; Finite Element Methods in Geotechnical Engineering</b><span><em>NIT Srinagar</em> · Resource person · 2025</span></div>
+        <div class="it"><b>Unlocking Geotechnical Insights with Machine Learning</b><span><em>D.Y. Patil Institute of Technology, Pune</em> · National FDP · 2025</span></div>
+        <div class="it"><b>Conference presentations</b><span>Oslo, Norway · Barcelona, Spain · 2025</span></div>
+      </div>
+    </div>
+    <div class="teach cols" style="display:block">
+      <h5><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M18 4.933V21" /> <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" /> <path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" /> <path d="M6 4.933V21" /> <circle cx="12" cy="9" r="2" /> </svg>Teaching experience</h5>
+      <div class="tr">
+        <div class="tc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /> </svg><b>Master’s teaching &amp; supervision</b><span>Universität Siegen, Germany</span></div>
+        <div class="tc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg><b>Course instructor, Structural Analysis</b><span>B.Tech students, University of Kashmir</span></div>
+        <div class="tc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 21a8 8 0 0 0-16 0" /> <circle cx="10" cy="8" r="5" /> <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" /> </svg><b>Teaching assistant, Geotechnical Engg.</b><span>IIT Hyderabad &amp; NIT Srinagar</span></div>
+      </div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>10</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 11 · Enrol -->
+<section class="slide end">
+  <header class="sh"><span class="tag">What’s included</span><span class="course">AI &amp; ML for Civil Engineers</span></header>
+  <div class="body">
+    <h2>Everything you need, <em>included.</em></h2>
+    <p class="lede">No software to buy and nothing to install. Every notebook opens straight in Google Colab.</p>
+    <div class="incl">
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" /> <path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /> </svg><div><b>8 teaching notebooks</b><span>Structured Colab notebooks, one per session</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /> </svg><div><b>Curated datasets</b><span>Cleaned, with data dictionaries</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="8" height="4" x="8" y="2" rx="1" ry="1" /> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /> <path d="m9 14 2 2 4-4" /> </svg><div><b>Exercises &amp; assignments</b><span>Practice problems for every topic</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="m5 16-3 3 3 3" /> <path d="m9 22 3-3-3-3" /> </svg><div><b>Solution notebooks</b><span>Full instructor solutions to compare</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 2v7.751a.25.25 0 00.407.195l2.28-1.834a.5.5 0 01.627 0l2.28 1.834A.25.25 0 0016 9.751V2" /> <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H19a1 1 0 011 1v18a1 1 0 01-1 1H6.5a1 1 0 010-5H20" /> </svg><div><b>Python &amp; ML quick reference</b><span>A cheat sheet to keep at your desk</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg><div><b>Session recordings</b><span>One month of access for revision</span></div></div>
+    </div>
+  </div>
+  <div class="cta">
+    <div class="k">Cohort Fall 2026 · Limited seats</div>
+    <div class="date">Starts Saturday,<br>17 October 2026</div>
+    <div class="facts"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M16 2v3" /> <path d="M3 9h18" /> <path d="M8 2v3" /> <path d="M17 13h-6" /> <path d="M13 17H7" /> <path d="M7 13h.01" /> <path d="M17 17h.01" /> </svg>8 live sessions</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <line x1="10" x2="14" y1="2" y2="2" /> <line x1="12" x2="15" y1="14" y2="11" /> <circle cx="12" cy="14" r="8" /> </svg>90 min each</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 22h14" /> <path d="M5 2h14" /> <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" /> <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" /> </svg>4 weeks</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>Certificate</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg>100% online</span></div>
+    <div class="reg"><div><div class="k">Register now</div><div class="url">qudeltastudios.com</div></div><div class="go"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M7 7h10v10" /> <path d="M7 17 17 7" /> </svg></div></div>
+    <p class="seats">Seats are limited so everyone gets real support during live coding.</p>
+  </div>
+  <footer class="sf"><span class="partner">Technology partner<img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></span><div class="prog"><span class="pn"><b>11</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div></footer>
+</section>
+
+</body>
+</html>

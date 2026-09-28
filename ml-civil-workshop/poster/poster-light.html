@@ -76,37 +76,39 @@
   .photo{position:absolute;right:22px;bottom:0;height:750px;width:auto;filter:var(--photo-shadow);
     -webkit-mask-image:linear-gradient(180deg,#000 76%,transparent 98%);mask-image:linear-gradient(180deg,#000 76%,transparent 98%)}
 
-  .card{position:absolute;left:596px;top:664px;width:420px;z-index:6;padding:22px 24px 20px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
+  .card{position:absolute;left:596px;top:616px;width:420px;z-index:6;padding:20px 24px 18px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
   .card .who{display:flex;align-items:center;justify-content:space-between}
   .card .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
   .card .bar{width:34px;height:4px;border-radius:2px;background:var(--accent)}
-  .card .name{margin-top:10px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1;letter-spacing:-.02em}
-  .card .role{margin-top:10px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
+  .card .name{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1;letter-spacing:-.02em}
+  .card .role{margin-top:9px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
   .card .role b{font-weight:600;color:var(--ink)}
-  .card ul{list-style:none;margin-top:14px;padding-top:13px;border-top:1px solid var(--card-line);display:grid;gap:8px}
+  .card ul{list-style:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--card-line);display:grid;gap:8px}
   .card li{display:flex;align-items:flex-start;gap:10px;line-height:1.4;font-size:13.5px;color:var(--ink-2)}
   .card li svg{flex:none;width:17px;height:17px;margin-top:1px;color:var(--accent-ink);stroke-width:1.9}
 
   /* outline */
-  .outline{position:absolute;left:64px;right:64px;top:976px;z-index:4}
-  .ol-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
+  .outline{position:absolute;left:64px;right:64px;top:930px;z-index:4}
+  .ol-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:10px;border-bottom:1.5px solid var(--ink)}
   .ol-head h2{font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
   .ol-head p{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.01em}
   .ol-head p i{font-style:normal;color:var(--accent-ink);margin:0 6px;font-weight:700}
   .sessions{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(4,auto);column-gap:44px}
-  .ss{display:grid;grid-template-columns:40px 1fr;align-items:baseline;padding:10px 0 9px;border-bottom:1px solid var(--rule)}
+  .ss{display:grid;grid-template-columns:40px 1fr;align-items:baseline;padding:8px 0 7px;border-bottom:1px solid var(--rule)}
   .ss .no{font-weight:800;font-stretch:75%;font-size:21px;color:var(--accent-ink);letter-spacing:-.01em}
-  .ss b{font-weight:700;font-size:15.5px;letter-spacing:-.005em}
+  .ss b{display:block;font-weight:700;font-size:15.5px;line-height:1.3;letter-spacing:-.005em}
+  .ss div span{display:block;margin-top:1px;font-size:12.5px;line-height:1.35;color:var(--muted)}
 
   /* footer band */
-  .band{position:absolute;left:0;right:0;bottom:0;height:128px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
+  .band{position:absolute;left:0;right:0;bottom:0;height:112px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
   .band .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
   .band .aud{margin-top:7px;font-size:17px;font-weight:600;line-height:1.35}
   .band .aud i{font-style:normal;opacity:.55;margin:0 7px}
   .band .reg{text-align:right}
   .band .url{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:5px;font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.015em}
   .band .url svg{width:28px;height:28px;stroke-width:2.4}
-  .band .note{margin-top:5px;font-size:13px;font-weight:500;opacity:.78}
+  .band .date{margin-top:6px;display:flex;align-items:center;justify-content:flex-end;gap:7px;font-size:15px;font-weight:700}
+  .band .date svg{width:16px;height:16px;stroke-width:2.2}
 </style>
 </head>
 <body class="light">
@@ -115,7 +117,7 @@
   <div class="grid"></div>
 
   <header class="head">
-    <div class="kind">Live Online Workshop<span>Batch 01</span></div>
+    <div class="kind">Live Online Workshop<span>Cohort Fall 2026</span></div>
     <div class="partner"><small>Technology partner</small><img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></div>
   </header>
 
@@ -147,7 +149,7 @@
   <div class="card">
     <div class="who"><span class="lbl">Instructor</span><span class="bar"></span></div>
     <div class="name">Dr. Abdul Waris</div>
-    <p class="role">Research Associate, University of Siegen, Germany<br>Former Prime Minister’s Research Fellow<br>Ph.D., IIT Hyderabad</p>
+    <p class="role">Research Associate<br>Universität Siegen (University of Siegen)<br>Former Prime Minister’s Research Fellow<br>Ph.D., IIT Hyderabad</p>
     <ul>
       <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>Research Excellence Award 2026, IIT Hyderabad</li>
       <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg><span>Invited talks at Oregon State University (USA),<br>Norway &amp; Spain</span></li>
@@ -160,26 +162,26 @@
       <p>Problem<i>→</i>Data<i>→</i>Model<i>→</i>Validate<i>→</i>Interpret<i>→</i>Decide</p>
     </div>
     <div class="sessions">
-      <div class="ss"><span class="no">01</span><b>Python for civil engineers</b></div>
-      <div class="ss"><span class="no">02</span><b>From raw data to ML-ready</b></div>
-      <div class="ss"><span class="no">03</span><b>Your first prediction model</b></div>
-      <div class="ss"><span class="no">04</span><b>Trees &amp; ensemble models</b></div>
-      <div class="ss"><span class="no">05</span><b>Classification for decisions</b></div>
-      <div class="ss"><span class="no">06</span><b>Artificial neural networks</b></div>
-      <div class="ss"><span class="no">07</span><b>Explainable AI &amp; engineering judgement</b></div>
-      <div class="ss"><span class="no">08</span><b>Uncertainty &amp; reliability analysis</b></div>
+      <div class="ss"><span class="no">01</span><div><b>Python for civil engineers</b><span>AI/ML basics, Colab, NumPy &amp; pandas on concrete data</span></div></div>
+      <div class="ss"><span class="no">02</span><div><b>From raw data to ML-ready</b><span>Explore, clean &amp; split data; catch outliers and leakage</span></div></div>
+      <div class="ss"><span class="no">03</span><div><b>Your first prediction model</b><span>Linear regression, error metrics &amp; cross-validation</span></div></div>
+      <div class="ss"><span class="no">04</span><div><b>Trees &amp; ensemble models</b><span>Decision trees, Random Forest &amp; boosting for nonlinear data</span></div></div>
+      <div class="ss"><span class="no">05</span><div><b>Classification for decisions</b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+      <div class="ss"><span class="no">06</span><div><b>Artificial neural networks</b><span>Architecture, activations, loss, epochs &amp; overfitting</span></div></div>
+      <div class="ss"><span class="no">07</span><div><b>Explainable AI &amp; engineering judgement</b><span>Feature importance &amp; SHAP on a geotechnical case study</span></div></div>
+      <div class="ss"><span class="no">08</span><div><b>Uncertainty &amp; reliability analysis</b><span>Monte Carlo with ML surrogates to estimate failure probability</span></div></div>
     </div>
   </section>
 
   <footer class="band">
     <div>
       <div class="k">Who should join</div>
-      <div class="aud">B.Tech &amp; M.Tech students<i>/</i>PhD scholars<i>/</i>Faculty<br>Practising civil, structural &amp; geotechnical engineers</div>
+      <div class="aud">B.Tech &amp; M.Tech students<i>/</i>PhD scholars<i>/</i>Faculty<br>Practising engineers<i>/</i>Complete beginners to AI &amp; ML</div>
     </div>
     <div class="reg">
       <div class="k">Register now · Limited seats</div>
       <div class="url">qudeltastudios.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div>
-      <div class="note">Dates &amp; timings announced soon</div>
+      <div class="date"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="M8 13h.01" /> <path d="M12 13h.01" /> <path d="M16 13h.01" /> <path d="M8 17h.01" /> <path d="M12 17h.01" /> <path d="M16 17h.01" /> </svg>Starts Saturday, 17 October 2026</div>
     </div>
   </footer>
 </div>

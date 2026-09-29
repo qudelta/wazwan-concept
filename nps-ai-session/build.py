@@ -5,10 +5,14 @@ from pathlib import Path
 HERE = Path(__file__).parent
 ICONS = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "node_modules/lucide-static/icons"
 
+DARK_TEXT = "assets/qudelta-logo-dark.png"
+LIGHT_TEXT = "assets/qudelta-logo-light.png"
+# logo on the page background, and logo on the "Session by" band (dark band in light theme, green band in dark theme)
 LOGOS = {
-    "light": "assets/qudelta-logo-dark.png",
-    "dark": "assets/qudelta-logo-light.png",
+    "light": {"logo": DARK_TEXT, "logo_band": LIGHT_TEXT},
+    "dark": {"logo": LIGHT_TEXT, "logo_band": DARK_TEXT},
 }
+SOURCES = {"poster.src.html": "poster", "poster-b.src.html": "poster-b"}
 
 
 def icon(name: str) -> str:
@@ -18,9 +22,12 @@ def icon(name: str) -> str:
     return re.sub(r"\s+", " ", svg).strip()
 
 
-src = (HERE / "poster.src.html").read_text()
-src = re.sub(r"\{\{i:([a-z0-9-]+)\}\}", lambda m: icon(m.group(1)), src)
-for theme, logo in LOGOS.items():
-    html = src.replace("{{theme}}", theme).replace("{{logo}}", f'<img src="{logo}" alt="Qudelta Studios">')
-    (HERE / f"poster-{theme}.html").write_text(html)
-    print(f"built poster-{theme}.html")
+for src_name, prefix in SOURCES.items():
+    src = (HERE / src_name).read_text()
+    src = re.sub(r"\{\{i:([a-z0-9-]+)\}\}", lambda m: icon(m.group(1)), src)
+    for theme, logos in LOGOS.items():
+        html = src.replace("{{theme}}", theme)
+        for key, path in logos.items():
+            html = html.replace("{{" + key + "}}", f'<img src="{path}" alt="Qudelta Studios">')
+        (HERE / f"{prefix}-{theme}.html").write_text(html)
+        print(f"built {prefix}-{theme}.html")

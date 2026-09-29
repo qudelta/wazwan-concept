@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI &amp; ML for Civil Engineers — Minimal poster</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#39433D; --muted:#6F7973; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --on-accent:#03140A;
+    --grid:rgba(10,40,25,.055);
+    --disc:radial-gradient(circle at 50% 45%,#C9F1DA 0%,#E2F8EB 50%,rgba(236,250,242,0) 71%);
+    --ring:rgba(0,191,99,.45);
+    --photo-shadow:drop-shadow(0 22px 40px rgba(10,40,25,.20));
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#C4CDC8; --muted:#87928C; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --on-accent:#03140A;
+    --grid:rgba(255,255,255,.045);
+    --disc:radial-gradient(circle at 50% 45%,rgba(0,191,99,.38) 0%,rgba(0,191,99,.13) 50%,rgba(0,191,99,0) 71%);
+    --ring:rgba(0,191,99,.40);
+    --photo-shadow:drop-shadow(0 24px 44px rgba(0,0,0,.6));
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+
+  .grid{position:absolute;left:380px;top:90px;width:760px;height:900px;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side at 55% 42%,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side at 55% 42%,#000 40%,transparent 100%)}
+  .disc{position:absolute;left:420px;top:150px;width:560px;height:560px;border-radius:50%;background:var(--disc)}
+  .ring{position:absolute;left:475px;top:205px;width:450px;height:450px;border-radius:50%;border:1.5px solid var(--ring)}
+  .ring.r2{left:390px;top:120px;width:620px;height:620px;border:1px dashed var(--ring);opacity:.55}
+  .photo{position:absolute;left:326px;top:176px;height:1180px;width:auto;filter:var(--photo-shadow)}
+
+  .head{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
+  .kind{font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase}
+  .kind span{color:var(--muted);font-weight:500;margin-left:10px;padding-left:12px;border-left:1px solid var(--rule)}
+  .partner{display:flex;align-items:center;gap:14px}
+  .partner small{font-size:12px;font-weight:500;color:var(--muted)}
+  .partner img{height:21px;width:auto}
+
+  .title{position:absolute;left:64px;top:150px;z-index:4}
+  h1{font-weight:800;font-stretch:87.5%;font-size:98px;line-height:.98;letter-spacing:-.025em}
+  h1 .hl{background:var(--accent);color:var(--on-accent);padding:0 12px;-webkit-box-decoration-break:clone;box-decoration-break:clone;line-height:1.12}
+  .facts{margin-top:30px;display:flex;flex-direction:column;gap:10px}
+  .facts span{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;color:var(--ink-2)}
+  .facts svg{width:20px;height:20px;color:var(--accent-ink);stroke-width:2}
+
+  .who{position:absolute;left:64px;top:820px;width:330px;z-index:4}
+  .who .k{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+  .who b{display:block;margin-top:9px;font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1;letter-spacing:-.02em}
+  .who p{margin-top:10px;font-size:15px;line-height:1.45;color:var(--ink-2)}
+
+  .band{position:absolute;left:0;right:0;bottom:0;height:356px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:6}
+  .band .k{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.72}
+  .band .day{margin-top:14px;font-weight:700;font-stretch:87.5%;font-size:44px;line-height:1;letter-spacing:-.01em}
+  .band .date{margin-top:4px;font-weight:800;font-stretch:87.5%;font-size:84px;line-height:1;letter-spacing:-.03em;white-space:nowrap}
+  .band .meta{margin-top:20px;font-size:16px;font-weight:600;opacity:.82}
+  .band .meta i{font-style:normal;opacity:.5;margin:0 8px}
+  .scan{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .qr{width:236px;height:236px;padding:16px;border-radius:20px;background:#fff;box-shadow:0 10px 28px rgba(3,20,10,.22)}
+  .qr img{display:block;width:100%;height:100%}
+  .scan b{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;letter-spacing:.02em}
+  .scan b svg{width:18px;height:18px;stroke-width:2.4}
+  .scan span{font-size:13px;font-weight:600;opacity:.75;margin-top:-6px}
+</style>
+</head>
+<body class="light">
+<div class="poster">
+  <div class="grid"></div>
+  <div class="disc"></div>
+  <div class="ring r2"></div>
+  <div class="ring"></div>
+  <img class="photo" src="assets/instructor.webp" alt="Dr. Abdul Waris">
+
+  <header class="head">
+    <div class="kind">Live Online Workshop<span>Cohort Fall 2026</span></div>
+    <div class="partner"><small>Technology partner</small><img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></div>
+  </header>
+
+  <div class="title">
+    <h1>AI &amp; ML<br>for&nbsp;<span class="hl">Civil</span><br><span class="hl" style="margin-left:-12px">Engineers</span></h1>
+    <div class="facts">
+      <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M16 2v3" /> <path d="M3 9h18" /> <path d="M8 2v3" /> <path d="M17 13h-6" /> <path d="M13 17H7" /> <path d="M7 13h.01" /> <path d="M17 17h.01" /> </svg>8 live sessions · 4 weeks</span>
+      <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z" /> <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z" /> <path d="M16 17h4" /> <path d="M4 13h4" /> </svg>No coding experience needed</span>
+    </div>
+  </div>
+
+  <div class="who">
+    <div class="k">Your instructor</div>
+    <b>Dr. Abdul Waris</b>
+    <p>Research Associate, Universität Siegen<br>Ph.D., IIT Hyderabad</p>
+  </div>
+
+  <footer class="band">
+    <div>
+      <div class="k">Cohort starts · Limited seats</div>
+      <div class="day">Saturday</div>
+      <div class="date">17 October 2026</div>
+      <div class="meta">100% online<i>/</i>Google Colab<i>/</i>Certificate included</div>
+    </div>
+    <div class="scan">
+      <div class="qr"><img src="assets/qr-placeholder.svg" alt="Scan to register"></div>
+      <b>Scan to register<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M7 7h10v10" /> <path d="M7 17 17 7" /> </svg></b>
+      <span>qudeltastudios.com</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

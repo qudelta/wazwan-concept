@@ -42,4 +42,5 @@ def render(src_name: str, out_prefix: str) -> None:
 
 
 render("poster.src.html", "poster")
+render("poster-minimal.src.html", "poster-minimal")
 render("carousel.src.html", "carousel")

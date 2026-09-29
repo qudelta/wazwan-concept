@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI &amp; Technology — NPS × Qudelta</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#39433D; --muted:#6F7973; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --on-accent:#03140A; --school:#0A5078;
+    --tint:#EBF8F1; --mark-opacity:.09; --grid:rgba(10,40,25,.05);
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#C4CDC8; --muted:#87928C; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --on-accent:#03140A; --school:#8CC8EA;
+    --tint:rgba(0,191,99,.10); --mark-opacity:.12; --grid:rgba(255,255,255,.045);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+
+  .mark{position:absolute;right:-150px;top:170px;width:660px;opacity:var(--mark-opacity)}
+  .grid{position:absolute;right:-60px;top:120px;width:640px;height:640px;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);mask-image:radial-gradient(closest-side,#000 35%,transparent 100%)}
+
+  /* co-brand header */
+  .head{position:absolute;left:64px;right:64px;top:48px;height:124px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:26px;z-index:3}
+  .host{display:flex;align-items:center;gap:18px}
+  .host img{width:96px;height:96px}
+  .host b{display:block;font-weight:800;font-stretch:87.5%;font-size:25px;letter-spacing:-.01em;color:var(--school);line-height:1.05}
+  .host span{display:block;margin-top:6px;font-size:13.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .x{font-size:22px;font-weight:300;color:var(--muted)}
+  .by{text-align:right}
+  .by small{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .by img{margin-top:10px;height:30px;width:auto}
+
+  /* title */
+  .title{position:absolute;left:64px;top:210px;z-index:3}
+  .kicker{font-size:24px;font-weight:500;color:var(--ink-2)}
+  h1{margin-top:18px;font-weight:800;font-stretch:87.5%;font-size:156px;line-height:.9;letter-spacing:-.03em}
+  h1 .hl{display:inline-block;margin:14px 0 0 -14px;padding:6px 20px 16px 14px;background:var(--accent);color:var(--on-accent)}
+  .aud{margin-top:34px;display:flex;align-items:center;gap:14px;font-weight:800;font-stretch:87.5%;font-size:34px;letter-spacing:-.01em}
+  .aud svg{width:34px;height:34px;color:var(--accent-ink);stroke-width:2}
+  .aud span{color:var(--muted);font-weight:600}
+  .intro{margin-top:16px;width:720px;font-size:20px;line-height:1.5;color:var(--ink-2)}
+
+  /* highlights */
+  .hi{position:absolute;left:64px;right:64px;top:790px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;z-index:3}
+  .h{border-top:2px solid var(--ink);padding-top:26px}
+  .h .ic{width:62px;height:62px;border-radius:14px;display:grid;place-items:center;background:var(--tint);color:var(--accent-ink)}
+  .h .ic svg{width:30px;height:30px;stroke-width:1.8}
+  .h h3{margin-top:22px;font-weight:800;font-stretch:87.5%;font-size:30px;line-height:1.08;letter-spacing:-.012em}
+  .h p{margin-top:10px;font-size:17px;line-height:1.45;color:var(--muted)}
+
+  /* logistics band */
+  .band{position:absolute;left:0;right:0;bottom:0;height:200px;background:var(--accent);color:var(--on-accent);display:grid;grid-template-columns:1fr 1.25fr;align-items:center;padding:0 64px;z-index:3}
+  .cell{display:flex;gap:18px;align-items:flex-start}
+  .cell + .cell{border-left:1.5px solid rgba(3,20,10,.2);padding-left:40px}
+  .cell svg{flex:none;width:34px;height:34px;stroke-width:2;margin-top:4px}
+  .cell .k{font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+  .cell b{display:block;margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1.02;letter-spacing:-.015em}
+  .cell span{display:block;margin-top:6px;font-size:15px;font-weight:600;opacity:.8}
+</style>
+</head>
+<body class="{{theme}}">
+<div class="poster">
+  <div class="grid"></div>
+  <img class="mark" src="assets/qudelta-mark.png" alt="">
+
+  <header class="head">
+    <div class="host">
+      <img src="assets/nps-crest.png" alt="National Public School crest">
+      <div><b>National Public School</b><span>Langate · Handwara</span></div>
+    </div>
+    <div class="by"><small>Session by</small>{{logo}}</div>
+  </header>
+
+  <div class="title">
+    <p class="kicker">An interactive session on</p>
+    <h1>AI &amp;<br><span class="hl">Technology</span></h1>
+    <div class="aud">{{i:users-round}}<div><span>For</span>&nbsp;teachers &amp; students</div></div>
+    <p class="intro">A hands-on look at how artificial intelligence is changing the way we learn, teach and work, and how to use it well.</p>
+  </div>
+
+  <section class="hi">
+    <div class="h"><div class="ic">{{i:monitor-play}}</div><h3>Live<br>demonstrations</h3><p>Real AI tools, shown working live.</p></div>
+    <div class="h"><div class="ic">{{i:messages-square}}</div><h3>Interactive<br>discussion</h3><p>Ask questions and share ideas.</p></div>
+    <div class="h"><div class="ic">{{i:rocket}}</div><h3>Future<br>opportunities</h3><p>Skills and careers in an AI world.</p></div>
+  </section>
+
+  <footer class="band">
+    <div class="cell">{{i:calendar-days}}<div><div class="k">Date</div><b>30 September 2026</b><span>Wednesday</span></div></div>
+    <div class="cell">{{i:map-pin}}<div><div class="k">Venue</div><b>National Public School</b><span>Langate, Handwara</span></div></div>
+  </footer>
+</div>
+</body>
+</html>

@@ -12,7 +12,8 @@ LOGOS = {
     "light": {"logo": DARK_TEXT, "logo_band": LIGHT_TEXT},
     "dark": {"logo": LIGHT_TEXT, "logo_band": DARK_TEXT},
 }
-SOURCES = {"poster.src.html": "poster", "poster-b.src.html": "poster-b"}
+SOURCES = {"poster.src.html": ("poster", ["light", "dark"]), "poster-b.src.html": ("poster-b", ["light", "dark"]),
+           "poster-c.src.html": ("poster-c", ["light"])}
 
 
 def icon(name: str) -> str:
@@ -22,10 +23,16 @@ def icon(name: str) -> str:
     return re.sub(r"\s+", " ", svg).strip()
 
 
-for src_name, prefix in SOURCES.items():
+def icon_paths(name: str) -> str:
+    return re.sub(r"^<svg[^>]*>|</svg>$", "", icon(name)).strip()
+
+
+for src_name, (prefix, themes) in SOURCES.items():
     src = (HERE / src_name).read_text()
     src = re.sub(r"\{\{i:([a-z0-9-]+)\}\}", lambda m: icon(m.group(1)), src)
-    for theme, logos in LOGOS.items():
+    src = re.sub(r"\{\{p:([a-z0-9-]+)\}\}", lambda m: icon_paths(m.group(1)), src)
+    for theme in themes:
+        logos = LOGOS[theme]
         html = src.replace("{{theme}}", theme)
         for key, path in logos.items():
             html = html.replace("{{" + key + "}}", f'<img src="{path}" alt="Qudelta Studios">')

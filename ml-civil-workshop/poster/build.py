@@ -19,15 +19,15 @@ def icon(name: str) -> str:
     return re.sub(r"\s+", " ", svg).strip()
 
 
-def footer(n: int, theme: str) -> str:
-    bars = "".join(f'<i class="{"on" if k <= n else ""}"></i>' for k in range(1, TOTAL_SLIDES + 1))
-    last = n == TOTAL_SLIDES
+def footer(n: int, theme: str, total: int = TOTAL_SLIDES) -> str:
+    bars = "".join(f'<i class="{"on" if k <= n else ""}"></i>' for k in range(1, total + 1))
+    last = n == total
     # the final slide sits on the green band, so it always uses the dark-text logo
     logo = LOGOS["light"] if last else LOGOS[theme]
     left = (f'<span class="partner">Technology partner<img src="{logo}" alt="Qudelta Studios"></span>'
             if last else f'<img src="{logo}" alt="Qudelta Studios">')
     arrow = "" if last else icon("arrow-right")
-    return (f'<footer class="sf">{left}<div class="prog"><span class="pn"><b>{n:02d}</b> / {TOTAL_SLIDES}</span>'
+    return (f'<footer class="sf">{left}<div class="prog"><span class="pn"><b>{n:02d}</b> / {total}</span>'
             f'<span class="bars">{bars}</span>{arrow}</div></footer>')
 
 
@@ -36,7 +36,7 @@ def render(src_name: str, out_prefix: str) -> None:
     src = re.sub(r"\{\{i:([a-z0-9-]+)\}\}", lambda m: icon(m.group(1)), src)
     for theme, logo in LOGOS.items():
         html = src.replace("{{theme}}", theme).replace("{{logo}}", f'<img src="{logo}" alt="Qudelta Studios">')
-        html = re.sub(r"\{\{foot:(\d+)\}\}", lambda m: footer(int(m.group(1)), theme), html)
+        html = re.sub(r"\{\{foot:(\d+)(?::(\d+))?\}\}", lambda m: footer(int(m.group(1)), theme, int(m.group(2) or TOTAL_SLIDES)), html)
         (HERE / f"{out_prefix}-{theme}.html").write_text(html)
         print(f"built {out_prefix}-{theme}.html")
 
@@ -46,3 +46,4 @@ render("poster-minimal.src.html", "poster-minimal")
 render("web-landscape.src.html", "web-landscape")
 render("web-portrait.src.html", "web-portrait")
 render("carousel.src.html", "carousel")
+render("ad-carousel.src.html", "ad-carousel")

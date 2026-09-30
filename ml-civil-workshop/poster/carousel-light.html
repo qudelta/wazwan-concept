@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <style>
   .light{
-    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#39433D; --muted:#6F7973; --rule:#E2E7E4;
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#56615B; --rule:#E2E7E4;
     --accent:#00BF63; --accent-ink:#008A47; --accent-display:#00A656; --on-accent:#03140A;
     --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F5F8F6; --surface-line:#E3E8E5;
     --grid:rgba(10,40,25,.055);
@@ -18,7 +18,7 @@
     --code-bg:#F7F9F8; --kw:#0B7A45; --str:#B45309; --num:#1D4ED8; --com:#8A948F; --fn:#0A0F0C;
   }
   .dark{
-    --bg:#070A08; --ink:#F2F5F3; --ink-2:#C4CDC8; --muted:#87928C; --rule:rgba(255,255,255,.11);
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#D0D8D3; --muted:#A3AEA8; --rule:rgba(255,255,255,.11);
     --accent:#00BF63; --accent-ink:#1FD47A; --accent-display:#22D47C; --on-accent:#03140A;
     --tint:rgba(0,191,99,.10); --tint-line:rgba(0,191,99,.30); --surface:#0E1411; --surface-line:rgba(255,255,255,.09);
     --grid:rgba(255,255,255,.045);
@@ -42,11 +42,11 @@
   /* chrome */
   .sh{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
   .sh .tag{font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
-  .sh .course{font-size:13px;font-weight:500;color:var(--muted)}
+  .sh .course{font-size:14.5px;font-weight:500;color:var(--muted)}
   .sf{position:absolute;left:64px;right:64px;bottom:46px;height:44px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid var(--rule);z-index:5}
   .sf img{height:17px;width:auto;margin-bottom:1px}
   .prog{display:flex;align-items:center;gap:14px}
-  .prog .pn{font-size:13px;font-weight:500;color:var(--muted);font-feature-settings:"tnum"}
+  .prog .pn{font-size:14px;font-weight:500;color:var(--muted);font-feature-settings:"tnum"}
   .prog .pn b{color:var(--ink);font-weight:700}
   .bars{display:flex;gap:4px}
   .bars i{width:16px;height:3px;border-radius:2px;background:var(--rule)}
@@ -58,8 +58,8 @@
   h2{font-weight:800;font-stretch:87.5%;font-size:62px;line-height:1.0;letter-spacing:-.022em}
   h2 em{font-style:normal;color:var(--accent-display)}
   .lede{margin-top:22px;font-size:20px;line-height:1.45;color:var(--ink-2);max-width:900px}
-  .k{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .chip{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 13px;border-radius:999px;border:1px solid var(--surface-line);background:var(--surface);font-size:13.5px;font-weight:500;color:var(--ink-2);white-space:nowrap}
+  .k{font-size:13.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .chip{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 13px;border-radius:999px;border:1px solid var(--surface-line);background:var(--surface);font-size:14.5px;font-weight:500;color:var(--ink-2);white-space:nowrap}
   .chip svg{width:15px;height:15px;color:var(--accent-ink);stroke-width:2}
   .chip.g{background:var(--tint);border-color:var(--tint-line);color:var(--ink)}
   .chip.solid{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
@@ -90,7 +90,7 @@
   .pc .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--tint);color:var(--accent-ink)}
   .pc .ic svg{width:24px;height:24px;stroke-width:1.8}
   .pc h4{margin-top:24px;font-weight:800;font-stretch:87.5%;font-size:22px;letter-spacing:-.01em}
-  .pc p{margin-top:5px;font-size:14.5px;line-height:1.4;color:var(--muted)}
+  .pc p{margin-top:5px;font-size:16px;line-height:1.4;color:var(--muted)}
   .pc.hl{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
   .pc.hl .ic{background:rgba(3,20,10,.12);color:var(--on-accent)}
   .pc.hl p{color:rgba(3,20,10,.72)}
@@ -123,18 +123,18 @@
   .se:last-child{border-bottom:1px solid var(--rule)}
   .se .no{font-weight:800;font-stretch:75%;font-size:84px;line-height:.82;letter-spacing:-.03em;color:var(--accent-display)}
   .se h4{font-weight:800;font-stretch:87.5%;font-size:27px;line-height:1.1;letter-spacing:-.012em}
-  .se .app{margin-top:9px;display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;color:var(--ink)}
+  .se .app{margin-top:9px;display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:600;color:var(--ink)}
   .se .app svg{width:17px;height:17px;color:var(--accent-ink);stroke-width:2}
   .se .app span{color:var(--muted);font-weight:500}
   .se p{margin-top:7px;font-size:15.5px;line-height:1.4;color:var(--ink-2)}
   .se .skills{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
-  .se .skills .chip{height:27px;font-size:12.5px;padding:0 11px}
+  .se .skills .chip{height:29px;font-size:14px;padding:0 12px}
   .se .badge{display:inline-flex;align-items:center;gap:6px;margin-left:12px;height:24px;padding:0 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:5px}
   .se .badge svg{width:13px;height:13px;stroke-width:2.4}
 
   /* 07 session anatomy */
   .anat{margin-top:52px}
-  .anat .scale{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:10px;font-feature-settings:"tnum"}
+  .anat .scale{display:flex;justify-content:space-between;font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px;font-feature-settings:"tnum"}
   .bar{display:grid;grid-template-columns:25fr 45fr 20fr;gap:6px;height:210px}
   .bar > div{border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
   .bar .a{background:var(--ink);color:var(--bg)}
@@ -143,21 +143,21 @@
   .bar .t{font-weight:800;font-stretch:87.5%;font-size:40px;letter-spacing:-.02em;line-height:1}
   .bar .t small{font-size:15px;font-weight:700;margin-left:3px}
   .bar .l{font-size:16px;font-weight:600;line-height:1.25}
-  .anat .cap{margin-top:12px;font-size:13.5px;color:var(--muted)}
+  .anat .cap{margin-top:12px;font-size:15px;color:var(--muted)}
   .methods{margin-top:52px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
   .me{display:grid;grid-template-columns:48px 1fr;gap:16px;padding:30px 0;border-top:1px solid var(--rule)}
   .me:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
   .me .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;border:1.5px solid var(--accent);color:var(--accent-ink)}
   .me .ic svg{width:22px;height:22px;stroke-width:1.9}
   .me h4{font-weight:700;font-size:18px;letter-spacing:-.005em}
-  .me p{margin-top:4px;font-size:14.5px;line-height:1.4;color:var(--muted)}
+  .me p{margin-top:4px;font-size:16px;line-height:1.4;color:var(--muted)}
 
   /* 08 notebook */
   .nb{margin-top:40px;border-radius:18px;border:1px solid var(--surface-line);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
   .nb-top{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--surface-line)}
   .nb-top .f{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500;color:var(--ink)}
   .nb-top .f svg{width:18px;height:18px;color:var(--accent-ink);stroke-width:2}
-  .nb-top .st{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .nb-top .st{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
   .nb-top .st i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .cell{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:18px 22px 0}
   .cell:last-child{padding-bottom:22px}
@@ -171,12 +171,12 @@
   .ds h4{font-weight:800;font-stretch:87.5%;font-size:25px;line-height:1.12;letter-spacing:-.012em}
   .ds .meta{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:22px 10px}
   .ds .meta b{display:block;font-weight:800;font-stretch:87.5%;font-size:42px;letter-spacing:-.02em;line-height:1}
-  .ds .meta span{display:block;margin-top:4px;font-size:13px;color:var(--muted)}
+  .ds .meta span{display:block;margin-top:4px;font-size:14.5px;color:var(--muted)}
   .io .k{margin-bottom:12px}
   .io .ins{display:flex;flex-wrap:wrap;gap:8px}
-  .io .to{margin:16px 0 12px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13.5px;font-weight:600}
+  .io .to{margin:16px 0 12px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:15px;font-weight:600}
   .io .to svg{width:20px;height:20px;color:var(--accent-ink);transform:rotate(90deg);stroke-width:2.2}
-  .io .note{margin-top:22px;font-size:14.5px;line-height:1.45;color:var(--muted)}
+  .io .note{margin-top:22px;font-size:16px;line-height:1.45;color:var(--muted)}
 
   /* 09 instructor */
   .bio{position:absolute;left:64px;top:150px;width:500px;z-index:4}
@@ -185,7 +185,7 @@
   .bio .role span{display:block;color:var(--ink-2);font-weight:500}
   .bio p.txt{margin-top:18px;font-size:16px;line-height:1.55;color:var(--ink-2)}
   .bio .chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:7px}
-  .bio .chips .chip{height:28px;font-size:12.5px}
+  .bio .chips .chip{height:30px;font-size:14px}
   .stage{position:absolute;left:560px;top:110px;width:520px;height:640px;z-index:2;overflow:hidden}
   .stage .disc{position:absolute;left:40px;top:70px;width:420px;height:420px;border-radius:50%;background:var(--disc)}
   .stage .ring{position:absolute;left:80px;top:110px;width:340px;height:340px;border-radius:50%;border:1.5px solid var(--ring)}
@@ -199,10 +199,10 @@
   .ms{position:relative;padding-top:34px}
   .ms::before{content:"";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:3px solid var(--accent);box-sizing:border-box}
   .ms.now::before{background:var(--accent);box-shadow:0 0 0 6px var(--tint)}
-  .ms .yr{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--accent-ink);font-feature-settings:"tnum"}
+  .ms .yr{font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--accent-ink);font-feature-settings:"tnum"}
   .ms h5{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:21px;line-height:1.12;letter-spacing:-.01em}
-  .ms .in{margin-top:5px;font-size:14px;line-height:1.35;color:var(--ink-2);font-weight:500}
-  .ms .hon{margin-top:10px;display:flex;gap:7px;align-items:flex-start;font-size:13px;line-height:1.35;color:var(--muted)}
+  .ms .in{margin-top:5px;font-size:15.5px;line-height:1.35;color:var(--ink-2);font-weight:500}
+  .ms .hon{margin-top:10px;display:flex;gap:7px;align-items:flex-start;font-size:14.5px;line-height:1.35;color:var(--muted)}
   .ms .hon svg{flex:none;width:15px;height:15px;color:var(--accent-ink);stroke-width:2;margin-top:1px}
   .tools{position:absolute;left:64px;right:64px;top:1116px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;z-index:4}
   .tools .k{margin-right:8px}
@@ -213,7 +213,7 @@
   .stt:first-child{padding-left:0;border-left:0}
   .stt b{display:block;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1;letter-spacing:-.03em}
   .stt b sup{font-size:30px;color:var(--accent-display);vertical-align:22px;margin-left:2px}
-  .stt span{display:block;margin-top:8px;font-size:14px;line-height:1.35;color:var(--muted)}
+  .stt span{display:block;margin-top:8px;font-size:15.5px;line-height:1.35;color:var(--muted)}
   .pubs{margin-top:34px;padding:12px 0;display:flex;align-items:center;gap:26px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
   .pubs .k{margin-right:4px}
   .pubs b{font-weight:800;font-stretch:87.5%;font-size:19px;letter-spacing:-.005em;color:var(--ink-2)}
@@ -222,7 +222,7 @@
   .cols h5 svg{width:20px;height:20px;color:var(--accent-ink);stroke-width:2}
   .it{padding:15px 0;border-bottom:1px solid var(--rule)}
   .it b{display:block;font-size:15.5px;line-height:1.35;font-weight:700}
-  .it span{display:block;margin-top:5px;font-size:13.5px;line-height:1.4;color:var(--muted)}
+  .it span{display:block;margin-top:5px;font-size:14.5px;line-height:1.4;color:var(--muted)}
   .it span em{font-style:normal;color:var(--accent-ink);font-weight:600}
 
   .teach{margin-top:34px}
@@ -230,7 +230,7 @@
   .teach .tc{padding-top:14px}
   .teach .tc svg{width:22px;height:22px;color:var(--accent-ink);stroke-width:1.9}
   .teach .tc b{display:block;margin-top:10px;font-size:15.5px;line-height:1.3;font-weight:700}
-  .teach .tc span{display:block;margin-top:4px;font-size:13.5px;line-height:1.4;color:var(--muted)}
+  .teach .tc span{display:block;margin-top:4px;font-size:14.5px;line-height:1.4;color:var(--muted)}
 
   /* 11 enrol */
   .incl{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
@@ -238,25 +238,30 @@
   .inc:nth-last-child(-n+2){border-bottom:1px solid var(--rule)}
   .inc svg{flex:none;width:28px;height:28px;color:var(--accent-ink);stroke-width:1.8}
   .inc b{font-size:18px;font-weight:700;letter-spacing:-.005em}
-  .inc span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+  .inc span{display:block;font-size:15px;color:var(--muted);margin-top:2px}
   .cta{position:absolute;left:0;right:0;bottom:0;height:640px;background:var(--accent);color:var(--on-accent);padding:60px 64px 0;z-index:3}
   .cta .k{color:rgba(3,20,10,.66)}
   .cta .date{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:.98;letter-spacing:-.025em}
   .cta .facts{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
-  .cta .facts span{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;background:rgba(3,20,10,.09);font-size:14px;font-weight:600}
+  .cta .facts span{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 13px;border-radius:999px;background:rgba(3,20,10,.09);font-size:15px;font-weight:600}
   .cta .facts svg{width:16px;height:16px;stroke-width:2.2}
-  .cta .reg{margin-top:34px;display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-radius:18px;background:#03140A;color:#fff}
+  .cta .row{margin-top:30px;display:flex;gap:22px;align-items:stretch}
+  .cta .reg{flex:1;display:flex;flex-direction:column;justify-content:center;padding:22px 26px;border-radius:18px;background:#03140A;color:#fff}
+  .cta .reg .hint{margin-top:10px;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;color:rgba(255,255,255,.7)}
+  .cta .reg .hint svg{width:17px;height:17px;color:var(--accent);stroke-width:2.2}
+  .cta .qr{flex:none;width:176px;height:176px;padding:12px;border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(3,20,10,.2)}
+  .cta .qr img{display:block;width:100%;height:100%}
   .cta .reg .k{color:rgba(255,255,255,.55)}
   .cta .reg .url{margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:38px;letter-spacing:-.02em}
   .cta .reg .go{width:62px;height:62px;border-radius:16px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center}
   .cta .reg .go svg{width:30px;height:30px;stroke-width:2.4}
-  .cta .seats{margin-top:18px;font-size:14.5px;font-weight:500;color:rgba(3,20,10,.78)}
+  .cta .seats{margin-top:18px;font-size:15.5px;font-weight:500;color:rgba(3,20,10,.78)}
   .slide.end .sf{border-top-color:rgba(3,20,10,.22)}
   .slide.end .prog .pn,.slide.end .prog .pn b{color:var(--on-accent)}
   .slide.end .bars i{background:rgba(3,20,10,.2)}
   .slide.end .bars i.on{background:var(--on-accent)}
   .slide.end .sf img{filter:brightness(0);opacity:.85}
-  .slide.end .sf .partner{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:600;color:rgba(3,20,10,.7)}
+  .slide.end .sf .partner{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;color:rgba(3,20,10,.7)}
 </style>
 </head>
 <body class="light">
@@ -446,7 +451,7 @@
       <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m17 2 4 4-4 4" /> <path d="M3 11v-1a4 4 0 0 1 4-4h14" /> <path d="m7 22-4-4 4-4" /> <path d="M21 13v1a4 4 0 0 1-4 4H3" /> </svg></div><div><h4>Worked example, then your turn</h4><p>Guided exercises follow every demonstration.</p></div></div>
       <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="8" height="4" x="8" y="2" rx="1" ry="1" /> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /> <path d="m9 14 2 2 4-4" /> </svg></div><div><h4>Assignments with solutions</h4><p>Practise on your own, then compare with the instructor’s.</p></div></div>
       <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /> <path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /> </svg></div><div><h4>Engineering discussion</h4><p>Ask questions and debate what the results really mean.</p></div></div>
-      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg></div><div><h4>Session recordings*</h4><p>Shared after each session; available until two weeks after the course ends.</p></div></div>
+      <div class="me"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg></div><div><h4>Session recordings</h4><p>Shared after each session; available until two weeks after the course ends.</p></div></div>
     </div>
     <div class="callout" style="margin-top:40px"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m12.99 6.74 1.93 3.44" /> <path d="M19.136 12a10 10 0 0 1-14.271 0" /> <path d="m21 21-2.16-3.84" /> <path d="m3 21 8.02-14.26" /> <circle cx="12" cy="5" r="2" /> </svg></div><p><b>Engineering judgement is built in.</b> Every session discusses model limitations, validation, extrapolation and physical plausibility, not just accuracy.</p></div>
   </div>
@@ -470,7 +475,7 @@ X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=<span class="nu">0.2</
       <div class="cell"><span class="ix">[3]</span><pre><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
 model = LinearRegression().fit(X_tr, y_tr)   <span class="co"># your first model</span></pre></div>
     </div>
-    <div class="stack"><span class="k">Zero installs</span><span class="chip g"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg>Works on any laptop or Chromebook</span><span class="chip">Python</span><span class="chip">NumPy</span><span class="chip">pandas</span><span class="chip">Matplotlib</span><span class="chip">scikit-learn</span><span class="chip">SciPy</span></div>
+    <div class="stack"><span class="k">Zero installs</span><span class="chip g"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg>Any laptop or Chromebook</span><span class="chip">Python</span><span class="chip">NumPy</span><span class="chip">pandas</span><span class="chip">Matplotlib</span><span class="chip">scikit-learn</span><span class="chip">SciPy</span></div>
     <div class="ds">
       <div>
         <div class="k">Primary dataset</div>
@@ -575,14 +580,14 @@ model = LinearRegression().fit(X_tr, y_tr)   <span class="co"># your first model
       <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="8" height="4" x="8" y="2" rx="1" ry="1" /> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /> <path d="m9 14 2 2 4-4" /> </svg><div><b>Cross-domain assignments</b><span>Practice problems across civil disciplines</span></div></div>
       <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="m5 16-3 3 3 3" /> <path d="m9 22 3-3-3-3" /> </svg><div><b>Solution notebooks</b><span>Full instructor solutions to compare</span></div></div>
       <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 2v7.751a.25.25 0 00.407.195l2.28-1.834a.5.5 0 01.627 0l2.28 1.834A.25.25 0 0016 9.751V2" /> <path d="M4 19.5v-15A2.5 2.5 0 016.5 2H19a1 1 0 011 1v18a1 1 0 01-1 1H6.5a1 1 0 010-5H20" /> </svg><div><b>Python &amp; ML quick reference</b><span>A cheat sheet to keep at your desk</span></div></div>
-      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg><div><b>Session recordings*</b><span>Available until two weeks after the course ends</span></div></div>
+      <div class="inc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /> <circle cx="12" cy="12" r="10" /> </svg><div><b>Session recordings</b><span>Available until two weeks after the course ends</span></div></div>
     </div>
   </div>
   <div class="cta">
     <div class="k">Cohort Fall 2026 · Limited seats</div>
     <div class="date">Starts Saturday,<br>17 October 2026</div>
     <div class="facts"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M16 2v3" /> <path d="M3 9h18" /> <path d="M8 2v3" /> <path d="M17 13h-6" /> <path d="M13 17H7" /> <path d="M7 13h.01" /> <path d="M17 17h.01" /> </svg>8 live sessions</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <line x1="10" x2="14" y1="2" y2="2" /> <line x1="12" x2="15" y1="14" y2="11" /> <circle cx="12" cy="14" r="8" /> </svg>90 min each</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 22h14" /> <path d="M5 2h14" /> <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" /> <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" /> </svg>4 weeks</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>Certificate</span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg>100% online</span></div>
-    <div class="reg"><div><div class="k">Register now</div><div class="url">qudeltastudios.com</div></div><div class="go"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M7 7h10v10" /> <path d="M7 17 17 7" /> </svg></div></div>
+    <div class="row"><div class="reg"><div class="k">Register now</div><div class="url">qudeltastudios.com</div><div class="hint"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M3 7V5a2 2 0 0 1 2-2h2" /> <path d="M17 3h2a2 2 0 0 1 2 2v2" /> <path d="M21 17v2a2 2 0 0 1-2 2h-2" /> <path d="M7 21H5a2 2 0 0 1-2-2v-2" /> <path d="M7 12h10" /> </svg>Scan the code to open the course page</div></div><div class="qr"><img src="assets/qr-register.svg" alt="Scan to register"></div></div>
     <p class="seats">Seats are limited so everyone gets real support during live coding.</p>
   </div>
   <footer class="sf"><span class="partner">Technology partner<img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></span><div class="prog"><span class="pn"><b>11</b> / 11</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div></footer>

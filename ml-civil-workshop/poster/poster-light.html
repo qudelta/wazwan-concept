@@ -39,86 +39,86 @@
 
   /* header */
   .head{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
-  .kind{font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
-  .kind span{color:var(--muted);font-weight:500;margin-left:10px;padding-left:12px;border-left:1px solid var(--rule)}
+  .kind{display:flex;align-items:center;font-weight:800;font-size:21px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+  .kind span{color:var(--muted);font-weight:600;font-size:14px;letter-spacing:.12em;margin-left:16px;padding-left:16px;border-left:1.5px solid var(--rule)}
   .partner{display:flex;align-items:center;gap:14px}
   .partner small{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.02em}
   .partner img{height:21px;width:auto}
 
   /* title */
-  .title{position:absolute;left:64px;top:140px;z-index:4}
-  h1{font-weight:800;font-stretch:87.5%;font-size:80px;line-height:.99;letter-spacing:-.022em}
+  .title{position:absolute;left:64px;top:128px;z-index:4}
+  h1{font-weight:800;font-stretch:87.5%;font-size:72px;line-height:.99;letter-spacing:-.022em}
   h1 .hl{display:inline-block;margin:10px 0 0 -12px;padding:4px 14px 10px 12px;background:var(--accent);color:var(--on-accent);line-height:.92}
-  .sub{margin-top:18px;width:470px;font-size:19px;line-height:1.45;color:var(--ink-2);font-weight:400}
+  .sub{margin-top:14px;width:490px;font-size:18.5px;line-height:1.45;color:var(--ink-2);font-weight:400}
 
   /* key facts */
-  .facts{position:absolute;left:64px;top:486px;width:472px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--ink);z-index:4}
-  .fact{padding:16px 0 0 18px;border-left:1px solid var(--rule)}
+  .facts{position:absolute;left:64px;top:440px;width:490px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--ink);z-index:4}
+  .fact{padding:14px 0 0 18px;border-left:1px solid var(--rule)}
   .fact:first-child{padding-left:0;border-left:0}
-  .fact .n{font-weight:800;font-stretch:87.5%;font-size:48px;line-height:1;letter-spacing:-.03em}
+  .fact .n{font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1;letter-spacing:-.03em}
   .fact .n small{font-size:20px;font-weight:700;letter-spacing:0;margin-left:3px;color:var(--ink-2)}
-  .fact .l{margin-top:9px;display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;color:var(--muted)}
-  .fact .l svg{width:16px;height:16px;color:var(--accent-ink);stroke-width:2}
+  .fact .l{margin-top:8px;display:flex;align-items:center;gap:7px;font-size:15.5px;font-weight:600;color:var(--muted)}
+  .fact .l svg{width:18px;height:18px;color:var(--accent-ink);stroke-width:2}
 
   /* highlights */
-  .list{position:absolute;left:64px;top:600px;width:480px;z-index:4}
-  .row{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--rule)}
+  .list{position:absolute;left:64px;top:548px;width:490px;z-index:4}
+  .row{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--rule)}
   .row:last-of-type{border-bottom:1px solid var(--rule)}
   .note-in{margin-top:8px;white-space:nowrap;font-size:11.5px;line-height:1.4;color:var(--muted)}
   .row svg{width:22px;height:22px;margin-top:2px;color:var(--accent-ink);stroke-width:1.7}
-  .row b{display:block;font-weight:700;font-size:16.5px;line-height:1.25;letter-spacing:-.005em}
-  .row span{display:block;margin-top:2px;font-size:13.5px;line-height:1.35;color:var(--muted)}
+  .row b{display:block;font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.005em}
+  .row span{display:block;margin-top:2px;font-size:15.5px;line-height:1.35;color:var(--ink-2)}
 
   /* instructor */
-  .stage{position:absolute;left:540px;top:120px;width:540px;height:800px;z-index:2}
-  .disc{position:absolute;left:52px;top:150px;width:430px;height:430px;border-radius:50%;background:var(--disc)}
-  .ring{position:absolute;left:92px;top:190px;width:350px;height:350px;border-radius:50%;border:1.5px solid var(--ring)}
-  .ring.r2{left:22px;top:120px;width:490px;height:490px;border:1px dashed var(--ring);opacity:.55}
-  .photo{position:absolute;right:22px;bottom:0;height:750px;width:auto;filter:var(--photo-shadow);
-    -webkit-mask-image:linear-gradient(180deg,#000 76%,transparent 98%);mask-image:linear-gradient(180deg,#000 76%,transparent 98%)}
+  .stage{position:absolute;left:560px;top:110px;width:520px;height:560px;z-index:2;overflow:hidden}
+  .disc{position:absolute;left:60px;top:30px;width:400px;height:400px;border-radius:50%;background:var(--disc)}
+  .ring{position:absolute;left:95px;top:65px;width:330px;height:330px;border-radius:50%;border:1.5px solid var(--ring)}
+  .ring.r2{left:25px;top:-5px;width:470px;height:470px;border:1px dashed var(--ring);opacity:.55}
+  .photo{position:absolute;right:40px;top:28px;height:760px;width:auto;filter:var(--photo-shadow);
+    -webkit-mask-image:linear-gradient(180deg,#000 76%,transparent 98%);mask-image:linear-gradient(180deg,#000 62%,transparent 72%)}
 
-  .card{position:absolute;left:580px;top:586px;width:436px;z-index:6;padding:20px 24px 18px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
+  .card{position:absolute;left:574px;top:494px;width:442px;z-index:6;padding:20px 24px 18px;border-radius:18px;background:var(--card);border:1px solid var(--card-line);box-shadow:var(--card-shadow)}
   .card .who{display:flex;align-items:center;justify-content:space-between}
-  .card .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+  .card .lbl{font-size:17px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
   .card .bar{width:34px;height:4px;border-radius:2px;background:var(--accent)}
   .card .name{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1;letter-spacing:-.02em}
-  .card .role{margin-top:9px;font-size:14px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
+  .card .role{margin-top:10px;font-size:15px;line-height:1.5;font-weight:600;color:var(--ink);letter-spacing:-.005em}
   .card .role b{font-weight:600;color:var(--ink)}
   .card ul{list-style:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--card-line);display:grid;gap:7px}
-  .card li{display:flex;align-items:flex-start;gap:10px;line-height:1.4;font-size:13px;color:var(--ink-2)}
+  .card li{display:flex;align-items:flex-start;gap:10px;line-height:1.4;font-size:14px;color:var(--ink-2)}
   .card li svg{flex:none;width:17px;height:17px;margin-top:1px;color:var(--accent-ink);stroke-width:1.9}
 
   /* outline */
-  .outline{position:absolute;left:64px;right:64px;top:912px;z-index:4}
+  .outline{position:absolute;left:64px;right:64px;top:852px;z-index:4}
   .ol-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:10px;border-bottom:1.5px solid var(--ink)}
   .ol-head h2{font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
   .ol-head .flow{text-align:right}
   .ol-head .flow b{display:block;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
   .ol-head p{margin-top:5px;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.01em}
   .ol-head p i{font-style:normal;color:var(--accent-ink);margin:0 6px;font-weight:700}
-  .sessions{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(4,auto);column-gap:44px}
-  .ss{display:grid;grid-template-columns:40px 1fr;align-items:baseline;padding:4px 0 4px;border-bottom:1px solid var(--rule)}
-  .ss .no{font-weight:800;font-stretch:75%;font-size:21px;color:var(--accent-ink);letter-spacing:-.01em}
-  .ss b{display:block;font-weight:700;font-size:15.5px;line-height:1.3;letter-spacing:-.005em}
-  .ss div span{display:block;margin-top:1px;font-size:12.5px;line-height:1.35;color:var(--muted)}
+  .sessions{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(4,auto);column-gap:36px}
+  .ss{display:grid;grid-template-columns:36px 1fr;align-items:baseline;padding:5px 0 5px;border-bottom:1px solid var(--rule)}
+  .ss .no{font-weight:800;font-stretch:75%;font-size:23px;color:var(--accent-ink);letter-spacing:-.01em}
+  .ss b{display:block;font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-.005em}
+  .ss div span{display:block;margin-top:2px;font-size:14px;line-height:1.35;color:var(--ink-2)}
 
-  .disc-line{margin-top:11px;display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-2)}
-  .disc-line svg{flex:none;width:17px;height:17px;color:var(--accent-ink);stroke-width:2}
+  .disc-line{margin-top:12px;display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4;color:var(--ink-2)}
+  .disc-line svg{flex:none;margin-top:2px;width:18px;height:18px;color:var(--accent-ink);stroke-width:2}
   .disc-line b{font-weight:700;color:var(--ink)}
 
   /* footer band */
-  .band{position:absolute;left:0;right:0;bottom:0;height:124px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
-  .band .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
-  .band .aud{margin-top:8px;font-size:16.5px;font-weight:600;line-height:1.35}
+  .band{position:absolute;left:0;right:0;bottom:0;height:168px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
+  .band .k{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
+  .band .aud{margin-top:9px;font-size:18px;font-weight:600;line-height:1.35}
   .band .aud i{font-style:normal;opacity:.55;margin:0 7px}
   .band .reg{text-align:right}
-  .band .right{display:flex;align-items:center;gap:22px}
+  .band .right{display:flex;align-items:center;gap:26px}
   .band .when{margin-top:7px;display:flex;align-items:center;justify-content:flex-end;gap:12px;text-align:right}
   .band .when svg{width:34px;height:34px;stroke-width:2}
-  .band .when b{display:block;font-weight:800;font-stretch:87.5%;font-size:29px;line-height:1.02;letter-spacing:-.015em;white-space:nowrap}
-  .band .url{margin-top:8px;display:flex;align-items:center;justify-content:flex-end;gap:6px;font-size:15px;font-weight:700}
+  .band .when b{display:block;font-weight:800;font-stretch:87.5%;font-size:32px;line-height:1.02;letter-spacing:-.015em;white-space:nowrap}
+  .band .url{margin-top:10px;display:flex;align-items:center;justify-content:flex-end;gap:6px;font-size:16px;font-weight:700}
   .band .url svg{width:15px;height:15px;stroke-width:2.4}
-  .band .qr{flex:none;width:100px;height:100px;padding:7px;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(3,20,10,.18)}
+  .band .qr{flex:none;width:142px;height:142px;padding:9px;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(3,20,10,.18)}
   .band .qr img{display:block;width:100%;height:100%}
 </style>
 </head>
@@ -146,9 +146,8 @@
   <div class="list">
     <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 20h20" /> <path d="m9 10 2 2 4-4" /> <rect x="3" y="4" width="18" height="12" rx="2" /> </svg><div><b>Runs 100% on Google Colab</b><span>Nothing to install, works even on a Chromebook</span></div></div>
     <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z" /> <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z" /> <path d="M16 17h4" /> <path d="M4 13h4" /> </svg><div><b>Built for beginners</b><span>No prior Python or machine learning required</span></div></div>
-    <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg><div><b>Live code-along on Civil Engineering datasets</b><span>Materials · Buildings &amp; Energy · Transport · Environment · Geotechnics</span></div></div>
-    <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 5v16" /> <path d="m16 12 2 2 4-4" /> <path d="M22 6V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2h4.001A2 2 0 0022 17v-1.344" /> </svg><div><b>Hands-on notebooks, cross-domain<br>assignments &amp; solutions</b><span>Plus a certificate and session recordings*</span></div></div>
-    <p class="note-in">* Recordings shared after each session; available until two weeks after the course ends.</p>
+    <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /> </svg><div><b>Live code-along on Civil Engineering datasets</b><span>Materials · Buildings &amp; Energy · Transport ·<br>Environment · Geotechnics</span></div></div>
+    <div class="row"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 5v16" /> <path d="m16 12 2 2 4-4" /> <path d="M22 6V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2h4.001A2 2 0 0022 17v-1.344" /> </svg><div><b>Hands-on notebooks, cross-domain<br>assignments &amp; solutions</b><span>Plus certificate &amp; recordings (till 2 weeks after the course)</span></div></div>
   </div>
 
   <div class="stage">
@@ -159,20 +158,20 @@
   </div>
 
   <div class="card">
-    <div class="who"><span class="lbl">Instructor</span><span class="bar"></span></div>
+    <div class="who"><span class="lbl">Instructor</span></div>
     <div class="name">Dr. Abdul Waris</div>
     <p class="role">Research Associate<br>Universität Siegen (University of Siegen)<br>Former Prime Minister’s Research Fellow<br>Ph.D. in Geotechnical Engineering, IIT Hyderabad</p>
     <ul>
       <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /> <circle cx="12" cy="8" r="6" /> </svg>Research Excellence Award 2026, IIT Hyderabad</li>
       <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2 3h20" /> <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" /> <path d="m7 21 5-5 5 5" /> </svg><span>Invited talks at Oregon State University (USA) and a Faculty Development Programme at D.Y. Patil (Pune, India)</span></li>
-      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 19v3" /> <path d="M19 10v2a7 7 0 0 1-14 0v-2" /> <rect x="9" y="2" width="6" height="13" rx="3" /> </svg><span>Invited resource person, five-day ML workshop at NIT Srinagar</span></li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 19v3" /> <path d="M19 10v2a7 7 0 0 1-14 0v-2" /> <rect x="9" y="2" width="6" height="13" rx="3" /> </svg><span>Resource person, five-day ML workshop at NIT Srinagar</span></li>
     </ul>
   </div>
 
   <section class="outline">
     <div class="ol-head">
       <h2>Course outline</h2>
-      <div class="flow"><b>One ML workflow. Multiple civil engineering applications.</b><p>Problem<i>→</i>Data<i>→</i>Model<i>→</i>Validate<i>→</i>Interpret<i>→</i>Decide</p></div>
+      
     </div>
     <div class="sessions">
       <div class="ss"><span class="no">01</span><div><b>Python for Civil Engineers</b><span>AI/ML basics, Colab, NumPy &amp; pandas with engineering data</span></div></div>
@@ -190,7 +189,7 @@
   <footer class="band">
     <div>
       <div class="k">Who should join</div>
-      <div class="aud">B.Tech &amp; M.Tech students<i>/</i>PhD scholars<i>/</i>Faculty<br>Practising engineers<i>/</i>Complete beginners to AI &amp; ML</div>
+      <div class="aud">B.Tech &amp; M.Tech students<i>/</i>PhD scholars<i>/</i>Faculty<i>/</i><br>Practising engineers<i>/</i>Complete beginners to AI &amp; ML</div>
     </div>
     <div class="right">
       <div class="reg">
@@ -198,7 +197,7 @@
         <div class="when"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="M8 13h.01" /> <path d="M12 13h.01" /> <path d="M16 13h.01" /> <path d="M8 17h.01" /> <path d="M12 17h.01" /> <path d="M16 17h.01" /> </svg><b>Saturday,<br>17 October 2026</b></div>
         <div class="url">Scan to register · qudeltastudios.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div>
       </div>
-      <div class="qr"><img src="assets/qr-placeholder.svg" alt="Scan to register"></div>
+      <div class="qr"><img src="assets/qr-register.svg" alt="Scan to register"></div>
     </div>
   </footer>
 </div>

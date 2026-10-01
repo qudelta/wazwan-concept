@@ -89,7 +89,7 @@
   .card li svg{flex:none;width:17px;height:17px;margin-top:1px;color:var(--accent-ink);stroke-width:1.9}
 
   /* outline */
-  .outline{position:absolute;left:64px;right:64px;top:852px;z-index:4}
+  .outline{position:absolute;left:64px;right:64px;top:846px;z-index:4}
   .ol-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:10px;border-bottom:1.5px solid var(--ink)}
   .ol-head h2{font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
   .ol-head .flow{text-align:right}
@@ -97,24 +97,30 @@
   .ol-head p{margin-top:5px;font-size:13px;font-weight:500;color:var(--muted);letter-spacing:.01em}
   .ol-head p i{font-style:normal;color:var(--accent-ink);margin:0 6px;font-weight:700}
   .sessions{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(4,auto);column-gap:36px}
-  .ss{display:grid;grid-template-columns:36px 1fr;align-items:baseline;padding:5px 0 5px;border-bottom:1px solid var(--rule)}
+  .ss{display:grid;grid-template-columns:36px 1fr;align-items:baseline;padding:3px 0 3px;border-bottom:1px solid var(--rule)}
   .ss .no{font-weight:800;font-stretch:75%;font-size:23px;color:var(--accent-ink);letter-spacing:-.01em}
   .ss b{display:block;font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-.005em}
   .ss div span{display:block;margin-top:2px;font-size:14px;line-height:1.35;color:var(--ink-2)}
 
-  .disc-line{margin-top:12px;display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4;color:var(--ink-2)}
+  .disc-line{margin-top:9px;display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.4;color:var(--ink-2)}
   .disc-line svg{flex:none;margin-top:2px;width:18px;height:18px;color:var(--accent-ink);stroke-width:2}
   .disc-line b{font-weight:700;color:var(--ink)}
 
   /* footer band */
-  .band{position:absolute;left:0;right:0;bottom:0;height:168px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
+  .band{position:absolute;left:0;right:0;bottom:0;height:202px;background:var(--accent);color:var(--on-accent);z-index:5}
+  .band .main{height:164px;display:flex;align-items:center;justify-content:space-between;padding:0 64px}
+  .eb{height:38px;background:#03140A;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 64px}
+  .dark .eb{background:#0C2618;box-shadow:inset 0 1.5px 0 rgba(0,191,99,.55)}
+  .eb b{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;letter-spacing:.02em}
+  .eb b svg{width:19px;height:19px;color:var(--accent);stroke-width:2.2}
+  .eb b em{font-style:normal;color:#2BF394}
+  .eb span{font-size:15px;font-weight:500;color:rgba(255,255,255,.72)}
   .band .k{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
   .band .aud{margin-top:9px;font-size:18px;font-weight:600;line-height:1.35}
   .band .aud i{font-style:normal;opacity:.55;margin:0 7px}
   .band .reg{text-align:right}
   .band .right{display:flex;align-items:center;gap:26px}
-  .band .when{margin-top:7px;display:flex;align-items:center;justify-content:flex-end;gap:12px;text-align:right}
-  .band .when svg{width:34px;height:34px;stroke-width:2}
+  .band .when{margin-top:7px;text-align:right}
   .band .when b{display:block;font-weight:800;font-stretch:87.5%;font-size:32px;line-height:1.02;letter-spacing:-.015em;white-space:nowrap}
   .band .url{margin-top:10px;display:flex;align-items:center;justify-content:flex-end;gap:6px;font-size:16px;font-weight:700}
   .band .url svg{width:15px;height:15px;stroke-width:2.4}
@@ -187,6 +193,8 @@
   </section>
 
   <footer class="band">
+    <div class="eb"><b><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg>Early Bird offer <em>till 14 October</em></b><span>Regular fees apply after 14 Oct</span></div>
+    <div class="main">
     <div>
       <div class="k">Who should join</div>
       <div class="aud">B.Tech &amp; M.Tech students<i>/</i>PhD scholars<i>/</i>Faculty<i>/</i><br>Practising engineers<i>/</i>Complete beginners to AI &amp; ML</div>
@@ -194,10 +202,11 @@
     <div class="right">
       <div class="reg">
         <div class="k">Starts · Limited seats</div>
-        <div class="when"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="M8 13h.01" /> <path d="M12 13h.01" /> <path d="M16 13h.01" /> <path d="M8 17h.01" /> <path d="M12 17h.01" /> <path d="M16 17h.01" /> </svg><b>Saturday,<br>17 October 2026</b></div>
+        <div class="when"><b>Saturday,<br>17 October 2026</b></div>
         <div class="url">Scan to register · qudeltastudios.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div>
       </div>
       <div class="qr"><img src="assets/qr-register.svg" alt="Scan to register"></div>
+    </div>
     </div>
   </footer>
 </div>

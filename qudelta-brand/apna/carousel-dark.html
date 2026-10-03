@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Apna hi toh hai — Qudelta Studios</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#5F6A64; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --accent-display:#00A656; --on-accent:#03140A;
+    --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F5F8F6; --surface-line:#E3E8E5;
+    --ghost:#C9D1CC; --mark-op:.06; --grid:rgba(10,40,25,.05);
+    --shadow:0 18px 44px rgba(8,40,22,.10),0 2px 6px rgba(8,40,22,.05); --glow:transparent;
+  }
+  .dark{
+    --bg:#060907; --ink:#F2F5F3; --ink-2:#D0D8D3; --muted:#9AA59F; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --accent-display:#22D47C; --on-accent:#03140A;
+    --tint:rgba(0,191,99,.10); --tint-line:rgba(0,191,99,.32); --surface:#0E1411; --surface-line:rgba(255,255,255,.09);
+    --ghost:#3A443F; --mark-op:.07; --grid:rgba(255,255,255,.04);
+    --shadow:0 24px 60px rgba(0,0,0,.55);
+    --glow:radial-gradient(760px 560px at 100% 0%,rgba(0,191,99,.14),transparent 70%);
+  }
+  @page{size:1080px 1350px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg);break-after:page}
+  .glow{position:absolute;inset:0;background:var(--glow);pointer-events:none}
+  .grid{position:absolute;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);pointer-events:none}
+  .qmark{position:absolute;opacity:var(--mark-op);pointer-events:none}
+
+  .sh{position:absolute;left:72px;right:72px;top:54px;height:40px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+  .sh .tag{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+  .sh .tag i{font-style:normal;color:var(--muted);font-weight:600}
+  .sh .r{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--muted)}
+  .sh .r svg{width:18px;height:18px;color:var(--accent-ink);stroke-width:2.2}
+  .sf{position:absolute;left:72px;right:72px;bottom:50px;height:44px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid var(--rule);z-index:5}
+  .sf img{height:18px;width:auto;margin-bottom:1px}
+  .prog{display:flex;align-items:center;gap:14px}
+  .prog .pn{font-size:14px;font-weight:500;color:var(--muted);font-feature-settings:"tnum"}
+  .prog .pn b{color:var(--ink);font-weight:700}
+  .bars{display:flex;gap:5px}
+  .bars i{width:20px;height:3px;border-radius:2px;background:var(--rule)}
+  .bars i.on{background:var(--accent)}
+  .prog svg{width:20px;height:20px;color:var(--accent-ink);stroke-width:2.2}
+
+  .body{position:absolute;left:72px;right:72px;top:130px;bottom:120px;display:flex;flex-direction:column;justify-content:center}
+  .slide.last .body{bottom:330px}
+  .q{font-style:italic}
+  .hl{background:var(--accent);color:var(--on-accent);padding:0 14px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .big{font-weight:800;font-stretch:87.5%;letter-spacing:-.028em;line-height:1}
+  .lead{font-weight:700;font-stretch:87.5%;font-size:58px;line-height:1.12;letter-spacing:-.018em}
+  .lead em{font-style:normal;color:var(--accent-display)}
+  .txt{font-size:28px;line-height:1.45;color:var(--ink-2)}
+  .k{font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .bubble{display:inline-block;position:relative;padding:32px 40px 34px;border-radius:30px 30px 30px 8px;background:var(--surface);border:1.5px solid var(--surface-line);box-shadow:var(--shadow)}
+  .bubble p{font-weight:800;font-stretch:87.5%;font-style:italic;font-size:56px;line-height:1.08;letter-spacing:-.015em}
+  .bubble.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .bubble small{display:block;margin-top:10px;font-style:normal;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-size:16px}
+  .bubble.g small{color:rgba(3,20,10,.65)}
+
+  /* 01 */
+  .s1 .quote-mark{position:absolute;left:52px;top:110px;font-weight:900;font-size:420px;line-height:1;color:var(--accent);opacity:.9;font-family:Georgia,serif}
+  .s1 .main{position:absolute;left:72px;right:72px;top:390px}
+  .s1 .main .big{font-size:120px;line-height:1.02}
+  .s1 .main .big .l2{display:inline-block;margin-top:14px}
+  .s1 .tail{position:absolute;left:72px;right:72px;bottom:160px;padding-top:30px;border-top:2px solid var(--ink)}
+  .s1 .tail p{font-weight:700;font-stretch:87.5%;font-size:52px;line-height:1.1;letter-spacing:-.015em}
+  .s1 .tail p em{font-style:normal;color:var(--accent-display)}
+
+  /* 02 */
+  .spend{margin-top:40px;display:grid;gap:18px}
+  .sp{display:grid;grid-template-columns:78px 1fr auto;gap:24px;align-items:center;padding:28px 30px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .sp .ic{width:78px;height:78px;border-radius:18px;display:grid;place-items:center;background:var(--bg);border:1px solid var(--surface-line);color:var(--ink-2)}
+  .sp .ic svg{width:36px;height:36px;stroke-width:1.8}
+  .sp b{display:block;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1.12;letter-spacing:-.01em}
+  .sp span{display:block;margin-top:5px;font-size:21px;color:var(--muted)}
+  .sp .tg{font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:right;white-space:nowrap}
+  .vs{margin-top:24px;display:grid;grid-template-columns:78px 1fr;gap:24px;align-items:center;padding:32px 30px;border-radius:20px;background:var(--accent);color:var(--on-accent)}
+  .vs .ic{width:78px;height:78px;border-radius:18px;display:grid;place-items:center;background:rgba(3,20,10,.12)}
+  .vs .ic svg{width:36px;height:36px;stroke-width:2}
+  .vs b{display:block;font-weight:800;font-stretch:87.5%;font-size:38px;line-height:1.12;letter-spacing:-.01em}
+  .vs span{display:block;margin-top:6px;font-size:21px;font-weight:600;opacity:.75}
+
+  /* 03 */
+  .conds{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .cd{display:flex;align-items:center;gap:18px;padding:32px 28px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line);font-weight:700;font-size:28px;line-height:1.2}
+  .cd svg{flex:none;width:36px;height:36px;color:var(--accent-ink);stroke-width:1.9}
+  .laptop{margin-top:46px;position:relative;border-radius:26px;border:2px dashed var(--ghost);padding:40px 40px 40px 166px;min-height:300px}
+  .laptop .ic{position:absolute;left:40px;top:40px;width:100px;height:100px;border-radius:24px;display:grid;place-items:center;background:var(--ink);color:var(--bg)}
+  .laptop .ic svg{width:44px;height:44px;stroke-width:1.7}
+
+  /* 04 */
+  .kash{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .kc{border-radius:26px;padding:34px 32px 36px;min-height:420px;display:flex;flex-direction:column}
+  .kc.a{background:var(--surface);border:1px solid var(--surface-line)}
+  .kc.b{background:var(--accent);color:var(--on-accent)}
+  .kc .who{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .kc.b .who{color:rgba(3,20,10,.7)}
+  .kc .who svg{width:24px;height:24px;stroke-width:2}
+  .kc p{margin-top:auto;font-weight:800;font-stretch:87.5%;font-style:italic;font-size:58px;line-height:1.05;letter-spacing:-.015em}
+  .kc .tr{margin-top:14px;font-size:20px;font-weight:500;opacity:.75}
+  .same{margin-top:30px;border-radius:20px;border:1px solid var(--surface-line);overflow:hidden}
+  .same .r{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;padding:22px 30px;border-top:1px solid var(--rule);font-weight:700;font-size:27px}
+  .same .r:first-child{border-top:0}
+  .same .r span:nth-child(2){text-align:center;color:var(--accent-ink);font-weight:800;font-size:26px}
+  .same .r span:last-child{text-align:right}
+  .same .r.diff{background:var(--tint)}
+  .same .r.diff span:nth-child(2){color:var(--ink)}
+
+  /* 05 */
+  .two-arrows{margin-top:50px;display:grid;gap:26px}
+  .ar{border-radius:26px;padding:38px 36px}
+  .ar.f{border:2px dashed var(--ghost)}
+  .ar.d{background:var(--accent);color:var(--on-accent)}
+  .ar .hd{display:flex;align-items:center;justify-content:space-between}
+  .ar .hd b{font-weight:800;font-stretch:87.5%;font-size:46px;letter-spacing:-.015em}
+  .ar .hd span{display:flex;align-items:center;gap:8px;font-weight:700;font-size:19px;letter-spacing:.08em;text-transform:uppercase}
+  .ar.f .hd b,.ar.f .hd span{color:var(--muted)}
+  .ar .hd svg{width:22px;height:22px;stroke-width:2.2}
+  .track{margin-top:30px;position:relative;height:60px}
+  .track .line{position:absolute;left:0;right:0;top:28px;height:4px;border-radius:2px}
+  .ar.f .track .line{background:repeating-linear-gradient(90deg,var(--ghost) 0 14px,transparent 14px 26px)}
+  .ar.d .track .line{background:var(--on-accent);right:auto;width:16%}
+  .track .dot{position:absolute;top:14px;width:30px;height:30px;border-radius:50%}
+  .ar.f .track .dot{left:0;background:var(--ghost)}
+  .ar.f .track .tend{position:absolute;right:0;top:4px;display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:2px dashed var(--ghost);color:var(--muted);font-weight:800;font-size:24px}
+  .ar.d .track .dot{left:0;background:var(--on-accent)}
+  .ar.d .track .tend{position:absolute;left:16%;top:4px;display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:var(--on-accent);color:var(--accent)}
+  .ar.d .track .tend svg{width:24px;height:24px;stroke-width:2.6}
+  .ar .lbl{display:flex;justify-content:space-between;margin-top:12px;font-size:20px;font-weight:600}
+  .ar.f .lbl{color:var(--muted)}
+
+  /* 06 */
+  .noneg{margin-top:40px;display:grid;gap:18px}
+  .nn{display:grid;grid-template-columns:76px 1fr;gap:24px;align-items:center;padding:30px 30px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .nn .ic{width:76px;height:76px;border-radius:18px;display:grid;place-items:center;background:var(--tint);color:var(--accent-ink)}
+  .nn .ic svg{width:36px;height:36px;stroke-width:1.9}
+  .nn p{font-size:29px;line-height:1.3;color:var(--ink-2)}
+  .nn p b{color:var(--ink);font-weight:800}
+  .ask{margin-top:40px;padding:42px 42px;border-radius:24px;background:var(--ink);color:var(--bg)}
+  .ask p{font-weight:800;font-stretch:87.5%;font-size:62px;line-height:1.08;letter-spacing:-.02em}
+  .ask p em{font-style:normal;color:var(--accent)}
+
+  /* 07 */
+  .dict{margin-top:54px;border-radius:28px;background:var(--surface);border:1px solid var(--surface-line);padding:56px 52px 52px;box-shadow:var(--shadow)}
+  .dict .w{display:flex;align-items:baseline;gap:20px}
+  .dict .w b{font-weight:800;font-stretch:87.5%;font-size:140px;letter-spacing:-.03em;line-height:1}
+  .dict .w span{font-size:26px;font-style:italic;color:var(--muted)}
+  .dict .pr{margin-top:10px;font-size:26px;color:var(--muted)}
+  .def{margin-top:44px;display:grid;gap:22px}
+  .df{display:grid;grid-template-columns:72px 1fr;gap:24px;align-items:center;padding:34px 32px;border-radius:18px}
+  .df .ic{width:72px;height:72px;border-radius:50%;display:grid;place-items:center}
+  .df .ic svg{width:36px;height:36px;stroke-width:2.6}
+  .df .lb{font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .df p{margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:50px;line-height:1.1;letter-spacing:-.015em}
+  .df.y{background:var(--accent);color:var(--on-accent)}
+  .df.y .ic{background:rgba(3,20,10,.14)}
+  .df.y .lb{color:rgba(3,20,10,.65)}
+  .df.n{border:2px dashed var(--ghost)}
+  .df.n .ic{background:var(--bg);border:2px solid var(--ghost);color:var(--muted)}
+  .df.n .lb{color:var(--muted)}
+  .df.n p{color:var(--muted);text-decoration:line-through;text-decoration-thickness:3px}
+
+  /* 08 */
+  .ice{margin-top:34px;display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:stretch}
+  .ice .stack{display:flex;flex-direction:column;border-radius:22px;overflow:hidden;border:1px solid var(--surface-line)}
+  .ice .tip{padding:22px 26px;background:var(--surface);display:flex;justify-content:space-between;align-items:center}
+  .ice .tip b{font-weight:800;font-size:24px}
+  .ice .tip span{font-size:17px;font-weight:600;color:var(--muted)}
+  .ice .base{flex:1;padding:26px;background:var(--ink);color:var(--bg);display:grid;gap:12px;align-content:start}
+  .ice .base .hd{display:flex;justify-content:space-between;align-items:baseline}
+  .ice .base .hd b{font-weight:800;font-size:24px;color:var(--accent)}
+  .ice .base .hd span{font-size:17px;font-weight:600;opacity:.6}
+  .ice .base i{display:block;font-style:normal;font-size:21px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.07)}
+  .light .ice .base i{background:rgba(255,255,255,.1)}
+  .ice .say{display:flex;flex-direction:column;justify-content:center;gap:20px}
+  .ice .say p{font-size:26px;line-height:1.4;color:var(--ink-2)}
+  .ice .say p b{color:var(--ink)}
+  .end{position:absolute;left:0;right:0;bottom:0;height:300px;background:var(--accent);color:var(--on-accent);padding:42px 72px 0;z-index:3}
+  .end p{font-weight:800;font-stretch:87.5%;font-size:44px;line-height:1.1;letter-spacing:-.018em}
+  .end .sign{margin-top:24px;display:flex;align-items:center;justify-content:space-between}
+  .end .sign img{height:34px;width:auto;filter:brightness(0);opacity:.92}
+  .end .sign span{font-size:17px;font-weight:700}
+  .slide.last .sf{border-top-color:rgba(3,20,10,.22)}
+  .slide.last .sf img{filter:brightness(0);opacity:.85}
+  .slide.last .prog .pn,.slide.last .prog .pn b{color:var(--on-accent)}
+  .slide.last .bars i{background:rgba(3,20,10,.2)}
+  .slide.last .bars i.on{background:var(--on-accent)}
+</style>
+</head>
+<body class="dark">
+
+<!-- 01 -->
+<section class="slide s1">
+  <div class="glow"></div>
+  <img class="qmark" src="assets/qudelta-mark.png" alt="" style="right:-200px;top:300px;width:720px">
+  <header class="sh"><span class="tag">Apna hi toh hai</span><span class="r">Swipe<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></span></header>
+  <div class="quote-mark">“</div>
+  <div class="main">
+    <div class="big q">Apna hi<br>toh hai.<br><span class="l2 hl">Thoda kam<br>kar do.”</span></div>
+  </div>
+  <div class="tail"><p>The <em>most expensive sentence</em> you can hear as a business owner.</p></div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>01</b> / 8</span><span class="bars"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 02 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">What people pay for <i>· 02</i></span></header>
+  <div class="body">
+    <div class="lead">I’ve watched people spend…</div>
+    <div class="spend">
+      <div class="sp"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5.8 11.3 2 22l10.7-3.79" /> <path d="M4 3h.01" /> <path d="M22 8h.01" /> <path d="M15 2h.01" /> <path d="M22 20h.01" /> <path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10" /> <path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17" /> <path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7" /> <path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" /> </svg></div><div><b>Lakhs on a wedding stage</b><span>they’ll see for six hours</span></div><span class="tg">6 hours</span></div>
+      <div class="sp"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="14" height="20" x="5" y="2" rx="2" ry="2" /> <path d="M12 18h.01" /> </svg></div><div><b>Absurd money on a phone</b><span>because the logo is visible from across the room</span></div><span class="tg">The logo</span></div>
+      <div class="sp"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /> <circle cx="7" cy="17" r="2" /> <path d="M9 17h6" /> <circle cx="17" cy="17" r="2" /> </svg></div><div><b>₹3 lakh on a car accessory</b><span>that nobody actually needed</span></div><span class="tg">Nobody needed</span></div>
+    </div>
+    <div class="vs"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z" /> <path d="M20.054 15.987H3.946" /> </svg></div><div><b>Then you quote ₹60K for a system</b><span>that could make their business money for years.</span></div></div>
+    <div style="margin-top:44px"><div class="bubble"><p>“Yaar, itna kya hai ismein?”</p><small>And suddenly</small></div></div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>02</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 03 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">The unwritten rule <i>· 03</i></span></header>
+  <div class="body">
+    <div class="lead">Because apparently, if you can…</div>
+    <div class="conds">
+      <div class="cd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /> </svg>photograph it</div>
+      <div class="cd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /> </svg>show it to people</div>
+      <div class="cd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /> <circle cx="7" cy="17" r="2" /> <path d="M9 17h6" /> <circle cx="17" cy="17" r="2" /> </svg>park it outside your house</div>
+      <div class="cd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 19v3" /> <path d="M19 10v2a7 7 0 0 1-14 0v-2" /> <rect x="9" y="2" width="6" height="13" rx="3" /> </svg>talk about it at a wedding</div>
+    </div>
+    <div class="lead" style="margin-top:40px;font-size:66px">…it’s <em>worth paying for.</em></div>
+    <div class="laptop">
+      <div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z" /> <path d="M20.054 15.987H3.946" /> </svg></div>
+      <p class="txt" style="font-size:30px">But if someone is sitting behind a laptop building <b style="color:var(--ink)">the thing that actually runs your business…</b></p>
+      <div style="margin-top:28px"><div class="bubble g"><p>“Apna hai na.”</p></div></div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>03</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 04 -->
+<section class="slide">
+  <div class="glow"></div>
+  <img class="qmark" src="assets/qudelta-mark.png" alt="" style="left:-260px;bottom:-140px;width:620px">
+  <header class="sh"><span class="tag">The Kashmir edition <i>· 04</i></span></header>
+  <div class="body">
+    <div class="lead">And Kashmir makes it <em>even more interesting.</em></div>
+    <div class="kash">
+      <div class="kc a"><div class="who"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 21a8 8 0 0 0-16 0" /> <circle cx="10" cy="8" r="5" /> <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" /> </svg>If they don’t know you</div><p>“Kitna charge karte ho?”</p><div class="tr">How much do you charge?</div></div>
+      <div class="kc b"><div class="who"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762" /> </svg>If they know you</div><p>“Kitne mein apna karoge?”</p><div class="tr">How much for “one of us”?</div></div>
+    </div>
+    <div class="same">
+      <div class="r"><span>Same work</span><span>=</span><span>Same work</span></div>
+      <div class="r"><span>Same hours</span><span>=</span><span>Same hours</span></div>
+      <div class="r"><span>Same expertise</span><span>=</span><span>Same expertise</span></div>
+      <div class="r diff"><span>Stranger</span><span>≠</span><span>Relationship</span></div>
+    </div>
+    <p class="lead" style="margin-top:30px;font-size:48px">Just a <em>different relationship.</em></p>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>04</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 05 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">The classic <i>· 05</i></span></header>
+  <div class="body">
+    <div class="lead">Then comes the classic:</div>
+    <div style="margin-top:34px"><div class="bubble"><p>“Bas apne liye kar do.<br>Baad mein aur kaam denge.”</p></div></div>
+    <div class="two-arrows">
+      <div class="ar f">
+        <div class="hd"><b>The future work</b><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 22h14" /> <path d="M5 2h14" /> <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" /> <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" /> </svg>Somehow never arrives</span></div>
+        <div class="track"><span class="line"></span><span class="dot"></span><span class="tend">?</span></div>
+        <div class="lbl"><span>Promised today</span><span>…someday</span></div>
+      </div>
+      <div class="ar d">
+        <div class="hd"><b>The discount</b><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg>Arrives immediately</span></div>
+        <div class="track"><span class="line"></span><span class="dot"></span><span class="tend"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg></span></div>
+        <div class="lbl"><span>Asked today</span><span>Applied today</span></div>
+      </div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>05</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 06 -->
+<section class="slide">
+  <div class="glow"></div>
+  <header class="sh"><span class="tag">Business is business <i>· 06</i></span></header>
+  <div class="body">
+    <div class="lead">I don’t mind people negotiating. But it gets weird when <em>your relationship becomes the discount.</em></div>
+    <div class="noneg">
+      <div class="nn"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg></div><p>You don’t get cheaper <b>electricity</b> because you know the owner.</p></div>
+      <div class="nn"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5" /> <path d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16" /> <path d="M2 21h13" /> <path d="M3 9h11" /> </svg></div><p>You don’t get cheaper <b>fuel</b> because you’re friends with the pump guy.</p></div>
+      <div class="nn"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <rect width="14" height="20" x="5" y="2" rx="2" ry="2" /> <path d="M12 18h.01" /> </svg></div><p>You don’t negotiate with <b>Apple</b> because you went to school with Tim Cook.</p></div>
+    </div>
+    <div class="ask"><p>So why does knowing me suddenly make my work <em>worth less?</em></p></div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>06</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 07 -->
+<section class="slide">
+  <div class="glow"></div>
+  <div class="grid" style="right:-120px;top:120px;width:680px;height:680px"></div>
+  <header class="sh"><span class="tag">Unlearn <i>· 07</i></span></header>
+  <div class="body">
+    <div class="lead">Maybe that’s the part <em>we need to unlearn.</em></div>
+    <div class="dict">
+      <div class="w"><b>apna</b><span>(adj.) · Hindi / Urdu</span></div>
+      <div class="pr">“one of our own”</div>
+      <div class="def">
+        <div class="df y"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg></div><div><div class="lb">Should mean</div><p>You trust the person.</p></div></div>
+        <div class="df n"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 6 6 18" /> <path d="m6 6 12 12" /> </svg></div><div><div class="lb">Not</div><p>You get their work at cost.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="sf"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><div class="prog"><span class="pn"><b>07</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg></div></footer>
+</section>
+
+<!-- 08 -->
+<section class="slide last">
+  <header class="sh"><span class="tag">The hard way <i>· 08</i></span></header>
+  <div class="body">
+    <div class="lead" style="font-size:50px">We learned this the hard way. The best clients aren’t always the ones with <em>the biggest budgets.</em></div>
+    <div class="ice">
+      <div class="stack">
+        <div class="tip"><b>The hours</b><span>what you see</span></div>
+        <div class="base">
+          <div class="hd"><b>Everything it took</b><span>what you’re paying for</span></div>
+          <i>Years of learning the craft</i>
+          <i>Projects that taught us what not to do</i>
+          <i>The tools, systems &amp; experience</i>
+          <i>Becoming capable of doing it</i>
+        </div>
+      </div>
+      <div class="say">
+        <p>They’re the ones who understand that when they pay for something,</p>
+        <p><b>they’re not paying for the hours.</b></p>
+        <p>They’re paying for <b>everything it took to become capable of doing it.</b></p>
+      </div>
+    </div>
+  </div>
+  <div class="end">
+    <p>And that has a price. Even when the person doing it is someone you know.</p>
+    <div class="sign"><img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"><span>qudeltastudios.com</span></div>
+  </div>
+  <footer class="sf"><span></span><div class="prog"><span class="pn"><b>08</b> / 8</span><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div></footer>
+</section>
+
+</body>
+</html>

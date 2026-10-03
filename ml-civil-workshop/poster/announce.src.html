@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>We heard you — Group pricing announcement</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#5F6A64; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --accent-display:#00A656; --on-accent:#03140A;
+    --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F3F6F4; --surface-line:#E3E8E5;
+    --grid:rgba(10,40,25,.055); --shadow:0 14px 34px rgba(8,40,22,.09),0 2px 6px rgba(8,40,22,.05);
+    --glow:transparent; --avatar:#E3E8E5;
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#D0D8D3; --muted:#9AA59F; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --accent-display:#22D47C; --on-accent:#03140A;
+    --tint:rgba(0,191,99,.10); --tint-line:rgba(0,191,99,.32); --surface:#111915; --surface-line:rgba(255,255,255,.09);
+    --grid:rgba(255,255,255,.045); --shadow:0 20px 50px rgba(0,0,0,.5);
+    --glow:radial-gradient(640px 520px at 100% 0%,rgba(0,191,99,.16),transparent 70%); --avatar:#25302A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+  .glow{position:absolute;inset:0;background:var(--glow)}
+  .grid{position:absolute;left:-80px;top:380px;width:1240px;height:620px;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent 100%);mask-image:radial-gradient(closest-side,#000 30%,transparent 100%)}
+
+  .head{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
+  .kind{display:flex;align-items:center;font-weight:800;font-size:21px;letter-spacing:.08em;text-transform:uppercase}
+  .kind span{color:var(--accent-ink);font-weight:700;font-size:14px;letter-spacing:.12em;margin-left:16px;padding-left:16px;border-left:1.5px solid var(--rule)}
+  .partner{display:flex;align-items:center;gap:14px}
+  .partner small{font-size:12px;font-weight:500;color:var(--muted)}
+  .partner img{height:21px;width:auto}
+
+  .title{position:absolute;left:64px;top:130px;z-index:4}
+  .title .k{font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:90px;line-height:.98;letter-spacing:-.027em}
+  h1 .hl{display:inline-block;margin:10px 0 0 -12px;padding:4px 14px 10px 12px;background:var(--accent);color:var(--on-accent);line-height:.92}
+
+  .chat{position:absolute;left:64px;right:64px;top:386px;z-index:4;display:flex;flex-direction:column;gap:16px}
+  .msg{display:flex;align-items:flex-end;gap:14px;max-width:820px}
+  .msg.in2{margin-left:70px}
+  .av{flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--avatar);color:var(--ink-2)}
+  .av svg{width:26px;height:26px;stroke-width:2}
+  .bub{padding:17px 24px 18px;border-radius:22px 22px 22px 6px;background:var(--surface);border:1px solid var(--surface-line);box-shadow:var(--shadow)}
+  .bub .who{font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+  .bub p{margin-top:5px;font-size:27px;line-height:1.32;color:var(--ink)}
+  .bub p i{font-style:italic}
+
+  .reply{position:absolute;right:64px;top:884px;z-index:4;display:flex;align-items:flex-end;gap:12px;flex-direction:row-reverse}
+  .reply .av{background:var(--ink);width:60px;height:60px}
+  .reply .av img{width:30px;height:auto}
+  .reply .bub{background:var(--accent);border-color:var(--accent);color:var(--on-accent);border-radius:26px 26px 6px 26px;padding:24px 30px 26px;max-width:700px;box-shadow:0 18px 40px rgba(0,191,99,.28)}
+  .reply .bub .who{color:rgba(3,20,10,.7)}
+  .reply .bub p{margin-top:6px;color:var(--on-accent);font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1.05;letter-spacing:-.015em}
+  .reply .bub .tiers{margin-top:14px;display:flex;gap:8px}
+  .reply .bub .tiers span{height:38px;padding:0 15px;font-size:18px !important;border-radius:999px;display:inline-flex;align-items:center;gap:6px;background:rgba(3,20,10,.12);font-size:16px;font-weight:800}
+  .reply .bub .tiers span.top{background:var(--on-accent);color:var(--accent)}
+
+  .band{position:absolute;left:0;right:0;bottom:0;height:194px;background:var(--ink);color:var(--bg);z-index:5;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:30px;padding:0 64px}
+  .dark .band{background:#0C2618;color:var(--ink);box-shadow:inset 0 1.5px 0 rgba(0,191,99,.55)}
+  .band .aud{display:flex;gap:14px;align-items:flex-start}
+  .band .aud .ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent)}
+  .band .aud .ic svg{width:23px;height:23px;stroke-width:2}
+  .band .aud b{display:block;font-weight:800;font-size:20px;line-height:1.2}
+  .band .aud span{display:block;margin-top:4px;font-size:16px;line-height:1.35;opacity:.78}
+  .band .go{display:flex;flex-direction:column;align-items:center;gap:8px;padding-left:30px;border-left:1px solid rgba(255,255,255,.18)}
+  .light .band .go{border-left-color:rgba(255,255,255,.18)}
+  .band .go .ar{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent)}
+  .band .go .ar svg{width:28px;height:28px;stroke-width:2.4}
+  .band .go small{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+</style>
+</head>
+<body class="{{theme}}">
+<div class="poster">
+  <div class="glow"></div>
+  <div class="grid"></div>
+
+  <header class="head">
+    <div class="kind">Announcement<span>AI &amp; ML for Civil Engineers</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo}}</div>
+  </header>
+
+  <div class="title">
+    <div class="k">You asked. We listened.</div>
+    <h1>We heard you<br><span class="hl">loud and clear.</span></h1>
+  </div>
+
+  <div class="chat">
+    <div class="msg"><span class="av">{{i:graduation-cap}}</span><div class="bub"><div class="who">B.Tech student</div><p>Sir, is there any discount for students?</p></div></div>
+    <div class="msg in2"><span class="av">{{i:presentation}}</span><div class="bub"><div class="who">Professor</div><p>Some of my students are interested. Can something be done on the fee?</p></div></div>
+    <div class="msg"><span class="av">{{i:users-round}}</span><div class="bub"><div class="who">M.Tech student</div><p><i>“Hum 4 dost saath join karein toh?”</i></p></div></div>
+    <div class="msg in2"><span class="av">{{i:microscope}}</span><div class="bub"><div class="who">Ph.D. scholar</div><p>Any special rate if our whole lab joins?</p></div></div>
+  </div>
+
+  <div class="reply">
+    <span class="av"><img src="assets/qudelta-mark.png" alt="Qudelta Studios"></span>
+    <div class="bub">
+      <div class="who">Qudelta Studios</div>
+      <p>So we made it official: group pricing is here.</p>
+      <div class="tiers"><span>2 · 5% off</span><span>3 · 10% off</span><span class="top">4+ · 15% off</span></div>
+    </div>
+  </div>
+
+  <footer class="band">
+    <div class="aud"><span class="ic">{{i:graduation-cap}}</span><div><b>Students</b><span>Bring your friends. Every one of you pays less.</span></div></div>
+    <div class="aud"><span class="ic">{{i:presentation}}</span><div><b>Faculty</b><span>Enrol your batch. We handle the registrations.</span></div></div>
+    <div class="go"><span class="ar">{{i:arrow-right}}</span><small>Swipe</small></div>
+  </footer>
+</div>
+</body>
+</html>

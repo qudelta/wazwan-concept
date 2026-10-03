@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AI &amp; ML for Civil Engineers — Group pricing</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#5F6A64; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --accent-display:#00A656; --on-accent:#03140A;
+    --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F5F8F6; --surface-line:#E3E8E5; --ghost:#C9D1CC;
+    --grid:rgba(10,40,25,.055); --shadow:0 18px 44px rgba(8,40,22,.10),0 2px 6px rgba(8,40,22,.05);
+    --glow:transparent;
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#D0D8D3; --muted:#9AA59F; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --accent-display:#22D47C; --on-accent:#03140A;
+    --tint:rgba(0,191,99,.10); --tint-line:rgba(0,191,99,.32); --surface:#0E1411; --surface-line:rgba(255,255,255,.09); --ghost:#3A443F;
+    --grid:rgba(255,255,255,.045); --shadow:0 24px 60px rgba(0,0,0,.55);
+    --glow:radial-gradient(620px 520px at 860px 220px,rgba(0,191,99,.18),transparent 70%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+  .glow{position:absolute;inset:0;background:var(--glow)}
+  .grid{position:absolute;left:560px;top:60px;width:600px;height:460px;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side,#000 40%,transparent 100%)}
+
+  .head{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
+  .kind{display:flex;align-items:center;font-weight:800;font-size:21px;letter-spacing:.08em;text-transform:uppercase}
+  .kind span{color:var(--accent-ink);font-weight:700;font-size:14px;letter-spacing:.12em;margin-left:16px;padding-left:16px;border-left:1.5px solid var(--rule)}
+  .partner{display:flex;align-items:center;gap:14px}
+  .partner small{font-size:12px;font-weight:500;color:var(--muted)}
+  .partner img{height:21px;width:auto}
+
+  .title{position:absolute;left:64px;top:132px;width:620px;z-index:4}
+  .title .k{font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:84px;line-height:.98;letter-spacing:-.026em}
+  h1 .hl{display:inline-block;margin:10px 0 0 -12px;padding:4px 14px 10px 12px;background:var(--accent);color:var(--on-accent);line-height:.92}
+  .sub{margin-top:22px;font-size:21px;line-height:1.45;color:var(--ink-2)}
+  .sub b{color:var(--ink)}
+
+  .badge{position:absolute;right:64px;top:150px;width:290px;height:290px;z-index:4}
+  .badge .r1{position:absolute;inset:0;border-radius:50%;border:1.5px dashed var(--accent);opacity:.6}
+  .badge .r2{position:absolute;inset:26px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 20px 50px rgba(0,191,99,.28)}
+  .badge .up{font-size:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .badge .pc{font-weight:800;font-stretch:87.5%;font-size:104px;line-height:.92;letter-spacing:-.04em}
+  .badge .off{font-size:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .badge .ps{margin-top:6px;font-size:14px;font-weight:600;opacity:.75}
+
+  .tiers{position:absolute;left:64px;right:64px;top:478px;z-index:4}
+  .tiers .hd{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:12px;border-bottom:1.5px solid var(--ink)}
+  .tiers .hd h2{font-weight:800;font-stretch:87.5%;font-size:28px;letter-spacing:-.015em}
+  .tiers .hd p{font-size:15px;font-weight:600;color:var(--muted)}
+  .cards{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .c{position:relative;border-radius:20px;padding:22px 20px 20px;background:var(--surface);border:1px solid var(--surface-line);min-height:256px;display:flex;flex-direction:column}
+  .c .ppl{display:flex;gap:2px;height:34px;align-items:center;color:var(--ink-2)}
+  .c .ppl svg{width:30px;height:30px;stroke-width:1.9}
+  .c .nm{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:24px;letter-spacing:-.01em}
+  .c .pill{margin-top:8px;align-self:flex-start;height:28px;padding:0 11px;border-radius:999px;display:inline-flex;align-items:center;font-size:14px;font-weight:800;letter-spacing:.02em;background:var(--tint);color:var(--accent-ink);border:1px solid var(--tint-line)}
+  .c .pill.no{background:transparent;border-color:var(--surface-line);color:var(--muted)}
+  .c .pr{margin-top:auto;font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1;letter-spacing:-.03em}
+  .c .pp{margin-top:6px;font-size:14.5px;font-weight:600;color:var(--muted)}
+  .c .sv{margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);font-size:15px;font-weight:700;color:var(--accent-ink)}
+  .c .sv.no{color:var(--muted);font-weight:600}
+  .c.best{background:var(--accent);border-color:var(--accent);color:var(--on-accent);box-shadow:0 18px 40px rgba(0,191,99,.28)}
+  .c.best .ppl{color:var(--on-accent)}
+  .c.best .pill{background:var(--on-accent);color:var(--accent);border-color:var(--on-accent)}
+  .c.best .pp{color:rgba(3,20,10,.7)}
+  .c.best .sv{color:var(--on-accent);border-top-color:rgba(3,20,10,.2)}
+  .c .flag{position:absolute;top:-13px;right:16px;height:26px;padding:0 11px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center}
+
+  .together{position:absolute;left:64px;right:64px;top:818px;display:flex;align-items:center;gap:18px;padding:18px 24px;border-radius:18px;background:var(--tint);border:1px solid var(--tint-line);z-index:4}
+  .together .ic{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent)}
+  .together .ic svg{width:24px;height:24px;stroke-width:2}
+  .together p{font-size:19px;line-height:1.4;color:var(--ink-2)}
+  .together p b{color:var(--ink)}
+  .together s{color:var(--muted)}
+
+  .steps{position:absolute;left:64px;right:64px;top:924px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;z-index:4}
+  .st{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+  .st .n{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:1.5px solid var(--accent);color:var(--accent-ink);font-weight:800;font-size:17px}
+  .st b{display:block;font-weight:800;font-size:18px;line-height:1.2}
+  .st span{display:block;margin-top:3px;font-size:15px;line-height:1.35;color:var(--ink-2)}
+
+  .meta{position:absolute;left:64px;right:64px;top:1010px;display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--rule);z-index:4}
+  .who{display:flex;align-items:center;gap:14px}
+  .who .ph{position:relative;width:66px;height:66px;border-radius:50%;overflow:hidden;background:var(--tint);border:2.5px solid var(--accent);flex:none}
+  .who .ph img{position:absolute;width:108px;height:auto;left:-13px;top:4px}
+  .who b{display:block;font-weight:800;font-stretch:87.5%;font-size:23px;letter-spacing:-.01em}
+  .who span{display:block;margin-top:3px;font-size:14.5px;color:var(--ink-2)}
+  .pro{text-align:right}
+  .pro .k{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .pro b{display:block;margin-top:4px;font-weight:800;font-stretch:87.5%;font-size:26px;letter-spacing:-.015em}
+  .pro b s{font-size:17px;font-weight:600;color:var(--muted);margin-left:8px}
+
+  .band{position:absolute;left:0;right:0;bottom:0;height:226px;background:var(--accent);color:var(--on-accent);z-index:5}
+  .eb{height:40px;background:#03140A;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 64px}
+  .dark .eb{background:#0C2618;box-shadow:inset 0 1.5px 0 rgba(0,191,99,.55)}
+  .eb b{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;letter-spacing:.02em}
+  .eb b svg{width:19px;height:19px;color:var(--accent);stroke-width:2.2}
+  .eb b em{font-style:normal;color:#2BF394}
+  .eb span{font-size:15px;font-weight:500;color:rgba(255,255,255,.72)}
+  .main{height:186px;display:flex;align-items:center;justify-content:space-between;padding:0 64px}
+  .main .k{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
+  .main .cta{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:34px;line-height:1.05;letter-spacing:-.015em}
+  .main .hint{margin-top:8px;font-size:16px;font-weight:600}
+  .right{display:flex;align-items:center;gap:24px}
+  .when{text-align:right}
+  .when b{display:block;font-weight:800;font-stretch:87.5%;font-size:30px;line-height:1.02;letter-spacing:-.015em}
+  .qr{flex:none;width:146px;height:146px;padding:9px;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(3,20,10,.18)}
+  .qr img{display:block;width:100%;height:100%}
+</style>
+</head>
+<body class="light">
+<div class="poster">
+  <div class="glow"></div>
+  <div class="grid"></div>
+
+  <header class="head">
+    <div class="kind">Group pricing<span>Cohort Fall 2026</span></div>
+    <div class="partner"><small>Technology partner</small><img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></div>
+  </header>
+
+  <div class="title">
+    <div class="k">AI &amp; Machine Learning for Civil Engineers</div>
+    <h1>Learn together.<br><span class="hl">Save together.</span></h1>
+    <p class="sub">Enrol as a study group and <b>every student pays less</b>. The bigger the group, the bigger the saving.</p>
+  </div>
+
+  <div class="badge">
+    <div class="r1"></div>
+    <div class="r2"><span class="up">Up to</span><span class="pc">15%</span><span class="off">off</span><span class="ps">per student</span></div>
+  </div>
+
+  <section class="tiers">
+    <div class="hd"><h2>Student fee per person</h2><p>On the early-bird student fee of ₹2,499</p></div>
+    <div class="cards">
+      <div class="c"><div class="ppl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg></div><div class="nm">Solo</div><span class="pill no">Early bird</span><div class="pr">₹2,499</div><div class="pp">per student</div><div class="sv no">Regular ₹3,499</div></div>
+      <div class="c"><div class="ppl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg></div><div class="nm">Group of 2</div><span class="pill">5% off</span><div class="pr">₹2,374</div><div class="pp">per student</div><div class="sv">Save ₹125 each</div></div>
+      <div class="c"><div class="ppl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg></div><div class="nm">Group of 3</div><span class="pill">10% off</span><div class="pr">₹2,249</div><div class="pp">per student</div><div class="sv">Save ₹250 each</div></div>
+      <div class="c best"><span class="flag">Best value</span><div class="ppl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /> </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="19" x2="19" y1="8" y2="14" /> <line x1="22" x2="16" y1="11" y2="11" /> </svg></div><div class="nm">Group of 4+</div><span class="pill">15% off</span><div class="pr">₹2,124</div><div class="pp">per student</div><div class="sv">Save ₹375 each</div></div>
+    </div>
+  </section>
+
+  <div class="together"><div class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M18 21a8 8 0 0 0-16 0" /> <circle cx="10" cy="8" r="5" /> <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" /> </svg></div><p><b>A group of 4 pays ₹8,496</b> instead of <s>₹9,996</s>, saving ₹1,500 together.</p></div>
+
+  <div class="steps">
+    <div class="st"><span class="n">1</span><div><b>Form your group</b><span>Classmates, labmates or batchmates</span></div></div>
+    <div class="st"><span class="n">2</span><div><b>Send us the names</b><span>One WhatsApp message is enough</span></div></div>
+    <div class="st"><span class="n">3</span><div><b>Each pays the group fee</b><span>We confirm every seat for you</span></div></div>
+  </div>
+
+  <div class="meta">
+    <div class="who">
+      <div class="ph"><img src="assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+      <div><b>Dr. Abdul Waris</b><span>Universität Siegen, Germany · Ph.D. IIT Hyderabad</span></div>
+    </div>
+    <div class="pro"><div class="k">Working professionals</div><b>₹4,599<s>₹5,999</s></b></div>
+  </div>
+
+  <footer class="band">
+    <div class="eb"><b><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg>Early Bird prices <em>till 12 October</em></b><span>8 live sessions · 4 weeks · Certificate</span></div>
+    <div class="main">
+      <div>
+        <div class="k">Registering as a group?</div>
+        <div class="cta">Scan, then send us<br>your group’s names</div>
+        <div class="hint">qudeltastudios.com</div>
+      </div>
+      <div class="right">
+        <div class="when"><div class="k">Starts</div><b>Saturday,<br>17 October 2026</b></div>
+        <div class="qr"><img src="assets/qr-register.svg" alt="Scan to register"></div>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

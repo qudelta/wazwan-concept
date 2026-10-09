@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>3 days left — Early bird</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .light{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#5F6A64; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --on-accent:#03140A;
+    --surface:#F3F6F4; --surface-line:#E3E8E5; --seg-off:#E3E9E5;
+    --grid:rgba(10,40,25,.05); --glow:radial-gradient(520px 520px at 50% 560px,rgba(0,191,99,.14),transparent 70%);
+  }
+  .dark{
+    --bg:#070A08; --ink:#F2F5F3; --ink-2:#D0D8D3; --muted:#9AA59F; --rule:rgba(255,255,255,.11);
+    --accent:#00BF63; --accent-ink:#1FD47A; --on-accent:#03140A;
+    --surface:#0F1612; --surface-line:rgba(255,255,255,.09); --seg-off:#1E2823;
+    --grid:rgba(255,255,255,.045); --glow:radial-gradient(560px 560px at 50% 560px,rgba(0,191,99,.26),transparent 70%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--bg)}
+  .glow{position:absolute;inset:0;background:var(--glow)}
+  .grid{position:absolute;left:140px;top:200px;width:800px;height:760px;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);mask-image:radial-gradient(closest-side,#000 35%,transparent 100%)}
+
+  .head{position:absolute;left:64px;right:64px;top:50px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:18px;z-index:5}
+  .kind{display:flex;align-items:center;font-weight:800;font-size:21px;letter-spacing:.08em;text-transform:uppercase}
+  .kind span{color:var(--accent-ink);font-weight:700;font-size:14px;letter-spacing:.12em;margin-left:16px;padding-left:16px;border-left:1.5px solid var(--rule)}
+  .partner{display:flex;align-items:center;gap:14px}
+  .partner small{font-size:12px;font-weight:500;color:var(--muted)}
+  .partner img{height:21px;width:auto}
+
+  .course{position:absolute;left:0;right:0;top:136px;text-align:center;z-index:4}
+  .course .k{font-size:16px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .course h1{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:50px;line-height:1;letter-spacing:-.02em}
+  .course h1 .hl{background:var(--accent);color:var(--on-accent);padding:2px 12px 6px}
+
+  .ring{position:absolute;left:50%;top:262px;width:620px;height:620px;margin-left:-310px;z-index:3}
+  .ring svg{width:620px;height:620px}
+  .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:4}
+  .num b{font-weight:900;font-stretch:87.5%;font-size:400px;line-height:.78;letter-spacing:-.05em;color:var(--ink)}
+  .num span{margin-top:28px;font-weight:800;font-size:40px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-ink);padding-left:.24em}
+
+  .ends{position:absolute;left:0;right:0;top:912px;text-align:center;z-index:4}
+  .ends .k{font-size:16px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .ends b{display:block;margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:44px;letter-spacing:-.015em}
+
+  .prices{position:absolute;left:64px;right:64px;top:1016px;display:grid;grid-template-columns:1fr 1fr;gap:16px;z-index:4}
+  .pc{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .pc .lb{font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .pc .pr{text-align:right}
+  .pc .pr b{display:block;font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1;letter-spacing:-.03em;color:var(--accent-ink)}
+  .pc .pr .was{display:block;margin-top:5px;font-size:17px;font-weight:600;color:var(--muted)}
+
+  .band{position:absolute;left:0;right:0;bottom:0;height:184px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:space-between;padding:0 64px;z-index:5}
+  .band .k{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
+  .band .st{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:38px;line-height:1.02;letter-spacing:-.015em}
+  .band .hint{margin-top:8px;font-size:16px;font-weight:600}
+  .band .right{display:flex;align-items:center;gap:22px}
+  .band .right .t{text-align:right}
+  .band .right .t b{display:block;margin-top:6px;font-weight:800;font-size:22px;line-height:1.2}
+  .qr{flex:none;width:142px;height:142px;padding:9px;border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(3,20,10,.18)}
+  .qr img{display:block;width:100%;height:100%}
+</style>
+</head>
+<body class="light">
+<div class="poster">
+  <div class="glow"></div>
+  <div class="grid"></div>
+
+  <header class="head">
+    <div class="kind">Live Online Workshop<span>Early Bird</span></div>
+    <div class="partner"><small>Technology partner</small><img src="assets/qudelta-logo-dark.png" alt="Qudelta Studios"></div>
+  </header>
+
+  <div class="course">
+    <div class="k">Early-bird pricing ends in</div>
+    <h1>AI &amp; ML for <span class="hl">Civil Engineers</span></h1>
+  </div>
+
+  <div class="ring">
+    <svg viewBox="0 0 620 620" role="img" aria-label="Countdown ring with three of twelve segments remaining"><circle cx="310" cy="310" r="246" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 9" opacity=".55"/><path d="M325.0 24.4 A286 286 0 0 1 439.8 55.2" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M465.8 70.1 A286 286 0 0 1 549.9 154.2" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M564.8 180.2 A286 286 0 0 1 595.6 295.0" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M595.6 325.0 A286 286 0 0 1 564.8 439.8" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M549.9 465.8 A286 286 0 0 1 465.8 549.9" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M439.8 564.8 A286 286 0 0 1 325.0 595.6" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M295.0 595.6 A286 286 0 0 1 180.2 564.8" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M154.2 549.9 A286 286 0 0 1 70.1 465.8" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M55.2 439.8 A286 286 0 0 1 24.4 325.0" stroke="var(--seg-off)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M24.4 295.0 A286 286 0 0 1 55.2 180.2" stroke="var(--accent)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M70.1 154.2 A286 286 0 0 1 154.2 70.1" stroke="var(--accent)" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M180.2 55.2 A286 286 0 0 1 295.0 24.4" stroke="var(--accent)" stroke-width="22" stroke-linecap="round" fill="none"/></svg>
+    <div class="num"><b>3</b><span>Days left</span></div>
+  </div>
+
+  <div class="ends"><div class="k">Last day</div><b>Monday, 12 October · 11:59 PM</b></div>
+
+  <div class="prices">
+    <div class="pc"><span class="lb">Students</span><div class="pr"><b>₹2,499</b><span class="was">From 13 Oct <s>₹3,499</s></span></div></div>
+    <div class="pc"><span class="lb">Professionals</span><div class="pr"><b>₹4,599</b><span class="was">From 13 Oct <s>₹5,999</s></span></div></div>
+  </div>
+
+  <footer class="band">
+    <div>
+      <div class="k">Course starts</div>
+      <div class="st">Saturday, 17 October</div>
+      <div class="hint">8 live sessions · No coding experience needed</div>
+    </div>
+    <div class="right">
+      <div class="t"><div class="k">Lock your price</div><b>Scan to register</b></div>
+      <div class="qr"><img src="assets/qr-register.svg" alt="Scan to register"></div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

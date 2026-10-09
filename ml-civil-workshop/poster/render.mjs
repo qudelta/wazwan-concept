@@ -16,6 +16,7 @@ const designs = [
   { prefix: "web-portrait", out: "web/AI-ML-for-Civil-Engineers_website_4x5" },
   { prefix: "group", out: "AI-ML-for-Civil-Engineers_group-pricing" },
   { prefix: "announce", out: "AI-ML-for-Civil-Engineers_group-announcement" },
+  { prefix: "countdown", out: "AI-ML-for-Civil-Engineers_3-days-left" },
 ];
 
 const browser = await chromium.launch();

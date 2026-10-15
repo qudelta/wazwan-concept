@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Andhe ko chashma · Kashmir andha nahi hai</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .dark{--bg:#060807;--ink:#F2F5F3;--ink-2:rgba(242,245,243,.74);--muted:rgba(242,245,243,.46);--rule:rgba(255,255,255,.14);--green:#00BF63;--glow:rgba(0,191,99,.16)}
+  .light{--bg:#F4F6F4;--ink:#0A0F0C;--ink-2:rgba(10,15,12,.74);--muted:rgba(10,15,12,.48);--rule:rgba(10,15,12,.14);--green:#00A656;--glow:rgba(0,191,99,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  .post{position:relative;width:1080px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink)}
+  .top{position:absolute;left:72px;right:72px;top:64px;display:flex;align-items:center;justify-content:space-between}
+  .top img{height:28px;width:auto}
+  .top span{font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- A · the statement ---------- */
+  .a .glow{position:absolute;inset:0;background:radial-gradient(760px 520px at 20% 62%,var(--glow),transparent 70%)}
+  .a .txt{position:absolute;left:72px;right:72px;top:162px}
+  .a .k{font-size:19px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+  .a .l1{margin-top:22px;font-weight:800;font-stretch:87.5%;font-size:90px;line-height:.98;letter-spacing:-.025em;color:var(--ink-2)}
+  .a .l2{margin-top:26px;font-weight:900;font-stretch:87.5%;font-size:150px;line-height:.9;letter-spacing:-.035em;color:var(--green)}
+  .a .l3{margin-top:36px;font-size:33px;line-height:1.36;font-weight:500;color:var(--ink-2);max-width:880px}
+  .a .l3 b{color:var(--ink);font-weight:700}
+  .a .end{position:absolute;left:72px;right:72px;bottom:64px;padding-top:26px;border-top:1.5px solid var(--rule);font-weight:800;font-stretch:87.5%;font-size:50px;letter-spacing:-.015em}
+  .a .end span{color:var(--green)}
+
+  /* ---------- B · the eye-test chart ---------- */
+  .b .chart{position:absolute;left:72px;right:72px;top:140px;bottom:150px;display:flex;flex-direction:column;justify-content:space-between}
+  .b .row{display:grid;grid-template-columns:90px 1fr 90px;align-items:center}
+  .b .row .n{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--muted)}
+  .b .row .n.r{text-align:right}
+  .b .row .t{text-align:center;font-weight:900;font-stretch:87.5%;line-height:.95;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .b .r1 .t{font-size:196px;letter-spacing:.1em}
+  .b .r2 .t{font-size:104px}
+  .b .r3 .t{font-size:78px}
+  .b .r4 .t{font-size:52px;color:var(--green);letter-spacing:.03em}
+  .b .r5 .t{font-size:30px;letter-spacing:.08em;color:var(--ink-2);white-space:normal;line-height:1.3}
+  .b .r6 .t{font-size:19px;letter-spacing:.14em;color:var(--muted);white-space:normal;line-height:1.4}
+  .b .line{height:1.5px;background:var(--rule)}
+  .b .end{position:absolute;left:72px;right:72px;bottom:64px;display:flex;align-items:center;justify-content:space-between}
+  .b .end b{font-weight:800;font-stretch:87.5%;font-size:36px;letter-spacing:-.01em}
+  .b .end b span{color:var(--green)}
+  .b .end img{height:26px}
+</style>
+</head>
+<body class="{{theme}}">
+
+<!-- A · the statement -->
+<section class="post a">
+  <div class="glow"></div>
+  <header class="top">{{logo}}<span>Selling tech in Kashmir</span></header>
+  <div class="txt">
+    <div class="k">Ek purani kahawat</div>
+    <div class="l1">Andhe ko chashma<br>nahi pehna sakte.</div>
+    <div class="l2">Par Kashmir<br>andha nahi hai.</div>
+    <p class="l3">Bas abhi tak kisi ne dikhaya nahi ki technology se kya badalta hai: <b>zyada orders, kam missed calls, aur poora hisaab ek click mein.</b></p>
+  </div>
+  <div class="end">Software mat becho. <span>Nateeja dikhao.</span></div>
+</section>
+
+<!-- B · the eye-test chart -->
+<section class="post b">
+  <header class="top">{{logo}}<span>Nazar test · Kashmir edition</span></header>
+  <div class="chart">
+    <div class="row r1"><span class="n">20/200</span><span class="t">Andhe</span><span class="n r">1</span></div>
+    <div class="row r2"><span class="n">20/100</span><span class="t">ko chashma</span><span class="n r">2</span></div>
+    <div class="row r3"><span class="n">20/70</span><span class="t">nahi pehna sakte.</span><span class="n r">3</span></div>
+    <div class="line"></div>
+    <div class="row r4"><span class="n">20/40</span><span class="t">Par Kashmir andha nahi hai.</span><span class="n r">4</span></div>
+    <div class="row r5"><span class="n">20/30</span><span class="t">Bas kisi ne dikhaya nahi ki technology se kya badalta hai.</span><span class="n r">5</span></div>
+    <div class="row r6"><span class="n">20/20</span><span class="t">Yeh line bhi padh li? Matlab nazar bilkul theek hai. Bas dikhane wala chahiye.</span><span class="n r">6</span></div>
+  </div>
+  <div class="end"><b>Software mat becho. <span>Nateeja dikhao.</span></b><span></span></div>
+</section>
+
+</body>
+</html>

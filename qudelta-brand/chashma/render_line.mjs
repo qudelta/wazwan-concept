@@ -1,0 +1,15 @@
+import { createRequire } from "module";
+import path from "path";
+import { fileURLToPath } from "url";
+const require = createRequire(import.meta.url);
+const { chromium } = require(process.env.PLAYWRIGHT_PATH || "playwright");
+const here = path.dirname(fileURLToPath(import.meta.url));
+const out = path.join(process.argv[2] || path.join(here, "export"), "Qudelta_Selling-in-Kashmir_andhe-ko-chashma.png");
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1080, height: 1080 }, deviceScaleFactor: Number(process.argv[3] || 2) });
+await page.goto("file://" + path.join(here, "line.html"));
+await page.evaluate(() => document.fonts.ready);
+await page.waitForTimeout(300);
+await (await page.$(".post")).screenshot({ path: out });
+await browser.close();
+console.log("rendered", path.basename(out));

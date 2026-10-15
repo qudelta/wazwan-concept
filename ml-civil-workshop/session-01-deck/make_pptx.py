@@ -70,11 +70,13 @@ ADDED_NOTES = {
     23: "[Added] Answers: 1 regression, 2 classification, 3 clustering (unsupervised), 4 anomaly detection (unsupervised), "
         "5 regression, 6 classification.",
     27: "Python supports the workflow; engineering knowledge supplies the meaning.",
-    37: (f"[Added, real data] After the first cell. {S['band_n']} mixes at 28 days have a w/c between 0.49 and 0.54; their "
+    39: (f"[Added, real data] After the first cell. {S['band_n']} mixes at 28 days have a w/c between 0.49 and 0.54; their "
          f"strengths range from {S['band_min']:.0f} to {S['band_max']:.0f} MPa. The ratio alone does not fix the strength: "
          f"slag, fly ash, superplasticizer and aggregates matter too. That is why we bring all the inputs together with ML."),
-    38: "Replace 'Link shared in the session chat' with the real notebook link if you want it on the slide.",
-    40: "[Added] Optional practice before session 02.",
+    40: "Replace 'Link shared in the session chat' with the real notebook link if you want it on the slide.",
+    42: "[Added] Optional practice before session 02.",
+    37: "[Added, real data] Session 01 covers pandas: load the whole lab record in one line. df.shape gives (1030, 9): one row per mix, eight inputs and the strength. The table shows the real first five rows. Column names follow a common CSV release of the UCI dataset; match them to the workshop notebook.",
+    38: "[Added, real data] First plot with Matplotlib. Ask the cohort what they notice: tests happen at fixed ages (3, 7, 28, 56, 90 days ...), strength rises with age, and at every age the spread is wide. Age alone cannot predict strength.",
 }
 
 out_dir = sys.argv[1] if len(sys.argv) > 1 else "export"

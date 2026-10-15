@@ -5,7 +5,7 @@ from pathlib import Path
 import charts
 
 HERE = Path(__file__).parent
-ICONS = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "node_modules/lucide-static/icons"
+ICONS = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "node_modules/@phosphor-icons/core/assets/duotone"
 LOGO_LIGHT = "../poster/assets/qudelta-logo-light.png"  # light text, for dark slides
 NOTEBOOK_LINK = "Link shared in the session chat"
 
@@ -18,7 +18,7 @@ SECTIONS = {
 
 
 def icon(name: str) -> str:
-    svg = (ICONS / f"{name}.svg").read_text()
+    svg = (ICONS / f"{name}-duotone.svg").read_text()
     svg = re.sub(r"<!--.*?-->", "", svg, flags=re.S)
     svg = re.sub(r"<svg[^>]*>", lambda m: re.sub(r'\s(width|height|class)="[^"]*"', "", m.group(0)), svg, count=1)
     return re.sub(r"\s+", " ", svg).strip()
@@ -60,9 +60,11 @@ total = src.count('<section class="slide')
 src = re.sub(r"\{\{i:([a-z0-9-]+)\}\}", lambda m: icon(m.group(1)), src)
 src = re.sub(r"\{\{chart:([a-z0-9]+)\}\}", lambda m: svgs[m.group(1)], src)
 src = re.sub(r"\{\{stat:([a-z0-9_]+)\}\}", lambda m: values[m.group(1)], src)
+src = re.sub(r"\{\{logo:([a-z]+)\}\}", lambda m: f'<img class="lg-{m.group(1)}" src="assets/logos/{m.group(1)}.svg" alt="{m.group(1)} logo">', src)
 src = src.replace("{{logo-light}}", f'<img src="{LOGO_LIGHT}" alt="Qudelta Studios">')
 src = src.replace("{{notebook_link}}", NOTEBOOK_LINK)
 src = src.replace("{{truss}}", truss())
+src = src.replace("{{headrows}}", charts.head_rows())
 
 parts = src.split('<section class="slide')
 out = [parts[0]]

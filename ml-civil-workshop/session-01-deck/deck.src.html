@@ -6,8 +6,6 @@
 <link rel="stylesheet" href="../poster/assets/fonts.css">
 <style>
   @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(assets/Amiri-Regular.woff2) format('woff2')}
-  @font-face{font-family:'Newsreader';font-style:normal;font-weight:400 700;font-display:block;src:url(assets/Newsreader.woff2) format('woff2')}
-  @font-face{font-family:'Newsreader';font-style:italic;font-weight:400 700;font-display:block;src:url(assets/Newsreader-Italic.woff2) format('woff2')}
   @page{size:1920px 1080px;margin:0}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#888}
@@ -26,7 +24,7 @@
   .b .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
   .b .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
   .b .ic-sq{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
-  .b .ic-sq svg{width:28px;height:28px;stroke-width:1.9}
+  .b .ic-sq svg{width:30px;height:30px}
   .b.dark{background:var(--dk);color:var(--dk-ink)}
   .b .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
   .b .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
@@ -65,13 +63,13 @@
   .mk{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sec) 32%,transparent) 60%);padding:0 4px;margin:0 -4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
   .c p{font-size:27px;line-height:1.45;color:var(--ink-2)}
   .c b{font-weight:700;color:var(--ink)}
-  .serif{font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.01em}
+  .serif{font-weight:600;letter-spacing:-.01em}
   .mono{font-family:'JetBrains Mono',monospace}
   .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
   .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
   .card p{margin-top:10px;font-size:24px}
   .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--sec-tint);color:var(--sec-ink);flex:none}
-  .ic svg{width:32px;height:32px;stroke-width:1.9}
+  .ic svg{width:36px;height:36px}
   .chip{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink);white-space:nowrap}
   .chip.x{background:var(--Xt);border-color:var(--Xl);color:var(--Xi)}
   .chip.y{background:var(--Yt);border-color:var(--Yl);color:var(--Yi)}
@@ -83,12 +81,14 @@
   .take .ti svg{width:25px;height:25px;stroke-width:2.2}
   .src{position:absolute;left:120px;right:120px;bottom:38px;font-size:15px;line-height:1.4;color:var(--muted)}
   .lbl{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  .sym{font-family:'Newsreader',serif;font-style:italic;font-weight:600}
+  .sym{font-style:italic;font-weight:700}
   .chart{background:#fff;border:1px solid var(--surface-line);border-radius:24px;padding:26px 30px 18px;display:flex;flex-direction:column}
   .chart h3{font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.01em;line-height:1.15}
   .chart .f{margin-top:6px;font-size:21px;color:var(--ink-2);line-height:1.4}
   .chart svg{margin-top:10px;width:100%;height:0;flex:1 1 auto;min-height:0}
 
+  .lgt{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);flex:none}
+  .lgt img{max-width:40px;max-height:40px}
   /* =================== DIVIDERS =================== */
   .dv .gridl{position:absolute;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px}
   .dv .truss{position:absolute;right:-30px;bottom:-24px;width:860px;color:var(--tc)}
@@ -102,6 +102,8 @@
   .dv ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.7}
   .dv .top .hc span{border-left-color:var(--lr);color:inherit;opacity:.75}
   .dv .top .n,.dv .top .n b{color:inherit}
+  .dv .logos{position:absolute;right:120px;top:520px;display:flex;gap:16px}
+  .dv .logos img{width:80px;height:80px;padding:15px;background:#fff;border-radius:22px;object-fit:contain;box-shadow:0 10px 24px rgba(14,26,43,.18)}
   .dv1{background:#1F5FAF;color:#fff;--gl:rgba(255,255,255,.07);--tc:rgba(255,255,255,.22);--lr:rgba(255,255,255,.3)}
   .dv2{background:#eb6834;color:#0E1A2B;--gl:rgba(14,26,43,.07);--tc:rgba(14,26,43,.18);--lr:rgba(14,26,43,.25)}
   .dv3{background:#00BF63;color:#03140A;--gl:rgba(3,20,10,.07);--tc:rgba(3,20,10,.18);--lr:rgba(3,20,10,.25)}
@@ -195,9 +197,9 @@
     <div class="role">Research Associate · Universität Siegen, Germany</div>
     <ul>
       <li><span class="ic-sq">{{i:graduation-cap}}</span><div><b>Ph.D. in Geotechnical Engineering</b><span class="t">Indian Institute of Technology (IIT) Hyderabad</span></div></li>
-      <li><span class="ic-sq">{{i:award}}</span><div><b>Former Prime Minister’s Research Fellow</b><span class="t">PMRF, Government of India</span></div></li>
+      <li><span class="ic-sq">{{i:medal}}</span><div><b>Former Prime Minister’s Research Fellow</b><span class="t">PMRF, Government of India</span></div></li>
       <li><span class="ic-sq">{{i:microscope}}</span><div><b>Research in explainable ML &amp; reliability</b><span class="t">The basis for sessions 07 and 08 of this course</span></div></li>
-      <li><span class="ic-sq">{{i:presentation}}</span><div><b>Invited talks</b><span class="t">Oregon State University · DY Patil · NIT Srinagar</span></div></li>
+      <li><span class="ic-sq">{{i:presentation-chart}}</span><div><b>Invited talks</b><span class="t">Oregon State University · DY Patil · NIT Srinagar</span></div></li>
     </ul>
   </div>
 </section>
@@ -270,10 +272,10 @@
         <div class="ax"><span>0 min</span><span>90 min</span></div>
       </div>
       <div class="tiles grow">
-        <div class="card"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:notebook-pen}}</span><h3>One notebook per session</h3><p>Structured Colab notebooks you keep and revisit.</p></div>
+        <div class="card"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:notebook}}</span><h3>One notebook per session</h3><p>Structured Colab notebooks you keep and revisit.</p></div>
         <div class="card"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:database}}</span><h3>Real engineering data</h3><p>Materials, structures, buildings &amp; energy, transport, water &amp; environment, geotechnics.</p></div>
-        <div class="card"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:circle-play}}</span><h3>Recordings</h3><p>Shared after each session; available until two weeks after the course ends.</p></div>
-        <div class="card"><span class="ic" style="background:var(--Mt);color:var(--Mi)">{{i:drafting-compass}}</span><h3>Engineering judgement</h3><p>Validation, limitations and physical plausibility, not just accuracy.</p></div>
+        <div class="card"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:play-circle}}</span><h3>Recordings</h3><p>Shared after each session; available until two weeks after the course ends.</p></div>
+        <div class="card"><span class="ic" style="background:var(--Mt);color:var(--Mi)">{{i:compass-tool}}</span><h3>Engineering judgement</h3><p>Validation, limitations and physical plausibility, not just accuracy.</p></div>
       </div>
     </div>
   </div>
@@ -283,10 +285,12 @@
 <style>
   .today .wrap{display:grid;grid-template-columns:1fr 560px;gap:64px;height:100%}
   .today .left{display:flex;flex-direction:column;gap:18px}
-  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;padding:30px 30px;border-radius:24px}
+  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:30px 30px;border-radius:24px}
   .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;letter-spacing:-.04em}
   .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
   .today .pt span{display:block;margin-top:8px;font-size:22px;color:var(--ink-2)}
+  .today .lgs{display:flex;gap:10px}
+  .today .lgt svg{width:36px;height:36px}
   .today .out{background:var(--ink);color:#fff;border-radius:28px;padding:44px 42px 44px}
   .today .out .lbl{color:#9FB3CC}
   .today .out ul{margin-top:20px;list-style:none}
@@ -301,17 +305,17 @@
     <div class="main">
       <div class="wrap">
         <div class="left">
-          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>From engineering problems to machine learning</b><span>AI, ML and DL · supervised and unsupervised learning · one workflow</span></div></div>
-          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>Python &amp; Google Colab</b><span>Why Python · notebooks · Colab vs alternatives · our toolkit</span></div></div>
-          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Hands-on: our first cell</b><span>Open the notebook · run code · read the output like an engineer</span></div></div>
+          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>From engineering problems to machine learning</b><span>AI, ML and DL · supervised and unsupervised learning · one workflow</span></div><div class="lgs"><span class="lgt" style="color:var(--Xi)">{{i:brain}}</span></div></div>
+          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>Python &amp; Google Colab</b><span>Why Python · notebooks · Colab vs alternatives · our toolkit</span></div><div class="lgs"><span class="lgt">{{logo:python}}</span><span class="lgt">{{logo:googlecolab}}</span></div></div>
+          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Hands-on: our first cells</b><span>Open the notebook · run code · load data · first plot</span></div><div class="lgs"><span class="lgt">{{logo:pandas}}</span><span class="lgt">{{logo:matplotlib}}</span></div></div>
         </div>
         <div class="out">
           <div class="lbl">By the end of today you can</div>
           <ul>
-            <li>{{i:check}}<span>Place AI, ML and deep learning on one map</span></li>
-            <li>{{i:check}}<span>Tell regression, classification and unsupervised problems apart</span></li>
-            <li>{{i:check}}<span>Describe the ML workflow for a civil engineering problem</span></li>
-            <li>{{i:check}}<span>Open, run and save a Colab notebook</span></li>
+            <li>{{i:check-circle}}<span>Place AI, ML and deep learning on one map</span></li>
+            <li>{{i:check-circle}}<span>Tell regression, classification and unsupervised problems apart</span></li>
+            <li>{{i:check-circle}}<span>Describe the ML workflow for a civil engineering problem</span></li>
+            <li>{{i:check-circle}}<span>Open, run and save a Colab notebook</span></li>
           </ul>
         </div>
       </div>
@@ -401,13 +405,16 @@
 <style>
   .model .wrap{display:grid;grid-template-columns:820px 1fr;gap:72px;height:100%}
   .model .rung{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;height:104px;border-radius:18px;padding:0 30px;background:var(--surface);border:1px solid var(--surface-line)}
-  .model .rung b{font-size:30px}
+  .model .rung b{display:flex;align-items:center;gap:16px;font-size:30px}
+  .model .rung .ri{width:52px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;color:var(--sec-ink)}
+  .model .rung .ri svg{width:30px;height:30px}
+  .model .rung.ml .ri{color:var(--Mi)}
   .model .rung span{font-size:19px;color:var(--muted)}
   .model .rung.ml{background:var(--M);border-color:var(--M)}
   .model .rung.ml b,.model .rung.ml span{color:#fff}
   .model .arr{height:30px;display:grid;place-items:center;color:#AAB6C5}
   .model .arr svg{width:22px;height:22px;stroke-width:2.4}
-  .model .claim{font-size:46px;line-height:1.15;color:var(--ink)}
+  .model .claim{font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
   .model .txt p{margin-top:24px;font-size:26px}
   .model .def{margin-top:32px;padding:30px 36px;border-radius:24px;background:var(--ink);color:#fff}
   .model .def .lbl{color:#9FB3CC}
@@ -421,15 +428,15 @@
     <div class="main">
       <div class="wrap">
         <div>
-          <div class="rung"><b>Theory &amp; mechanics</b><span>first principles</span></div>
+          <div class="rung"><b><span class="ri">{{i:atom}}</span>Theory &amp; mechanics</b><span>first principles</span></div>
           <div class="arr">{{i:arrow-down}}</div>
-          <div class="rung"><b>Empirical correlations</b><span>e.g. Abrams’ law (1918)</span></div>
+          <div class="rung"><b><span class="ri">{{i:chart-line-up}}</span>Empirical correlations</b><span>e.g. Abrams’ law (1918)</span></div>
           <div class="arr">{{i:arrow-down}}</div>
-          <div class="rung"><b>Numerical models</b><span>FEM · FDM</span></div>
+          <div class="rung"><b><span class="ri">{{i:cube}}</span>Numerical models</b><span>FEM · FDM</span></div>
           <div class="arr">{{i:arrow-down}}</div>
-          <div class="rung"><b>Laboratory / field data</b><span>cube, cylinder &amp; field tests</span></div>
+          <div class="rung"><b><span class="ri">{{i:flask}}</span>Laboratory / field data</b><span>cube, cylinder &amp; field tests</span></div>
           <div class="arr">{{i:arrow-down}}</div>
-          <div class="rung ml"><b>Data-driven models</b><span>learned from examples</span></div>
+          <div class="rung ml"><b><span class="ri">{{i:brain}}</span>Data-driven models</b><span>learned from examples</span></div>
         </div>
         <div class="txt">
           <div class="claim serif">Machine learning learns relationships from examples in data.</div>
@@ -549,8 +556,8 @@
 <!-- ===================================================================== DEFINITION (orig 6a) -->
 <style>
   .quote .main{justify-content:center;padding-bottom:60px}
-  .quote .mkq{font-family:'Newsreader',serif;font-weight:600;font-size:240px;line-height:.55;color:var(--X);margin-top:20px}
-  .quote blockquote{margin-top:16px;font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:92px;line-height:1.08;letter-spacing:-.015em;max-width:1560px}
+  .quote .mkq{font-weight:900;font-size:260px;line-height:.62;color:var(--X);height:120px}
+  .quote blockquote{margin-top:16px;font-weight:800;font-stretch:87.5%;font-size:88px;line-height:1.04;letter-spacing:-.025em;max-width:1600px}
   .quote cite{display:flex;align-items:center;gap:24px;margin-top:40px;font-style:normal;font-size:28px;color:var(--muted)}
   .quote cite b{font-size:30px}
   .quote cite i{width:1.5px;height:30px;background:var(--rule)}
@@ -731,8 +738,8 @@
           <div class="box">Data only comes from <b>Input (X)</b> but not output label (Y). Algorithm has to find structure in the data.</div>
           <ul>
             <li><span class="ic">{{i:chart-scatter}}</span><div><b>Clustering</b><span>Group similar datapoints together.</span></div></li>
-            <li><span class="ic">{{i:scan-search}}</span><div><b>Anomaly detection</b><span>Finds unusual data points, e.g. a faulty sensor reading.</span></div></li>
-            <li><span class="ic">{{i:layers}}</span><div><b>Dimensionality reduction</b><span>Compress data into fewer variables while keeping its structure.</span></div></li>
+            <li><span class="ic">{{i:magnifying-glass}}</span><div><b>Anomaly detection</b><span>Finds unusual data points, e.g. a faulty sensor reading.</span></div></li>
+            <li><span class="ic">{{i:stack}}</span><div><b>Dimensionality reduction</b><span>Compress data into fewer variables while keeping its structure.</span></div></li>
           </ul>
         </div>
       </div>
@@ -764,7 +771,7 @@
   .tp .alg{background:var(--ink);color:#fff}.tp .alg b{color:#fff}.tp .alg span{color:#C6D2E1}.tp .alg svg{color:#4FD3A0}
   .tp .trained{background:var(--Mt);border:1px solid var(--Ml)}.tp .trained svg{color:var(--Mi)}
   .tp .yh{background:var(--M);color:#fff}.tp .yh b{color:#fff;font-size:26px}
-  .tp .yh .big{font-family:'Newsreader',serif;font-style:italic;font-weight:600;font-size:76px;line-height:.9}
+  .tp .yh .big{font-style:italic;font-weight:800;font-size:64px;line-height:.9}
   .tp .cap{margin-top:10px;font-size:20px;color:var(--muted)}
 </style>
 <section class="slide c s1 tp">
@@ -787,7 +794,7 @@
             <div class="cap">Provide this dataset to an ML model for training.</div>
           </div>
           <div class="ar">{{i:arrow-right}}</div>
-          <div class="box alg">{{i:brain-circuit}}<b>ML algorithm</b><span>learns a relationship f so that f(X) ≈ y</span></div>
+          <div class="box alg">{{i:brain}}<b>ML algorithm</b><span>learns a relationship f so that f(X) ≈ y</span></div>
           <div></div><div></div>
         </div>
         <div class="row">
@@ -800,7 +807,7 @@
             <div class="cap">A new mix: we know X, but not y yet.</div>
           </div>
           <div class="ar">{{i:arrow-right}}</div>
-          <div class="box trained">{{i:brain-circuit}}<b>Trained model f</b><span>applies what it learned</span></div>
+          <div class="box trained">{{i:brain}}<b>Trained model f</b><span>applies what it learned</span></div>
           <div class="ar">{{i:arrow-right}}</div>
           <div class="box yh"><span class="big">ŷ</span><b>Predicted compressive strength (MPa)</b></div>
         </div>
@@ -815,7 +822,7 @@
   .gl .grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:22px;height:100%}
   .gl .card{padding:30px 32px;display:flex;flex-direction:column}
   .gl .hd{display:flex;align-items:center;gap:18px}
-  .gl .sy{width:72px;height:72px;border-radius:18px;display:grid;place-items:center;font-family:'Newsreader',serif;font-style:italic;font-weight:600;font-size:46px;flex:none}
+  .gl .sy{width:72px;height:72px;border-radius:18px;display:grid;place-items:center;font-style:italic;font-weight:800;font-size:40px;flex:none}
   .gl .sy svg{width:34px;height:34px;stroke-width:2}
   .gl .card h3{font-size:34px}
   .gl .card p{font-size:23px;margin-top:16px}
@@ -833,7 +840,7 @@
         <div class="card"><div class="hd"><span class="sy" style="background:var(--Mt);color:var(--Mi)">ŷ</span><h3>Prediction</h3></div><p>The model’s estimate of y for a new input.</p><div class="eg">ŷ = f(X)</div></div>
         <div class="card"><div class="hd"><span class="sy" style="background:#EEF1F5;color:var(--ink)">f</span><h3>Model</h3></div><p>The relationship learned from the examples.</p><div class="eg">a curve, a tree, a network …</div></div>
         <div class="card"><div class="hd"><span class="sy" style="background:#EEF1F5;color:var(--ink)">{{i:table}}</span><h3>Dataset</h3></div><p>Rows are examples; columns are features and the target.</p><div class="eg">1,030 rows × 9 columns</div></div>
-        <div class="card"><div class="hd"><span class="sy" style="background:#EEF1F5;color:var(--ink)">{{i:history}}</span><h3>Training</h3></div><p>Fitting the model to examples where y is known.</p><div class="eg">model.fit(X, y)</div></div>
+        <div class="card"><div class="hd"><span class="sy" style="background:#EEF1F5;color:var(--ink)">{{i:clock-counter-clockwise}}</span><h3>Training</h3></div><p>Fitting the model to examples where y is known.</p><div class="eg">model.fit(X, y)</div></div>
       </div>
     </div>
   </div>
@@ -846,6 +853,7 @@
   .wf .node .top2{display:flex;align-items:center;justify-content:space-between}
   .wf .node .no{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--muted)}
   .wf .node .ic{width:56px;height:56px;border-radius:16px;background:#fff;color:var(--ink)}
+  .wf .node .ic img{width:32px;height:32px}
   .wf .node b{display:block;margin-top:20px;font-weight:800;font-stretch:87.5%;font-size:33px;letter-spacing:-.015em;line-height:1.05}
   .wf .node span.d{display:block;margin-top:10px;font-size:20px;color:var(--ink-2);line-height:1.35}
   .wf .node:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:14px;height:14px;margin-top:-7px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg);z-index:2}
@@ -869,9 +877,9 @@
       <div class="chain">
         <div class="node"><div class="top2"><span class="no">01</span><span class="ic">{{i:hard-hat}}</span></div><b>Engineering problem</b><span class="d">What do we need to estimate?</span></div>
         <div class="node data"><div class="top2"><span class="no">02</span><span class="ic">{{i:database}}</span></div><b>Data</b><span class="d">Measurements, simulations or records</span></div>
-        <div class="node"><div class="top2"><span class="no">03</span><span class="ic">{{i:code-xml}}</span></div><b>Python</b><span class="d">Inspect, prepare, analyse</span></div>
-        <div class="node mdl"><div class="top2"><span class="no">04</span><span class="ic">{{i:brain-circuit}}</span></div><b>ML model</b><span class="d">Learn patterns from examples</span></div>
-        <div class="node dec"><div class="top2"><span class="no">05</span><span class="ic">{{i:scale}}</span></div><b>Decision</b><span class="d">Interpret with domain knowledge</span></div>
+        <div class="node"><div class="top2"><span class="no">03</span><span class="ic">{{logo:python}}</span></div><b>Python</b><span class="d">Inspect, prepare, analyse</span></div>
+        <div class="node mdl"><div class="top2"><span class="no">04</span><span class="ic">{{i:brain}}</span></div><b>ML model</b><span class="d">Learn patterns from examples</span></div>
+        <div class="node dec"><div class="top2"><span class="no">05</span><span class="ic">{{i:scales}}</span></div><b>Decision</b><span class="d">Interpret with domain knowledge</span></div>
       </div>
       <div class="apps">
         <div class="h lbl"><span>Engineering problem</span><span></span><span>Target</span><span></span><span>ML problem</span></div>
@@ -939,6 +947,7 @@
   {{top:d}}
   <div class="big">02</div>
   <ol><li><span>a</span>Why Python</li><li><span>b</span>Google Colab &amp; notebooks</li><li><span>c</span>Colab, Anaconda and MATLAB</li><li><span>d</span>Our Python toolkit</li></ol>
+  <div class="logos">{{logo:python}}{{logo:googlecolab}}{{logo:numpy}}{{logo:pandas}}{{logo:matplotlib}}{{logo:scikitlearn}}</div>
   <div class="part"><div class="k">Part 02</div><h2>Python &amp; Google Colab</h2></div>
 </section>
 
@@ -949,10 +958,13 @@
   .why .card{padding:34px 34px}
   .why .card h3{margin-top:24px;font-size:36px}
   .why .card p{font-size:25px}
+  .why .eco{display:flex;gap:10px;margin-top:18px}
+  .why .eco .lgt{width:62px;height:62px;border-radius:16px}
+  .why .eco .lgt img{max-width:40px;max-height:40px}
   .why .pr{border-radius:28px;background:var(--ink);color:#fff;padding:48px 44px;display:flex;flex-direction:column}
-  .why .pr img{width:88px;height:88px}
+  .why .pr .plg img{width:92px;height:92px}
   .why .pr .lbl{margin-top:34px;color:#FDB797}
-  .why .pr b{display:block;margin-top:14px;color:#fff;font-size:40px;font-weight:600;line-height:1.15}
+  .why .pr b{display:block;margin-top:14px;color:#fff;font-size:42px;font-weight:800;font-stretch:87.5%;line-height:1.1;letter-spacing:-.015em}
   .why .pr p{margin-top:20px;color:#C6D2E1;font-size:25px}
 </style>
 <section class="slide c s2 why">
@@ -964,11 +976,11 @@
       <div class="wrap">
         <div class="g4">
           <div class="card"><span class="ic">{{i:lock-open}}</span><h3>Open-source</h3><p>No paid language licence is required.</p></div>
-          <div class="card"><span class="ic">{{i:book-open}}</span><h3>Easy to learn</h3><p>An easy to learn programming language.</p></div>
-          <div class="card"><span class="ic">{{i:library-big}}</span><h3>Scientific ecosystem</h3><p>A huge ecosystem of libraries: NumPy, pandas, Matplotlib, scikit-learn and more.</p></div>
-          <div class="card"><span class="ic">{{i:layers}}</span><h3>Useful across disciplines</h3><p>Data analysis, visualisation, ML and scientific computing.</p></div>
+          <div class="card"><span class="ic">{{i:book-open-text}}</span><h3>Easy to learn</h3><p>An easy to learn programming language.</p></div>
+          <div class="card"><span class="ic">{{i:books}}</span><h3>Scientific ecosystem</h3><p>A huge ecosystem of libraries: NumPy, pandas, Matplotlib, scikit-learn and more.</p><div class="eco"><span class="lgt">{{logo:numpy}}</span><span class="lgt">{{logo:pandas}}</span><span class="lgt">{{logo:matplotlib}}</span><span class="lgt">{{logo:scikitlearn}}</span></div></div>
+          <div class="card"><span class="ic">{{i:stack}}</span><h3>Useful across disciplines</h3><p>Data analysis, visualisation, ML and scientific computing.</p></div>
         </div>
-        <div class="pr"><img src="assets/python-logo.png" alt="Python logo"><div class="lbl">Our principle</div><b class="serif">We are not learning Python for its own sake.</b><p>We are learning enough Python to ask better engineering questions and build data-driven models.</p></div>
+        <div class="pr"><span class="plg">{{logo:python}}</span><div class="lbl">Our principle</div><b>We are not learning Python for its own sake.</b><p>We are learning enough Python to ask better engineering questions and build data-driven models.</p></div>
       </div>
     </div>
   </div>
@@ -980,7 +992,7 @@
   .name .txt p{font-size:33px}
   .name .txt p + p{margin-top:28px}
   .name .art{position:relative;border-radius:32px;background:var(--Yt);display:grid;place-items:center}
-  .name .art img{width:240px;height:240px}
+  .name .art img{width:250px;height:250px}
   .name .art .lbl{position:absolute;left:36px;top:32px;color:var(--Yi)}
   .name .art .tv{position:absolute;left:36px;right:36px;bottom:36px;font-size:24px;font-weight:700;text-align:center;color:var(--ink)}
 </style>
@@ -996,7 +1008,7 @@
           <p>Python was named after the British comedy group <b>“Monty Python’s Flying Circus”</b>, a favourite of Python’s creator, <b>Guido van Rossum</b>.</p>
           <p>He wanted a name that was short, unique, and a little mysterious or fun, and “Python” felt just right.</p>
         </div>
-        <div class="art"><span class="lbl">Fun fact</span><img src="assets/python-logo.png" alt="Python logo"><div class="tv">Python · Guido van Rossum</div></div>
+        <div class="art"><span class="lbl">Fun fact</span>{{logo:python}}<div class="tv">Python · Guido van Rossum</div></div>
       </div>
     </div>
   </div>
@@ -1023,9 +1035,9 @@
       <div class="chain">
         <div class="node dim"><div class="top2"><span class="no">01</span><span class="ic">{{i:hard-hat}}</span></div><b>Engineering problem</b><span class="d">What do we need to estimate?</span></div>
         <div class="node dim"><div class="top2"><span class="no">02</span><span class="ic">{{i:database}}</span></div><b>Data</b><span class="d">Measurements, simulations or records</span></div>
-        <div class="node hot"><div class="top2"><span class="no">03</span><span class="ic">{{i:code-xml}}</span></div><b>Python</b><span class="d">Inspect, prepare, analyse</span></div>
-        <div class="node dim"><div class="top2"><span class="no">04</span><span class="ic">{{i:brain-circuit}}</span></div><b>ML model</b><span class="d">Learn patterns from examples</span></div>
-        <div class="node dim"><div class="top2"><span class="no">05</span><span class="ic">{{i:scale}}</span></div><b>Decision</b><span class="d">Interpret with domain knowledge</span></div>
+        <div class="node hot"><div class="top2"><span class="no">03</span><span class="ic">{{logo:python}}</span></div><b>Python</b><span class="d">Inspect, prepare, analyse</span></div>
+        <div class="node dim"><div class="top2"><span class="no">04</span><span class="ic">{{i:brain}}</span></div><b>ML model</b><span class="d">Learn patterns from examples</span></div>
+        <div class="node dim"><div class="top2"><span class="no">05</span><span class="ic">{{i:scales}}</span></div><b>Decision</b><span class="d">Interpret with domain knowledge</span></div>
       </div>
       <div class="two grow">
         <div class="card g"><div class="lbl">Python supports the workflow</div><b>Inspect, prepare and analyse the data. Fit and evaluate the model.</b><ul><li>Load 1,030 test results in one line</li><li>Plot strength against age</li><li>Fit a model and score its error</li></ul></div>
@@ -1042,8 +1054,9 @@
   .colab .pts li{display:grid;grid-template-columns:64px 1fr;gap:26px;align-items:center;padding:34px 0;border-bottom:1px solid var(--rule)}
   .colab .pts li b{display:block;font-size:31px}
   .colab .pts li span{display:block;margin-top:4px;font-size:24px;color:var(--muted)}
-  .colab .logo{height:200px;border-radius:28px;background:#fff;border:1px solid var(--surface-line);display:grid;place-items:center}
-  .colab .logo img{height:116px}
+  .colab .logo{height:200px;border-radius:28px;background:#fff;border:1px solid var(--surface-line);display:flex;align-items:center;justify-content:center;gap:24px}
+  .colab .logo img{height:96px}
+  .colab .logo span{font-size:30px;font-weight:700;color:#5F6368;letter-spacing:-.01em}
   .colab .fw{margin-top:22px;border-radius:28px;background:var(--ink);color:#fff;padding:36px 40px}
   .colab .fw .lbl{color:#FDB797}
   .colab .fw b{display:block;margin-top:12px;color:#fff;font-size:36px;font-weight:800;font-stretch:87.5%;line-height:1.15}
@@ -1060,12 +1073,12 @@
       <div class="wrap">
         <ul class="pts">
           <li><span class="ic">{{i:globe}}</span><div><b>Hosted notebook environment</b><span>Write and run Python in a web browser.</span></div></li>
-          <li><span class="ic">{{i:square-function}}</span><div><b>Interactive</b><span>Combine code, text, equations and plots.</span></div></li>
+          <li><span class="ic">{{i:function}}</span><div><b>Interactive</b><span>Combine code, text, equations and plots.</span></div></li>
           <li><span class="ic">{{i:feather}}</span><div><b>Low setup burden</b><span>No local Python installation is needed to begin.</span></div></li>
-          <li><span class="ic">{{i:share-2}}</span><div><b>Shareable</b><span>Notebooks can be shared and revisited online.</span></div></li>
+          <li><span class="ic">{{i:share-network}}</span><div><b>Shareable</b><span>Notebooks can be shared and revisited online.</span></div></li>
         </ul>
         <div>
-          <div class="logo"><img src="assets/colab-logo.png" alt="Google Colab logo"></div>
+          <div class="logo">{{logo:googlecolab}}<span>Google Colaboratory</span></div>
           <div class="fw"><div class="lbl">For this workshop</div><b>Open the link → run a cell → inspect the output.</b><p>We can focus on engineering ideas rather than installation and environment setup.</p></div>
           <div class="url">{{i:link}}Open: https://colab.research.google.com</div>
         </div>
@@ -1076,25 +1089,34 @@
 
 <!-- ===================================================================== NOTEBOOK (orig 15) -->
 <style>
-  .nb .wrap{display:grid;grid-template-columns:1080px 1fr;gap:56px}
-  .nb .mock{border-radius:24px;border:1px solid var(--surface-line);background:#fff;box-shadow:0 30px 60px rgba(14,26,43,.10),0 4px 12px rgba(14,26,43,.06);overflow:hidden;align-self:start}
-  .nb .bar{height:56px;background:var(--surface);display:flex;align-items:center;gap:10px;padding:0 22px;border-bottom:1px solid var(--surface-line);font-size:18px;font-weight:600;color:var(--muted)}
-  .nb .bar i{width:12px;height:12px;border-radius:50%;background:#D5DCE4}
-  .nb .bar span{margin-left:16px;font-family:'JetBrains Mono',monospace}
-  .nb .cell{margin:18px 22px;border-radius:14px;padding:18px 22px;position:relative}
-  .nb .cell .tag{position:absolute;right:14px;top:12px;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-  .nb .cell.t{border:1.5px dashed #C9D2DE}
-  .nb .cell.t .tag{color:var(--muted)}
-  .nb .cell.t h4{font-size:27px;font-weight:800}
-  .nb .cell.t p{font-size:20px;margin-top:6px}
-  .nb .cell.c{background:#0F1A27;color:#E6EDF5;font-family:'JetBrains Mono',monospace;font-size:20px;line-height:1.6;padding-left:72px}
-  .nb .cell.c .tag{color:#7E8FA3}
-  .nb .cell.c .run{position:absolute;left:20px;top:20px;width:34px;height:34px;border-radius:50%;background:var(--Y);display:grid;place-items:center;color:#fff}
-  .nb .cell.c .run svg{width:16px;height:16px;fill:currentColor}
-  .nb .cm{color:#7E8FA3}.nb .kw{color:#7CB7FF}.nb .st{color:#FDB797}
-  .nb .cell.o{background:var(--Yt);display:flex;gap:28px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:20px}
-  .nb .cell.o .tag{color:var(--Yi)}
-  .nb .cell.o svg{width:300px;height:90px}
+  .nb .wrap{display:grid;grid-template-columns:1100px 1fr;gap:56px}
+  .colabui{border-radius:20px;border:1px solid #DADCE0;background:#fff;box-shadow:0 30px 60px rgba(14,26,43,.10),0 4px 12px rgba(14,26,43,.06);overflow:hidden;align-self:start;font-family:'Archivo',sans-serif}
+  .colabui .hd{display:flex;align-items:center;gap:16px;padding:16px 22px 10px}
+  .colabui .hd img{height:34px}
+  .colabui .hd b{font-size:20px;font-weight:600;color:#202124}
+  .colabui .hd .menu{display:flex;gap:16px;margin-top:4px;font-size:15px;color:#5F6368}
+  .colabui .hd .share{margin-left:auto;height:34px;padding:0 16px;border-radius:999px;background:#E8F0FE;color:#1967D2;display:flex;align-items:center;font-size:15px;font-weight:700}
+  .colabui .tb{display:flex;gap:10px;padding:8px 22px;border-top:1px solid #E8EAED;border-bottom:1px solid #E8EAED;background:#F8F9FA;font-size:15px;font-weight:600;color:#3C4043}
+  .colabui .tb span{padding:4px 10px;border-radius:6px}
+  .colabui .tb .rt{margin-left:auto;color:#188038}
+  .colabui .cells{padding:10px 18px 18px}
+  .colabui .cell{position:relative;border-radius:10px;margin-top:14px}
+  .colabui .tag{position:absolute;right:12px;top:10px;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .colabui .txt{padding:16px 20px;border:1.5px dashed #C9D2DE}
+  .colabui .txt .tag{color:var(--muted)}
+  .colabui .txt h4{font-size:28px;font-weight:800;color:#202124}
+  .colabui .txt p{font-size:20px;margin-top:4px;color:#3C4043}
+  .colabui .code{display:grid;grid-template-columns:54px 1fr;background:#F7F7F7;border:1px solid #E8EAED}
+  .colabui .code .tag{color:var(--Xi)}
+  .colabui .code .gut{display:grid;place-items:start center;padding-top:16px}
+  .colabui .code .run{width:30px;height:30px;border-radius:50%;background:#3C4043;display:grid;place-items:center}
+  .colabui .code .run svg{width:13px;height:13px;fill:#fff}
+  .colabui .code pre{padding:16px 10px 16px 4px;font-family:'JetBrains Mono',monospace;font-size:21px;line-height:1.6;color:#202124}
+  .colabui .kw{color:#AF00DB}.colabui .st{color:#A31515}.colabui .cm{color:#008000}.colabui .fn{color:#795E26}
+  .colabui .out{display:grid;grid-template-columns:54px 1fr;align-items:center;padding:10px 0 4px}
+  .colabui .out .tag{color:var(--Yi)}
+  .colabui .out .ob{display:flex;gap:26px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:19px;color:#202124}
+  .colabui .out svg{width:360px;height:120px}
   .nb .lg div{padding:26px 0;border-bottom:1px solid var(--rule)}
   .nb .lg div:first-child{border-top:2px solid var(--ink)}
   .nb .lg b{display:flex;align-items:center;gap:14px;font-size:30px}
@@ -1108,19 +1130,25 @@
     <h2>What is a notebook?</h2>
     <div class="main">
       <div class="wrap grow">
-        <div class="mock">
-          <div class="bar"><i></i><i></i><i></i><span>Session01_first_steps.ipynb</span></div>
-          <div class="cell t"><span class="tag">Text</span><h4>Water–cement ratio</h4><p>Assumption: quantities in kg/m³. A lower w/c generally gives higher strength.</p></div>
-          <div class="cell c"><span class="tag">Code</span><span class="run"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><span class="kw">import</span> pandas <span class="kw">as</span> pd<br>df = pd.read_csv(<span class="st">"concrete.csv"</span>)<br>df[<span class="st">"w_c"</span>] = df.water / df.cement  <span class="cm"># new feature</span></div>
-          <div class="cell o"><span class="tag">Output</span><span>1030 rows</span><svg viewBox="0 0 300 90"><g fill="#eb6834"><rect x="0" y="60" width="26" height="30" rx="3"/><rect x="34" y="30" width="26" height="60" rx="3"/><rect x="68" y="10" width="26" height="80" rx="3"/><rect x="102" y="4" width="26" height="86" rx="3"/><rect x="136" y="26" width="26" height="64" rx="3"/><rect x="170" y="46" width="26" height="44" rx="3"/><rect x="204" y="62" width="26" height="28" rx="3"/><rect x="238" y="74" width="26" height="16" rx="3"/></g></svg></div>
+        <div class="colabui">
+          <div class="hd">{{logo:googlecolab}}<div><b>Session01_first_steps.ipynb</b><div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Runtime</span><span>Tools</span><span>Help</span></div></div><span class="share">Share</span></div>
+          <div class="tb"><span>+ Code</span><span>+ Text</span><span class="rt">● Connected</span></div>
+          <div class="cells">
+            <div class="cell txt"><span class="tag">Text cell</span><h4>Water–cement ratio</h4><p>Assumption: quantities in kg/m³. A lower w/c generally gives higher strength.</p></div>
+            <div class="cell code"><span class="tag">Code cell</span><div class="gut"><span class="run"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span></div><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.<span class="fn">read_csv</span>(<span class="st">"concrete.csv"</span>)
+df[<span class="st">"w_c"</span>] = df[<span class="st">"water"</span>] / df[<span class="st">"cement"</span>]  <span class="cm"># new feature</span>
+df[<span class="st">"w_c"</span>].<span class="fn">hist</span>()</pre></div>
+            <div class="cell out"><span class="tag">Output</span><span></span><div class="ob"><svg viewBox="0 0 280 84"><line x1="0" y1="84" x2="280" y2="84" stroke="#000" stroke-width="1.5"/><g fill="#1f77b4" stroke="#fff" stroke-width="1"><rect x="0" y="56" width="24" height="28"/><rect x="30" y="26" width="24" height="58"/><rect x="60" y="8" width="24" height="76"/><rect x="90" y="2" width="24" height="82"/><rect x="120" y="22" width="24" height="62"/><rect x="150" y="42" width="24" height="42"/><rect x="180" y="58" width="24" height="26"/><rect x="210" y="70" width="24" height="14"/><rect x="240" y="76" width="24" height="8"/></g></svg></div></div>
+          </div>
         </div>
         <div class="lg">
-          <div><b><i style="background:#0F1A27"></i>Code cells</b><span>Run Python instructions and see the result beneath the cell.</span></div>
+          <div><b><i style="background:#F7F7F7;border:2px solid #C9D2DE"></i>Code cells</b><span>Run Python instructions and see the result beneath the cell.</span></div>
           <div><b><i style="border:2.5px dashed #9AA8B8"></i>Text / Markdown cells</b><span>Explain the engineering question, assumptions, equations and interpretation.</span></div>
           <div><b><i style="background:var(--Yt);border:1px solid var(--Yl)"></i>Outputs</b><span>Display numbers, tables, charts and model diagnostics in one place.</span></div>
         </div>
       </div>
-      <div class="take"><span class="ti">{{i:notebook-text}}</span>A notebook is a record of code, results and reasoning, not just a place to type code.</div>
+      <div class="take"><span class="ti">{{i:notepad}}</span>A notebook is a record of code, results and reasoning, not just a place to type code.</div>
     </div>
   </div>
 </section>
@@ -1139,12 +1167,12 @@
     <h2>Why Google Colab for this workshop?</h2>
     <div class="main">
       <div class="g6 grow">
-        <div class="card"><span class="ic">{{i:monitor-check}}</span><div><h3>No installation</h3><p>Start in a browser.</p></div></div>
-        <div class="card"><span class="ic">{{i:users}}</span><div><h3>Shared workflow</h3><p>Everyone follows the same notebook sequence.</p></div></div>
+        <div class="card"><span class="ic">{{i:desktop}}</span><div><h3>No installation</h3><p>Start in a browser.</p></div></div>
+        <div class="card"><span class="ic">{{i:users-three}}</span><div><h3>Shared workflow</h3><p>Everyone follows the same notebook sequence.</p></div></div>
         <div class="card"><span class="ic">{{i:link}}</span><div><h3>Easy to share</h3><p>Links make distributing notebooks straightforward.</p></div></div>
         <div class="card"><span class="ic">{{i:monitor-play}}</span><div><h3>Live demonstrations</h3><p>Run cells and inspect results together.</p></div></div>
         <div class="card"><span class="ic">{{i:hard-hat}}</span><div><h3>Engineering-focused</h3><p>More time for data and interpretation.</p></div></div>
-        <div class="card"><span class="ic">{{i:smile}}</span><div><h3>Beginner-friendly</h3><p>No environment management at the outset.</p></div></div>
+        <div class="card"><span class="ic">{{i:smiley}}</span><div><h3>Beginner-friendly</h3><p>No environment management at the outset.</p></div></div>
       </div>
       <div class="take"><span class="ti">{{i:info}}</span>We choose Colab to reduce setup friction, not because it is best for every project.</div>
     </div>
@@ -1156,6 +1184,9 @@
   .cmp table{width:100%;border-collapse:separate;border-spacing:0}
   .cmp th{text-align:left;padding:22px 26px;font-size:30px;font-weight:800;font-stretch:87.5%;border-bottom:2px solid var(--ink)}
   .cmp th:first-child{width:290px;padding-left:0;vertical-align:bottom}
+  .cmp .th{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:27px}
+  .cmp .th .lgt{width:54px;height:54px;border-radius:14px}
+  .cmp .th .lgt img{max-width:34px;max-height:34px}
   .cmp th.us{background:var(--Y);color:#fff;border-radius:20px 20px 0 0;border-bottom-color:var(--Y)}
   .cmp td{padding:30px 26px;font-size:25px;line-height:1.35;color:var(--ink-2);border-bottom:1px solid var(--rule);vertical-align:top}
   .cmp td:first-child{padding-left:0;font-weight:700;color:var(--ink)}
@@ -1169,14 +1200,14 @@
     <h2>Google Colab, Anaconda and MATLAB</h2>
     <div class="main">
       <table>
-        <tr><th class="lbl">Feature</th><th class="us">Google Colab</th><th>Anaconda + Jupyter</th><th>MATLAB</th></tr>
+        <tr><th class="lbl">Feature</th><th class="us"><span class="th"><span class="lgt">{{logo:googlecolab}}</span>Google Colab</span></th><th><span class="th"><span class="lgt">{{logo:anaconda}}</span><span class="lgt">{{logo:jupyter}}</span>Anaconda + Jupyter</span></th><th><span class="th"><span class="lgt">{{logo:matlab}}</span>MATLAB</span></th></tr>
         <tr><td>Initial setup</td><td class="us">Browser; no local install to start</td><td>Install and manage a local distribution</td><td>Installation and licence access may be required</td></tr>
         <tr><td>Language</td><td class="us">Python</td><td>Python (with R tools available)</td><td>MATLAB</td></tr>
         <tr><td>Packages / tools</td><td class="us">Common libraries available; some setup may be needed</td><td>Flexible packages and environments</td><td>MATLAB toolboxes and add-ons</td></tr>
         <tr><td>Best fit here</td><td class="us">Shared, low-friction workshop</td><td>Local work and controlled environments</td><td>Existing MATLAB workflows</td></tr>
       </table>
       <div class="grow"></div>
-      <div class="take"><span class="ti">{{i:scale}}</span>All can support technical work; this workshop prioritises accessibility and shared hands-on learning.</div>
+      <div class="take"><span class="ti">{{i:scales}}</span>All can support technical work; this workshop prioritises accessibility and shared hands-on learning.</div>
     </div>
   </div>
 </section>
@@ -1196,9 +1227,9 @@
     <h2>What should we know about Colab?</h2>
     <div class="main">
       <div class="rows grow">
-        <div class="r"><span class="ic">{{i:wifi}}</span><div><b>Internet access is needed</b><span>Colab runs in the browser.</span></div></div>
-        <div class="r"><span class="ic">{{i:save}}</span><div><b>Sessions are temporary</b><span>Save notebooks and important outputs.</span></div></div>
-        <div class="r"><span class="ic">{{i:upload}}</span><div><b>Files and packages may need setup</b><span>Upload data or mount cloud storage when required.</span></div></div>
+        <div class="r"><span class="ic">{{i:wifi-high}}</span><div><b>Internet access is needed</b><span>Colab runs in the browser.</span></div></div>
+        <div class="r"><span class="ic">{{i:floppy-disk}}</span><div><b>Sessions are temporary</b><span>Save notebooks and important outputs.</span></div></div>
+        <div class="r"><span class="ic">{{i:upload-simple}}</span><div><b>Files and packages may need setup</b><span>Upload data or mount cloud storage when required.</span></div></div>
         <div class="r"><span class="ic">{{i:cpu}}</span><div><b>Compute resources can vary</b><span>Hardware and usage limits are not guaranteed.</span></div></div>
         <div class="r w"><span class="ic">{{i:shield-check}}</span><div><b>Protect sensitive data</b><span>Follow institutional data-protection rules before uploading data.</span></div></div>
       </div>
@@ -1210,8 +1241,9 @@
 <!-- ===================================================================== TOOLKIT (orig 20) -->
 <style>
   .tk .wrap{display:grid;grid-template-columns:1180px 1fr;gap:56px;height:100%}
-  .tk .lib{display:grid;grid-template-columns:230px 1fr 410px;align-items:center;gap:20px;height:124px;padding:0 30px;margin-bottom:16px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
-  .tk .lib b{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700}
+  .tk .lib{display:grid;grid-template-columns:300px 1fr 410px;align-items:center;gap:20px;height:124px;padding:0 30px;margin-bottom:16px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .tk .lib b{display:flex;align-items:center;gap:18px;font-family:'JetBrains Mono',monospace;font-size:27px;font-weight:700}
+  .tk .lib .lgt{width:64px;height:64px}
   .tk .lib span{font-size:23px;color:var(--ink-2)}
   .tk .lib code{font-family:'JetBrains Mono',monospace;font-size:18px;padding:10px 14px;border-radius:10px;background:#0F1A27;color:#E6EDF5;white-space:nowrap;overflow:hidden}
   .tk .lib code .st{color:#FDB797}
@@ -1228,11 +1260,11 @@
     <div class="main">
       <div class="wrap">
         <div>
-          <div class="lib py"><b>Python</b><span>Language and logic</span><code>w_c = water / cement</code></div>
-          <div class="lib"><b>NumPy</b><span>Numerical arrays and calculations</span><code>np.mean(strength)</code></div>
-          <div class="lib"><b>pandas</b><span>Tables and data preparation</span><code>pd.read_csv(<span class="st">"concrete.csv"</span>)</code></div>
-          <div class="lib"><b>Matplotlib</b><span>Plots and visual diagnostics</span><code>plt.scatter(df.age, df.strength)</code></div>
-          <div class="lib sk"><b>scikit-learn</b><span>Machine-learning models and evaluation</span><code>model.fit(X, y)</code></div>
+          <div class="lib py"><b><span class="lgt">{{logo:python}}</span>Python</b><span>Language and logic</span><code>w_c = water / cement</code></div>
+          <div class="lib"><b><span class="lgt">{{logo:numpy}}</span>NumPy</b><span>Numerical arrays and calculations</span><code>np.mean(strength)</code></div>
+          <div class="lib"><b><span class="lgt">{{logo:pandas}}</span>pandas</b><span>Tables and data preparation</span><code>pd.read_csv(<span class="st">"concrete.csv"</span>)</code></div>
+          <div class="lib"><b><span class="lgt">{{logo:matplotlib}}</span>Matplotlib</b><span>Plots and visual diagnostics</span><code>plt.scatter(df.age, df.strength)</code></div>
+          <div class="lib sk"><b><span class="lgt">{{logo:scikitlearn}}</span>scikit-learn</b><span>Machine-learning models and evaluation</span><code>model.fit(X, y)</code></div>
         </div>
         <div class="side">
           <p>We introduce tools when an engineering question calls for them.</p>
@@ -1256,14 +1288,19 @@
 <!-- ===================================================================== OPEN & RUN (orig 19) -->
 <style>
   .steps .line{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-content:center}
-  .steps .s{position:relative;padding-top:150px}
-  .steps .s .n{position:absolute;left:0;top:0;width:112px;height:112px;border-radius:50%;background:var(--sec-tint);color:var(--sec-ink);display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:54px}
-  .steps .s:not(:last-child)::before{content:"";position:absolute;left:128px;right:-4px;top:56px;height:2px;background:var(--sec-line)}
-  .steps .s.go .n{background:var(--sec);color:#fff}
-  .steps .s b{display:block;font-size:36px;font-weight:800;font-stretch:87.5%;line-height:1.12;letter-spacing:-.01em}
-  .steps .s span{display:block;margin-top:14px;font-size:24px;color:var(--muted);line-height:1.5}
+  .steps .s{position:relative;padding-top:170px}
+  .steps .s .tile{position:absolute;left:0;top:0;width:136px;height:136px;border-radius:32px;background:#fff;border:1px solid var(--surface-line);box-shadow:0 14px 30px rgba(14,26,43,.08);display:grid;place-items:center}
+  .steps .s .tile img{width:72px;height:72px;object-fit:contain}
+  .steps .s .tile svg{width:68px;height:68px;color:var(--sec-ink)}
+  .steps .s .tile .runb{width:72px;height:72px;border-radius:50%;background:#3C4043;display:grid;place-items:center}
+  .steps .s .tile .runb svg{width:30px;height:30px;fill:#fff;color:#fff}
+  .steps .s.go .tile{border:3px solid var(--sec)}
+  .steps .s:not(:last-child)::before{content:"";position:absolute;left:152px;right:-4px;top:68px;height:2px;background:var(--sec-line)}
+  .steps .s .no{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--sec-ink)}
+  .steps .s b{display:block;margin-top:8px;font-size:34px;font-weight:800;font-stretch:87.5%;line-height:1.12;letter-spacing:-.01em}
+  .steps .s span.d{display:block;margin-top:12px;font-size:22px;color:var(--muted);line-height:1.5}
   .steps .s span.u{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--sec-ink)}
-  .steps kbd{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;padding:3px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--surface-line);border-bottom-width:3px;color:var(--ink)}
+  .steps kbd{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;padding:3px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--surface-line);border-bottom-width:3px;color:var(--ink)}
 </style>
 <section class="slide c s3 steps">
   {{top:3}}
@@ -1272,13 +1309,13 @@
     <h2>How to open and run the workshop notebook</h2>
     <div class="main">
       <div class="line grow">
-        <div class="s"><span class="n">1</span><b>Open the shared Colab link</b><span class="u">https://<br>colab.research.google.com</span></div>
-        <div class="s"><span class="n">2</span><b>Sign in to Google if prompted</b></div>
-        <div class="s"><span class="n">3</span><b>Open the provided notebook</b></div>
-        <div class="s go"><span class="n">4</span><b>Run a cell</b><span>using ▶ or <kbd>Shift</kbd> + <kbd>Enter</kbd></span></div>
-        <div class="s"><span class="n">5</span><b>Read the output before moving on</b></div>
+        <div class="s"><span class="tile">{{logo:googlecolab}}</span><span class="no">STEP 1</span><b>Open the shared Colab link</b><span class="d u">https://<br>colab.research.google.com</span></div>
+        <div class="s"><span class="tile">{{logo:google}}</span><span class="no">STEP 2</span><b>Sign in to Google if prompted</b><span class="d">Any Google account works.</span></div>
+        <div class="s"><span class="tile">{{logo:jupyter}}</span><span class="no">STEP 3</span><b>Open the provided notebook</b><span class="d">An .ipynb file, one per session.</span></div>
+        <div class="s go"><span class="tile"><span class="runb"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span></span><span class="no">STEP 4</span><b>Run a cell</b><span class="d">using ▶ or <kbd>Shift</kbd> + <kbd>Enter</kbd></span></div>
+        <div class="s"><span class="tile">{{i:magnifying-glass}}</span><span class="no">STEP 5</span><b>Read the output before moving on</b><span class="d">Does it make engineering sense?</span></div>
       </div>
-      <div class="take"><span class="ti">{{i:triangle-alert}}</span>If a cell fails, read the error and check the preceding steps before rerunning everything.</div>
+      <div class="take"><span class="ti">{{i:warning}}</span>If a cell fails, read the error and check the preceding steps before rerunning everything.</div>
     </div>
   </div>
 </section>
@@ -1287,6 +1324,8 @@
 <style>
   .first .wrap{display:grid;grid-template-columns:1080px 1fr;gap:40px;height:100%}
   .first .code{border-radius:24px;background:#0F1A27;overflow:hidden;box-shadow:0 30px 60px rgba(14,26,43,.14);align-self:start}
+  .first .code .hd .fl{display:flex;align-items:center;gap:12px;color:#C6D2E1}
+  .first .code .hd .fl img{height:22px}
   .first .code .hd{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:17px;color:#7E8FA3}
   .first .code pre{padding:40px 40px;font-family:'JetBrains Mono',monospace;font-size:36px;line-height:1.65;color:#E6EDF5}
   .first .code .cm{color:#7E8FA3}.first .code .nu{color:#FDB797}.first .code .fn{color:#7CB7FF}
@@ -1307,7 +1346,7 @@
     <div class="main">
       <div class="wrap">
         <div class="code">
-          <div class="hd"><span>[1]</span><span>Python 3</span></div>
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session01_first_steps.ipynb</span><span>[1] · Python 3</span></div>
 <pre>cement = <span class="nu">350</span>   <span class="cm"># kg/m³</span>
 water  = <span class="nu">180</span>   <span class="cm"># kg/m³</span>
 water_cement_ratio = water / cement
@@ -1323,6 +1362,102 @@ water_cement_ratio = water / cement
   </div>
 </section>
 
+<!-- ===================================================================== NEW · LOAD DATA WITH PANDAS -->
+<style>
+  .pd .top2{display:grid;grid-template-columns:1fr 600px;gap:40px}
+  .dk{border-radius:22px;background:#0F1A27;overflow:hidden}
+  .dk .hd{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:16px;color:#7E8FA3}
+  .dk .hd .fl{display:flex;align-items:center;gap:10px;color:#C6D2E1}
+  .dk .hd .fl img{height:20px}
+  .dk pre{padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:24px;line-height:1.6;color:#E6EDF5}
+  .dk .kw{color:#7CB7FF}.dk .st{color:#FDB797}.dk .cm{color:#7E8FA3}.dk .fn{color:#4FD3A0}
+  .dk .out{padding:14px 26px 18px;background:#16263A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:24px;color:#fff}
+  .dk .out small{display:block;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4FD3A0;margin-bottom:4px}
+  .pd .exp{display:flex;flex-direction:column;gap:18px}
+  .pd .exp .row{display:flex;align-items:center;gap:20px}
+  .pd .exp .row .lgt{width:76px;height:76px;border-radius:20px}
+  .pd .exp .row .lgt img{max-width:48px;max-height:48px}
+  .pd .exp p{font-size:26px}
+  .pd .exp .k2{display:flex;gap:10px;flex-wrap:wrap}
+  .pd table{width:100%;border-collapse:separate;border-spacing:0;font-family:'JetBrains Mono',monospace;font-size:21px;border:1px solid var(--surface-line);border-radius:18px;overflow:hidden}
+  .pd th{padding:14px 14px;text-align:right;font-weight:700;font-size:19px;color:#fff;background:var(--X)}
+  .pd th.i{background:var(--surface);color:var(--muted)}
+  .pd th.y{background:var(--Y)}
+  .pd td{padding:13px 14px;text-align:right;border-top:1px solid var(--surface-line);color:var(--ink)}
+  .pd td.i{color:var(--muted);background:var(--surface)}
+  .pd td.y{background:var(--Yt);color:var(--Yi);font-weight:700}
+  .pd .cap{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--ink-2)}
+</style>
+<section class="slide c s3 pd">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">From one mix to 1,030 mixes</div>
+    <h2>Load the whole dataset with pandas</h2>
+    <div class="main">
+      <div class="top2">
+        <div class="dk">
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session01_first_steps.ipynb</span><span>[2]</span></div>
+<pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.<span class="fn">read_csv</span>(<span class="st">"concrete.csv"</span>)
+df.shape</pre>
+          <div class="out"><small>Output</small>(1030, 9)</div>
+        </div>
+        <div class="exp">
+          <div class="row"><span class="lgt">{{logo:pandas}}</span><p><b>pandas</b> reads the whole lab record into a table we can inspect, filter and plot.</p></div>
+          <p><b>1,030 rows:</b> one row is one mix tested in the lab. <b>9 columns:</b> eight inputs and the strength.</p>
+          <div class="k2"><span class="chip x"><span class="sym">X</span> 8 inputs</span><span class="chip y"><span class="sym">y</span> strength (MPa)</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="cap"><span style="color:var(--muted)">[3]</span> df.head()</div>
+        <table>
+          <tr><th class="i"></th><th>cement</th><th>slag</th><th>ash</th><th>water</th><th>superplastic</th><th>coarseagg</th><th>fineagg</th><th>age</th><th class="y">strength</th></tr>
+          {{headrows}}
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="src">Data: Concrete Compressive Strength, UCI Machine Learning Repository (Yeh, 1998). Column names follow a common CSV release of the dataset.</div>
+</section>
+
+<!-- ===================================================================== NEW · FIRST PLOT -->
+<style>
+  .fp .wrap{display:grid;grid-template-columns:760px 1fr;gap:40px;height:100%}
+  .fp .left{display:flex;flex-direction:column;gap:22px}
+  .fp .left .row{display:flex;align-items:center;gap:20px}
+  .fp .left .row .lgt{width:76px;height:76px;border-radius:20px}
+  .fp .left .row .lgt img{max-width:52px;max-height:52px}
+  .fp .left p{font-size:25px}
+  .fp .plot{border-radius:22px;border:1px solid var(--surface-line);background:#fff;padding:18px 24px 10px;display:flex;flex-direction:column}
+  .fp .plot .lbl{color:var(--Yi)}
+  .fp .plot svg{flex:1;min-height:0;width:100%;height:0;margin-top:8px}
+</style>
+<section class="slide c s3 fp">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Our first plot</div>
+    <h2>One line of Matplotlib, 1,030 tests on screen</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="dk">
+            <div class="hd"><span class="fl">{{logo:googlecolab}}Session01_first_steps.ipynb</span><span>[4]</span></div>
+<pre><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+plt.<span class="fn">scatter</span>(df[<span class="st">"age"</span>], df[<span class="st">"strength"</span>])
+plt.<span class="fn">xlabel</span>(<span class="st">"Age (days)"</span>)
+plt.<span class="fn">ylabel</span>(<span class="st">"Strength (MPa)"</span>)
+plt.<span class="fn">show</span>()</pre>
+          </div>
+          <div class="row"><span class="lgt">{{logo:matplotlib}}</span><p><b>What do you notice?</b> Tests happen at fixed ages, strength rises with age, and the spread at every age is wide.</p></div>
+        </div>
+        <div class="plot"><div class="lbl">Output</div>{{chart:mpl}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). The output is drawn in Matplotlib’s default style.</div>
+</section>
+
 <!-- ===================================================================== NEW · INTERPRET -->
 <style>
   .interp .wrap{display:grid;grid-template-columns:1040px 1fr;gap:56px;height:100%}
@@ -1330,6 +1465,7 @@ water_cement_ratio = water / cement
   .interp .big{font-weight:900;font-stretch:87.5%;font-size:120px;line-height:.9;letter-spacing:-.04em;color:var(--Yi)}
   .interp .big small{font-size:44px;color:var(--ink);margin-left:8px}
   .interp p{margin-top:22px;font-size:27px}
+  .interp .cc{display:inline-block;margin-bottom:26px;padding:12px 16px;border-radius:12px;background:#0F1A27;color:#E6EDF5;font-family:'JetBrains Mono',monospace;font-size:20px}
   .interp .card{margin-top:30px;padding:30px 34px}
   .interp .card p{margin-top:8px;font-size:24px}
 </style>
@@ -1342,6 +1478,7 @@ water_cement_ratio = water / cement
       <div class="wrap">
         <div class="chart"><h3>Our w/c of 0.51 among {{stat:n28}} real mixes at 28 days</h3>{{chart:band}}</div>
         <div>
+          <code class="cc">df["w_c"] = df["water"] / df["cement"]</code>
           <div class="big">{{stat:band_min}}–{{stat:band_max}}<small>MPa</small></div>
           <p>{{stat:band_n}} mixes in the dataset share a w/c of about 0.51. Their 28-day strengths range from <b>{{stat:band_min}} to {{stat:band_max}} MPa</b>.</p>
           <div class="card"><div class="lbl" style="color:var(--Mi)">What the calculation cannot tell you</div><p>Slag, fly ash, superplasticizer and aggregates matter too. Bringing all the inputs together is exactly what ML will help us do.</p></div>
@@ -1360,6 +1497,7 @@ water_cement_ratio = water / cement
   .wn .rows li .no{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--sec-ink);padding-top:6px}
   .wn .rows li b{display:block;font-size:31px}
   .wn .rows li span{display:block;margin-top:4px;font-size:24px;color:var(--ink-2)}
+  .wn .rows li span.menu{display:inline;padding:3px 10px;border-radius:8px;background:var(--surface);border:1px solid var(--surface-line);font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--ink)}
   .wn .link{border-radius:28px;background:var(--ink);color:#fff;padding:42px;display:flex;flex-direction:column}
   .wn .link .lbl{color:#4FD3A0}
   .wn .link b{display:block;margin-top:14px;color:#fff;font-size:42px;font-weight:800;font-stretch:87.5%;line-height:1.1}
@@ -1374,11 +1512,11 @@ water_cement_ratio = water / cement
       <div class="wrap">
         <ul class="rows">
           <li><span class="no">01</span><div><b>Open the shared link</b><span>Use the notebook for the relevant session.</span></div></li>
-          <li><span class="no">02</span><div><b>Keep your own copy</b><span>Use File → Save a copy in Drive when appropriate.</span></div></li>
+          <li><span class="no">02</span><div><b>Keep your own copy</b><span>Use <span class="menu">File → Save a copy in Drive</span> when appropriate.</span></div></li>
           <li><span class="no">03</span><div><b>Work in sequence</b><span>Run cells from top to bottom unless instructed otherwise.</span></div></li>
           <li><span class="no">04</span><div><b>Keep the analysis reproducible</b><span>Record assumptions and note any changes to evaluation steps.</span></div></li>
         </ul>
-        <div class="link"><div class="lbl">Workshop notebook link</div><b>Open today’s notebook and make your own copy.</b><div class="slot">{{notebook_link}}</div></div>
+        <div class="link"><span class="lgt" style="margin-bottom:22px">{{logo:googlecolab}}</span><div class="lbl">Workshop notebook link</div><b>Open today’s notebook and make your own copy.</b><div class="slot">{{notebook_link}}</div></div>
       </div>
     </div>
   </div>
@@ -1388,10 +1526,12 @@ water_cement_ratio = water / cement
 <style>
   .sum .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
   .sum .card{min-height:360px;padding:38px;display:flex;flex-direction:column}
-  .sum .card .ic{margin-bottom:auto}
+  .sum .card .ic,.sum .card .lgt{margin-bottom:auto}
+  .sum .card .lgt{width:72px;height:72px;border-radius:20px}
+  .sum .card .lgt img{max-width:44px;max-height:44px}
   .sum .card h3{margin-top:30px;font-size:46px}
   .sum .card p{font-size:25px}
-  .sum .why{font-size:36px;line-height:1.3;color:var(--ink)}
+  .sum .why{font-weight:700;font-stretch:87.5%;font-size:38px;line-height:1.2;letter-spacing:-.015em;color:var(--ink)}
   .sum .next{display:flex;align-items:center;gap:30px;padding:30px 36px;border-radius:24px;background:var(--ink);color:#fff}
   .sum .next .lbl{color:#4FD3A0}
   .sum .next b{display:block;margin-top:8px;color:#fff;font-size:30px;font-weight:600}
@@ -1403,9 +1543,9 @@ water_cement_ratio = water / cement
     <h2>Why this setup?</h2>
     <div class="main">
       <div class="cols">
-        <div class="card"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:code-xml}}</span><h3>Python</h3><p>An accessible, widely used language for scientific computing and ML.</p></div>
-        <div class="card"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:globe}}</span><h3>Google Colab</h3><p>A browser-based notebook environment with minimal setup.</p></div>
-        <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><span class="ic" style="background:#fff;color:var(--Mi)">{{i:drafting-compass}}</span><h3>Engineering judgement</h3><p>The goal is meaningful analysis, not merely code that runs.</p></div>
+        <div class="card"><span class="lgt">{{logo:python}}</span><h3>Python</h3><p>An accessible, widely used language for scientific computing and ML.</p></div>
+        <div class="card"><span class="lgt">{{logo:googlecolab}}</span><h3>Google Colab</h3><p>A browser-based notebook environment with minimal setup.</p></div>
+        <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><span class="ic" style="background:#fff;color:var(--Mi)">{{i:compass-tool}}</span><h3>Engineering judgement</h3><p>The goal is meaningful analysis, not merely code that runs.</p></div>
       </div>
       <div class="why serif">We chose Colab to reduce installation barriers and keep the cohort focused on real Civil Engineering problems.</div>
       <div class="grow"></div>

@@ -242,6 +242,40 @@ def chart_kmeans():
     return p.svg("k-means groups 1,030 concrete mixes into three binder families without using strength labels")
 
 
+def chart_mpl():
+    """plt.scatter(df.age, df.strength) drawn in Matplotlib's default style (tab:blue, boxed axes, 5% margins)."""
+    w, h, l, t, r, b = 880, 700, 96, 24, 24, 84
+    x0, x1 = age.min() - 0.05 * (age.max() - age.min()), age.max() + 0.05 * (age.max() - age.min())
+    y0, y1 = fc.min() - 0.05 * (fc.max() - fc.min()), fc.max() + 0.05 * (fc.max() - fc.min())
+    X = lambda v: l + (v - x0) / (x1 - x0) * (w - l - r)
+    Y = lambda v: h - b - (v - y0) / (y1 - y0) * (h - t - b)
+    font = "DejaVu Sans, Archivo, sans-serif"
+    o = [f'<rect x="{l}" y="{t}" width="{w - l - r}" height="{h - t - b}" fill="#fff"/>']
+    o += [f'<circle cx="{X(a):.1f}" cy="{Y(v):.1f}" r="6" fill="#1f77b4"/>' for a, v in zip(age, fc)]
+    o.append(f'<rect x="{l}" y="{t}" width="{w - l - r}" height="{h - t - b}" fill="none" stroke="#000" stroke-width="1.6"/>')
+    for v in range(0, 351, 50):
+        x = X(v)
+        o.append(f'<line x1="{x:.1f}" y1="{h - b}" x2="{x:.1f}" y2="{h - b + 8}" stroke="#000" stroke-width="1.6"/>'
+                 f'<text x="{x:.1f}" y="{h - b + 30}" font-family="{font}" font-size="19" text-anchor="middle" fill="#000">{v}</text>')
+    for v in range(0, 81, 10):
+        y = Y(v)
+        o.append(f'<line x1="{l - 8}" y1="{y:.1f}" x2="{l}" y2="{y:.1f}" stroke="#000" stroke-width="1.6"/>'
+                 f'<text x="{l - 14}" y="{y + 7:.1f}" font-family="{font}" font-size="19" text-anchor="end" fill="#000">{v}</text>')
+    o.append(f'<text x="{(l + w - r) / 2}" y="{h - 14}" font-family="{font}" font-size="21" text-anchor="middle" fill="#000">Age (days)</text>')
+    o.append(f'<text x="28" y="{(t + h - b) / 2}" font-family="{font}" font-size="21" text-anchor="middle" fill="#000" transform="rotate(-90 28 {(t + h - b) / 2})">Strength (MPa)</text>')
+    return (f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="Scatter plot of strength against age for 1,030 mixes" '
+            f'xmlns="http://www.w3.org/2000/svg">' + "".join(o) + "</svg>")
+
+
+def head_rows(n=5):
+    """df.head() as pandas prints it: floats with one decimal, age as int, strength with two decimals."""
+    out = []
+    for i, row in enumerate(R[:n]):
+        cells = "".join(f"<td>{v:.1f}</td>" for v in row[:7])
+        out.append(f'<tr><td class="i">{i}</td>{cells}<td>{int(row[7])}</td><td class="y">{row[8]:.2f}</td></tr>')
+    return "".join(out)
+
+
 def build():
     return {
         "age": chart_age(),
@@ -250,6 +284,7 @@ def build():
         "classify": chart_classify(),
         "regress": chart_regress(),
         "kmeans": chart_kmeans(),
+        "mpl": chart_mpl(),
     }
 
 

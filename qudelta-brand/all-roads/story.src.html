@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>All roads lead back to sales · Story</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  .dark{--bg:#050706;--ink:#F2F5F3;--ink-2:rgba(242,245,243,.8);--muted:rgba(242,245,243,.5);--rule:rgba(255,255,255,.14);
+        --green:#00BF63;--glow:rgba(0,191,99,.34);--road:#0F1511;--edge:rgba(255,255,255,.16);--dash:rgba(255,255,255,.55);--label:rgba(242,245,243,.6)}
+  .light{--bg:#F4F6F4;--ink:#0A0F0C;--ink-2:rgba(10,15,12,.78);--muted:rgba(10,15,12,.5);--rule:rgba(10,15,12,.14);
+        --green:#00A656;--glow:rgba(0,191,99,.24);--road:#E2E7E3;--edge:rgba(10,15,12,.14);--dash:rgba(10,15,12,.45);--label:rgba(10,15,12,.56)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  .story{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg);color:var(--ink)}
+  .glow{position:absolute;inset:0;background:radial-gradient(760px 520px at {{vx}}px {{vy}}px,var(--glow),transparent 70%)}
+  svg.roads{position:absolute;inset:0;width:1080px;height:1920px}
+  .road{fill:var(--road)}
+  .edge{fill:none;stroke:var(--edge);stroke-width:1.8}
+  .dash line{stroke:var(--dash)}
+  .dash.hero line{stroke:var(--green)}
+  .rl{font-family:'Archivo';font-weight:800;font-size:24px;letter-spacing:.24em;fill:var(--label)}
+  .horizon{position:absolute;left:0;right:0;top:{{vy}}px;height:2px;background:linear-gradient(90deg,transparent,var(--rule) 18%,var(--rule) 82%,transparent)}
+  .fade{position:absolute;left:0;right:0;bottom:0;height:640px;background:linear-gradient(transparent,var(--bg) 58%)}
+  .logo{position:absolute;left:0;right:0;top:290px;display:flex;justify-content:center}
+  .logo img{height:40px;width:auto}
+  .lead{position:absolute;left:0;right:0;top:590px;text-align:center;font-weight:800;font-stretch:87.5%;font-size:92px;line-height:1;letter-spacing:-.02em}
+  .sales{position:absolute;left:0;right:0;top:700px;text-align:center;font-weight:900;font-stretch:87.5%;font-size:300px;line-height:1;letter-spacing:-.035em;color:var(--green)}
+  .foot{position:absolute;left:100px;right:100px;top:1488px;text-align:center;font-size:40px;line-height:1.32;font-weight:500;color:var(--ink-2)}
+  .foot b{color:var(--ink);font-weight:700}
+  .url{position:absolute;left:0;right:0;top:1618px;text-align:center;font-size:20px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body class="{{theme}}">
+<section class="story">
+  <div class="glow"></div>
+  <svg class="roads" viewBox="0 0 1080 1920" aria-hidden="true">{{roads}}</svg>
+  <div class="horizon"></div>
+  <div class="fade"></div>
+  <div class="logo">{{logo}}</div>
+  <div class="lead">All roads lead back to</div>
+  <div class="sales">SALES.</div>
+  <p class="foot">It all comes back to <b>your ability to sell your product or service.</b></p>
+  <div class="url">qudeltastudios.com</div>
+</section>
+</body>
+</html>

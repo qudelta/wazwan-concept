@@ -20,6 +20,6 @@ const slides = await page.$$("section.slide");
 for (let i = 0; i < slides.length; i++) {
   await slides[i].screenshot({ path: path.join(outDir, "slides", `slide-${String(i + 1).padStart(2, "0")}.png`) });
 }
-await page.pdf({ path: path.join(outDir, "Session-01_From-Engineering-Problems-to-Python.pdf"), width: "1920px", height: "1080px", printBackground: true });
+await page.pdf({ path: path.join(outDir, "Session-01_From-Engineering-Problems-to-Python_handout.pdf"), width: "1920px", height: "1080px", printBackground: true });
 await browser.close();
 console.log("rendered", slides.length, "slides");

@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session 01 — From Engineering Problems to Python</title>
+<link rel="stylesheet" href="../poster/assets/fonts.css">
+<style>
+  @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(assets/Amiri-Regular.woff2) format('woff2')}
+  :root{
+    --bg:#FFFFFF; --ink:#0A0F0C; --ink-2:#2F3833; --muted:#5F6A64; --rule:#E2E7E4;
+    --accent:#00BF63; --accent-ink:#008A47; --on-accent:#03140A;
+    --tint:#EBF8F1; --tint-line:#C9EDD8; --surface:#F3F6F4; --surface-line:#E3E8E5;
+    --grid:rgba(10,40,25,.05);
+    --dk:#070A08; --dk-surface:#0F1612; --dk-ink:#F2F5F3; --dk-muted:#9AA59F; --dk-rule:rgba(255,255,255,.12);
+  }
+  @page{size:1920px 1080px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);break-after:page;page-break-after:always}
+  .slide + .slide{margin-top:0}
+
+  /* ---------- running header ---------- */
+  .top{position:absolute;left:120px;right:120px;top:56px;display:flex;align-items:center;justify-content:space-between;font-size:17px;z-index:5}
+  .top .c{display:flex;align-items:center;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .top .c span{margin-left:18px;padding-left:18px;border-left:1.5px solid var(--rule);color:var(--muted);font-weight:700;letter-spacing:.12em}
+  .top .n{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;color:var(--muted)}
+  .top .n b{color:var(--ink);font-weight:700}
+
+  /* ---------- content typography ---------- */
+  .body{position:absolute;left:120px;right:120px;top:132px;bottom:84px}
+  .kick{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+  h2{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1.02;letter-spacing:-.025em;max-width:1500px}
+  h2 .hl,.hl{background:var(--accent);color:var(--on-accent);padding:0 14px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .lead{margin-top:22px;font-size:30px;line-height:1.42;color:var(--ink-2);max-width:1240px}
+  p{font-size:26px;line-height:1.45;color:var(--ink-2)}
+  b,strong{font-weight:700;color:var(--ink)}
+  .src{position:absolute;left:120px;right:120px;bottom:44px;font-size:15px;line-height:1.4;color:var(--muted)}
+  .take{position:absolute;left:120px;right:120px;bottom:72px;display:flex;align-items:center;gap:22px;padding:24px 32px;border-radius:20px;background:var(--tint);border:1px solid var(--tint-line);font-size:27px;font-weight:600;color:var(--ink)}
+  .take .ic{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent)}
+  .take .ic svg{width:26px;height:26px;stroke-width:2.2}
+  .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
+  .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
+  .card p{margin-top:12px;font-size:24px}
+  .ic-sq{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
+  .ic-sq svg{width:32px;height:32px;stroke-width:1.9}
+  .slide .ic-sq,.slide .ic-sq svg{color:var(--accent) !important}
+  .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:var(--bg);border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
+  .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .chip.d{background:var(--ink);border-color:var(--ink);color:#fff}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%)}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  /* ---------- dark (cover / close) ---------- */
+  .dark{background:var(--dk);color:var(--dk-ink)}
+  .dark .grid-bg{--grid:rgba(255,255,255,.05)}
+  .dark .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
+  .photo{position:absolute;overflow:hidden;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%)}
+  .photo img{display:block;width:100%;height:auto}
+  .disc{position:absolute;border-radius:50%}
+
+  /* cover */
+  .cover .bism{position:absolute;left:0;right:0;top:44px;text-align:center;font-family:'Amiri',serif;font-size:42px;color:var(--dk-ink);opacity:.82;direction:rtl}
+  .cover .brand{position:absolute;left:120px;top:150px;display:flex;align-items:center;gap:22px;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-muted)}
+  .cover .brand b{color:var(--accent);font-weight:800}
+  .cover .brand i{width:1.5px;height:22px;background:var(--dk-rule)}
+  .cover h1{position:absolute;left:120px;top:236px;width:1000px;font-weight:900;font-stretch:87.5%;font-size:112px;line-height:.96;letter-spacing:-.035em;word-spacing:.08em}
+  .cover .sess{position:absolute;left:120px;top:600px;width:960px}
+  .cover .sess .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .cover .sess h2{margin-top:14px;font-size:58px;max-width:none;color:var(--dk-ink)}
+  .cover .sess p{margin-top:16px;font-size:26px;color:var(--dk-muted)}
+  .cover .who{position:absolute;left:120px;bottom:84px;display:flex;align-items:center;gap:56px}
+  .cover .who .p b{display:block;font-size:30px;font-weight:800;color:var(--dk-ink)}
+  .cover .who .p span{display:block;margin-top:6px;font-size:20px;color:var(--dk-muted)}
+  .partner{display:flex;align-items:center;gap:16px;padding-left:56px;border-left:1.5px solid var(--dk-rule)}
+  .partner small{font-size:16px;font-weight:600;color:var(--dk-muted)}
+  .partner img{height:30px;width:auto}
+
+  /* dividers */
+  .divider{background:var(--accent);color:var(--on-accent)}
+  .divider .top .c span{border-left-color:rgba(3,20,10,.22);color:rgba(3,20,10,.66)}
+  .divider .top .n,.divider .top .n b{color:var(--on-accent)}
+  .divider .big{position:absolute;left:104px;top:150px;font-weight:900;font-stretch:87.5%;font-size:420px;line-height:.8;letter-spacing:-.06em}
+  .divider .part{position:absolute;left:120px;bottom:120px;width:1080px}
+  .divider .part .k{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+  .divider .part h2{margin-top:16px;font-size:96px;line-height:.98;letter-spacing:-.035em;color:var(--on-accent)}
+  .divider ol{position:absolute;right:120px;bottom:120px;width:560px;list-style:none;border-top:2px solid rgba(3,20,10,.85)}
+  .divider ol li{display:flex;gap:22px;align-items:baseline;padding:20px 0;border-bottom:1px solid rgba(3,20,10,.25);font-size:26px;font-weight:600}
+  .divider ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.65}
+</style>
+</head>
+<body>
+
+<!-- ============ 01 COVER ============ -->
+<section class="slide dark cover">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="brand"><b>Live online course</b><i></i>Cohort Fall 2026</div>
+  <h1>AI &amp; Machine Learning for Civil Engineers</h1>
+  <div class="sess">
+    <div class="k">Session 01 · Python as a tool, not a barrier</div>
+    <h2>From Engineering Problems to Data &amp; Machine Learning</h2>
+    <p>Python &amp; Google Colab: a practical, no-installation starting point.</p>
+  </div>
+  <div class="who">
+    <div class="p"><b>Dr. Abdul Waris</b><span>Research Associate · Universität Siegen, Germany</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo-light}}</div>
+  </div>
+</section>
+
+<!-- ============ 02 WELCOME ============ -->
+<style>
+  .welcome h2{max-width:1100px}
+  .welcome .stats{position:absolute;left:0;right:0;top:420px;display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid var(--ink)}
+  .welcome .stats div{padding:30px 28px 0 0}
+  .welcome .stats b{display:block;font-weight:900;font-stretch:87.5%;font-size:92px;line-height:.9;letter-spacing:-.04em}
+  .welcome .stats b small{font-size:40px;letter-spacing:-.01em;margin-left:6px}
+  .welcome .stats span{display:block;margin-top:14px;font-size:24px;color:var(--ink-2);line-height:1.35}
+  .welcome .room{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .welcome .room .l{font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:10px}
+</style>
+<section class="slide welcome">
+  {{top}}
+  <div class="body">
+    <div class="kick">Welcome to the cohort</div>
+    <h2>Machine learning, taught the way <span class="hl">engineers think.</span></h2>
+    <div class="stats">
+      <div><b>8</b><span>live, instructor-led sessions</span></div>
+      <div><b>90<small>min</small></b><span>each, about half of it coding together</span></div>
+      <div><b>4<small>weeks</small></b><span>from first cell to uncertainty analysis</span></div>
+      <div><b>8</b><span>hands-on Colab notebooks, one per session</span></div>
+      <div><b>1</b><span>real engineering dataset in every session</span></div>
+    </div>
+    <div class="room"><span class="l">In the room</span><span class="chip">B.Tech students</span><span class="chip">M.Tech students</span><span class="chip">Ph.D. scholars</span><span class="chip">Faculty</span><span class="chip">Practising engineers</span><span class="chip g">No coding experience needed</span></div>
+  </div>
+</section>
+
+<!-- ============ 03 INSTRUCTOR ============ -->
+<style>
+  .inst .disc{left:80px;top:230px;width:690px;height:690px;background:var(--tint)}
+  .inst .photo{left:-20px;top:150px;width:860px;height:930px;-webkit-mask-image:none;mask-image:none}
+  .inst .txt{position:absolute;left:900px;right:120px;top:190px}
+  .inst h2{font-size:84px}
+  .inst .role{margin-top:14px;font-size:30px;color:var(--ink-2)}
+  .inst ul{margin-top:48px;list-style:none;border-top:2px solid var(--ink)}
+  .inst li{display:grid;grid-template-columns:64px 1fr;gap:26px;align-items:center;padding:24px 0;border-bottom:1px solid var(--rule)}
+  .inst li .ic-sq{width:56px;height:56px;border-radius:16px}
+  .inst li .ic-sq svg{width:28px;height:28px}
+  .inst li b{display:block;font-size:27px}
+  .inst li span{display:block;margin-top:4px;font-size:22px;color:var(--muted)}
+</style>
+<section class="slide inst">
+  {{top}}
+  <div class="disc"></div>
+  <div class="photo"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="txt">
+    <div class="kick">Your instructor</div>
+    <h2>Dr. Abdul Waris</h2>
+    <div class="role">Research Associate · Universität Siegen, Germany</div>
+    <ul>
+      <li><span class="ic-sq">{{i:graduation-cap}}</span><div><b>Ph.D. in Geotechnical Engineering</b><span>Indian Institute of Technology (IIT) Hyderabad</span></div></li>
+      <li><span class="ic-sq">{{i:award}}</span><div><b>Former Prime Minister’s Research Fellow</b><span>PMRF, Government of India</span></div></li>
+      <li><span class="ic-sq">{{i:microscope}}</span><div><b>Research in explainable ML &amp; reliability</b><span>The basis for sessions 07 and 08 of this course</span></div></li>
+      <li><span class="ic-sq">{{i:presentation}}</span><div><b>Invited talks</b><span>Oregon State University · DY Patil · NIT Srinagar</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 04 ROADMAP ============ -->
+<style>
+  .road .cols{position:absolute;left:0;right:0;top:250px;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .road .ph{font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .road .ph b{color:var(--accent-ink)}
+  .road .s{display:grid;grid-template-columns:92px 1fr;gap:20px;align-items:start;padding:22px 0;border-bottom:1px solid var(--rule)}
+  .road .s .no{font-weight:900;font-stretch:87.5%;font-size:52px;line-height:.9;letter-spacing:-.03em;color:var(--surface-line)}
+  .road .s b{display:block;font-size:26px;line-height:1.2}
+  .road .s span{display:block;margin-top:6px;font-size:20px;color:var(--muted)}
+  .road .s.now{background:var(--tint);margin:0 -24px;padding:22px 24px;border-radius:18px;border-bottom-color:transparent}
+  .road .s.now .no{color:var(--accent-ink)}
+  .road .s .tag{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+</style>
+<section class="slide road">
+  {{top}}
+  <div class="body">
+    <div class="kick">The course at a glance</div>
+    <h2>Eight sessions. One engineering workflow.</h2>
+    <div class="cols">
+      <div>
+        <div class="ph"><b>Part 1</b> · Foundations</div>
+        <div class="s now"><span class="no">01</span><div><b>From Engineering Problems to Python<span class="tag">Today</span></b><span>AI/ML basics, Google Colab, NumPy &amp; pandas</span></div></div>
+        <div class="s"><span class="no">02</span><div><b>From Raw Engineering Data to an ML-Ready Dataset</b><span>EDA, data quality, outliers, train/test split, leakage</span></div></div>
+        <div class="s"><span class="no">03</span><div><b>Your First Engineering Prediction Model</b><span>Linear regression, error metrics, cross-validation</span></div></div>
+        <div class="s"><span class="no">04</span><div><b>Nonlinear Problems: Trees &amp; Ensembles</b><span>Decision trees, Random Forest, boosting</span></div></div>
+      </div>
+      <div>
+        <div class="ph"><b>Part 2</b> · Prediction to decision</div>
+        <div class="s"><span class="no">05</span><div><b>From Prediction to Decision: Classification</b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+        <div class="s"><span class="no">06</span><div><b>Artificial Neural Networks</b><span>Architecture, activations, training, overfitting</span></div></div>
+        <div class="s"><span class="no">07</span><div><b>Can We Trust Our ML Model?</b><span>Feature importance, SHAP, engineering judgement</span></div></div>
+        <div class="s"><span class="no">08</span><div><b>From Prediction to Probability</b><span>Monte Carlo, ML surrogates, probability of failure</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 HOW SESSIONS RUN ============ -->
+<style>
+  .how .bar{position:absolute;left:0;right:0;top:270px}
+  .how .bar .seg{display:flex;height:112px;border-radius:20px;overflow:hidden}
+  .how .bar .seg div{display:flex;flex-direction:column;justify-content:center;padding:0 28px;font-size:24px;font-weight:700}
+  .how .bar .seg div small{display:block;font-size:17px;font-weight:600;opacity:.7;margin-top:4px}
+  .how .bar .ax{display:flex;justify-content:space-between;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--muted)}
+  .how .tiles{position:absolute;left:0;right:0;top:520px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .how .card{padding:30px 30px 32px}
+  .how .card h3{margin-top:22px;font-size:30px}
+  .how .card p{font-size:21px}
+</style>
+<section class="slide how">
+  {{top}}
+  <div class="body">
+    <div class="kick">How every session runs</div>
+    <h2>Concept, then code, then <span class="hl">judgement.</span></h2>
+    <div class="bar">
+      <div class="seg">
+        <div style="flex:30;background:var(--ink);color:#fff">Concept &amp; engineering context<small>Why the method exists</small></div>
+        <div style="flex:45;background:var(--accent);color:var(--on-accent)">Live code-along in Colab<small>Real civil engineering data</small></div>
+        <div style="flex:15;background:var(--surface);color:var(--ink)">Interpretation<small>Does it make sense?</small></div>
+        <div style="flex:10;background:var(--tint);color:var(--ink)">Q&amp;A<small>Your questions</small></div>
+      </div>
+      <div class="ax"><span>0 min</span><span>90 min</span></div>
+    </div>
+    <div class="tiles">
+      <div class="card"><span class="ic-sq">{{i:notebook-pen}}</span><h3>One notebook per session</h3><p>Structured Colab notebooks you keep and revisit.</p></div>
+      <div class="card"><span class="ic-sq">{{i:database}}</span><h3>Real engineering data</h3><p>Materials, structures, energy, transport, water and geotechnics.</p></div>
+      <div class="card"><span class="ic-sq">{{i:circle-play}}</span><h3>Recordings</h3><p>Shared after each session; available until two weeks after the course ends.</p></div>
+      <div class="card"><span class="ic-sq">{{i:drafting-compass}}</span><h3>Engineering judgement</h3><p>Validation, limitations and physical plausibility, not just accuracy.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 TODAY ============ -->
+<style>
+  .today .parts{position:absolute;left:0;width:1000px;top:270px}
+  .today .pt{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:30px 0;border-top:1px solid var(--rule)}
+  .today .pt:first-child{border-top:2px solid var(--ink)}
+  .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:72px;line-height:.85;letter-spacing:-.04em;color:var(--accent-ink)}
+  .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
+  .today .pt span{display:block;margin-top:8px;font-size:23px;color:var(--muted)}
+  .today .out{position:absolute;right:0;top:270px;width:560px;background:var(--ink);color:#fff;border-radius:28px;padding:40px 40px 44px}
+  .today .out .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .today .out ul{margin-top:22px;list-style:none}
+  .today .out li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:16px 0;border-top:1px solid rgba(255,255,255,.14);font-size:24px;line-height:1.35}
+  .today .out li svg{width:28px;height:28px;color:var(--accent);stroke-width:2.4;margin-top:2px}
+</style>
+<section class="slide today">
+  {{top}}
+  <div class="body">
+    <div class="kick">Today · Session 01</div>
+    <h2>From engineering problems to Python</h2>
+    <div class="parts">
+      <div class="pt"><span class="no">01</span><div><b>From engineering problems to machine learning</b><span>AI, ML and DL · supervised and unsupervised learning · one workflow</span></div></div>
+      <div class="pt"><span class="no">02</span><div><b>Python &amp; Google Colab</b><span>Why Python · what a notebook is · Colab vs alternatives · our toolkit</span></div></div>
+      <div class="pt"><span class="no">03</span><div><b>Hands-on: our first cell</b><span>Open the notebook · run code · read the output like an engineer</span></div></div>
+    </div>
+    <div class="out">
+      <div class="k">By the end of today</div>
+      <ul>
+        <li>{{i:check}}<span>Place AI, ML and DL on one map</span></li>
+        <li>{{i:check}}<span>Tell a regression problem from a classification one</span></li>
+        <li>{{i:check}}<span>Describe the ML workflow for a civil engineering problem</span></li>
+        <li>{{i:check}}<span>Open, run and save a Colab notebook</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1 DIVIDER ============ -->
+<section class="slide divider">
+  {{top}}
+  <div class="big">01</div>
+  <div class="part"><div class="k">Part 01</div><h2>From engineering problems to machine learning</h2></div>
+  <ol><li><span>a</span>A problem we already know</li><li><span>b</span>AI, ML and deep learning</li><li><span>c</span>Supervised &amp; unsupervised</li><li><span>d</span>One ML workflow</li></ol>
+</section>
+
+<!-- ============ CONCRETE QUESTION (orig 2) ============ -->
+<style>
+  .conc .left{position:absolute;left:0;top:300px;width:900px}
+  .conc .ing{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .conc .ing div{height:128px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line);display:flex;align-items:center;justify-content:center;text-align:center;font-size:26px;font-weight:700;padding:0 10px;line-height:1.15}
+  .conc .ing div.age{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .conc .arrow{display:flex;align-items:center;gap:16px;margin:34px 0;font-size:19px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .conc .arrow svg{width:44px;height:44px;color:var(--accent-ink);stroke-width:2.2}
+  .conc .res{height:190px;border-radius:24px;background:var(--accent);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+  .conc .res b{font-weight:800;font-stretch:87.5%;font-size:46px;color:var(--on-accent);letter-spacing:-.015em}
+  .conc .res span{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--on-accent);opacity:.75}
+  .conc .right{position:absolute;right:0;top:300px;width:700px}
+  .conc .right p{font-size:32px}
+  .conc .q{margin-top:44px;padding-top:30px;border-top:2px solid var(--ink)}
+  .conc .q .k{font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .conc .q b{display:block;margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:54px;line-height:1.1;letter-spacing:-.02em}
+</style>
+<section class="slide conc">
+  {{top}}
+  <div class="body">
+    <div class="kick">Start with an engineering problem</div>
+    <h2>Can we predict concrete strength from its mix and age?</h2>
+    <div class="left">
+      <div class="ing"><div>Cement</div><div>Water</div><div>Fly ash</div><div>Slag</div><div>Aggregates</div><div>Super&shy;plasticizer</div><div class="age">Age</div><div style="background:transparent;border:1.5px dashed var(--surface-line);color:var(--muted);font-weight:600">mix + age</div></div>
+      <div class="arrow">{{i:arrow-down}}we measure a response</div>
+      <div class="res"><b>Compressive strength</b><span>MPa</span></div>
+    </div>
+    <div class="right">
+      <p>We already understand this problem. We have the ingredients, we have age, and we measure a response.</p>
+      <div class="q"><div class="k">The question is</div><b>Can we use historical examples to <span class="hl">learn the relationship?</span></b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODELLING TOOL (orig 3) ============ -->
+<style>
+  .model .ladder{position:absolute;left:0;top:270px;width:760px}
+  .model .st{display:flex;align-items:center;justify-content:space-between;height:96px;margin-bottom:14px;border-radius:18px;padding:0 30px;background:var(--surface);border:1px solid var(--surface-line);font-size:28px;font-weight:700}
+  .model .st small{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--muted);font-weight:500}
+  .model .st.ml{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .model .st.ml small{color:var(--on-accent);opacity:.7}
+  .model .txt{position:absolute;right:0;top:270px;width:800px}
+  .model .txt p + p{margin-top:24px}
+  .model .def{margin-top:40px;padding:34px 38px;border-radius:24px;background:var(--ink);color:#fff}
+  .model .def .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .model .def b{display:block;margin-top:12px;color:#fff;font-size:34px;line-height:1.25;font-weight:700}
+</style>
+<section class="slide model">
+  {{top}}
+  <div class="body">
+    <div class="kick">Civil engineers already build models</div>
+    <h2>ML is another engineering <span class="hl">modelling tool.</span></h2>
+    <div class="ladder">
+      <div class="st">Theory &amp; mechanics<small>first principles</small></div>
+      <div class="st">Empirical correlations<small>fitted by us</small></div>
+      <div class="st">Numerical models<small>FEM · FDM</small></div>
+      <div class="st">Laboratory / field data<small>measured</small></div>
+      <div class="st ml">Data-driven models<small>learned from data</small></div>
+    </div>
+    <div class="txt">
+      <p>We already build models. We use equations, correlations, numerical models, experiments and design standards.</p>
+      <p>Machine learning doesn’t replace engineering thinking. It gives us another way to represent relationships <b>when we have sufficient data.</b></p>
+      <div class="def"><div class="k">The difference</div><b>Instead of prescribing the relationship ourselves, we let an algorithm learn it from examples in data.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI ML DL (orig 4) ============ -->
+<style>
+  .nest .viz{position:absolute;left:-20px;top:240px;width:900px;height:640px}
+  .nest .txt{position:absolute;right:0;top:280px;width:760px}
+  .nest .row{display:grid;grid-template-columns:28px 1fr;gap:22px;padding:26px 0;border-top:1px solid var(--rule)}
+  .nest .row:first-child{border-top:2px solid var(--ink)}
+  .nest .row i{width:28px;height:28px;border-radius:50%;margin-top:6px}
+  .nest .row b{display:block;font-size:32px;font-weight:800;font-stretch:87.5%}
+  .nest .row span{display:block;margin-top:6px;font-size:23px;color:var(--ink-2);line-height:1.4}
+  .nest .focus{margin-top:26px}
+</style>
+<section class="slide nest">
+  {{top}}
+  <div class="body">
+    <div class="kick">The vocabulary</div>
+    <h2>Artificial intelligence is the broad idea.</h2>
+    <svg class="viz" viewBox="0 0 900 640">
+      <ellipse cx="450" cy="330" rx="430" ry="300" fill="#F3F6F4" stroke="#E3E8E5" stroke-width="2"/>
+      <ellipse cx="520" cy="390" rx="300" ry="220" fill="#C9EDD8"/>
+      <ellipse cx="590" cy="450" rx="150" ry="125" fill="#00BF63"/>
+      <text x="120" y="160" font-family="Archivo" font-weight="800" font-size="26" letter-spacing="3" fill="#0A0F0C">ARTIFICIAL INTELLIGENCE</text>
+      <text x="80" y="330" font-family="Archivo" font-weight="600" font-size="22" fill="#5F6A64">Other AI approaches</text>
+      <text x="290" y="290" font-family="Archivo" font-weight="800" font-size="26" letter-spacing="3" fill="#0A0F0C">MACHINE LEARNING</text>
+      <text x="300" y="450" font-family="Archivo" font-weight="600" font-size="22" fill="#2F3833">Traditional ML</text>
+      <text x="590" y="440" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="34" fill="#03140A">DEEP</text>
+      <text x="590" y="478" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="34" fill="#03140A">LEARNING</text>
+    </svg>
+    <div class="txt">
+      <div class="row"><i style="background:#E3E8E5"></i><div><b>Artificial Intelligence</b><span>The broader field of building systems that perform tasks associated with human intelligence.</span></div></div>
+      <div class="row"><i style="background:#C9EDD8"></i><div><b>Machine Learning</b><span>A subset of AI: systems that learn patterns from data.</span></div></div>
+      <div class="row"><i style="background:#00BF63"></i><div><b>Deep Learning</b><span>A family of ML methods based on multi-layer neural networks.</span></div></div>
+      <div class="focus chip g">Our focus: ML · deep learning in session 06</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAME WORLD (orig 5) ============ -->
+<style>
+  .levels .cols{position:absolute;left:0;right:0;top:290px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .levels .card{height:520px;display:flex;flex-direction:column;padding:40px}
+  .levels .card .lv{font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .levels .card h3{margin-top:14px;font-size:44px}
+  .levels .card p{margin-top:26px;font-size:28px;line-height:1.4;color:var(--ink)}
+  .levels .card .eq{margin-top:auto;padding-top:22px;border-top:1px solid var(--surface-line);font-size:22px;font-weight:700;color:var(--accent-ink)}
+  .levels .card.dl{background:var(--ink);border-color:var(--ink)}
+  .levels .card.dl h3,.levels .card.dl p{color:#fff}
+  .levels .card.dl .lv{color:var(--dk-muted)}
+  .levels .card.dl .eq{color:var(--accent);border-top-color:rgba(255,255,255,.14)}
+  .levels .card.ml{background:var(--tint);border-color:var(--tint-line)}
+</style>
+<section class="slide levels">
+  {{top}}
+  <div class="body">
+    <div class="kick">One engineering example · structural inspection</div>
+    <h2>Same engineering world. Different levels.</h2>
+    <div class="cols">
+      <div class="card"><div class="lv">Level 1</div><h3>Artificial Intelligence</h3><p>Can a system assist an engineer in deciding whether a structure requires attention?</p><div class="eq">AI = the broader goal</div></div>
+      <div class="card ml"><div class="lv">Level 2</div><h3>Machine Learning</h3><p>Can we learn from historical inspection data to classify defects?</p><div class="eq">ML = learning from data</div></div>
+      <div class="card dl"><div class="lv">Level 3</div><h3>Deep Learning</h3><p>Can a neural network learn complex patterns directly from images of structural defects?</p><div class="eq">DL = neural-network-based ML</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEFINITION (orig 6a) ============ -->
+<style>
+  .quote .q{position:absolute;left:0;top:250px;width:1500px}
+  .quote .q .mk{font-weight:900;font-size:220px;line-height:.6;color:var(--accent)}
+  .quote .q blockquote{margin-top:10px;font-weight:800;font-stretch:87.5%;font-size:84px;line-height:1.05;letter-spacing:-.025em}
+  .quote .q cite{display:block;margin-top:34px;font-style:normal;font-size:28px;color:var(--muted)}
+  .quote .q cite b{color:var(--ink)}
+  .quote .fam{position:absolute;left:0;bottom:30px;display:flex;align-items:center;gap:16px}
+  .quote .fam .l{font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:8px}
+</style>
+<section class="slide quote">
+  {{top}}
+  <div class="body">
+    <div class="kick">Machine learning, defined</div>
+    <div class="q">
+      <div class="mk">“</div>
+      <blockquote>Field of study that gives computers the ability to learn <span class="hl">without being explicitly programmed.</span></blockquote>
+      <cite><b>Arthur Samuel</b> · 1959</cite>
+    </div>
+    <div class="fam"><span class="l">Two families of algorithms</span><span class="chip d">Supervised learning</span><span class="chip">Unsupervised learning</span></div>
+  </div>
+</section>
+
+<!-- ============ SUPERVISED TABLE (orig 6b) ============ -->
+<style>
+  .xy table{position:absolute;left:0;right:0;top:270px;border-collapse:collapse;width:100%}
+  .xy th{text-align:left;font-size:19px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 24px 16px;border-bottom:2px solid var(--ink)}
+  .xy td{padding:34px 24px;font-size:32px;border-bottom:1px solid var(--rule)}
+  .xy td:first-child,.xy th:first-child{padding-left:0}
+  .xy td.x{font-weight:700}
+  .xy td.y{font-family:'JetBrains Mono',monospace;font-size:26px;color:var(--accent-ink);font-weight:700}
+  .xy td.ar{width:80px;color:var(--muted)}
+  .xy td.ar svg{width:34px;height:34px}
+  .xy td.app{color:var(--ink-2)}
+  .xy tr.civ td{background:var(--tint)}
+  .xy tr.civ td:first-child{padding-left:24px;border-radius:16px 0 0 16px}
+  .xy tr.civ td:last-child{border-radius:0 16px 16px 0}
+</style>
+<section class="slide xy">
+  {{top}}
+  <div class="body">
+    <div class="kick">Supervised learning · examples</div>
+    <h2>Input <span class="hl">X</span> → output <span class="hl">Y</span></h2>
+    <table>
+      <tr><th>Input (X)</th><th></th><th>Output (Y)</th><th>Application</th></tr>
+      <tr><td class="x">Email</td><td class="ar">{{i:arrow-right}}</td><td class="y">spam? (0/1)</td><td class="app">Spam filtering</td></tr>
+      <tr><td class="x">Audio</td><td class="ar">{{i:arrow-right}}</td><td class="y">text transcript</td><td class="app">Speech recognition</td></tr>
+      <tr><td class="x">English</td><td class="ar">{{i:arrow-right}}</td><td class="y">Arabic, Urdu, Spanish…</td><td class="app">Machine translation</td></tr>
+      <tr><td class="x">Ad, user info</td><td class="ar">{{i:arrow-right}}</td><td class="y">click? (0/1)</td><td class="app">Online advertising</td></tr>
+      <tr class="civ"><td class="x">Mix design + age</td><td class="ar">{{i:arrow-right}}</td><td class="y">strength (MPa)</td><td class="app"><b>Civil engineering: our course</b></td></tr>
+    </table>
+  </div>
+  <div class="src">Examples adapted from DeepLearning.AI. Phoon, K. K., Ching, J. &amp; Cao, Z. (2022). Unpacking data-centric geotechnics. <i>Underground Space</i> 7(6), 967–989. doi:10.1016/j.undsp.2022.04.001</div>
+</section>
+
+<!-- ============ REGRESSION vs CLASSIFICATION (orig 7) ============ -->
+<style>
+  .rc .cols{position:absolute;left:0;right:0;top:280px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .rc .card{height:470px;padding:40px}
+  .rc .card .lv{font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+  .rc .card h3{margin-top:12px;font-size:52px}
+  .rc .card p{margin-top:14px;font-size:27px}
+  .rc .card .ex{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px}
+  .rc .card .ex .l{width:100%;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+</style>
+<section class="slide rc">
+  {{top}}
+  <div class="body">
+    <div class="kick">Supervised learning · learns from the “right answers”</div>
+    <h2>Two kinds of supervised problems</h2>
+    <div class="cols">
+      <div class="card"><div class="lv">Regression</div><h3>Predict a number</h3><p>from infinitely many possible outputs.</p>
+        <div class="ex"><span class="l">Civil engineering examples</span><span class="chip">Concrete strength</span><span class="chip">Settlement</span><span class="chip">Traffic volume</span><span class="chip">Energy demand</span><span class="chip">Factor of safety</span></div></div>
+      <div class="card"><div class="lv">Classification</div><h3>Predict a category</h3><p>from a small number of possible outcomes.</p>
+        <div class="ex"><span class="l">Civil engineering examples</span><span class="chip">Stable / unstable</span><span class="chip">Defect type</span><span class="chip">Soil class</span><span class="chip">Damage category</span></div></div>
+    </div>
+  </div>
+  <div class="take"><span class="ic">{{i:target}}</span>The target determines the ML problem.</div>
+</section>
+
+<!-- ============ PLOTS (orig 8) ============ -->
+<style>
+  .plots .cols{position:absolute;left:0;right:0;top:250px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .plots .card{padding:30px 36px 26px}
+  .plots .card .lv{font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+  .plots .card h3{margin-top:8px;font-size:34px}
+  .plots svg{margin-top:12px;width:100%;height:auto}
+</style>
+<section class="slide plots">
+  {{top}}
+  <div class="body">
+    <div class="kick">Supervised learning · what the model sees</div>
+    <h2>Fit a curve, or draw a boundary</h2>
+    <div class="cols">
+      <div class="card"><div class="lv">Regression</div><h3>Response <i>y</i> against a feature <i>x</i></h3>
+        <svg viewBox="0 0 760 460">
+          <line x1="70" y1="400" x2="730" y2="400" stroke="#0A0F0C" stroke-width="2"/><line x1="70" y1="400" x2="70" y2="20" stroke="#0A0F0C" stroke-width="2"/>
+          <path d="M90 372 C 260 300, 420 170, 710 70" fill="none" stroke="#00BF63" stroke-width="5" stroke-linecap="round"/>
+          <g fill="#0A0F0C">
+            <circle cx="110" cy="350" r="8"/><circle cx="150" cy="372" r="8"/><circle cx="190" cy="326" r="8"/><circle cx="230" cy="338" r="8"/><circle cx="270" cy="290" r="8"/><circle cx="310" cy="300" r="8"/><circle cx="350" cy="250" r="8"/><circle cx="390" cy="224" r="8"/><circle cx="430" cy="236" r="8"/><circle cx="470" cy="180" r="8"/><circle cx="510" cy="168" r="8"/><circle cx="550" cy="140" r="8"/><circle cx="590" cy="134" r="8"/><circle cx="630" cy="98" r="8"/><circle cx="670" cy="104" r="8"/>
+          </g>
+          <text x="400" y="446" text-anchor="middle" font-family="Archivo" font-size="22" fill="#5F6A64"><tspan font-style="italic" font-weight="700" fill="#0A0F0C">x</tspan>  feature or variable</text>
+          <text x="28" y="210" text-anchor="middle" font-family="Archivo" font-size="22" fill="#5F6A64" transform="rotate(-90 28 210)"><tspan font-style="italic" font-weight="700" fill="#0A0F0C">y</tspan>  response variable</text>
+          <text x="700" y="56" text-anchor="end" font-family="Archivo" font-weight="700" font-size="22" fill="#008A47">model ŷ = f(x)</text>
+        </svg></div>
+      <div class="card"><div class="lv">Classification</div><h3>Two features, two classes</h3>
+        <svg viewBox="0 0 760 460">
+          <line x1="70" y1="400" x2="730" y2="400" stroke="#0A0F0C" stroke-width="2"/><line x1="70" y1="400" x2="70" y2="20" stroke="#0A0F0C" stroke-width="2"/>
+          <path d="M150 30 C 300 160, 420 260, 700 340" fill="none" stroke="#00BF63" stroke-width="5" stroke-dasharray="14 10" stroke-linecap="round"/>
+          <g fill="#0A0F0C"><circle cx="120" cy="120" r="9"/><circle cx="170" cy="190" r="9"/><circle cx="110" cy="260" r="9"/><circle cx="220" cy="270" r="9"/><circle cx="160" cy="330" r="9"/><circle cx="270" cy="340" r="9"/><circle cx="330" cy="360" r="9"/><circle cx="240" cy="210" r="9"/><circle cx="400" cy="372" r="9"/></g>
+          <g stroke="#00A656" stroke-width="5" stroke-linecap="round">
+            <path d="M330 90 l18 18 m0 -18 l-18 18"/><path d="M420 150 l18 18 m0 -18 l-18 18"/><path d="M500 110 l18 18 m0 -18 l-18 18"/><path d="M560 210 l18 18 m0 -18 l-18 18"/><path d="M640 160 l18 18 m0 -18 l-18 18"/><path d="M460 230 l18 18 m0 -18 l-18 18"/><path d="M620 270 l18 18 m0 -18 l-18 18"/><path d="M390 60 l18 18 m0 -18 l-18 18"/>
+          </g>
+          <text x="400" y="446" text-anchor="middle" font-family="Archivo" font-size="22" fill="#5F6A64"><tspan font-style="italic" font-weight="700" fill="#0A0F0C">x₁</tspan>  feature 1</text>
+          <text x="28" y="210" text-anchor="middle" font-family="Archivo" font-size="22" fill="#5F6A64" transform="rotate(-90 28 210)"><tspan font-style="italic" font-weight="700" fill="#0A0F0C">x₂</tspan>  feature 2</text>
+          <text x="700" y="56" text-anchor="end" font-family="Archivo" font-weight="700" font-size="22" fill="#008A47">decision boundary</text>
+        </svg></div>
+    </div>
+  </div>
+  <div class="src">Illustration adapted from DeepLearning.AI.</div>
+</section>
+
+<!-- ============ UNSUPERVISED (orig 9) ============ -->
+<style>
+  .uns .lead{max-width:1500px}
+  .uns .cols{position:absolute;left:0;right:0;top:280px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .uns .card{padding:30px 34px 34px}
+  .uns svg{width:100%;height:330px;margin-bottom:18px;background:var(--bg);border-radius:16px}
+  .uns .card h3{font-size:36px}
+  .uns .card p{font-size:23px}
+</style>
+<section class="slide uns">
+  {{top}}
+  <div class="body">
+    <div class="kick">Unsupervised learning · no labels</div>
+    <h2>Only inputs X. The algorithm finds the structure.</h2>
+    <div class="cols">
+      <div class="card">
+        <svg viewBox="0 0 480 260"><g fill="#0A0F0C"><circle cx="90" cy="80" r="9"/><circle cx="120" cy="60" r="9"/><circle cx="110" cy="110" r="9"/><circle cx="70" cy="120" r="9"/><circle cx="140" cy="95" r="9"/></g><g fill="#00BF63"><circle cx="330" cy="70" r="9"/><circle cx="360" cy="100" r="9"/><circle cx="380" cy="60" r="9"/><circle cx="400" cy="110" r="9"/><circle cx="345" cy="130" r="9"/></g><g fill="#9AA59F"><circle cx="210" cy="200" r="9"/><circle cx="240" cy="180" r="9"/><circle cx="260" cy="215" r="9"/><circle cx="220" cy="230" r="9"/><circle cx="280" cy="190" r="9"/></g><g fill="none" stroke="#5F6A64" stroke-width="1.5" stroke-dasharray="5 6"><circle cx="105" cy="92" r="62"/><circle cx="364" cy="94" r="62"/><circle cx="245" cy="205" r="58"/></g></svg>
+        <h3>Clustering</h3><p>Group similar data points together.</p></div>
+      <div class="card">
+        <svg viewBox="0 0 480 260"><g fill="#0A0F0C"><circle cx="150" cy="140" r="8"/><circle cx="180" cy="120" r="8"/><circle cx="200" cy="160" r="8"/><circle cx="170" cy="180" r="8"/><circle cx="220" cy="130" r="8"/><circle cx="240" cy="170" r="8"/><circle cx="130" cy="170" r="8"/><circle cx="210" cy="200" r="8"/><circle cx="260" cy="140" r="8"/><circle cx="190" cy="150" r="8"/></g><circle cx="390" cy="60" r="11" fill="#00BF63"/><circle cx="390" cy="60" r="26" fill="none" stroke="#00BF63" stroke-width="3"/><text x="390" y="120" text-anchor="middle" font-family="Archivo" font-weight="700" font-size="20" fill="#008A47">unusual</text></svg>
+        <h3>Anomaly detection</h3><p>Find unusual data points.</p></div>
+      <div class="card">
+        <svg viewBox="0 0 480 260"><line x1="60" y1="210" x2="420" y2="50" stroke="#00BF63" stroke-width="4" stroke-linecap="round"/><g fill="#0A0F0C"><circle cx="90" cy="180" r="8"/><circle cx="130" cy="176" r="8"/><circle cx="160" cy="150" r="8"/><circle cx="200" cy="150" r="8"/><circle cx="240" cy="118" r="8"/><circle cx="270" cy="124" r="8"/><circle cx="310" cy="90" r="8"/><circle cx="350" cy="92" r="8"/><circle cx="380" cy="62" r="8"/></g><g stroke="#9AA59F" stroke-width="1.5"><line x1="130" y1="176" x2="123" y2="164"/><line x1="200" y1="150" x2="190" y2="134"/><line x1="270" y1="124" x2="262" y2="110"/><line x1="350" y1="92" x2="340" y2="76"/><line x1="90" y1="180" x2="96" y2="191"/><line x1="160" y1="150" x2="166" y2="162"/><line x1="240" y1="118" x2="244" y2="126"/></g></svg>
+        <h3>Dimensionality reduction</h3><p>Compress data using fewer variables.</p></div>
+    </div>
+  </div>
+  <div class="src">DeepLearning.AI. Phoon, K. K., Ching, J. &amp; Cao, Z. (2022). Unpacking data-centric geotechnics. <i>Underground Space</i> 7(6), 967–989. doi:10.1016/j.undsp.2022.04.001</div>
+</section>
+
+<!-- ============ SUPERVISED PICTURE (orig 10) ============ -->
+<style>
+  .pic .flow{position:absolute;left:0;right:0;top:250px;display:grid;grid-template-columns:1fr 64px 250px 64px 300px;align-items:center;gap:0}
+  .pic table{border-collapse:separate;border-spacing:0;width:100%;font-family:'JetBrains Mono',monospace;font-size:19px;border-radius:18px;overflow:hidden;border:1px solid var(--surface-line)}
+  .pic th{background:var(--ink);color:#fff;font-family:'Archivo';font-size:16px;font-weight:700;letter-spacing:.04em;padding:14px 10px;text-align:right;line-height:1.15}
+  .pic th.y{background:var(--accent);color:var(--on-accent)}
+  .pic td{padding:15px 10px;text-align:right;border-top:1px solid var(--surface-line);background:var(--bg)}
+  .pic td.y{background:var(--tint);font-weight:700;color:var(--accent-ink)}
+  .pic tr.more td{color:var(--muted);text-align:center;font-family:'Archivo';font-size:18px}
+  .pic .lab{display:flex;justify-content:space-between;margin-bottom:12px;font-size:18px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .pic .lab span:last-child{color:var(--accent-ink)}
+  .pic .ar{display:grid;place-items:center;color:var(--muted)}
+  .pic .ar svg{width:40px;height:40px;stroke-width:2.2}
+  .pic .alg{height:250px;border-radius:28px;background:var(--ink);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px}
+  .pic .alg svg{width:56px;height:56px;color:var(--accent);stroke-width:1.7}
+  .pic .alg b{color:#fff;font-size:30px;font-weight:800}
+  .pic .alg span{font-size:18px;color:var(--dk-muted)}
+  .pic .out{border-radius:28px;background:var(--accent);padding:34px;color:var(--on-accent)}
+  .pic .out .k{font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+  .pic .out b{display:block;margin-top:10px;font-size:76px;font-weight:900;font-stretch:87.5%;letter-spacing:-.03em;line-height:1;color:var(--on-accent)}
+  .pic .out span{display:block;margin-top:8px;font-size:22px;font-weight:600}
+  .pic .new{position:absolute;left:0;top:690px;display:flex;align-items:center;gap:18px;font-size:24px;color:var(--ink-2)}
+</style>
+<section class="slide pic">
+  {{top}}
+  <div class="body">
+    <div class="kick">The picture that follows us all course</div>
+    <h2>X is what we give the model. <span class="hl">y is what we want.</span></h2>
+    <div class="flow">
+      <div>
+        <div class="lab"><span>Inputs (X)</span><span>Output (y)</span></div>
+        <table>
+          <tr><th>Cement</th><th>Slag</th><th>Fly ash</th><th>Water</th><th>SP</th><th>Coarse agg.</th><th>Fine agg.</th><th>Age (d)</th><th class="y">Strength MPa</th></tr>
+          <tr><td>540.0</td><td>0.0</td><td>0.0</td><td>162</td><td>2.5</td><td>1040</td><td>676</td><td>28</td><td class="y">79.99</td></tr>
+          <tr><td>540.0</td><td>0.0</td><td>0.0</td><td>162</td><td>2.5</td><td>1055</td><td>676</td><td>28</td><td class="y">61.89</td></tr>
+          <tr><td>332.5</td><td>142.5</td><td>0.0</td><td>228</td><td>0.0</td><td>932</td><td>594</td><td>270</td><td class="y">40.27</td></tr>
+          <tr><td>332.5</td><td>142.5</td><td>0.0</td><td>228</td><td>0.0</td><td>932</td><td>594</td><td>365</td><td class="y">41.05</td></tr>
+          <tr class="more"><td colspan="9">… 1,030 mixes in total · quantities in kg/m³</td></tr>
+        </table>
+      </div>
+      <div class="ar">{{i:arrow-right}}</div>
+      <div class="alg">{{i:brain-circuit}}<b>ML algorithm</b><span>learns f(X) ≈ y</span></div>
+      <div class="ar">{{i:arrow-right}}</div>
+      <div class="out"><div class="k">For a new mix</div><b>ŷ</b><span>Predicted compressive strength (MPa)</span></div>
+    </div>
+  </div>
+  <div class="src">Data: Concrete Compressive Strength dataset, UCI Machine Learning Repository (Yeh, 1998).</div>
+</section>
+
+<!-- ============ WORKFLOW (orig 11) ============ -->
+<style>
+  .wf .chain{position:absolute;left:0;right:0;top:256px;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .wf .node{position:relative;border-radius:22px;background:var(--surface);border:1px solid var(--surface-line);padding:26px 26px 28px;height:206px}
+  .wf .node .no{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--muted)}
+  .wf .node b{display:block;margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:34px;letter-spacing:-.015em;line-height:1.05}
+  .wf .node span{display:block;margin-top:10px;font-size:20px;color:var(--ink-2);line-height:1.35}
+  .wf .node:not(:last-child)::after{content:"";position:absolute;right:-16px;top:50%;width:14px;height:14px;margin-top:-7px;border-top:3px solid var(--accent-ink);border-right:3px solid var(--accent-ink);transform:rotate(45deg);z-index:2}
+  .wf .node.on{background:var(--accent);border-color:var(--accent)}
+  .wf .node.on .no,.wf .node.on span{color:var(--on-accent);opacity:.8}
+  .wf .node.dim{opacity:.38}
+  .wf .apps{position:absolute;left:0;right:0;top:520px}
+  .wf .apps .l{font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:14px;border-bottom:2px solid var(--ink)}
+  .wf .apps .r{display:grid;grid-template-columns:1fr 60px 1fr 60px 300px;align-items:center;padding:17px 0;border-bottom:1px solid var(--rule);font-size:27px}
+  .wf .apps .r b{font-weight:700}
+  .wf .apps .r svg{width:28px;height:28px;color:var(--muted)}
+  .wf .apps .r .t{justify-self:start}
+</style>
+<section class="slide wf">
+  {{top}}
+  <div class="body">
+    <div class="kick">The signature of this course</div>
+    <h2>One ML workflow. Many engineering problems.</h2>
+    <div class="chain">
+      <div class="node"><span class="no">01</span><b>Engineering problem</b><span>What do we need to estimate?</span></div>
+      <div class="node"><span class="no">02</span><b>Data</b><span>Measurements, simulations or records</span></div>
+      <div class="node"><span class="no">03</span><b>Python</b><span>Inspect, prepare, analyse</span></div>
+      <div class="node"><span class="no">04</span><b>ML model</b><span>Learn patterns from examples</span></div>
+      <div class="node on"><span class="no">05</span><b>Decision</b><span>Interpret with domain knowledge</span></div>
+    </div>
+    <div class="apps">
+      <div class="l">The problem changes. The data changes. The workflow survives.</div>
+      <div class="r"><b>Concrete</b>{{i:arrow-right}}<span>Strength</span>{{i:arrow-right}}<span class="t chip">Regression</span></div>
+      <div class="r"><b>Buildings</b>{{i:arrow-right}}<span>Energy load</span>{{i:arrow-right}}<span class="t chip">Regression</span></div>
+      <div class="r"><b>Steel inspection</b>{{i:arrow-right}}<span>Fault class</span>{{i:arrow-right}}<span class="t chip d">Classification</span></div>
+      <div class="r"><b>Structural health</b>{{i:arrow-right}}<span>Stability class</span>{{i:arrow-right}}<span class="t chip d">Classification</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 2 DIVIDER ============ -->
+<section class="slide divider">
+  {{top}}
+  <div class="big">02</div>
+  <div class="part"><div class="k">Part 02</div><h2>Python &amp; Google Colab</h2></div>
+  <ol><li><span>a</span>Why Python</li><li><span>b</span>Google Colab &amp; notebooks</li><li><span>c</span>Colab vs Anaconda vs MATLAB</li><li><span>d</span>Our Python toolkit</li></ol>
+</section>
+
+<!-- ============ WHY PYTHON (orig 12) ============ -->
+<style>
+  .why .grid4{position:absolute;left:0;top:270px;width:1060px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .why .card{padding:34px 34px;height:290px}
+  .why .card h3{margin-top:24px;font-size:36px}
+  .why .card p{font-size:25px;margin-top:10px}
+  .why .pr{position:absolute;right:0;top:270px;width:560px;height:602px;border-radius:28px;background:var(--ink);color:#fff;padding:48px 44px}
+  .why .pr img{width:84px;height:84px}
+  .why .pr .k{margin-top:30px;font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .why .pr b{display:block;margin-top:14px;color:#fff;font-size:38px;font-weight:800;font-stretch:87.5%;line-height:1.12;letter-spacing:-.01em}
+  .why .pr p{margin-top:20px;color:var(--dk-muted);font-size:24px}
+</style>
+<section class="slide why">
+  {{top}}
+  <div class="body">
+    <div class="kick">Python</div>
+    <h2>Why are we using Python?</h2>
+    <div class="grid4">
+      <div class="card"><span class="ic-sq">{{i:lock-open}}</span><h3>Open-source</h3><p>No paid language licence is required.</p></div>
+      <div class="card"><span class="ic-sq">{{i:book-open}}</span><h3>Easy to learn</h3><p>Readable syntax that is close to plain English.</p></div>
+      <div class="card"><span class="ic-sq">{{i:library-big}}</span><h3>Scientific ecosystem</h3><p>NumPy, pandas, Matplotlib, scikit-learn and more.</p></div>
+      <div class="card"><span class="ic-sq">{{i:layers}}</span><h3>Useful across disciplines</h3><p>Data analysis, visualisation, ML and scientific computing.</p></div>
+    </div>
+    <div class="pr"><img src="assets/python-logo.png" alt="Python logo"><div class="k">Our principle</div><b>We are not learning Python for its own sake.</b><p>We learn enough Python to ask better engineering questions and build data-driven models.</p></div>
+  </div>
+</section>
+
+<!-- ============ PYTHON NAME (orig 25) ============ -->
+<style>
+  .name .txt{position:absolute;left:0;top:270px;width:1000px}
+  .name .txt p{font-size:30px}
+  .name .txt p + p{margin-top:24px}
+  .name .art{position:absolute;right:0;top:220px;width:520px;height:560px;border-radius:32px;background:var(--tint);display:grid;place-items:center}
+  .name .art img{width:220px;height:220px}
+  .name .art .no{position:absolute;left:36px;top:30px;font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+  .name .art .tv{position:absolute;left:36px;right:36px;bottom:34px;font-size:24px;font-weight:700;text-align:center}
+</style>
+<section class="slide name">
+  {{top}}
+  <div class="body">
+    <div class="kick">A short break · what is it with the name?</div>
+    <h2>Python is named after a comedy show, <span class="hl">not a snake.</span></h2>
+    <div class="txt">
+      <p>The name doesn’t come from the snake, even though the logo and community often use snake imagery.</p>
+      <p>Python was named after the British comedy group <b>“Monty Python’s Flying Circus”</b>, a favourite of Python’s creator, <b>Guido van Rossum</b>.</p>
+      <p>He wanted a name that was short, unique and a little mysterious. “Python” felt just right.</p>
+    </div>
+    <div class="art"><span class="no">Fun fact</span><img src="assets/python-logo.png" alt="Python logo"><div class="tv">Python, 1991 · Guido van Rossum</div></div>
+  </div>
+</section>
+
+<!-- ============ PYTHON IN WORKFLOW (orig 13) ============ -->
+<section class="slide wf">
+  {{top}}
+  <div class="body">
+    <div class="kick">Where Python fits</div>
+    <h2>Python supports the engineering workflow</h2>
+    <div class="chain">
+      <div class="node dim"><span class="no">01</span><b>Engineering problem</b><span>What do we need to estimate?</span></div>
+      <div class="node dim"><span class="no">02</span><b>Data</b><span>Measurements, simulations or records</span></div>
+      <div class="node on"><span class="no">03</span><b>Python</b><span>Inspect, prepare, analyse</span></div>
+      <div class="node dim"><span class="no">04</span><b>ML model</b><span>Learn patterns from examples</span></div>
+      <div class="node dim"><span class="no">05</span><b>Decision</b><span>Interpret with domain knowledge</span></div>
+    </div>
+  </div>
+  <style>.pyfit{position:absolute;left:120px;right:120px;top:680px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .pyfit .card{padding:44px 44px 48px}.pyfit .card .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .pyfit .card b{display:block;margin-top:14px;font-size:46px;font-weight:800;font-stretch:87.5%;letter-spacing:-.015em}
+  .pyfit .card.g{background:var(--accent);border-color:var(--accent)}.pyfit .card.g .k{color:var(--on-accent);opacity:.7}.pyfit .card.g b{color:var(--on-accent)}</style>
+  <div class="pyfit"><div class="card g"><div class="k">Python supplies</div><b>The workflow: inspect, prepare, model.</b></div><div class="card"><div class="k">Engineering knowledge supplies</div><b>The meaning: is this result plausible?</b></div></div>
+</section>
+
+<!-- ============ COLAB (orig 14) ============ -->
+<style>
+  .colab .pts{position:absolute;left:0;top:270px;width:1000px;list-style:none;border-top:2px solid var(--ink)}
+  .colab .pts li{display:grid;grid-template-columns:64px 1fr;gap:26px;align-items:center;padding:26px 0;border-bottom:1px solid var(--rule)}
+  .colab .pts li b{display:block;font-size:30px}
+  .colab .pts li span{display:block;margin-top:4px;font-size:23px;color:var(--muted)}
+  .colab .side{position:absolute;right:0;top:270px;width:600px}
+  .colab .logo{height:200px;border-radius:28px;background:#fff;border:1px solid var(--surface-line);display:grid;place-items:center}
+  .colab .logo img{height:120px}
+  .colab .fw{margin-top:22px;border-radius:28px;background:var(--ink);color:#fff;padding:36px 40px}
+  .colab .fw .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .colab .fw b{display:block;margin-top:12px;color:#fff;font-size:34px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+  .colab .fw p{margin-top:14px;font-size:22px;color:var(--dk-muted)}
+  .colab .url{margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent-ink)}
+</style>
+<section class="slide colab">
+  {{top}}
+  <div class="body">
+    <div class="kick">Our environment</div>
+    <h2>What is Google Colab?</h2>
+    <ul class="pts">
+      <li><span class="ic-sq">{{i:globe}}</span><div><b>Hosted notebook environment</b><span>Write and run Python in a web browser.</span></div></li>
+      <li><span class="ic-sq">{{i:square-function}}</span><div><b>Interactive</b><span>Combine code, text, equations and plots.</span></div></li>
+      <li><span class="ic-sq">{{i:feather}}</span><div><b>Low setup burden</b><span>No local Python installation is needed to begin.</span></div></li>
+      <li><span class="ic-sq">{{i:share-2}}</span><div><b>Shareable</b><span>Notebooks can be shared and revisited online.</span></div></li>
+    </ul>
+    <div class="side">
+      <div class="logo"><img src="assets/colab-logo.png" alt="Google Colab logo"></div>
+      <div class="fw"><div class="k">For this workshop</div><b>Open the link → run a cell → inspect the output.</b><p>We focus on engineering ideas rather than installation and environment setup.</p></div>
+      <div class="url">colab.research.google.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTEBOOK (orig 15) ============ -->
+<style>
+  .nb .mock{position:absolute;left:0;top:250px;width:1060px;border-radius:24px;border:1px solid var(--surface-line);background:#fff;box-shadow:0 30px 60px rgba(8,40,22,.10),0 4px 12px rgba(8,40,22,.06);overflow:hidden}
+  .nb .mock .bar{height:56px;background:var(--surface);display:flex;align-items:center;gap:10px;padding:0 22px;border-bottom:1px solid var(--surface-line);font-size:18px;font-weight:600;color:var(--muted)}
+  .nb .mock .bar i{width:12px;height:12px;border-radius:50%;background:#D5DCD8}
+  .nb .mock .bar span{margin-left:16px;font-family:'JetBrains Mono',monospace}
+  .nb .cell{margin:20px 24px;border-radius:14px;padding:20px 24px;position:relative}
+  .nb .cell.t{background:#fff;border:1.5px dashed var(--surface-line)}
+  .nb .cell.t h4{font-size:28px;font-weight:800}
+  .nb .cell.t p{font-size:20px;margin-top:6px}
+  .nb .cell.c{background:#0F1612;color:#E6EDE9;font-family:'JetBrains Mono',monospace;font-size:21px;line-height:1.6;padding-left:72px}
+  .nb .cell.c .run{position:absolute;left:20px;top:22px;width:34px;height:34px;border-radius:50%;background:var(--accent);display:grid;place-items:center;color:var(--on-accent)}
+  .nb .cell.c .run svg{width:16px;height:16px;fill:currentColor}
+  .nb .cell.c .cm{color:#7E8C85}.nb .cell.c .kw{color:#1FD47A}.nb .cell.c .nu{color:#F2C46D}
+  .nb .cell.o{background:var(--tint);font-family:'JetBrains Mono',monospace;font-size:21px;display:flex;gap:30px;align-items:center}
+  .nb .cell.o svg{width:300px;height:90px}
+  .nb .tag{position:absolute;right:-300px;top:50%;transform:translateY(-50%);width:270px;display:flex;align-items:center;gap:14px}
+  .nb .tag::before{content:"";width:40px;height:2px;background:var(--ink);flex:none}
+  .nb .tag b{font-size:22px}
+  .nb .lg{position:absolute;right:0;top:250px;width:470px}
+  .nb .lg div{padding:24px 0;border-bottom:1px solid var(--rule)}
+  .nb .lg div:first-child{border-top:2px solid var(--ink)}
+  .nb .lg b{display:flex;align-items:center;gap:12px;font-size:28px}
+  .nb .lg b i{width:18px;height:18px;border-radius:5px}
+  .nb .lg span{display:block;margin-top:8px;font-size:21px;color:var(--ink-2);line-height:1.4}
+</style>
+<section class="slide nb">
+  {{top}}
+  <div class="body">
+    <div class="kick">Anatomy of a notebook</div>
+    <h2>What is a notebook?</h2>
+    <div class="mock">
+      <div class="bar"><i></i><i></i><i></i><span>session01_first_steps.ipynb</span></div>
+      <div class="cell t"><h4>Water–cement ratio</h4><p>Assumption: mix quantities in kg/m³. Lower w/c generally means higher strength.</p></div>
+      <div class="cell c"><span class="run"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><span class="kw">import</span> pandas <span class="kw">as</span> pd<br>df = pd.read_csv(<span class="nu">"concrete.csv"</span>)<br>df[<span class="nu">"w_c"</span>] = df.water / df.cement  <span class="cm"># new feature</span></div>
+      <div class="cell o"><span>mean w/c = 0.54</span><svg viewBox="0 0 300 90"><g fill="#00BF63"><rect x="0" y="60" width="26" height="30"/><rect x="34" y="34" width="26" height="56"/><rect x="68" y="14" width="26" height="76"/><rect x="102" y="6" width="26" height="84"/><rect x="136" y="28" width="26" height="62"/><rect x="170" y="48" width="26" height="42"/><rect x="204" y="64" width="26" height="26"/><rect x="238" y="76" width="26" height="14"/></g></svg></div>
+    </div>
+    <div class="lg">
+      <div><b><i style="border:2px dashed #9AA59F"></i>Text / Markdown cells</b><span>Explain the engineering question, assumptions, equations and interpretation.</span></div>
+      <div><b><i style="background:#0F1612"></i>Code cells</b><span>Run Python instructions and see the result beneath the cell.</span></div>
+      <div><b><i style="background:#C9EDD8"></i>Outputs</b><span>Numbers, tables, charts and model diagnostics in one place.</span></div>
+    </div>
+  </div>
+  <div class="take"><span class="ic">{{i:notebook-text}}</span>A notebook is a record of code, results and reasoning, not just a place to type code.</div>
+</section>
+
+<!-- ============ WHY COLAB (orig 16) ============ -->
+<style>
+  .wc .grid6{position:absolute;left:0;right:0;top:270px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .wc .card{display:grid;grid-template-columns:64px 1fr;gap:24px;align-items:start;padding:32px 34px;height:200px}
+  .wc .card h3{font-size:32px}
+  .wc .card p{margin-top:8px;font-size:22px}
+</style>
+<section class="slide wc">
+  {{top}}
+  <div class="body">
+    <div class="kick">The choice we made</div>
+    <h2>Why Google Colab for this workshop?</h2>
+    <div class="grid6">
+      <div class="card"><span class="ic-sq">{{i:monitor-check}}</span><div><h3>No installation</h3><p>Start in a browser.</p></div></div>
+      <div class="card"><span class="ic-sq">{{i:users}}</span><div><h3>Shared workflow</h3><p>Everyone follows the same notebook sequence.</p></div></div>
+      <div class="card"><span class="ic-sq">{{i:link}}</span><div><h3>Easy to share</h3><p>Links make distributing notebooks straightforward.</p></div></div>
+      <div class="card"><span class="ic-sq">{{i:monitor-play}}</span><div><h3>Live demonstrations</h3><p>Run cells and inspect results together.</p></div></div>
+      <div class="card"><span class="ic-sq">{{i:hard-hat}}</span><div><h3>Engineering-focused</h3><p>More time for data and interpretation.</p></div></div>
+      <div class="card"><span class="ic-sq">{{i:smile}}</span><div><h3>Beginner-friendly</h3><p>No environment management at the outset.</p></div></div>
+    </div>
+  </div>
+  <div class="take"><span class="ic">{{i:info}}</span>We choose Colab to reduce setup friction, not because it is best for every project.</div>
+</section>
+
+<!-- ============ COMPARISON (orig 17) ============ -->
+<style>
+  .cmp table{position:absolute;left:0;right:0;top:260px;width:100%;border-collapse:separate;border-spacing:0}
+  .cmp th{text-align:left;padding:22px 26px;font-size:28px;font-weight:800;font-stretch:87.5%;border-bottom:2px solid var(--ink)}
+  .cmp th:first-child{width:280px;padding-left:0;font-size:19px;font-family:'Archivo';font-stretch:100%;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);vertical-align:bottom}
+  .cmp th.us{background:var(--accent);color:var(--on-accent);border-radius:20px 20px 0 0;border-bottom-color:var(--accent)}
+  .cmp td{padding:22px 26px;font-size:24px;line-height:1.35;color:var(--ink-2);border-bottom:1px solid var(--rule);vertical-align:top}
+  .cmp td:first-child{padding-left:0;font-weight:700;color:var(--ink)}
+  .cmp td.us{background:var(--tint);color:var(--ink);font-weight:600}
+  .cmp tr:last-child td.us{border-radius:0 0 20px 20px}
+</style>
+<section class="slide cmp">
+  {{top}}
+  <div class="body">
+    <div class="kick">Alternatives</div>
+    <h2>Google Colab, Anaconda and MATLAB</h2>
+    <table>
+      <tr><th>Feature</th><th class="us">Google Colab</th><th>Anaconda + Jupyter</th><th>MATLAB</th></tr>
+      <tr><td>Initial setup</td><td class="us">Browser; no local install to start</td><td>Install and manage a local distribution</td><td>Installation and licence access may be required</td></tr>
+      <tr><td>Language</td><td class="us">Python</td><td>Python (with R tools available)</td><td>MATLAB</td></tr>
+      <tr><td>Packages / tools</td><td class="us">Common libraries available; some setup may be needed</td><td>Flexible packages and environments</td><td>MATLAB toolboxes and add-ons</td></tr>
+      <tr><td>Best fit here</td><td class="us">Shared, low-friction workshop</td><td>Local work and controlled environments</td><td>Existing MATLAB workflows</td></tr>
+    </table>
+  </div>
+  <div class="take"><span class="ic">{{i:scale}}</span>All three support technical work; this workshop prioritises accessibility and shared hands-on learning.</div>
+</section>
+
+<!-- ============ COLAB CAVEATS (orig 18) ============ -->
+<style>
+  .cav .rows{position:absolute;left:0;right:0;top:260px;display:grid;grid-template-columns:1fr 1fr;gap:20px 28px}
+  .cav .r{display:grid;grid-template-columns:64px 1fr;gap:24px;align-items:center;padding:30px 32px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .cav .r b{display:block;font-size:28px}
+  .cav .r span{display:block;margin-top:4px;font-size:21px;color:var(--ink-2)}
+  .cav .r.w{grid-column:1 / -1}
+</style>
+<section class="slide cav">
+  {{top}}
+  <div class="body">
+    <div class="kick">Good to know</div>
+    <h2>What should we know about Colab?</h2>
+    <div class="rows">
+      <div class="r"><span class="ic-sq">{{i:wifi}}</span><div><b>Internet access is needed</b><span>Colab runs in the browser.</span></div></div>
+      <div class="r"><span class="ic-sq">{{i:save}}</span><div><b>Sessions are temporary</b><span>Save notebooks and important outputs.</span></div></div>
+      <div class="r"><span class="ic-sq">{{i:upload}}</span><div><b>Files and packages may need setup</b><span>Upload data or mount cloud storage when required.</span></div></div>
+      <div class="r"><span class="ic-sq">{{i:cpu}}</span><div><b>Compute resources can vary</b><span>Hardware and usage limits are not guaranteed.</span></div></div>
+      <div class="r w"><span class="ic-sq">{{i:shield-check}}</span><div><b>Protect sensitive data</b><span>Follow institutional data-protection rules before uploading data.</span></div></div>
+    </div>
+  </div>
+  <div class="take"><span class="ic">{{i:info}}</span>Use Colab as a practical workshop environment, not as a promise of unlimited compute.</div>
+</section>
+
+<!-- ============ TOOLKIT (orig 20) ============ -->
+<style>
+  .tk .stack{position:absolute;left:0;top:250px;width:1060px}
+  .tk .lib{display:grid;grid-template-columns:260px 1fr auto;align-items:center;gap:24px;height:104px;padding:0 34px;margin-bottom:14px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .tk .lib b{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700}
+  .tk .lib span{font-size:24px;color:var(--ink-2)}
+  .tk .lib em{font-style:normal;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--muted)}
+  .tk .lib.py{background:var(--ink);border-color:var(--ink)}
+  .tk .lib.py b{color:var(--accent)}.tk .lib.py span{color:#fff}.tk .lib.py em{color:var(--dk-muted)}
+  .tk .lib.sk{background:var(--accent);border-color:var(--accent)}
+  .tk .lib.sk b,.tk .lib.sk span{color:var(--on-accent)}.tk .lib.sk em{color:var(--on-accent);opacity:.7}
+  .tk .side{position:absolute;right:0;top:250px;width:560px}
+  .tk .side p{font-size:28px}
+  .tk .side p + p{margin-top:26px}
+</style>
+<section class="slide tk">
+  {{top}}
+  <div class="body">
+    <div class="kick">Tools, introduced when we need them</div>
+    <h2>Our Python toolkit</h2>
+    <div class="stack">
+      <div class="lib py"><b>Python</b><span>Language and logic</span><em>session 01</em></div>
+      <div class="lib"><b>NumPy</b><span>Numerical arrays and calculations</span><em>session 01</em></div>
+      <div class="lib"><b>pandas</b><span>Tables and data preparation</span><em>sessions 01–02</em></div>
+      <div class="lib"><b>Matplotlib</b><span>Plots and visual diagnostics</span><em>sessions 01–02</em></div>
+      <div class="lib sk"><b>scikit-learn</b><span>Machine-learning models and evaluation</span><em>from session 03</em></div>
+    </div>
+    <div class="side">
+      <p>We introduce each tool when an engineering question calls for it.</p>
+      <p>The goal is not to memorise every function. It is to understand <b>what each step does</b> and <b>whether its result makes engineering sense.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 DIVIDER (orig 23) ============ -->
+<section class="slide divider">
+  {{top}}
+  <div class="big">03</div>
+  <div class="part"><div class="k">Part 03 · Hands-on</div><h2>Let’s get started with Python in Google Colab</h2></div>
+  <ol><li><span>a</span>Open and run the notebook</li><li><span>b</span>Our first cell</li><li><span>c</span>Working with notebooks</li></ol>
+</section>
+
+<!-- ============ OPEN & RUN (orig 19) ============ -->
+<style>
+  .steps .line{position:absolute;left:0;right:0;top:330px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .steps .s{position:relative;padding-top:150px}
+  .steps .s .n{position:absolute;left:0;top:0;width:112px;height:112px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:54px}
+  .steps .s:not(:last-child)::before{content:"";position:absolute;left:128px;right:-4px;top:56px;height:2px;background:var(--surface-line)}
+  .steps .s.go .n{background:var(--accent);color:var(--on-accent)}
+  .steps .s b{display:block;font-size:36px;font-weight:800;font-stretch:87.5%;line-height:1.12;letter-spacing:-.01em}
+  .steps .s span{display:block;margin-top:14px;font-size:24px;color:var(--muted);line-height:1.4}
+  .steps .s kbd{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;padding:3px 9px;border-radius:7px;background:var(--surface);border:1px solid var(--surface-line);color:var(--ink)}
+</style>
+<section class="slide steps">
+  {{top}}
+  <div class="body">
+    <div class="kick">Hands-on · step by step</div>
+    <h2>How to open and run the workshop notebook</h2>
+    <div class="line">
+      <div class="s"><span class="n">1</span><b>Open the shared Colab link</b><span>colab.research.google.com</span></div>
+      <div class="s"><span class="n">2</span><b>Sign in to Google if prompted</b><span>Any Google account works.</span></div>
+      <div class="s"><span class="n">3</span><b>Open the provided notebook</b><span>One notebook per session.</span></div>
+      <div class="s go"><span class="n">4</span><b>Run a cell</b><span>Click ▶ or press <kbd>Shift</kbd> + <kbd>Enter</kbd></span></div>
+      <div class="s"><span class="n">5</span><b>Read the output before moving on</b><span>Does it make sense?</span></div>
+    </div>
+  </div>
+  <div class="take"><span class="ic">{{i:triangle-alert}}</span>If a cell fails, read the error and check the preceding steps before rerunning everything.</div>
+</section>
+
+<!-- ============ FIRST CELL (orig 21) ============ -->
+<style>
+  .first .code{position:absolute;left:0;top:250px;width:1060px;border-radius:24px;background:#0F1612;overflow:hidden;box-shadow:0 30px 60px rgba(8,40,22,.14)}
+  .first .code .hd{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:17px;color:#7E8C85}
+  .first .code pre{padding:40px 40px;font-family:'JetBrains Mono',monospace;font-size:36px;line-height:1.65;color:#E6EDE9}
+  .first .code .cm{color:#7E8C85}.first .code .nu{color:#F2C46D}.first .code .fn{color:#1FD47A}
+  .first .code .out{padding:30px 40px 36px;background:#14201A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:36px;color:#fff}
+  .first .code .out small{display:block;font-family:'Archivo';font-size:16px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .first .side{position:absolute;right:0;top:250px;width:560px}
+  .first .side .card{padding:40px}
+  .first .side .card + .card{margin-top:24px}
+  .first .side .card h3{font-size:36px}
+  .first .side .card p{font-size:27px}
+  .first .side .card.g{background:var(--accent);border-color:var(--accent)}
+  .first .side .card.g p,.first .side .card.g h3{color:var(--on-accent)}
+</style>
+<section class="slide first">
+  {{top}}
+  <div class="body">
+    <div class="kick">An engineering-flavoured example</div>
+    <h2>Let’s run our first cell</h2>
+    <div class="code">
+      <div class="hd"><span>[1]</span><span>Python 3</span></div>
+<pre>cement = <span class="nu">350</span>   <span class="cm"># kg/m³</span>
+water  = <span class="nu">180</span>   <span class="cm"># kg/m³</span>
+water_cement_ratio = water / cement
+<span class="fn">print</span>(water_cement_ratio)</pre>
+      <div class="out"><small>Expected output</small>0.5142857…</div>
+    </div>
+    <div class="side">
+      <div class="card"><h3>Who does what?</h3><p>The computer performs arithmetic; <b>the engineer interprets what the ratio means.</b></p></div>
+      <div class="card g"><h3>Try it</h3><p>Change the water content. Observe what changes, and what the calculation alone cannot tell you.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKING WITH NOTEBOOKS (orig 22) ============ -->
+<style>
+  .wn .rows{position:absolute;left:0;top:260px;width:1060px;list-style:none;border-top:2px solid var(--ink)}
+  .wn .rows li{display:grid;grid-template-columns:72px 1fr;gap:20px;padding:34px 0;border-bottom:1px solid var(--rule)}
+  .wn .rows li .no{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--accent-ink);padding-top:6px}
+  .wn .rows li b{display:block;font-size:30px}
+  .wn .rows li span{display:block;margin-top:4px;font-size:23px;color:var(--ink-2)}
+  .wn .link{position:absolute;right:0;top:260px;width:560px;height:560px;border-radius:28px;background:var(--ink);color:#fff;padding:40px;display:flex;flex-direction:column}
+  .wn .link .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .wn .link b{display:block;margin-top:14px;color:#fff;font-size:40px;font-weight:800;font-stretch:87.5%;line-height:1.1}
+  .wn .link .slot{margin-top:auto;height:96px;border-radius:16px;border:2px dashed rgba(255,255,255,.28);display:flex;align-items:center;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--dk-muted)}
+</style>
+<section class="slide wn">
+  {{top}}
+  <div class="body">
+    <div class="kick">Good habits from day one</div>
+    <h2>Working with workshop notebooks</h2>
+    <ul class="rows">
+      <li><span class="no">01</span><div><b>Open the shared link</b><span>Use the notebook for the relevant session.</span></div></li>
+      <li><span class="no">02</span><div><b>Keep your own copy</b><span>File → Save a copy in Drive when appropriate.</span></div></li>
+      <li><span class="no">03</span><div><b>Work in sequence</b><span>Run cells from top to bottom unless instructed otherwise.</span></div></li>
+      <li><span class="no">04</span><div><b>Keep the analysis reproducible</b><span>Record assumptions and note any changes to evaluation steps.</span></div></li>
+    </ul>
+    <div class="link"><div class="k">Workshop notebook</div><b>Open today’s notebook and make your own copy.</b><div class="slot">{{notebook_link}}</div></div>
+  </div>
+</section>
+
+<!-- ============ SUMMARY (orig 24) ============ -->
+<style>
+  .sum .cols{position:absolute;left:0;right:0;top:270px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .sum .card{height:360px;padding:38px;display:flex;flex-direction:column}
+  .sum .card .no{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--muted)}
+  .sum .card h3{margin-top:auto;font-size:46px}
+  .sum .card p{font-size:24px}
+  .sum .card.g{background:var(--accent);border-color:var(--accent)}
+  .sum .card.g .no,.sum .card.g p,.sum .card.g h3{color:var(--on-accent)}
+  .sum .next{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:30px 36px;border-radius:24px;background:var(--ink);color:#fff}
+  .sum .next .k{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .sum .next b{display:block;margin-top:8px;color:#fff;font-size:32px;font-weight:800;font-stretch:87.5%}
+  .sum .next span{font-size:22px;color:var(--dk-muted);max-width:640px;text-align:right}
+</style>
+<section class="slide sum">
+  {{top}}
+  <div class="body">
+    <div class="kick">Summary</div>
+    <h2>Why this setup?</h2>
+    <div class="cols">
+      <div class="card"><span class="no">01</span><h3>Python</h3><p>An accessible, widely used language for scientific computing and ML.</p></div>
+      <div class="card"><span class="no">02</span><h3>Google Colab</h3><p>A browser-based notebook environment with minimal setup.</p></div>
+      <div class="card g"><span class="no">03</span><h3>Engineering judgement</h3><p>The goal is meaningful analysis, not merely code that runs.</p></div>
+    </div>
+    <div class="next"><div><div class="k">Next · Session 02</div><b>From Raw Engineering Data to an ML-Ready Dataset</b></div><span>Load a dataset, inspect its structure, and ask our first engineering questions.</span></div>
+  </div>
+</section>
+
+<!-- ============ QUESTIONS (orig 26) ============ -->
+<style>
+  .qa .big{position:absolute;left:104px;top:300px;font-weight:900;font-stretch:87.5%;font-size:210px;line-height:.85;letter-spacing:-.05em}
+  .qa .big span{color:var(--accent)}
+  .qa .who{position:absolute;left:120px;bottom:110px;font-size:28px;color:var(--ink-2)}
+  .qa .who b{font-size:34px;display:block;margin-bottom:6px}
+  .qa .disc{left:1200px;top:260px;width:680px;height:680px;background:var(--tint)}
+  .qa .photo{left:1110px;top:150px;width:860px;height:930px;-webkit-mask-image:none;mask-image:none}
+</style>
+<section class="slide qa">
+  {{top}}
+  <div class="disc"></div>
+  <div class="photo"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="big">Questions<span>?</span></div>
+  <div class="who"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div>
+</section>
+
+<!-- ============ CLOSE (branded) ============ -->
+<style>
+  .close .t{position:absolute;left:120px;top:190px}
+  .close .t .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .close .t h2{margin-top:18px;color:var(--dk-ink);font-size:120px;line-height:.95;letter-spacing:-.035em;font-weight:900}
+  .close .t p{margin-top:28px;font-size:30px;color:var(--dk-muted);max-width:900px}
+  .close .t .by{margin-top:44px;font-size:26px;color:var(--dk-muted)}
+  .close .t .by b{display:block;font-size:32px;color:var(--dk-ink);margin-bottom:6px}
+  .close .row{position:absolute;left:120px;width:960px;bottom:84px;display:flex;align-items:flex-end;justify-content:space-between}
+  .close .row .l{display:flex;align-items:center;gap:30px}
+  .close .row .l img{height:44px}
+  .close .row .l span{font-size:20px;color:var(--dk-muted);padding-left:30px;border-left:1.5px solid var(--dk-rule);line-height:1.45;white-space:nowrap}
+  .close .row .l span b{color:var(--dk-ink)}
+  .close .qr{display:flex;align-items:center;gap:22px;text-align:right}
+  .close .qr div b{display:block;font-size:24px;color:var(--dk-ink)}
+  .close .qr div span{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--dk-muted)}
+  .close .qr .code{width:170px;height:170px;padding:12px;border-radius:16px;background:#fff}
+  .close .qr .code img{width:100%;height:100%}
+</style>
+<section class="slide dark close">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="t"><div class="k">End of session 01</div><h2>Thank you.</h2><p>See you in session 02: From Raw Engineering Data to an ML-Ready Dataset.</p><div class="by"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div></div>
+  <div class="row">
+    <div class="l">{{logo-light-big}}<span>Technology partner</span></div>
+    <div class="qr"><div><b>Course page</b><span>qudeltastudios.com/courses</span></div><div class="code"><img src="../poster/assets/qr-register.svg" alt="QR code to the course page"></div></div>
+  </div>
+</section>
+
+</body>
+</html>

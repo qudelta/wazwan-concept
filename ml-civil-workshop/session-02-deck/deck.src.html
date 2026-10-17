@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session 02 — From Raw Engineering Data to an ML-Ready Dataset</title>
+<link rel="stylesheet" href="../poster/assets/fonts.css">
+<style>
+  @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(../session-01-deck/assets/Amiri-Regular.woff2) format('woff2')}
+  @page{size:1920px 1080px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always}
+
+  /* =================== BRAND (Qudelta) — cover, welcome, instructor, questions, close =================== */
+  .b{--bg:#FFFFFF;--ink:#0A0F0C;--ink-2:#2F3833;--muted:#5F6A64;--rule:#E2E7E4;--accent:#00BF63;--accent-ink:#008A47;--on-accent:#03140A;
+     --tint:#EBF8F1;--tint-line:#C9EDD8;--surface:#F3F6F4;--surface-line:#E3E8E5;--grid:rgba(10,40,25,.05);
+     --dk:#070A08;--dk-ink:#F2F5F3;--dk-muted:#9AA59F;--dk-rule:rgba(255,255,255,.12);background:var(--bg);color:var(--ink)}
+  .b .kick{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+  .b h2{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1.02;letter-spacing:-.025em}
+  .b .hl{background:var(--accent);color:var(--on-accent);padding:0 14px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .b .body{position:absolute;left:120px;right:120px;top:132px;bottom:84px}
+  .b .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
+  .b .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .b .ic-sq{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
+  .b .ic-sq svg{width:30px;height:30px}
+  .b.dark{background:var(--dk);color:var(--dk-ink)}
+  .b .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
+  .b .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%)}
+  .b.dark .grid-bg{--grid:rgba(255,255,255,.05)}
+  .photo{position:absolute;overflow:hidden;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%)}
+  .photo.crop{-webkit-mask-image:none;mask-image:none}
+  .photo img{display:block;width:100%;height:auto}
+  .disc{position:absolute;border-radius:50%}
+
+  /* running header (shared) */
+  .top{position:absolute;left:120px;right:120px;top:52px;display:flex;align-items:center;justify-content:space-between;font-size:17px;z-index:5}
+  .top .hc{display:flex;align-items:center;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .top .hc span{margin-left:18px;padding-left:18px;border-left:1.5px solid var(--rule);color:var(--muted);font-weight:700;letter-spacing:.12em}
+  .top .hr{display:flex;align-items:center;gap:22px}
+  .top .sp{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:var(--sec-tint);color:var(--sec-ink);font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .top .sp i{width:10px;height:10px;border-radius:50%;background:var(--sec)}
+  .top .n{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;color:var(--muted)}
+  .top .n b{color:var(--ink);font-weight:700}
+
+  /* =================== CONTENT system =================== */
+  .c{--ink:#0E1A2B;--ink-2:#334155;--muted:#64748B;--rule:#E2E8F0;--surface:#F5F7FA;--surface-line:#E3E8EF;
+     --X:#2a78d6;--Xi:#1F5FAF;--Xt:#EAF2FC;--Xl:#CFE0F5;
+     --Y:#eb6834;--Yi:#B9471B;--Yt:#FDEEE7;--Yl:#F7D3C3;
+     --M:#1baf7a;--Mi:#0B7A55;--Mt:#E5F6EF;--Ml:#C3EAD9;
+     background:#fff;color:var(--ink)}
+  .s0{--sec:#0E1A2B;--sec-ink:#0E1A2B;--sec-tint:#EEF1F5;--sec-line:#DCE2EA}
+  .s1{--sec:#2a78d6;--sec-ink:#1F5FAF;--sec-tint:#EAF2FC;--sec-line:#CFE0F5}
+  .s2{--sec:#eb6834;--sec-ink:#B9471B;--sec-tint:#FDEEE7;--sec-line:#F7D3C3}
+  .s3{--sec:#1baf7a;--sec-ink:#0B7A55;--sec-tint:#E5F6EF;--sec-line:#C3EAD9}
+  .c .body{position:absolute;left:120px;right:120px;top:126px;bottom:84px;display:flex;flex-direction:column}
+  .c .kick{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-ink)}
+  .c h2{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:68px;line-height:1.03;letter-spacing:-.025em;max-width:1560px}
+  .c .main{flex:1;min-height:0;margin-top:44px;display:flex;flex-direction:column;gap:28px;position:relative}
+  .c .grow{flex:1;min-height:0}
+  .mk{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sec) 32%,transparent) 60%);padding:0 4px;margin:0 -4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .c p{font-size:27px;line-height:1.45;color:var(--ink-2)}
+  .c b{font-weight:700;color:var(--ink)}
+  .serif{font-weight:600;letter-spacing:-.01em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
+  .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
+  .card p{margin-top:10px;font-size:24px}
+  .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--sec-tint);color:var(--sec-ink);flex:none}
+  .ic svg{width:36px;height:36px}
+  .chip{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .chip.x{background:var(--Xt);border-color:var(--Xl);color:var(--Xi)}
+  .chip.y{background:var(--Yt);border-color:var(--Yl);color:var(--Yi)}
+  .chip.m{background:var(--Mt);border-color:var(--Ml);color:var(--Mi)}
+  .chip.k{background:var(--ink);border-color:var(--ink);color:#fff}
+  .take{display:flex;align-items:center;gap:22px;padding:22px 30px;border-radius:20px;background:var(--sec-tint);border:1px solid var(--sec-line);font-size:27px;font-weight:600;color:var(--ink);flex:none}
+  .take .ti{flex:none;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--sec);color:#fff}
+  .s0 .take .ti{background:var(--ink)}
+  .take .ti svg{width:25px;height:25px;stroke-width:2.2}
+  .src{position:absolute;left:120px;right:120px;bottom:38px;font-size:15px;line-height:1.4;color:var(--muted)}
+  .lbl{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .sym{font-style:italic;font-weight:700}
+  .chart{background:#fff;border:1px solid var(--surface-line);border-radius:24px;padding:26px 30px 18px;display:flex;flex-direction:column}
+  .chart h3{font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.01em;line-height:1.15}
+  .chart .f{margin-top:6px;font-size:21px;color:var(--ink-2);line-height:1.4}
+  .chart svg{margin-top:10px;width:100%;height:0;flex:1 1 auto;min-height:0}
+
+  .lgt{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);flex:none}
+  .lgt img{max-width:40px;max-height:40px}
+  /* =================== DIVIDERS =================== */
+  .dv .gridl{position:absolute;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px}
+  .dv .truss{position:absolute;right:-30px;bottom:-24px;width:860px;color:var(--tc)}
+  .dv .big{position:absolute;left:104px;top:150px;font-weight:900;font-stretch:87.5%;font-size:400px;line-height:.8;letter-spacing:-.06em}
+  .dv .part{position:absolute;left:120px;bottom:120px;width:960px}
+  .dv .part .k{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+  .dv .part h2{margin-top:16px;font-weight:800;font-stretch:87.5%;font-size:96px;line-height:.98;letter-spacing:-.035em}
+  .dv .part .who{margin-top:26px;font-size:24px;opacity:.8}
+  .dv ol{position:absolute;right:120px;top:190px;width:560px;list-style:none;border-top:2px solid currentColor}
+  .dv ol li{display:flex;gap:22px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--lr);font-size:27px;font-weight:600}
+  .dv ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.7}
+  .dv .top .hc span{border-left-color:var(--lr);color:inherit;opacity:.75}
+  .dv .top .n,.dv .top .n b{color:inherit}
+  .dv .logos{position:absolute;right:120px;top:520px;display:flex;gap:16px}
+  .dv .logos img{width:80px;height:80px;padding:15px;background:#fff;border-radius:22px;object-fit:contain;box-shadow:0 10px 24px rgba(14,26,43,.18)}
+  .dv1{background:#1F5FAF;color:#fff;--gl:rgba(255,255,255,.07);--tc:rgba(255,255,255,.22);--lr:rgba(255,255,255,.3)}
+  .dv2{background:#eb6834;color:#0E1A2B;--gl:rgba(14,26,43,.07);--tc:rgba(14,26,43,.18);--lr:rgba(14,26,43,.25)}
+  .dv3{background:#00BF63;color:#03140A;--gl:rgba(3,20,10,.07);--tc:rgba(3,20,10,.18);--lr:rgba(3,20,10,.25)}
+</style>
+</head>
+<body>
+
+<!-- ===================================================================== 01 COVER -->
+<style>
+  .cover .bism{position:absolute;left:0;right:0;top:40px;text-align:center;font-family:'Amiri',serif;font-size:42px;color:var(--dk-ink);opacity:.85;direction:rtl}
+  .cover .brand{position:absolute;left:120px;top:150px;display:flex;align-items:center;gap:22px;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-muted)}
+  .cover .brand b{color:var(--accent);font-weight:800}
+  .cover .brand i{width:1.5px;height:22px;background:var(--dk-rule)}
+  .cover h1{position:absolute;left:120px;top:228px;width:1000px;font-weight:900;font-stretch:87.5%;font-size:108px;line-height:.96;letter-spacing:-.035em;word-spacing:.08em}
+  .cover .sess{position:absolute;left:120px;top:580px;width:1000px}
+  .cover .sess .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .cover .sess h2{margin-top:14px;font-size:56px;color:var(--dk-ink)}
+  .cover .sess p{margin-top:18px;font-size:26px;line-height:1.4;color:var(--dk-muted)}
+  .cover .sess p b{color:var(--dk-ink);font-weight:700}
+  .cover .stg{margin-top:24px;display:flex;gap:12px}
+  .cover .stg span{height:40px;padding:0 16px;display:inline-flex;align-items:center;gap:10px;border-radius:999px;border:1.5px solid var(--dk-rule);font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dk-ink)}
+  .cover .stg span i{width:9px;height:9px;border-radius:50%}
+  .cover .who{position:absolute;left:120px;bottom:80px;display:flex;align-items:center;gap:56px}
+  .cover .who .p b{display:block;font-size:30px;font-weight:800;color:var(--dk-ink)}
+  .cover .who .p span{display:block;margin-top:6px;font-size:20px;color:var(--dk-muted)}
+  .partner{display:flex;align-items:center;gap:16px;padding-left:56px;border-left:1.5px solid var(--dk-rule)}
+  .partner small{font-size:16px;font-weight:600;color:var(--dk-muted)}
+  .partner img{height:30px;width:auto}
+</style>
+<section class="slide b dark cover">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="brand"><b>Live online course</b><i></i>Cohort Fall 2026</div>
+  <h1>AI &amp; Machine Learning for Civil Engineers</h1>
+  <div class="sess">
+    <div class="k">Session 02 · Data before algorithms</div>
+    <h2>From Raw Engineering Data to an <span style="white-space:nowrap">ML-Ready</span> Dataset</h2>
+    <p><b>Can we trust our engineering data</b> before giving it to a model?</p>
+    <div class="stg"><span><i style="background:#2a78d6"></i>Data quality</span><span><i style="background:#eb6834"></i>Exploration</span><span><i style="background:#1baf7a"></i>Preparation</span><span><i style="background:#fff"></i>Evaluation setup</span></div>
+  </div>
+  <div class="who">
+    <div class="p"><b>Dr. Abdul Waris</b><span>Research Associate · Universität Siegen, Germany</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo-light}}</div>
+  </div>
+</section>
+
+<!-- ===================================================================== 02 RECAP -->
+<style>
+  .recap .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .recap .card{padding:36px 36px 34px;display:flex;flex-direction:column}
+  .recap .card p{margin-top:12px}
+  .recap .sy{width:72px;height:72px;border-radius:18px;display:grid;place-items:center;font-style:italic;font-weight:800;font-size:40px;flex:none}
+  .recap .sy svg{width:36px;height:36px}
+  .recap .card h3{margin-top:auto;padding-top:30px;font-size:40px}
+  .recap .card p{font-size:25px}
+  .recap .card code{margin-top:auto;padding-top:18px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+</style>
+<section class="slide c s0 recap">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Where we left off · Session 01</div>
+    <h2>Last time: X, y and one engineering workflow</h2>
+    <div class="main">
+      <div class="g4 grow">
+        <div class="card"><span class="sy" style="background:var(--Xt);color:var(--Xi)">X</span><h3>Features</h3><p>The inputs we give the model: the mix and its age.</p><code>cement, water, age …</code></div>
+        <div class="card"><span class="sy" style="background:var(--Yt);color:var(--Yi)">y</span><h3>Target</h3><p>What we want to predict. The target decides the ML problem.</p><code>strength (MPa)</code></div>
+        <div class="card"><span class="sy" style="background:var(--Mt);color:var(--Mi)">{{i:path}}</span><h3>One workflow</h3><p>Problem, data, Python, model, decision: the same chain for every application.</p><code>problem → … → decision</code></div>
+        <div class="card"><span class="sy" style="background:#EEF1F5;color:var(--ink)">{{i:notepad}}</span><h3>A notebook</h3><p>We loaded 1,030 lab tests with pandas and drew our first plot.</p><code>pd.read_csv("concrete.csv")</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:arrow-right}}</span>Today we stop assuming the table is ready. We ask whether it deserves a model.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 03 ROADMAP -->
+<style>
+  .road .cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .road .ph{display:flex;align-items:center;gap:14px;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .road .ph i{width:14px;height:14px;border-radius:4px}
+  .road .s{display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start;padding:24px 0;border-bottom:1px solid var(--rule)}
+  .road .s .no{font-weight:900;font-stretch:87.5%;font-size:54px;line-height:.9;letter-spacing:-.03em;color:#C9D2DE}
+  .road .s b{display:block;font-size:27px;line-height:1.2}
+  .road .s span{display:block;margin-top:6px;font-size:21px;color:var(--muted)}
+  .road .s.done .no{color:var(--Mi)}
+  .road .s.done b{color:var(--muted)}
+  .road .s .ok{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--surface);border:1px solid var(--surface-line);color:var(--muted);font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s.now{background:var(--Mt);margin:0 -24px;padding:24px 24px;border-radius:18px;border-bottom-color:transparent}
+  .road .s.now .no{color:var(--Mi)}
+  .road .s .tag{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--M);color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s .rs{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:17px;font-weight:700;color:var(--Yi)}
+  .road .s .rs svg{width:18px;height:18px}
+</style>
+<section class="slide c s0 road">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">The course at a glance</div>
+    <h2>Eight sessions. One engineering workflow.</h2>
+    <div class="main">
+      <div class="cols">
+        <div>
+          <div class="ph"><i style="background:var(--X)"></i>Part 1 · Foundations</div>
+          <div class="s done"><span class="no">01</span><div><b>From Engineering Problems to Python<span class="ok">Done</span></b><span>AI/ML basics, Google Colab, NumPy &amp; pandas</span></div></div>
+          <div class="s now"><span class="no">02</span><div><b>From Raw Engineering Data to an ML-Ready Dataset<span class="tag">Today</span></b><span>EDA, data quality, outliers, train/test split, leakage</span></div></div>
+          <div class="s"><span class="no">03</span><div><b>Your First Engineering Prediction Model</b><span>Linear regression, error metrics, cross-validation</span></div></div>
+          <div class="s"><span class="no">04</span><div><b>Nonlinear Engineering Problems: Trees &amp; Ensembles</b><span>Decision trees, Random Forest, boosting</span></div></div>
+        </div>
+        <div>
+          <div class="ph"><i style="background:var(--Y)"></i>Part 2 · Prediction to decision</div>
+          <div class="s"><span class="no">05</span><div><b>From Prediction to Engineering Decision: Classification</b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+          <div class="s"><span class="no">06</span><div><b>Artificial Neural Networks</b><span>Architecture, activations, training, overfitting</span></div></div>
+          <div class="s"><span class="no">07</span><div><b>Can We Trust Our ML Model?</b><span>Feature importance, SHAP, engineering judgement</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+          <div class="s"><span class="no">08</span><div><b>From Prediction to Probability</b><span>Monte Carlo, ML surrogates, probability of failure</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 04 TODAY -->
+<style>
+  .today .wrap{display:grid;grid-template-columns:1fr 560px;gap:64px;height:100%}
+  .today .left{display:flex;flex-direction:column;gap:18px}
+  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:28px 30px;border-radius:24px}
+  .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;letter-spacing:-.04em}
+  .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
+  .today .pt span{display:block;margin-top:8px;font-size:22px;color:var(--ink-2)}
+  .today .lgs{display:flex;gap:10px}
+  .today .lgt svg{width:36px;height:36px}
+  .today .out{background:var(--ink);color:#fff;border-radius:28px;padding:44px 42px 44px}
+  .today .out .lbl{color:#9FB3CC}
+  .today .out ul{margin-top:20px;list-style:none}
+  .today .out li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:24px 0;border-top:1px solid rgba(255,255,255,.14);font-size:25px;line-height:1.35}
+  .today .out li svg{width:28px;height:28px;color:#4FD3A0;stroke-width:2.4;margin-top:2px}
+</style>
+<section class="slide c s0 today">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Today · Session 02</div>
+    <h2>From raw engineering data to an ML-ready dataset</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>Know your data</b><span>What “ML-ready” means · three datasets · the first audit · plausibility</span></div><div class="lgs"><span class="lgt" style="color:var(--Xi)">{{i:magnifying-glass}}</span><span class="lgt">{{logo:pandas}}</span></div></div>
+          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>Clean &amp; explore</b><span>Missing values · outliers · distributions · correlation vs causation</span></div><div class="lgs"><span class="lgt" style="color:var(--Yi)">{{i:broom}}</span><span class="lgt">{{logo:matplotlib}}</span></div></div>
+          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Prepare to model</b><span>X and y · leakage · train/test split · class balance · scaling</span></div><div class="lgs"><span class="lgt" style="color:var(--Mi)">{{i:arrows-split}}</span><span class="lgt">{{logo:scikitlearn}}</span></div></div>
+        </div>
+        <div class="out">
+          <div class="lbl">By the end of today you can</div>
+          <ul>
+            <li>{{i:check-circle}}<span>Audit a dataset: size, types, missing values, duplicates and plausible ranges</span></li>
+            <li>{{i:check-circle}}<span>Decide what to do with missing values and outliers, and say why</span></li>
+            <li>{{i:check-circle}}<span>Read distributions and correlations without over-reading them</span></li>
+            <li>{{i:check-circle}}<span>Choose X and y, spot leakage, and split train and test reproducibly</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 05 WHERE TODAY FITS -->
+<style>
+  .wf .chain{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+  .wf .node{position:relative;border-radius:22px;background:var(--surface);border:1px solid var(--surface-line);padding:26px 24px 28px;min-height:250px;display:flex;flex-direction:column}
+  .wf .node b{margin-top:auto !important}
+  .wf .node .top2{display:flex;align-items:center;justify-content:space-between}
+  .wf .node .no{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--muted)}
+  .wf .node .ic{width:56px;height:56px;border-radius:16px;background:#fff;color:var(--ink)}
+  .wf .node b{display:block;margin-top:20px;font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.015em;line-height:1.05}
+  .wf .node span.d{display:block;margin-top:10px;font-size:20px;color:var(--ink-2);line-height:1.35}
+  .wf .node:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:14px;height:14px;margin-top:-7px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg);z-index:2}
+  .wf .node.dim{opacity:.4}
+  .wf .node.hot{background:var(--X);border-color:var(--X)}.wf .node.hot b,.wf .node.hot span.d,.wf .node.hot .no{color:#fff}.wf .node.hot .ic{color:var(--Xi)}
+  .fits .brk{display:grid;grid-template-columns:repeat(6,1fr);gap:20px}
+  .fits .brk div{grid-column:2 / span 1;text-align:center;font-size:19px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--Xi)}
+  .fits .brk div:before{content:"";display:block;height:18px;margin:0 20px 10px;border:3px solid var(--Xl);border-top:0;border-radius:0 0 14px 14px}
+  .fits .risks{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .fits .risks div{padding:24px 28px;border-radius:20px;background:var(--Yt);border:1px solid var(--Yl)}
+  .fits .risks b{display:block;font-size:28px;color:var(--Yi)}
+  .fits .risks span{display:block;margin-top:6px;font-size:23px;color:var(--ink-2)}
+  .fits .q{margin-top:10px;font-weight:800;font-stretch:87.5%;font-size:60px;line-height:1.08;letter-spacing:-.025em;max-width:1500px}
+</style>
+<section class="slide c s0 wf fits">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Session 02 · where today fits</div>
+    <h2>The data step decides what every later step can do</h2>
+    <div class="main">
+      <div class="chain">
+        <div class="node dim"><div class="top2"><span class="no">01</span><span class="ic">{{i:hard-hat}}</span></div><b>Engineering problem</b><span class="d">Define the question</span></div>
+        <div class="node hot"><div class="top2"><span class="no">02</span><span class="ic">{{i:database}}</span></div><b>Data</b><span class="d">Understand &amp; prepare</span></div>
+        <div class="node dim"><div class="top2"><span class="no">03</span><span class="ic">{{i:brain}}</span></div><b>Model</b><span class="d">Learn patterns</span></div>
+        <div class="node dim"><div class="top2"><span class="no">04</span><span class="ic">{{i:seal-check}}</span></div><b>Validation</b><span class="d">Test generalisation</span></div>
+        <div class="node dim"><div class="top2"><span class="no">05</span><span class="ic">{{i:magnifying-glass}}</span></div><b>Interpre&shy;tation</b><span class="d">Understand predictions</span></div>
+        <div class="node dim"><div class="top2"><span class="no">06</span><span class="ic">{{i:scales}}</span></div><b>Decision</b><span class="d">Use engineering judgement</span></div>
+      </div>
+      <div class="brk"><div>Today</div></div>
+      <div class="q">A model is only as meaningful as the <span class="mk">problem formulation and data</span> behind it.</div>
+      <div class="grow"></div>
+      <div class="risks">
+        <div><b>Wrong units</b><span>→ a model that learns the wrong physics</span></div>
+        <div><b>Unexamined gaps</b><span>→ a model blind to unusual conditions</span></div>
+        <div><b>Leaked information</b><span>→ test scores that never return in practice</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 1 -->
+<section class="slide dv dv1">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">01</div>
+  <ol><li><span>a</span>What “ML-ready” means</li><li><span>b</span>A dataset is more than a table</li><li><span>c</span>Three datasets, three lessons</li><li><span>d</span>The first audit</li><li><span>e</span>Is it physically plausible?</li></ol>
+  <div class="part"><div class="k">Part 01 · Data quality</div><h2>Know your data before you trust it</h2></div>
+</section>
+
+<!-- ===================================================================== ML-READY -->
+<style>
+  .ready .g6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:22px}
+  .ready .card{display:flex;flex-direction:column;padding:30px 34px}
+  .ready .hd{display:flex;align-items:center;gap:20px}
+  .ready .card h3{font-size:36px}
+  .ready .card p{margin-top:16px;font-size:25px;color:var(--ink)}
+  .ready .card code{margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+  .ready .card.av{background:var(--Xt);border-color:var(--Xl)}
+  .ready .card.av .ic{background:#fff}
+</style>
+<section class="slide c s1 ready">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Six questions before any model</div>
+    <h2>What does “ML-ready” actually mean?</h2>
+    <div class="main">
+      <div class="g6 grow">
+        <div class="card"><div class="hd"><span class="ic">{{i:rows}}</span><h3>Observations</h3></div><p>What does each row represent?</p><code>one mix, tested at one age</code></div>
+        <div class="card"><div class="hd"><span class="ic">{{i:columns}}</span><h3>Variables</h3></div><p>What does every column mean?</p><code>“ash” = fly ash, not bottom ash</code></div>
+        <div class="card"><div class="hd"><span class="ic">{{i:ruler}}</span><h3>Units</h3></div><p>Are the values physically interpretable?</p><code>kg/m³ · days · MPa</code></div>
+        <div class="card"><div class="hd"><span class="ic">{{i:warning-circle}}</span><h3>Quality</h3></div><p>What is missing, duplicated or unusual?</p><code>NaN · repeated rows · extremes</code></div>
+        <div class="card"><div class="hd"><span class="ic">{{i:target}}</span><h3>Target</h3></div><p>What exactly are we trying to predict?</p><code>strength at the tested age</code></div>
+        <div class="card av"><div class="hd"><span class="ic">{{i:clock}}</span><h3>Availability</h3></div><p>Would this information exist at prediction time?</p><code>known at mix design? at day 7?</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:lightbulb}}</span>ML-ready ≠ merely clean. Clean means no errors; ML-ready means every column is understood.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DATASET IS NOT A TABLE -->
+<style>
+  .tbl .wrap{display:grid;grid-template-columns:900px 1fr;gap:56px;flex:1;align-content:center}
+  .tbl .roles{display:grid;grid-template-columns:76px 1fr 1fr 1fr 1fr 1.15fr;gap:0;margin-bottom:10px}
+  .tbl .roles span{justify-self:center}
+  .tbl table.d{width:100%;border-collapse:separate;border-spacing:0;font-family:'JetBrains Mono',monospace;font-size:25px;border:1px solid var(--surface-line);border-radius:18px;overflow:hidden}
+  .tbl table.d th{padding:16px 14px;text-align:right;font-family:'Archivo';font-size:20px;font-weight:700;color:#fff;background:var(--X)}
+  .tbl table.d th.i{background:var(--surface);color:var(--muted)}
+  .tbl table.d th.y{background:var(--Y)}
+  .tbl table.d td{padding:22px 14px;text-align:right;border-top:1px solid var(--surface-line)}
+  .tbl table.d td.i{background:var(--surface);color:var(--muted);text-align:center}
+  .tbl table.d td.y{background:var(--Yt);color:var(--Yi);font-weight:700}
+  .tbl table.d tr.r1 td{background:var(--Mt)}
+  .tbl table.d tr.r1 td.i{background:var(--M);color:#fff;font-weight:700}
+  .tbl .cap{margin-top:14px;display:flex;align-items:center;gap:12px;font-size:21px;color:var(--ink-2)}
+  .tbl .cap i{width:18px;height:18px;border-radius:5px;background:var(--M)}
+  .tbl .dict .lbl{margin-bottom:12px}
+  .tbl .dict table{width:100%;border-collapse:collapse}
+  .tbl .dict th{text-align:left;padding:0 12px 12px 0;border-bottom:2px solid var(--ink);font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tbl .dict td{padding:20px 12px 20px 0;border-bottom:1px solid var(--rule);font-size:22px;color:var(--ink-2);vertical-align:top}
+  .tbl .dict td:first-child{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--ink)}
+  .tbl .dict td.u{font-family:'JetBrains Mono',monospace;font-size:19px;white-space:nowrap}
+  .tbl .dict .chip{height:34px;font-size:17px;padding:0 12px}
+</style>
+<section class="slide c s1 tbl">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Rows, features, target, units</div>
+    <h2>A dataset is not just a table</h2>
+    <div class="main">
+      <div class="wrap">
+        <div>
+          <div class="roles"><span></span><span class="chip x" style="grid-column:2 / span 4"><span class="sym">X</span>&nbsp;features: inputs used to predict</span><span class="chip y"><span class="sym">y</span>&nbsp;target</span></div>
+          <table class="d">
+            <tr><th class="i"></th><th>cement</th><th>slag</th><th>water</th><th>age</th><th class="y">strength</th></tr>
+            {{tblrows}}
+          </table>
+          <div class="cap"><i></i><span><b>One row = one observation:</b> one mix, tested at one age.</span></div>
+        </div>
+        <div class="dict">
+          <div class="lbl">A data dictionary · write it before modelling</div>
+          <table>
+            <tr><th>Column</th><th>Meaning</th><th>Unit</th><th>Role</th></tr>
+            <tr><td>cement</td><td>Portland cement per cubic metre of concrete</td><td class="u">kg/m³</td><td><span class="chip x">X</span></td></tr>
+            <tr><td>slag</td><td>Ground blast-furnace slag</td><td class="u">kg/m³</td><td><span class="chip x">X</span></td></tr>
+            <tr><td>water</td><td>Mixing water</td><td class="u">kg/m³</td><td><span class="chip x">X</span></td></tr>
+            <tr><td>age</td><td>Days from casting to testing</td><td class="u">days</td><td><span class="chip x">X</span></td></tr>
+            <tr><td>strength</td><td>Compressive strength at that age</td><td class="u">MPa</td><td><span class="chip y">y</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:book-open}}</span>Before modelling, understand what every column represents, and document its unit and role.</div>
+    </div>
+  </div>
+  <div class="src">Rows: UCI Concrete Compressive Strength dataset (Yeh, 1998), first rows of the file; three of the eight inputs shown. The full dictionary has nine entries.</div>
+</section>
+
+<!-- ===================================================================== THREE DATASETS -->
+<style>
+  .three .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .three .card{padding:0;overflow:hidden;display:flex;flex-direction:column}
+  .three .hd{padding:30px 34px 26px;color:#fff}
+  .three .hd .lbl{color:#fff;opacity:.85}
+  .three .hd h3{margin-top:8px;font-size:44px;color:#fff}
+  .three .hd .dm{display:flex;align-items:baseline;gap:10px;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
+  .three .hd .dm b{font-family:'Archivo';font-weight:900;font-stretch:87.5%;font-size:58px;line-height:.9;letter-spacing:-.03em;color:#fff}
+  .three .tx{padding:26px 34px 30px;display:flex;flex-direction:column;flex:1}
+  .three .tx p{font-size:24px;color:var(--ink)}
+  .three .tx .f{margin-top:auto;padding-top:20px;border-top:1px solid var(--surface-line)}
+  .three .tx .f .lbl{color:var(--c)}
+  .three .tx .f b{display:block;margin-top:8px;font-size:27px;line-height:1.25}
+  .three .tx .chip{align-self:flex-start;margin:18px 0 22px;height:40px;font-size:18px}
+</style>
+<section class="slide c s1 three">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Real data, all session · UCI Machine Learning Repository</div>
+    <h2>Three datasets, three lessons</h2>
+    <div class="main">
+      <div class="cols grow">
+        <div class="card" style="--c:var(--Xi)"><div class="hd" style="background:var(--X)"><div class="lbl">Materials · regression</div><h3>Concrete</h3><div class="dm"><b>1,030</b>mixes × 9 columns</div></div>
+          <div class="tx"><p>Laboratory mixes and their compressive strength at different ages. Relatively clean.</p><span class="chip">target: strength (MPa)</span><div class="f"><div class="lbl">Today’s lesson</div><b>Variables, distributions and relationships</b></div></div></div>
+        <div class="card" style="--c:var(--Yi)"><div class="hd" style="background:var(--Y)"><div class="lbl">Water &amp; environment · plant records</div><h3>Water treatment</h3><div class="dm"><b>527</b>days × 38 variables</div></div>
+          <div class="tx"><p>Daily sensor and laboratory readings from an urban wastewater plant. Messy, like most real records.</p><span class="chip">{{stat:wt_na}} values written as “?”</span><div class="f"><div class="lbl">Today’s lesson</div><b>Missing values and how to investigate them</b></div></div></div>
+        <div class="card" style="--c:var(--Mi)"><div class="hd" style="background:var(--M)"><div class="lbl">Steel · quality inspection</div><h3>Steel plates</h3><div class="dm"><b>1,941</b>plates × 27 features</div></div>
+          <div class="tx"><p>Geometry and luminosity measurements of surface faults on steel plates, each labelled with one of 7 fault types.</p><span class="chip">target: fault class (7)</span><div class="f"><div class="lbl">Today’s lesson</div><b>What the target means, and class balance</b></div></div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:arrows-clockwise}}</span>The engineering problem changes. The data-preparation questions remain.</div>
+    </div>
+  </div>
+  <div class="src">UCI Machine Learning Repository: Concrete Compressive Strength (Yeh, 1998); Water Treatment Plant (Poch; Bejar, Cortés &amp; Poch, 1993); Steel Plates Faults (Buscema, Terzi &amp; Tastle, 2010).</div>
+</section>
+
+<!-- ===================================================================== FIRST AUDIT -->
+<style>
+  .audit .wrap{display:grid;grid-template-columns:1fr 860px;gap:44px;height:100%}
+  .audit .chk{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:16px}
+  .audit .ck{padding:22px 26px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .audit .ck .no{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--sec-ink)}
+  .audit .ck b{display:block;margin-top:8px;font-size:27px;line-height:1.2}
+  .dk{border-radius:22px;background:#0F1A27;overflow:hidden}
+  .dk .hd{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:16px;color:#7E8FA3}
+  .dk .hd .fl{display:flex;align-items:center;gap:10px;color:#C6D2E1}
+  .dk .hd .fl img{height:20px}
+  .dk pre{padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:24px;line-height:1.6;color:#E6EDF5}
+  .dk .kw{color:#7CB7FF}.dk .st{color:#FDB797}.dk .cm{color:#7E8FA3}.dk .fn{color:#4FD3A0}.dk .nu{color:#FDB797}
+  .dk .out{padding:14px 26px 18px;background:#16263A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:24px;color:#fff}
+  .dk .out small{display:block;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4FD3A0;margin-bottom:4px}
+  .audit .dk pre{padding:0}
+  .audit .ln{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:16px 26px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .audit .ln pre{font-size:23px}
+  .audit .ln .o{font-family:'JetBrains Mono',monospace;font-size:23px;font-weight:700;color:#fff;padding:6px 14px;border-radius:10px;background:#16263A}
+  .audit .ln .o.hot{background:var(--Y);color:#fff}
+</style>
+<section class="slide c s1 audit">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Live in Colab · concrete dataset</div>
+    <h2>The first audit: what do we actually have?</h2>
+    <div class="main">
+      <div class="wrap grow">
+        <div class="chk">
+          <div class="ck"><span class="no">CHECK 01</span><b>How many observations?</b></div>
+          <div class="ck"><span class="no">CHECK 02</span><b>Which variables and data types?</b></div>
+          <div class="ck"><span class="no">CHECK 03</span><b>Any missing values?</b></div>
+          <div class="ck"><span class="no">CHECK 04</span><b>Any duplicate records?</b></div>
+          <div class="ck"><span class="no">CHECK 05</span><b>Are the values plausible?</b></div>
+          <div class="ck"><span class="no">CHECK 06</span><b>What is the target?</b></div>
+        </div>
+        <div class="dk">
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session02_data_preparation.ipynb</span><span>audit</span></div>
+          <div class="ln"><pre>df.<span class="fn">shape</span></pre><span class="o">(1030, 9)</span></div>
+          <div class="ln"><pre>df.<span class="fn">dtypes</span>.<span class="fn">value_counts</span>()</pre><span class="o">float64 8 · int64 1</span></div>
+          <div class="ln"><pre>df.<span class="fn">isna</span>().<span class="fn">sum</span>().<span class="fn">sum</span>()</pre><span class="o">0</span></div>
+          <div class="ln"><pre>df.<span class="fn">duplicated</span>().<span class="fn">sum</span>()</pre><span class="o hot">{{stat:dups}}</span></div>
+          <div class="ln"><pre>df.<span class="fn">describe</span>()   <span class="cm"># min, max, mean …</span></pre><span class="o">→ next slides</span></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:copy}}</span>Even our “clean” dataset holds {{stat:dups}} repeated rows: {{stat:dup_groups}} mixes appear two to four times with identical strengths.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TWO SIDES -->
+<style>
+  .sides .cols{display:grid;grid-template-columns:1fr 120px 1fr;align-items:stretch}
+  .sides .card{padding:36px 40px;display:flex;flex-direction:column}
+  .sides .card h3{margin-top:22px;font-size:44px}
+  .sides .card ul{margin-top:20px;list-style:none}
+  .sides .card li{padding:16px 0;border-top:1px solid var(--surface-line);font-size:26px;color:var(--ink)}
+  .sides .card .eg{margin-top:auto;padding-top:22px;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--c)}
+  .sides .ne{display:grid;place-items:center;font-weight:900;font-size:90px;color:#C9D2DE}
+  .sides .card.eng{background:var(--Xt);border-color:var(--Xl)}
+  .sides .card.eng .ic{background:#fff}
+</style>
+<section class="slide c s1 sides">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Two kinds of checks</div>
+    <h2>Data quality has two sides</h2>
+    <div class="main">
+      <div class="cols grow">
+        <div class="card eng" style="--c:var(--Xi)"><span class="ic">{{i:hard-hat}}</span><h3>Engineering checks</h3>
+          <ul><li>Units and dimensions</li><li>Physically plausible ranges</li><li>Measurement context</li><li>How the data were generated</li></ul>
+          <div class="eg">Is a w/c of 1.88 a real mix?</div></div>
+        <div class="ne">+</div>
+        <div class="card" style="--c:var(--muted)"><span class="ic" style="background:#EEF1F5;color:var(--ink)">{{i:function}}</span><h3>Computational checks</h3>
+          <ul><li>Missing values</li><li>Duplicate rows</li><li>Data types</li><li>Invalid entries</li></ul>
+          <div class="eg">df.isna() · df.duplicated() · df.dtypes</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>A dataset can be computationally clean and physically wrong.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== PLAUSIBILITY -->
+<style>
+  .plaus table{width:100%;border-collapse:collapse}
+  .plaus th{text-align:left;padding:0 22px 14px 0;border-bottom:2px solid var(--ink);font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .plaus td{padding:22px 22px 22px 0;border-bottom:1px solid var(--rule);font-size:24px;line-height:1.35;color:var(--ink-2);vertical-align:middle}
+  .plaus td.k{font-weight:700;color:var(--ink);font-size:26px;width:330px}
+  .plaus td.r{font-family:'JetBrains Mono',monospace;font-size:23px;font-weight:700;color:var(--ink);white-space:nowrap;width:280px}
+  .plaus td.v{width:250px}
+  .plaus .chip{height:40px;font-size:18px}
+  .plaus tr.hyp td{background:var(--Yt);border-bottom:none}
+  .plaus tr.hyp td:first-child{border-radius:16px 0 0 16px;padding-left:22px}
+  .plaus tr.hyp td:last-child{border-radius:0 16px 16px 0}
+</style>
+<section class="slide c s1 plaus">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Engineering checks, on real numbers · df.describe()</div>
+    <h2>Is every value physically plausible?</h2>
+    <div class="main">
+      <table>
+        <tr><th>Check</th><th>In the data</th><th>Engineering reading</th><th>Verdict</th></tr>
+        <tr><td class="k">Water–cement ratio</td><td class="r">{{stat:wc_min}} – {{stat:wc_max}}</td><td>High values belong to slag and fly-ash mixes: w/c ignores those binders. Water–binder ratio is 0.24 – 0.90.</td><td class="v"><span class="chip m">Plausible, explained</span></td></tr>
+        <tr><td class="k">Sum of ingredients</td><td class="r">{{stat:dens_min}} – {{stat:dens_max}}</td><td>In kg/m³: close to the unit weight expected of normal-weight concrete.</td><td class="v"><span class="chip m">Plausible</span></td></tr>
+        <tr><td class="k">Age at testing</td><td class="r">1 – 365 days</td><td>Standard test ages: 3, 7, 28, 56, 90 days and long-term tests.</td><td class="v"><span class="chip m">Plausible</span></td></tr>
+        <tr><td class="k">Compressive strength</td><td class="r">2.3 – 82.6 MPa</td><td>From very young concrete to high-strength mixes.</td><td class="v"><span class="chip m">Plausible</span></td></tr>
+        <tr class="hyp"><td class="k">What we would catch</td><td class="r">cement = 5400</td><td>Ten times too large: a unit slip or a misplaced decimal point. Code runs; physics fails.</td><td class="v"><span class="chip y">Investigate</span></td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:ruler}}</span>Computers check types. Engineers check physics.</div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). Water–binder ratio = water / (cement + slag + fly ash). The last row is a hypothetical error, not in the dataset.</div>
+</section>
+
+<!-- ===================================================================== DIVIDER 2 -->
+<section class="slide dv dv2">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">02</div>
+  <ol><li><span>a</span>Missing values: detect, investigate, decide</li><li><span>b</span>Missingness as an engineering clue</li><li><span>c</span>Outliers: unusual is not wrong</li><li><span>d</span>Explore distributions</li><li><span>e</span>Correlation is not causation</li></ol>
+  <div class="logos" style="top:600px">{{logo:pandas}}{{logo:matplotlib}}{{logo:numpy}}</div>
+  <div class="part"><div class="k">Part 02 · Exploration</div><h2>Clean and explore, with engineering eyes</h2></div>
+</section>
+
+<!-- ===================================================================== DETECT INVESTIGATE DECIDE -->
+<style>
+  .did .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+  .did .card{padding:36px 38px;display:flex;flex-direction:column;position:relative}
+  .did .card .n{font-weight:900;font-stretch:87.5%;font-size:96px;line-height:.85;letter-spacing:-.04em;color:var(--sec)}
+  .did .card h3{margin-top:22px;font-size:44px}
+  .did .card p{font-size:25px}
+  .did .card .q{margin-top:auto;padding-top:20px;border-top:1px solid var(--surface-line);font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--muted)}
+  .did .card:not(:last-child)::after{content:"";position:absolute;right:-20px;top:72px;width:14px;height:14px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg)}
+  .did .card.dc{background:var(--Yt);border-color:var(--Yl)}
+</style>
+<section class="slide c s2 did">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Missing data</div>
+    <h2>“What is missing?” is not enough</h2>
+    <div class="main">
+      <div class="cols grow">
+        <div class="card"><span class="n">1</span><h3>Detect</h3><p>Where are the missing values? How many? Are they concentrated in particular variables or periods?</p><div class="q">df.isna().sum()</div></div>
+        <div class="card"><span class="n">2</span><h3>Investigate</h3><p>Sensor failure? Maintenance? Transmission problem? Measurement not taken? Not applicable?</p><div class="q">ask the people who measured</div></div>
+        <div class="card dc"><span class="n">3</span><h3>Decide</h3><p>Delete, impute, or use a domain-informed treatment. Choose from the context, not from habit.</p><div class="q">document the choice</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:prohibit}}</span>There is no universal “remove missing values” rule.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== MESSY: ? -> NaN -->
+<style>
+  .messy .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .messy .stp{position:relative;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line);padding:20px 22px}
+  .messy .stp .lbl{font-size:15px}
+  .messy .stp b{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--ink)}
+  .messy .stp b.t{font-family:'Archivo';font-weight:800;font-stretch:87.5%;font-size:30px}
+  .messy .stp:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:14px;height:14px;margin-top:-7px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg)}
+  .messy .stp.hot{background:var(--Yt);border-color:var(--Yl)}
+  .messy .wrap{display:grid;grid-template-columns:1fr 560px;gap:40px}
+  .messy .dk pre{font-size:23px}
+  .messy .nums{display:flex;flex-direction:column;gap:16px}
+  .messy .nm{display:grid;grid-template-columns:190px 1fr;align-items:center;gap:20px;padding:20px 26px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .messy .nm b{font-weight:900;font-stretch:87.5%;font-size:60px;line-height:.9;letter-spacing:-.03em;color:var(--Yi)}
+  .messy .nm span{font-size:22px;color:var(--ink-2);line-height:1.35}
+  .messy .nm.g b{color:var(--Mi)}
+</style>
+<section class="slide c s2 messy">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Water treatment plant · live in Colab</div>
+    <h2>Real engineering data are messy</h2>
+    <div class="main">
+      <div class="flow">
+        <div class="stp hot"><span class="lbl">Raw value</span><b>"?"</b></div>
+        <div class="stp"><span class="lbl">Represent</span><b>NaN</b></div>
+        <div class="stp"><span class="lbl">Detect</span><b class="t">Count &amp; map</b></div>
+        <div class="stp"><span class="lbl">Investigate</span><b class="t">Why missing?</b></div>
+        <div class="stp"><span class="lbl">Decide</span><b class="t">Document</b></div>
+      </div>
+      <div class="wrap grow">
+        <div class="dk">
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session02_data_preparation.ipynb</span><span>water</span></div>
+<pre>wt = pd.<span class="fn">read_csv</span>(<span class="st">"water-treatment.data"</span>,
+                 header=<span class="kw">None</span>, na_values=<span class="st">"?"</span>)
+wt.<span class="fn">isna</span>().<span class="fn">sum</span>().<span class="fn">sum</span>()             <span class="cm"># all gaps</span>
+wt.<span class="fn">isna</span>().<span class="fn">any</span>(axis=<span class="nu">1</span>).<span class="fn">sum</span>()     <span class="cm"># days with a gap</span></pre>
+          <div class="out"><small>Output</small>{{stat:wt_na}}<br>{{stat:wt_rows_na}}</div>
+        </div>
+        <div class="nums">
+          <div class="nm"><b>{{stat:wt_na}}</b><span>missing values across 527 days and 38 variables</span></div>
+          <div class="nm"><b>{{stat:wt_rows_na}}</b><span>days with at least one gap: {{stat:wt_drop_pct}}% of the record</span></div>
+          <div class="nm g"><b>0</b><span>gaps in pH and conductivity on the plant inflow</span></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:info}}</span>Tell pandas what “missing” looks like in this file. Otherwise “?” is read as text and the column stops being numeric.</div>
+    </div>
+  </div>
+  <div class="src">Data: Water Treatment Plant, UCI Machine Learning Repository (Poch; Bejar, Cortés &amp; Poch, 1993). Column names are not in the file; we add them from its description.</div>
+</section>
+
+<!-- ===================================================================== MISSING MAP -->
+<style>
+  .mmap .chart{padding:22px 30px 14px}
+  .mmap .lg{display:flex;gap:22px;align-items:center;font-size:19px;color:var(--ink-2);font-weight:600}
+  .mmap .lg i{display:inline-block;width:18px;height:18px;border-radius:4px;vertical-align:-3px;margin-right:8px}
+  .mmap .hdr{display:flex;justify-content:space-between;align-items:flex-end}
+</style>
+<section class="slide c s2 mmap">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Detect · {{stat:wt_na}} gaps, mapped day by day</div>
+    <h2>Missingness follows the measurement method</h2>
+    <div class="main">
+      <div class="chart grow"><div class="hdr"><div><h3>Water treatment plant · 527 days · 38 variables in 9 groups</h3><div class="f">Each orange mark is one missing value. Rows grouped by what is measured; numbers on the right count the gaps.</div></div><div class="lg"><span><i style="background:#eb6834"></i>missing</span><span><i style="background:#F1F5F9;border:1px solid #E3E8EF"></i>recorded</span></div></div>{{chart:missmap}}</div>
+      <div class="take"><span class="ti">{{i:lightbulb}}</span>Online sensors (pH, conductivity) almost never miss. The 5-day BOD lab test, and the performance columns calculated from it, carry most gaps.</div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Water Treatment Plant. Rows sorted by date (the file stores months out of order). BOD = biological oxygen demand; COD = chemical oxygen demand; SS = suspended solids. Performance columns are removal ratios between plant stages.</div>
+</section>
+
+<!-- ===================================================================== MISSINGNESS IS A CLUE -->
+<style>
+  .clue .wrap{display:grid;grid-template-columns:1fr 600px;gap:44px;height:100%}
+  .clue .lead{font-size:30px;font-weight:600;color:var(--ink);margin-bottom:22px}
+  .clue .g4{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:18px}
+  .clue .r{display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:center;padding:24px 28px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .clue .r b{display:block;font-size:28px}
+  .clue .r span{display:block;margin-top:4px;font-size:21px;color:var(--ink-2)}
+  .clue .real{border-radius:28px;background:var(--ink);color:#fff;padding:40px 42px;display:flex;flex-direction:column}
+  .clue .real .lbl{color:#FDB797}
+  .clue .real .big{margin-top:16px;font-weight:900;font-stretch:87.5%;font-size:108px;line-height:.9;letter-spacing:-.04em;color:#fff}
+  .clue .real .big small{font-size:40px;color:#C6D2E1;margin-left:8px;letter-spacing:-.01em}
+  .clue .real p{margin-top:18px;font-size:25px;color:#E6EDF5}
+  .clue .real p b{color:#fff}
+  .clue .real .n2{margin-top:auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:21px;color:#C6D2E1;line-height:1.4}
+</style>
+<section class="slide c s2 clue">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Investigate</div>
+    <h2>Missingness can be an engineering clue</h2>
+    <div class="main">
+      <div class="wrap">
+        <div>
+          <div class="lead">Suppose a sensor has many missing values during one operating period. Why?</div>
+          <div class="g4">
+            <div class="r"><span class="ic">{{i:plug}}</span><div><b>Equipment downtime</b><span>The system was not operating.</span></div></div>
+            <div class="r"><span class="ic">{{i:wrench}}</span><div><b>Maintenance</b><span>Measurements were intentionally paused.</span></div></div>
+            <div class="r"><span class="ic">{{i:siren}}</span><div><b>Sensor malfunction</b><span>The gap itself signals a data-quality issue.</span></div></div>
+            <div class="r"><span class="ic">{{i:cloud-rain}}</span><div><b>Unusual conditions</b><span>The process moved outside normal operation, e.g. a storm inflow.</span></div></div>
+          </div>
+        </div>
+        <div class="real">
+          <div class="lbl">A real clue in this dataset</div>
+          <div class="big">{{stat:wt_sat}}<small>of 527 days</small></div>
+          <p>fall on a <b>Saturday</b>. Whole days are absent from the calendar because of a sampling schedule, not a fault.</p>
+          <div class="n2">A gap in the calendar and a “?” in a cell are different kinds of missing. Both carry information.</div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:eraser}}</span>Don’t erase information before understanding it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DECIDE: OPTIONS -->
+<style>
+  .opts table{width:100%;border-collapse:collapse}
+  .opts th{text-align:left;padding:0 24px 14px 0;border-bottom:2px solid var(--ink);font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .opts td{padding:20px 24px 20px 0;border-bottom:1px solid var(--rule);font-size:23px;line-height:1.35;color:var(--ink-2);vertical-align:middle}
+  .opts td.k b{display:block;font-size:26px;color:var(--ink)}
+  .opts td.k code{display:inline-block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--Yi)}
+  .opts td.k{width:400px}
+  .opts td.w{width:430px;color:var(--muted)}
+  .opts td .big{font-weight:800;color:var(--Yi)}
+</style>
+<section class="slide c s2 opts">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Decide · on the water-treatment record</div>
+    <h2>Every treatment of missing values has a cost</h2>
+    <div class="main">
+      <table>
+        <tr><th>Option</th><th>What it does here</th><th>Reasonable when</th></tr>
+        <tr><td class="k"><b>Drop incomplete rows</b><code>wt.dropna()</code></td><td>527 → {{stat:wt_complete}} days: <span class="big">{{stat:wt_drop_pct}}% of the record gone</span>, including unusual days.</td><td class="w">Gaps are few and random</td></tr>
+        <tr><td class="k"><b>Drop a column</b><code>wt.drop(columns=…)</code></td><td>Loses a variable with many gaps, and everything it could tell us.</td><td class="w">The variable is not needed or mostly empty</td></tr>
+        <tr><td class="k"><b>Fill with the median</b><code>wt.fillna(wt.median())</code></td><td>Quick, but writes “typical” values into what may have been untypical days.</td><td class="w">Gaps are short and random</td></tr>
+        <tr><td class="k"><b>Domain-informed fill</b><code>interpolate · recompute</code></td><td>Interpolate a slowly varying signal; recompute a performance ratio from its inputs.</td><td class="w">Process knowledge supports it</td></tr>
+        <tr><td class="k"><b>Keep a “was missing” flag</b><code>wt["BOD_missing"]</code></td><td>Lets a model use the fact that a value was missing.</td><td class="w">Missingness may itself mean something</td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:note-pencil}}</span>Whatever you choose, write it down: the treatment is part of the model. Learn fill values from training data only.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== OUTLIERS -->
+<style>
+  .outl .wrap{display:grid;grid-template-columns:1120px 1fr;gap:40px;height:100%}
+  .outl .chart{padding:24px 30px 10px}
+  .outl .chart svg{margin-top:16px}
+  .outl .side{display:flex;flex-direction:column;gap:18px}
+  .outl .side .card{padding:28px 32px}
+  .outl .side .card h3{font-size:30px}
+  .outl .side ul{margin-top:12px;list-style:none}
+  .outl .side li{padding:12px 0;border-top:1px solid var(--surface-line);font-size:23px;color:var(--ink-2)}
+  .outl .side li b{color:var(--ink)}
+  .outl .side .card.k{background:var(--Yt);border-color:var(--Yl)}
+  .outl .side .card.k p{font-size:23px;color:var(--ink)}
+</style>
+<section class="slide c s2 outl">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Outliers · the 1.5 × IQR rule on real concrete data</div>
+    <h2>Unusual does not automatically mean wrong</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>The rule flags 82 values in four columns</h3><div class="f">Box = middle 50% of mixes; whiskers reach 1.5 × the box width; orange points lie beyond.</div>{{chart:boxes}}</div>
+        <div class="side">
+          <div class="card"><h3>Investigate each flag</h3><ul><li>Measurement error</li><li>Data-entry error</li><li><b>Rare but legitimate condition</b></li><li><b>Extreme engineering case</b></li></ul></div>
+          <div class="card k"><div class="lbl" style="color:var(--Yi)">Here</div><p>All 59 “outlier” ages are real 180- to 365-day tests. Delete them and the model never learns long-term strength.</p></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:flag}}</span>Flag → investigate → decide. Avoid deleting observations just because they are extreme.</div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). IQR = interquartile range (75th minus 25th percentile).</div>
+</section>
+
+<!-- ===================================================================== EXPLORE DISTRIBUTIONS -->
+<style>
+  .expl .g4{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:20px}
+  .expl .chart{display:grid;grid-template-columns:1fr 330px;gap:22px;align-items:center;padding:20px 26px 14px}
+  .expl .chart svg{margin:0;height:100%;max-height:300px}
+  .expl .chart .tx h3{font-size:30px}
+  .expl .chart .tx p{margin-top:10px;font-size:22px;line-height:1.4}
+  .expl .code{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--ink-2);display:flex;align-items:center;gap:14px}
+  .expl .code b{padding:6px 14px;border-radius:10px;background:#0F1A27;color:#E6EDF5;font-weight:500}
+</style>
+<section class="slide c s2 expl">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Look before you model · <span style="text-transform:none;letter-spacing:0;font-family:'JetBrains Mono',monospace">df.hist()</span></div>
+    <h2>Explore before you model</h2>
+    <div class="main" style="gap:20px">
+      <div class="g4 grow">
+        <div class="chart">{{chart:hcement}}<div class="tx"><h3>Cement</h3><p>Spread from 102 to 540 kg/m³. No single “typical” mix.</p></div></div>
+        <div class="chart">{{chart:hwater}}<div class="tx"><h3>Water</h3><p>Spikes at 192 and 228 kg/m³: repeated mix designs, not a natural spread.</p></div></div>
+        <div class="chart">{{chart:hage}}<div class="tx"><h3>Age</h3><p>A few fixed test ages, 425 of them at 28 days. Not a smooth, continuous variable.</p></div></div>
+        <div class="chart">{{chart:hstrength}}<div class="tx"><h3>Strength</h3><p>Centred near 35 MPa with a long tail to 83 MPa: the target we will predict.</p></div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:binoculars}}</span>Ask: what would you notice before fitting a model? The plots are part of understanding, not decoration.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CORRELATION -->
+<style>
+  .corr .two{display:grid;grid-template-columns:840px 1fr;gap:28px}
+  .corr .chart{padding:22px 28px 12px}
+  .corr .scale{display:flex;gap:10px;margin-top:12px}
+  .corr .scale .chip{height:38px;font-size:17px}
+</style>
+<section class="slide c s2 corr">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Pearson correlation with strength · 1,030 mixes · <span style="text-transform:none;letter-spacing:0;font-family:'JetBrains Mono',monospace">df.corr()</span></div>
+    <h2>Correlation is a clue, not an answer</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="chart"><h3>Linear association of each input with strength</h3><div class="scale"><span class="chip">−1 strong negative</span><span class="chip">0 no linear association</span><span class="chip">+1 strong positive</span></div>{{chart:corr}}</div>
+        <div class="chart"><h3>Age: r = +0.33, yet it matters a lot</h3><div class="f">Strength rises quickly, then levels off. A straight-line measure misses that shape.</div>{{chart:agesc}}</div>
+      </div>
+      <div class="take"><span class="ti">{{i:chart-scatter}}</span>Correlation measures linear association: nonlinear relationships can be missed. And correlation ≠ causation.</div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). Right: 520 of the 1,030 mixes shown, jittered by ±3 days; green line = median strength per group of test ages.</div>
+</section>
+
+<!-- ===================================================================== POTHOLES -->
+<style>
+  .pot .wrap{display:grid;grid-template-columns:900px 1fr;gap:44px;height:100%}
+  .pot .art{border-radius:24px;background:var(--surface);border:1px solid var(--surface-line);display:grid;place-items:center;padding:20px}
+  .pot .art svg{width:100%;height:100%}
+  .pot .st{display:flex;flex-direction:column;gap:16px}
+  .pot .st .card{padding:26px 32px}
+  .pot .st .card h3{margin-top:6px;font-size:30px}
+  .pot .st .card.tc h3{text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:var(--Y)}
+  .pot .st .card.hf{background:var(--Yt);border-color:var(--Yl)}
+  .pot .st .card p{font-size:22px}
+</style>
+<section class="slide c s2 pot">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Correlation ≠ causation · a road-engineering example</div>
+    <h2>Do puddles cause potholes?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="art"><svg viewBox="0 0 860 540" font-family="Archivo">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#0E1A2B"/></marker></defs>
+          <g><rect x="40" y="40" width="300" height="84" rx="20" fill="#0E1A2B"/><text x="190" y="92" text-anchor="middle" font-size="28" font-weight="800" fill="#fff">Heavy traffic</text></g>
+          <g><rect x="520" y="40" width="300" height="84" rx="20" fill="#0E1A2B"/><text x="670" y="78" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">Cracked asphalt,</text><text x="670" y="108" text-anchor="middle" font-size="26" font-weight="800" fill="#fff">poor drainage</text></g>
+          <text x="430" y="30" text-anchor="middle" font-size="17" font-weight="800" letter-spacing="2" fill="#64748B">HIDDEN FACTORS</text>
+          <g><rect x="40" y="300" width="300" height="84" rx="20" fill="#fff" stroke="#2a78d6" stroke-width="3"/><text x="190" y="352" text-anchor="middle" font-size="28" font-weight="800" fill="#1F5FAF">Deeper pothole</text></g>
+          <g><rect x="520" y="300" width="300" height="84" rx="20" fill="#fff" stroke="#2a78d6" stroke-width="3"/><text x="670" y="352" text-anchor="middle" font-size="28" font-weight="800" fill="#1F5FAF">Larger puddle</text></g>
+          <g stroke="#0E1A2B" stroke-width="4" fill="none" marker-end="url(#ah)"><path d="M190 126 L190 294"/><path d="M640 126 L240 294"/><path d="M700 126 L700 294"/></g>
+          <path d="M516 342 L350 342" stroke="#eb6834" stroke-width="4" stroke-dasharray="10 10" fill="none"/>
+          <g transform="translate(433 342)"><circle r="24" fill="#eb6834"/><path d="M-9 -9 L9 9 M9 -9 L-9 9" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>
+          <text x="433" y="400" text-anchor="middle" font-size="19" font-weight="700" fill="#B9471B">observed together, not cause → effect</text>
+          <g transform="translate(40 440)"><rect width="780" height="64" rx="10" fill="#334155"/><rect y="64" width="780" height="22" fill="#94A3B8"/><path d="M300 0 C330 46 430 46 460 0 Z" fill="#cfe0f5"/><path d="M300 0 C330 46 430 46 460 0" stroke="#1F5FAF" stroke-width="3" fill="none"/><g stroke="#E2E8F0" stroke-width="3" fill="none"><path d="M120 0 l14 22 -10 18 16 24"/><path d="M600 0 l-12 18 14 20 -8 26"/></g><g fill="#F5F7FA"><rect x="40" y="28" width="40" height="7" rx="3"/><rect x="560" y="28" width="40" height="7" rx="3"/><rect x="700" y="28" width="40" height="7" rx="3"/></g></g>
+        </svg></div>
+        <div class="st">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Observed pattern</div><h3>Larger puddles go with deeper potholes.</h3></div>
+          <div class="card tc"><div class="lbl" style="color:var(--Yi)">Tempting conclusion</div><h3>“The puddle caused the pothole.”</h3></div>
+          <div class="card hf"><div class="lbl" style="color:var(--Yi)">Possible hidden factors</div><h3>Traffic, cracked asphalt and depressions shape both.</h3><p>A correlation points us toward a question. It does not establish the mechanism.</p></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:road-horizon}}</span>Engineering action should target the underlying cause, not merely the visible association.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== MOZZARELLA -->
+<style>
+  .moz .wrap{display:grid;grid-template-columns:900px 1fr;gap:44px;height:100%}
+  .moz .chart{padding:24px 30px 14px}
+  .moz .chart .tag{display:inline-flex;margin-top:12px;align-self:flex-start}
+  .moz .side{display:flex;flex-direction:column;gap:18px}
+  .moz .side .card{padding:30px 34px}
+  .moz .side .card p{margin-top:10px;font-size:24px;color:var(--ink)}
+  .moz .side .big{font-weight:800;font-stretch:87.5%;font-size:52px;line-height:1.05;letter-spacing:-.02em;color:var(--ink)}
+</style>
+<section class="slide c s2 moz">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">A memorable coincidence</div>
+    <h2>Mozzarella and civil-engineering Ph.D.s</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Two U.S. series that rose together, 2000–2009</h3><div class="f">Published correlation: r ≈ 0.95.</div><span class="chip tag">Schematic: shape only, not the published values</span>{{chart:mozz}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">The pattern</div><p>Per-capita mozzarella consumption and civil-engineering doctorates awarded moved together for a decade.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">The lesson</div><p>Strong association can arise by coincidence, or because both follow unrelated upward trends.</p></div>
+          <div class="big">Cheese does not cause Ph.D.s.</div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:cheese}}</span>Use the example to remember the principle, not as evidence of a causal relationship.</div>
+    </div>
+  </div>
+  <div class="src">Vigen, T. <i>Spurious Correlations</i> (tylervigen.com), from U.S. Department of Agriculture and National Science Foundation data. See also Science News Explores, “Correlation, causation, coincidence and more”.</div>
+</section>
+
+<!-- ===================================================================== DIVIDER 3 -->
+<section class="slide dv dv3">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">03</div>
+  <ol><li><span>a</span>Features X and target y</li><li><span>b</span>Not every column is a feature</li><li><span>c</span>Data leakage</li><li><span>d</span>Train ≠ test, and random_state</li><li><span>e</span>Class balance</li><li><span>f</span>Scaling: a preview</li></ol>
+  <div class="logos" style="top:660px">{{logo:scikitlearn}}{{logo:pandas}}</div>
+  <div class="part"><div class="k">Part 03 · Preparation &amp; evaluation setup</div><h2>Prepare the data for an honest model</h2></div>
+</section>
+
+<!-- ===================================================================== X -> MODEL -> y -->
+<style>
+  .xy2 .row{display:grid;grid-template-columns:1fr 90px 380px 90px 430px;align-items:stretch}
+  .xy2 .bx{border-radius:26px;padding:34px 36px}
+  .xy2 .bx .lbl{color:inherit;opacity:.9}
+  .xy2 .bx h3{margin-top:12px;font-size:44px;color:inherit}
+  .xy2 .fx{background:var(--Xt);border:1px solid var(--Xl);color:var(--Xi)}
+  .xy2 .fx .chips{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+  .xy2 .fx .chip{height:42px;font-size:19px}
+  .xy2 .md{background:var(--ink);color:#fff;display:flex;flex-direction:column}
+  .xy2 .md svg{width:54px;height:54px;color:#4FD3A0}
+  .xy2 .md p{margin-top:10px;font-size:23px;color:#C6D2E1}
+  .xy2 .ty{background:var(--Y);color:#fff}
+  .xy2 .ty .big{font-style:italic;font-weight:800;font-size:90px;line-height:.9}
+  .xy2 .ty p{margin-top:10px;font-size:25px;color:#fff}
+  .xy2 .ar{display:grid;place-items:center;color:#AAB6C5}
+  .xy2 .ar svg{width:46px;height:46px}
+  .xy2 .low{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .xy2 .dk pre{font-size:23px}
+  .xy2 .rd{border-radius:22px;background:var(--surface);border:1px solid var(--surface-line);padding:30px 34px}
+  .xy2 .ro{display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:center;padding:20px 0;border-top:1px solid var(--surface-line);margin-top:14px}
+  .xy2 .ro code{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--ink)}
+  .xy2 .ro span{font-size:24px;color:var(--ink-2)}
+</style>
+<section class="slide c s3 xy2">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Formulate the learning problem</div>
+    <h2>What exactly are we asking the model to learn?</h2>
+    <div class="main">
+      <div class="row">
+        <div class="bx fx"><div class="lbl">Features · X</div><h3>8 inputs</h3><div class="chips"><span class="chip x">Cement</span><span class="chip x">Slag</span><span class="chip x">Fly ash</span><span class="chip x">Water</span><span class="chip x">Superplasticizer</span><span class="chip x">Coarse agg.</span><span class="chip x">Fine agg.</span><span class="chip x">Age</span></div></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="bx md">{{i:brain}}<h3>Model</h3><p>Learns a relationship from examples</p></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="bx ty"><div class="lbl">Target · y</div><div class="big">y</div><p>Concrete compressive strength (MPa)</p></div>
+      </div>
+      <div class="low grow">
+        <div class="dk">
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session02_data_preparation.ipynb</span><span>X, y</span></div>
+<pre>X = df.<span class="fn">drop</span>(columns=<span class="st">"strength"</span>)   <span class="cm"># features</span>
+y = df[<span class="st">"strength"</span>]                  <span class="cm"># target</span>
+X.<span class="fn">shape</span>, y.<span class="fn">shape</span></pre>
+          <div class="out"><small>Output</small>((1030, 8), (1030,))</div>
+        </div>
+        <div class="rd"><div class="lbl">Read the output</div>
+          <div class="ro"><code>(1030, 8)</code><span>1,030 rows, 8 feature columns: the table <span class="sym">X</span></span></div>
+          <div class="ro"><code>(1030,)</code><span>one strength value per row: the vector <span class="sym">y</span></span></div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>Features are the information we use. The target is the quantity we want to predict.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== NOT EVERY COLUMN -->
+<style>
+  .roles .wrap{display:grid;grid-template-columns:1fr 600px;gap:44px;height:100%}
+  .roles .g4{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:18px}
+  .roles .card{padding:28px 32px;display:flex;flex-direction:column}
+  .roles .card h3{font-size:36px}
+  .roles .card p{margin-top:8px;font-size:23px}
+  .roles .card code{margin-top:auto;padding-top:16px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--c)}
+  .roles .card .lbl{color:var(--c)}
+  .roles .card.lk{background:var(--Yt);border-color:var(--Yl)}
+  .roles .ask{border-radius:28px;background:var(--ink);color:#fff;padding:42px}
+  .roles .ask .lbl{color:#4FD3A0}
+  .roles .ask ol{margin-top:20px;list-style:none}
+  .roles .ask li{display:grid;grid-template-columns:60px 1fr;padding:24px 0;border-top:1px solid rgba(255,255,255,.14);font-size:30px;font-weight:700;line-height:1.25}
+  .roles .ask li span{font-family:'JetBrains Mono',monospace;font-size:20px;color:#4FD3A0;padding-top:6px}
+</style>
+<section class="slide c s3 roles">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Column roles</div>
+    <h2>Not every column should become a feature</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="g4">
+          <div class="card" style="--c:var(--Xi)"><div class="lbl">Feature</div><h3>Known at prediction time</h3><p>Information we will genuinely have.</p><code>cement, water, age</code></div>
+          <div class="card" style="--c:var(--Yi)"><div class="lbl">Target</div><h3>What we predict</h3><p>One column, chosen deliberately.</p><code>strength · fault class</code></div>
+          <div class="card" style="--c:var(--muted)"><div class="lbl">Identifier</div><h3>Names, IDs, dates</h3><p>Labels for a row; often no predictive meaning.</p><code>"D-1/3/90" · specimen no.</code></div>
+          <div class="card lk" style="--c:var(--Yi)"><div class="lbl">Leaked information</div><h3>Not available in time</h3><p>Would not exist when the prediction is made.</p><code>56-day strength → 28-day</code></div>
+        </div>
+        <div class="ask"><div class="lbl">Before using a column, ask</div><ol><li><span>01</span>What does it represent?</li><li><span>02</span>When would it be known?</li><li><span>03</span>Could it reveal the answer indirectly?</li></ol></div>
+      </div>
+      <div class="take"><span class="ti">{{i:columns}}</span>“I have a column” does not mean “I should give it to the model.”</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== LEAKAGE -->
+<style>
+  .leak .wrap{display:grid;grid-template-columns:640px 1fr;gap:48px;height:100%}
+  .leak .chainv{display:flex;flex-direction:column;gap:0}
+  .leak .lv{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:center;padding:24px 28px;border-radius:20px;font-size:26px;font-weight:700}
+  .leak .lv .n{font-family:'JetBrains Mono',monospace;font-size:20px;opacity:.8}
+  .leak .dn{height:40px;display:grid;place-items:center;color:#AAB6C5}
+  .leak .dn svg{width:26px;height:26px}
+  .leak .ex{display:flex;flex-direction:column;gap:20px}
+  .leak .ex .card{padding:30px 34px;flex:1}
+  .leak .ex .card h3{margin-top:8px;font-size:32px}
+  .leak .ex .card p{margin-top:12px;font-size:24px}
+  .leak .ex .card code{display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--Yi)}
+</style>
+<section class="slide c s3 leak">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">The silent killer</div>
+    <h2>Data leakage: excellent tests, disappointing reality</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chainv">
+          <div class="lv" style="background:var(--Yt);color:var(--Yi)"><span class="n">01</span>Information unavailable at prediction time</div>
+          <div class="dn">{{i:arrow-down}}</div>
+          <div class="lv" style="background:var(--Yt);color:var(--Yi)"><span class="n">02</span>Influences training or preprocessing</div>
+          <div class="dn">{{i:arrow-down}}</div>
+          <div class="lv" style="background:var(--Mt);color:var(--Mi)"><span class="n">03</span>Test performance looks excellent</div>
+          <div class="dn">{{i:arrow-down}}</div>
+          <div class="lv" style="background:var(--ink);color:#fff"><span class="n">04</span>Real-world performance disappoints</div>
+        </div>
+        <div class="ex">
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Leak through a column</div><h3>Predicting 28-day strength at the mix-design stage</h3><p>…with the 56-day result or an acceptance-test pass/fail as an input. Neither exists when the mix is designed.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Leak through preprocessing</div><h3>Filling or scaling with the full dataset</h3><p>Medians or scales computed before the split let the test rows quietly shape training.</p><code>split first → fit on train → apply to test</code></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:clock-countdown}}</span>Ask: would this information genuinely be available when I make the prediction?</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TRAIN != TEST -->
+<style>
+  .split .bar{display:flex;flex-direction:column;gap:14px}
+  .split .full{height:96px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line);display:flex;align-items:center;justify-content:space-between;padding:0 30px}
+  .split .full b{font-size:30px}
+  .split .full span,.split .pt span{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
+  .split .dn{display:flex;align-items:center;gap:14px;font-size:19px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .split .dn svg{width:28px;height:28px;color:var(--ink)}
+  .split .parts{display:flex;gap:14px;height:150px}
+  .split .pt{border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+  .split .pt b{font-size:34px;font-weight:800;font-stretch:87.5%;color:#fff}
+  .split .pt p{font-size:21px;color:#fff;line-height:1.3}
+  .split .low{display:grid;grid-template-columns:1fr 640px;gap:28px}
+  .split .dk pre{font-size:22px}
+  .split .card{padding:28px 32px;background:var(--Yt);border-color:var(--Yl);align-self:start}
+  .split .card h3{font-size:30px}
+  .split .card p{font-size:23px}
+</style>
+<section class="slide c s3 split">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Evaluation setup · split before you fit</div>
+    <h2>Train ≠ Test</h2>
+    <div class="main" style="gap:24px">
+      <div class="bar">
+        <div class="full"><b>Full dataset · all available observations</b><span>1,030 mixes</span></div>
+        <div class="dn">{{i:arrow-down}}Split the data before fitting the model</div>
+        <div class="parts">
+          <div class="pt" style="flex:80;background:var(--M)"><b>TRAIN · 80%</b><p>The model learns from these observations.</p><span>{{stat:n_train}} mixes</span></div>
+          <div class="pt" style="flex:20;background:var(--Y)"><b>TEST · 20%</b><p>Kept aside for unseen data.</p><span>{{stat:n_test}} mixes</span></div>
+        </div>
+      </div>
+      <div class="low grow">
+        <div class="dk">
+          <div class="hd"><span class="fl">{{logo:googlecolab}}Session02_data_preparation.ipynb</span><span>split</span></div>
+<pre><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="nu">0.2</span>, random_state=<span class="nu">42</span>)</pre>
+          <div class="out"><small>X_train.shape, X_test.shape</small>((824, 8), (206, 8))</div>
+        </div>
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Remember the {{stat:dups}} duplicates?</div><h3 style="margin-top:8px">Remove them before splitting.</h3><p>A row in train with its twin in test makes the test look easier than reality.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== SEEN vs UNSEEN -->
+<style>
+  .seen .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .seen .card{padding:40px 44px;display:flex;flex-direction:column}
+  .seen .card h3{margin-top:24px;font-size:46px}
+  .seen .card p{font-size:26px}
+  .seen .card .an{margin-top:auto;padding-top:24px;border-top:1px solid var(--surface-line);font-size:24px;color:var(--ink)}
+  .seen .card .an b{color:var(--c)}
+  .seen .card.u{background:var(--Mt);border-color:var(--Ml)}
+  .seen .card.u .ic{background:#fff}
+  .seen .flow{display:flex;align-items:center;gap:16px}
+  .seen .flow .lbl{margin-right:8px}
+  .seen .flow .s{height:58px;padding:0 22px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;font-size:23px;background:var(--surface);border:1px solid var(--surface-line);color:var(--ink-2)}
+  .seen .flow .s.m{background:var(--M);border-color:var(--M);color:#fff;font-weight:700}
+  .seen .flow svg{width:26px;height:26px;color:#AAB6C5}
+  .seen .big{font-weight:800;font-stretch:87.5%;font-size:56px;letter-spacing:-.02em;line-height:1.05;text-align:center}
+</style>
+<section class="slide c s3 seen">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Why keep a test set at all?</div>
+    <h2>Why not evaluate on the data the model has seen?</h2>
+    <div class="main">
+      <div class="cols grow">
+        <div class="card" style="--c:var(--Yi)"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:exam}}</span><h3>Seen data</h3><p>A model may perform well on examples it has already learned from, even by memorising them.</p><div class="an"><b>Like a student</b> scoring full marks on last year’s paper after memorising its answers.</div></div>
+        <div class="card u" style="--c:var(--Mi)"><span class="ic">{{i:student}}</span><h3>Unseen data</h3><p>We need an honest estimate of how it may perform on new observations: the next mix, the next plate.</p><div class="an"><b>Like a new paper:</b> it shows what was understood, not what was remembered.</div></div>
+      </div>
+      <div class="flow"><span class="lbl">In Session 03</span><span class="s"><b>Fit</b> on train</span>{{i:arrow-right}}<span class="s"><b>Predict</b> the test rows</span>{{i:arrow-right}}<span class="s"><b>Compare</b> with their true <span class="sym">y</span></span>{{i:arrow-right}}<span class="s m">An honest error estimate</span></div>
+      <div class="big">Training performance ≠ <span class="mk">generalisation performance.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== random_state -->
+<style>
+  .seed .rows{display:flex;flex-direction:column;gap:12px}
+  .seed .grp{border-radius:24px;padding:26px 32px;background:var(--surface);border:1px solid var(--surface-line)}
+  .seed .grp.fx{background:var(--Mt);border-color:var(--Ml)}
+  .seed .grp .hd{display:flex;align-items:baseline;justify-content:space-between}
+  .seed .grp .hd b{font-family:'JetBrains Mono',monospace;font-size:26px}
+  .seed .grp .hd span{font-size:22px;color:var(--ink-2)}
+  .seed .r{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:20px;margin-top:16px}
+  .seed .r i{font-style:normal;font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--muted)}
+  .seed .r svg{width:100%;height:44px}
+  .seed .lg{display:flex;gap:26px;font-size:20px;font-weight:600;color:var(--ink-2)}
+  .seed .lg i{display:inline-block;width:18px;height:18px;border-radius:4px;margin-right:8px;vertical-align:-3px}
+</style>
+<section class="slide c s3 seed">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Reproducibility · which 8 of 40 rows land in the test set?</div>
+    <h2>Why random_state = 42?</h2>
+    <div class="main">
+      <div class="lg"><span><i style="background:#1baf7a;opacity:.55"></i>train row</span><span><i style="background:#eb6834"></i>test row</span></div>
+      <div class="rows">
+        <div class="grp"><div class="hd"><b>No fixed seed</b><span>Results may vary because the samples differ.</span></div>
+          <div class="r"><i>run 1</i>{{chart:seedA}}</div><div class="r"><i>run 2</i>{{chart:seedB}}</div></div>
+        <div class="grp fx"><div class="hd"><b>random_state=42</b><span>Same split every time: easier to reproduce and compare.</span></div>
+          <div class="r"><i>run 1</i>{{chart:seed42}}</div><div class="r"><i>run 2</i>{{chart:seed42}}</div></div>
+      </div>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:dice-five}}</span>42 has no engineering meaning. It is simply a fixed random seed. Any number works, as long as it is recorded.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CLASS BALANCE -->
+<style>
+  .bal .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .bal .chart{padding:24px 30px 14px}
+  .bal .side{display:flex;flex-direction:column;gap:18px}
+  .bal .bign{font-weight:900;font-stretch:87.5%;font-size:110px;line-height:.9;letter-spacing:-.04em;color:var(--Yi)}
+  .bal .bign small{font-size:44px}
+  .bal .side p{font-size:24px}
+  .bal .side .card{padding:26px 30px}
+  .bal .side .card p{margin-top:8px;font-size:22px}
+  .bal .side code{display:inline-block;padding:8px 14px;border-radius:10px;background:#0F1A27;color:#E6EDF5;font-family:'JetBrains Mono',monospace;font-size:19px}
+</style>
+<section class="slide c s3 bal">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Steel plates · what does the target look like?</div>
+    <h2>Class balance changes what “good” means</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>1,941 plates, 7 fault classes</h3><div class="f"><span class="sym">y</span> = fault type. Orange: classes below 5% of the plates.</div>{{chart:classes}}</div>
+        <div class="side">
+          <div><div class="bign">34.7<small>%</small></div><p>accuracy of a useless model that always answers “Other faults”.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Rare classes</div><p>A random 20% test set holds only about 11 Dirtiness plates.</p></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Keep the proportions</div><p style="margin-bottom:12px">Stratify the split by the target:</p><code>train_test_split(…, stratify=y)</code></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:scales}}</span>Before building a classifier, look at the target. Balance decides which accuracy is impressive. (Session 05)</div>
+    </div>
+  </div>
+  <div class="src">Data: Steel Plates Faults, UCI Machine Learning Repository (Buscema, Terzi &amp; Tastle, 2010). Every plate carries exactly one fault label.</div>
+</section>
+
+<!-- ===================================================================== SCALING -->
+<style>
+  .scl .wrap{display:grid;grid-template-columns:1080px 1fr;gap:40px;height:100%}
+  .scl .chart{padding:24px 30px 14px}
+  .scl .side{display:flex;flex-direction:column;gap:18px}
+  .scl .side .card{padding:26px 30px}
+  .scl .side .card h3{font-size:28px}
+  .scl .side .card p{margin-top:8px;font-size:22px}
+  .scl .fit{border-radius:24px;background:var(--ink);color:#fff;padding:30px 32px}
+  .scl .fit .lbl{color:#4FD3A0}
+  .scl .fit b{display:block;margin-top:10px;font-size:30px;font-weight:800;font-stretch:87.5%;color:#fff;line-height:1.15}
+  .scl .fit pre{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:19px;line-height:1.6;color:#E6EDF5}
+  .scl .fit pre .fn{color:#4FD3A0}.scl .fit pre .cm{color:#7E8FA3}
+</style>
+<section class="slide c s3 scl">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">An important preview</div>
+    <h2>Scaling: same data, very different numbers</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Range of each concrete input, on one axis</h3><div class="f">Aggregates sit in the hundreds of kg/m³; superplasticizer in the tens; age in days.</div>{{chart:ranges}}</div>
+        <div class="side">
+          <div class="card"><h3>Sensitive to scale</h3><p>Distance- and gradient-based methods: k-nearest neighbours, SVMs, neural networks.</p></div>
+          <div class="card"><h3>Less sensitive</h3><p>Tree-based methods: decision trees, random forests (Session 04).</p></div>
+          <div class="fit"><div class="lbl">The rule</div><b>Fit preprocessing on training data, not on the full dataset.</b><pre>scaler.<span class="fn">fit</span>(X_train)      <span class="cm"># learn</span>
+scaler.<span class="fn">transform</span>(X_test) <span class="cm"># apply</span></pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). Bars run from the minimum to the maximum in the dataset.</div>
+</section>
+
+<!-- ===================================================================== COMPLETE JOURNEY -->
+<style>
+  .jour .g8{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:20px}
+  .jour .st{position:relative;border-radius:22px;padding:28px 30px;display:flex;flex-direction:column;background:var(--t);border:1px solid var(--l)}
+  .jour .st .n{font-weight:900;font-stretch:87.5%;font-size:64px;line-height:.85;letter-spacing:-.03em;color:var(--c)}
+  .jour .st b{margin-top:auto;padding-top:18px;font-size:30px;font-weight:800;font-stretch:87.5%;line-height:1.12;letter-spacing:-.01em}
+  .jour .st small{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--c)}
+  .jour .p1{--c:var(--Xi);--t:var(--Xt);--l:var(--Xl)}.jour .p2{--c:var(--Yi);--t:var(--Yt);--l:var(--Yl)}.jour .p3{--c:var(--Mi);--t:var(--Mt);--l:var(--Ml)}
+  .jour .big{font-weight:800;font-stretch:87.5%;font-size:56px;letter-spacing:-.02em;line-height:1.05}
+</style>
+<section class="slide c s0 jour">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Summary · today’s workflow</div>
+    <h2>The complete journey</h2>
+    <div class="main">
+      <div class="g8 grow">
+        <div class="st p1"><span class="n">01</span><b>Understand the variables</b><small>data dictionary</small></div>
+        <div class="st p1"><span class="n">02</span><b>Check data quality</b><small>shape · dtypes</small></div>
+        <div class="st p2"><span class="n">03</span><b>Investigate missing values &amp; duplicates</b><small>isna · duplicated</small></div>
+        <div class="st p1"><span class="n">04</span><b>Check physical plausibility</b><small>describe</small></div>
+        <div class="st p2"><span class="n">05</span><b>Explore distributions &amp; relationships</b><small>hist · corr</small></div>
+        <div class="st p3"><span class="n">06</span><b>Define features X and target y</b><small>drop · select</small></div>
+        <div class="st p3"><span class="n">07</span><b>Prevent leakage</b><small>known in time?</small></div>
+        <div class="st p3"><span class="n">08</span><b>Split train / test</b><small>train_test_split</small></div>
+      </div>
+      <div class="big">Good ML begins <span class="mk" style="--sec:#1baf7a">before the algorithm.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== NOTEBOOK -->
+<style>
+  .wn .wrap{display:grid;grid-template-columns:1fr 600px;gap:64px;height:100%}
+  .wn .rows{list-style:none;border-top:2px solid var(--ink)}
+  .wn .rows li{display:grid;grid-template-columns:72px 1fr auto;gap:20px;align-items:center;padding:28px 0;border-bottom:1px solid var(--rule)}
+  .wn .rows li .no{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--sec-ink)}
+  .wn .rows li b{display:block;font-size:30px}
+  .wn .rows li span{display:block;margin-top:4px;font-size:23px;color:var(--ink-2)}
+  .wn .rows li code{font-family:'JetBrains Mono',monospace;font-size:18px;padding:6px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--surface-line);color:var(--ink);white-space:nowrap}
+  .wn .link{border-radius:28px;background:var(--ink);color:#fff;padding:42px;display:flex;flex-direction:column}
+  .wn .link .lbl{color:#4FD3A0}
+  .wn .link b{display:block;margin-top:14px;color:#fff;font-size:42px;font-weight:800;font-stretch:87.5%;line-height:1.1}
+  .wn .link p{margin-top:16px;font-size:23px;color:#C6D2E1}
+  .wn .link .slot{margin-top:auto;min-height:100px;border-radius:16px;border:2px dashed rgba(255,255,255,.3);display:flex;align-items:center;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:21px;color:#C6D2E1}
+</style>
+<section class="slide c s3 wn">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Hands-on · in Colab</div>
+    <h2>Today’s notebook, section by section</h2>
+    <div class="main">
+      <div class="wrap">
+        <ul class="rows">
+          <li><span class="no">01</span><div><b>Audit the concrete data</b><span>Size, types, missing values, duplicates, ranges</span></div><code>df.describe()</code></li>
+          <li><span class="no">02</span><div><b>Read the water-treatment file</b><span>Turn “?” into NaN, then count and map the gaps</span></div><code>na_values="?"</code></li>
+          <li><span class="no">03</span><div><b>Explore the concrete data</b><span>Histograms, box plots, correlation with strength</span></div><code>df.hist()</code></li>
+          <li><span class="no">04</span><div><b>Prepare the steel-plate data</b><span>Class counts, X and y, a stratified train/test split</span></div><code>stratify=y</code></li>
+        </ul>
+        <div class="link"><span class="lgt" style="margin-bottom:22px">{{logo:googlecolab}}</span><div class="lbl">Workshop notebook link</div><b>Open today’s notebook and save your own copy.</b><p>Run the cells in order. Read every output before moving on.</p><div class="slot">{{notebook_link}}</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== FINAL TAKEAWAY -->
+<style>
+  .fin .main{justify-content:center;padding-bottom:30px}
+  .fin .pre{font-size:36px;font-weight:600;color:var(--muted)}
+  .fin .ask{margin-top:26px;display:grid;grid-template-columns:120px 1fr;align-items:baseline;gap:20px}
+  .fin .ask .k{font-size:22px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-ink)}
+  .fin .ask b{font-weight:800;font-stretch:87.5%;font-size:84px;line-height:1.02;letter-spacing:-.03em}
+  .fin .line{margin-top:60px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .fin .line span{height:58px;padding:0 24px;border-radius:999px;display:inline-flex;align-items:center;font-size:25px;font-weight:700;background:var(--surface);border:1px solid var(--surface-line)}
+  .fin .line span.m{background:var(--M);border-color:var(--M);color:#fff}
+  .fin .line svg{width:30px;height:30px;color:#AAB6C5}
+</style>
+<section class="slide c s0 fin">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">The final takeaway</div>
+    <div class="main">
+      <div>
+        <div class="pre">Before asking “Which ML algorithm should I use?”</div>
+        <div class="ask"><span class="k">Ask</span><b>“Do I understand <span class="mk" style="--sec:#2a78d6">my data?</span>”</b></div>
+        <div class="ask"><span class="k">And</span><b>“Would this be available <span class="mk" style="--sec:#eb6834">at prediction time?</span>”</b></div>
+        <div class="line"><span>Understand the data</span>{{i:arrow-right}}<span>Formulate the problem</span>{{i:arrow-right}}<span>Protect the evaluation</span>{{i:arrow-right}}<span class="m">Then model</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== NEXT SESSION -->
+<style>
+  .nx .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .nx .card{padding:40px 44px;display:flex;flex-direction:column;min-height:470px}
+  .nx .card h3{margin-top:12px;font-size:44px}
+  .nx .card ul{margin-top:22px;list-style:none}
+  .nx .card li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--surface-line);font-size:25px;color:var(--ink)}
+  .nx .card li svg{width:26px;height:26px;margin-top:3px}
+  .nx .card.t li svg{color:var(--Mi)}
+  .nx .card.n{background:var(--ink);border-color:var(--ink)}
+  .nx .card.n h3,.nx .card.n li{color:#fff}
+  .nx .card.n .lbl{color:#FDB797}
+  .nx .card.n li{border-top-color:rgba(255,255,255,.14)}
+  .nx .card.n li svg{color:#FDB797}
+  .nx .card .ch{margin-top:auto;padding-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+  .nx .card.n .chip{background:#1F2D40;border-color:#1F2D40;color:#fff;font-family:'JetBrains Mono',monospace;font-size:19px}
+</style>
+<section class="slide c s0 nx">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Today → next time</div>
+    <h2>Are we ready to build the model?</h2>
+    <div class="main">
+      <div class="cols grow">
+        <div class="card t"><div class="lbl" style="color:var(--Mi)">Today · Session 02</div><h3>We learned to inspect, question and prepare engineering data.</h3>
+          <ul><li>{{i:check-circle}}<span>Audit, check plausibility, map missing values</span></li><li>{{i:check-circle}}<span>Investigate outliers before deleting anything</span></li><li>{{i:check-circle}}<span>Choose X and y, prevent leakage, split train/test</span></li></ul></div>
+        <div class="card n"><div class="lbl">Next · Session 03 · Your First Engineering Prediction Model</div><h3>Can linear regression predict concrete strength well? How will we judge it?</h3>
+          <ul><li>{{i:arrow-right}}<span>Fit a model on the training set we made today</span></li><li>{{i:arrow-right}}<span>Judge it on the test set it has never seen</span></li></ul>
+          <div class="ch"><span class="chip">MAE</span><span class="chip">RMSE</span><span class="chip">R²</span><span class="chip">residuals</span><span class="chip">cross-validation</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BEFORE SESSION 03 -->
+<style>
+  .hw .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .hw .card{padding:38px;min-height:420px;display:flex;flex-direction:column}
+  .hw .card .n{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;color:var(--sec)}
+  .hw .card h3{margin-top:24px;font-size:36px}
+  .hw .card p{font-size:24px}
+  .hw .card code{margin-top:auto;padding-top:20px;font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--muted)}
+  .hw .next{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:30px;padding:30px 36px;border-radius:24px;background:var(--sec-tint);border:1px solid var(--sec-line)}
+  .hw .next .no{font-weight:900;font-stretch:87.5%;font-size:64px;line-height:.9;color:var(--sec-ink)}
+  .hw .next b{font-size:32px;font-weight:800;font-stretch:87.5%}
+  .hw .next span{font-size:22px;color:var(--ink-2);text-align:right;max-width:560px}
+</style>
+<section class="slide c s3 hw">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Before session 03</div>
+    <h2>Three small things to try</h2>
+    <div class="main">
+      <div class="cols">
+        <div class="card"><span class="n">1</span><h3>Finish the audit</h3><p>Run today’s notebook end to end. Remove the duplicates and note how many rows remain.</p><code>df.drop_duplicates()</code></div>
+        <div class="card"><span class="n">2</span><h3>Write a dictionary</h3><p>For a dataset from your own field: meaning, unit and role (X, y, ID) of every column.</p><code>column · meaning · unit · role</code></div>
+        <div class="card"><span class="n">3</span><h3>Hunt for one leak</h3><p>Name a column in your field that would look predictive but is only known after the fact.</p><code>known at prediction time?</code></div>
+      </div>
+      <div class="grow"></div>
+      <div class="next"><span class="no">03</span><b>Your First Engineering Prediction Model</b><span>Linear regression, error metrics and cross-validation on concrete.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== QUESTIONS -->
+<style>
+  .qa .big{position:absolute;left:104px;top:330px;font-weight:900;font-stretch:87.5%;font-size:230px;line-height:.85;letter-spacing:-.05em}
+  .qa .sub{position:absolute;left:120px;top:560px;font-size:34px;line-height:1.4;color:var(--ink-2);max-width:900px}
+  .qa .who{position:absolute;left:120px;bottom:110px;font-size:26px;color:var(--ink-2)}
+  .qa .who b{font-size:32px;display:block;margin-bottom:6px;color:var(--ink)}
+  .qa .disc{left:1250px;top:230px;width:620px;height:620px;background:var(--tint)}
+  .qa .qm{position:absolute;left:1250px;top:230px;width:620px;height:620px;display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:520px;line-height:1;color:var(--accent);padding-bottom:30px}
+  .qa .chips{position:absolute;left:120px;top:700px;display:flex;gap:14px}
+</style>
+<section class="slide b qa s0">
+  {{top:b}}
+  <div class="disc"></div>
+  <div class="qm">?</div>
+  <div class="big">Questions</div>
+  <p class="sub">Unmute, or drop your question in the chat.</p>
+  <div class="chips"><span class="chip">Data quality</span><span class="chip">Missing values &amp; outliers</span><span class="chip">Leakage &amp; splitting</span><span class="chip">Your own engineering data</span></div>
+  <div class="who"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div>
+</section>
+
+<!-- ===================================================================== CLOSE -->
+<style>
+  .close .t{position:absolute;left:120px;top:200px;width:1040px}
+  .close .t .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .close .t h2{margin-top:18px;color:var(--dk-ink);font-size:150px;line-height:.92;letter-spacing:-.04em;font-weight:900}
+  .close .t p{margin-top:32px;font-size:32px;line-height:1.4;color:var(--dk-muted);max-width:900px}
+  .close .t p b{color:var(--dk-ink);font-weight:700}
+  .close .t .by{margin-top:52px;font-size:26px;color:var(--dk-muted)}
+  .close .t .by b{display:block;font-size:32px;color:var(--dk-ink);margin-bottom:6px}
+  .close .row{position:absolute;left:120px;bottom:84px;display:flex;align-items:center;gap:30px}
+  .close .row img{height:44px}
+  .close .row span{font-size:20px;color:var(--dk-muted);padding-left:30px;border-left:1.5px solid var(--dk-rule);white-space:nowrap}
+  .close .qrcard{position:absolute;right:120px;top:300px;width:460px;padding:40px;border-radius:32px;background:#0F1612;border:1px solid var(--dk-rule);text-align:center}
+  .close .qrcard .code{width:300px;height:300px;margin:0 auto;padding:18px;border-radius:20px;background:#fff}
+  .close .qrcard .code img{width:100%;height:100%}
+  .close .qrcard b{display:block;margin-top:28px;font-size:30px;color:var(--dk-ink)}
+  .close .qrcard span{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--dk-muted)}
+</style>
+<section class="slide b dark close">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="t"><div class="k">End of session 02</div><h2>Thank you.</h2><p>See you in session 03: <b>Your First Engineering Prediction Model.</b></p><div class="by"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div></div>
+  <div class="qrcard"><div class="code"><img src="../poster/assets/qr-register.svg" alt="QR code to the course page"></div><b>Course page</b><span>qudeltastudios.com/courses</span></div>
+  <div class="row">{{logo-light}}<span>Technology partner</span></div>
+</section>
+
+</body>
+</html>

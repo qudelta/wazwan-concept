@@ -1,0 +1,1499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session 03 — Your First Engineering Prediction Model</title>
+<link rel="stylesheet" href="../poster/assets/fonts.css">
+<style>
+  @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(../session-01-deck/assets/Amiri-Regular.woff2) format('woff2')}
+  @page{size:1920px 1080px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always}
+
+  /* =================== BRAND (Qudelta) — cover, welcome, instructor, questions, close =================== */
+  .b{--bg:#FFFFFF;--ink:#0A0F0C;--ink-2:#2F3833;--muted:#5F6A64;--rule:#E2E7E4;--accent:#00BF63;--accent-ink:#008A47;--on-accent:#03140A;
+     --tint:#EBF8F1;--tint-line:#C9EDD8;--surface:#F3F6F4;--surface-line:#E3E8E5;--grid:rgba(10,40,25,.05);
+     --dk:#070A08;--dk-ink:#F2F5F3;--dk-muted:#9AA59F;--dk-rule:rgba(255,255,255,.12);background:var(--bg);color:var(--ink)}
+  .b .kick{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+  .b h2{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1.02;letter-spacing:-.025em}
+  .b .hl{background:var(--accent);color:var(--on-accent);padding:0 14px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .b .body{position:absolute;left:120px;right:120px;top:132px;bottom:84px}
+  .b .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
+  .b .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .b .ic-sq{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
+  .b .ic-sq svg{width:30px;height:30px}
+  .b.dark{background:var(--dk);color:var(--dk-ink)}
+  .b .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
+  .b .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%)}
+  .b.dark .grid-bg{--grid:rgba(255,255,255,.05)}
+  .photo{position:absolute;overflow:hidden;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%)}
+  .photo.crop{-webkit-mask-image:none;mask-image:none}
+  .photo img{display:block;width:100%;height:auto}
+  .disc{position:absolute;border-radius:50%}
+
+  /* running header (shared) */
+  .top{position:absolute;left:120px;right:120px;top:52px;display:flex;align-items:center;justify-content:space-between;font-size:17px;z-index:5}
+  .top .hc{display:flex;align-items:center;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .top .hc span{margin-left:18px;padding-left:18px;border-left:1.5px solid var(--rule);color:var(--muted);font-weight:700;letter-spacing:.12em}
+  .top .hr{display:flex;align-items:center;gap:22px}
+  .top .sp{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:var(--sec-tint);color:var(--sec-ink);font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .top .sp i{width:10px;height:10px;border-radius:50%;background:var(--sec)}
+  .top .n{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;color:var(--muted)}
+  .top .n b{color:var(--ink);font-weight:700}
+
+  /* =================== CONTENT system =================== */
+  .c{--ink:#0E1A2B;--ink-2:#334155;--muted:#64748B;--rule:#E2E8F0;--surface:#F5F7FA;--surface-line:#E3E8EF;
+     --X:#2a78d6;--Xi:#1F5FAF;--Xt:#EAF2FC;--Xl:#CFE0F5;
+     --Y:#eb6834;--Yi:#B9471B;--Yt:#FDEEE7;--Yl:#F7D3C3;
+     --M:#1baf7a;--Mi:#0B7A55;--Mt:#E5F6EF;--Ml:#C3EAD9;
+     background:#fff;color:var(--ink)}
+  .s0{--sec:#0E1A2B;--sec-ink:#0E1A2B;--sec-tint:#EEF1F5;--sec-line:#DCE2EA}
+  .s1{--sec:#2a78d6;--sec-ink:#1F5FAF;--sec-tint:#EAF2FC;--sec-line:#CFE0F5}
+  .s2{--sec:#eb6834;--sec-ink:#B9471B;--sec-tint:#FDEEE7;--sec-line:#F7D3C3}
+  .s3{--sec:#1baf7a;--sec-ink:#0B7A55;--sec-tint:#E5F6EF;--sec-line:#C3EAD9}
+  .c .body{position:absolute;left:120px;right:120px;top:126px;bottom:84px;display:flex;flex-direction:column}
+  .c .kick{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-ink)}
+  .c h2{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:68px;line-height:1.03;letter-spacing:-.025em;max-width:1560px}
+  .c .main{flex:1;min-height:0;margin-top:44px;display:flex;flex-direction:column;gap:28px;position:relative}
+  .c .grow{flex:1;min-height:0}
+  .mk{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sec) 32%,transparent) 60%);padding:0 4px;margin:0 -4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .c p{font-size:27px;line-height:1.45;color:var(--ink-2)}
+  .c b{font-weight:700;color:var(--ink)}
+  .serif{font-weight:600;letter-spacing:-.01em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
+  .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
+  .card p{margin-top:10px;font-size:24px}
+  .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--sec-tint);color:var(--sec-ink);flex:none}
+  .ic svg{width:36px;height:36px}
+  .chip{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .chip.x{background:var(--Xt);border-color:var(--Xl);color:var(--Xi)}
+  .chip.y{background:var(--Yt);border-color:var(--Yl);color:var(--Yi)}
+  .chip.m{background:var(--Mt);border-color:var(--Ml);color:var(--Mi)}
+  .chip.k{background:var(--ink);border-color:var(--ink);color:#fff}
+  .take{display:flex;align-items:center;gap:22px;padding:22px 30px;border-radius:20px;background:var(--sec-tint);border:1px solid var(--sec-line);font-size:27px;font-weight:600;color:var(--ink);flex:none}
+  .take .ti{flex:none;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--sec);color:#fff}
+  .s0 .take .ti{background:var(--ink)}
+  .take .ti svg{width:25px;height:25px;stroke-width:2.2}
+  .src{position:absolute;left:120px;right:120px;bottom:38px;font-size:15px;line-height:1.4;color:var(--muted)}
+  .lbl{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .sym{font-style:italic;font-weight:700}
+  .chart{background:#fff;border:1px solid var(--surface-line);border-radius:24px;padding:26px 30px 18px;display:flex;flex-direction:column}
+  .chart h3{font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.01em;line-height:1.15}
+  .chart .f{margin-top:6px;font-size:21px;color:var(--ink-2);line-height:1.4}
+  .chart svg{margin-top:10px;width:100%;height:0;flex:1 1 auto;min-height:0}
+
+  .lgt{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);flex:none}
+  .lgt img{max-width:40px;max-height:40px}
+  /* =================== DIVIDERS =================== */
+  .dv .gridl{position:absolute;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px}
+  .dv .truss{position:absolute;right:-30px;bottom:-24px;width:860px;color:var(--tc)}
+  .dv .big{position:absolute;left:104px;top:150px;font-weight:900;font-stretch:87.5%;font-size:400px;line-height:.8;letter-spacing:-.06em}
+  .dv .part{position:absolute;left:120px;bottom:120px;width:960px}
+  .dv .part .k{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+  .dv .part h2{margin-top:16px;font-weight:800;font-stretch:87.5%;font-size:96px;line-height:.98;letter-spacing:-.035em}
+  .dv .part .who{margin-top:26px;font-size:24px;opacity:.8}
+  .dv ol{position:absolute;right:120px;top:190px;width:560px;list-style:none;border-top:2px solid currentColor}
+  .dv ol li{display:flex;gap:22px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--lr);font-size:27px;font-weight:600}
+  .dv ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.7}
+  .dv .top .hc span{border-left-color:var(--lr);color:inherit;opacity:.75}
+  .dv .top .n,.dv .top .n b{color:inherit}
+  .dv .logos{position:absolute;right:120px;top:520px;display:flex;gap:16px}
+  .dv .logos img{width:80px;height:80px;padding:15px;background:#fff;border-radius:22px;object-fit:contain;box-shadow:0 10px 24px rgba(14,26,43,.18)}
+  .dv1{background:#1F5FAF;color:#fff;--gl:rgba(255,255,255,.07);--tc:rgba(255,255,255,.22);--lr:rgba(255,255,255,.3)}
+  .dv2{background:#eb6834;color:#0E1A2B;--gl:rgba(14,26,43,.07);--tc:rgba(14,26,43,.18);--lr:rgba(14,26,43,.25)}
+  .dv3{background:#00BF63;color:#03140A;--gl:rgba(3,20,10,.07);--tc:rgba(3,20,10,.18);--lr:rgba(3,20,10,.25)}
+</style>
+</head>
+<body>
+
+<!-- ===================================================================== SHARED COMPONENTS (Session 03) -->
+<style>
+  .dk{border-radius:22px;background:#0F1A27;overflow:hidden}
+  .dk .hd{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:16px;color:#7E8FA3}
+  .dk .hd .fl{display:flex;align-items:center;gap:10px;color:#C6D2E1}
+  .dk .hd .fl img{height:20px}
+  .dk pre{padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:23px;line-height:1.6;color:#E6EDF5}
+  .dk .kw{color:#7CB7FF}.dk .st{color:#FDB797}.dk .cm{color:#7E8FA3}.dk .fn{color:#4FD3A0}.dk .nu{color:#FDB797}
+  .dk .out{padding:14px 26px 18px;background:#16263A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:23px;color:#fff;line-height:1.5}
+  .dk .out small{display:block;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4FD3A0;margin-bottom:4px}
+  .stack{position:relative;width:100%}
+  .stack svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .eq{font-family:'Archivo';font-weight:600;font-size:34px;color:var(--ink);letter-spacing:-.005em;white-space:nowrap}
+  .eq i{font-style:italic;font-weight:700}
+  .eq .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;font-size:.8em;line-height:1.15}
+  .eq .fr span:first-child{border-bottom:2px solid currentColor;padding:0 6px 2px}
+  .eq .fr span:last-child{padding-top:2px}
+  .eq sub,.eq sup{font-size:.6em}
+  .sh{padding:2px 8px;border-radius:8px}
+  .sh.g{background:var(--Mt);color:var(--Mi)}.sh.o{background:var(--Yt);color:var(--Yi)}.sh.b{background:var(--Xt);color:var(--Xi)}
+  .big-n{font-weight:900;font-stretch:87.5%;line-height:.9;letter-spacing:-.04em}
+  .attr{position:absolute;right:120px;bottom:38px;font-size:15px;color:var(--muted)}
+</style>
+
+<!-- ===================================================================== 01 COVER -->
+<style>
+  .cover .bism{position:absolute;left:0;right:0;top:40px;text-align:center;font-family:'Amiri',serif;font-size:42px;color:var(--dk-ink);opacity:.85;direction:rtl}
+  .cover .brand{position:absolute;left:120px;top:150px;display:flex;align-items:center;gap:22px;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-muted)}
+  .cover .brand b{color:var(--accent);font-weight:800}
+  .cover .brand i{width:1.5px;height:22px;background:var(--dk-rule)}
+  .cover h1{position:absolute;left:120px;top:228px;width:1000px;font-weight:900;font-stretch:87.5%;font-size:108px;line-height:.96;letter-spacing:-.035em;word-spacing:.08em}
+  .cover .sess{position:absolute;left:120px;top:580px;width:1000px}
+  .cover .sess .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .cover .sess h2{margin-top:14px;font-size:56px;color:var(--dk-ink)}
+  .cover .sess p{margin-top:18px;font-size:26px;line-height:1.4;color:var(--dk-muted)}
+  .cover .sess p b{color:var(--dk-ink);font-weight:700}
+  .cover .stg{margin-top:24px;display:flex;align-items:center;gap:10px}
+  .cover .stg span{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;border:1.5px solid var(--dk-rule);font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dk-ink)}
+  .cover .stg span.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .cover .stg svg{width:20px;height:20px;color:var(--dk-muted)}
+  .cover .who{position:absolute;left:120px;bottom:80px;display:flex;align-items:center;gap:56px}
+  .cover .who .p b{display:block;font-size:30px;font-weight:800;color:var(--dk-ink)}
+  .cover .who .p span{display:block;margin-top:6px;font-size:20px;color:var(--dk-muted)}
+  .partner{display:flex;align-items:center;gap:16px;padding-left:56px;border-left:1.5px solid var(--dk-rule)}
+  .partner small{font-size:16px;font-weight:600;color:var(--dk-muted)}
+  .partner img{height:30px;width:auto}
+</style>
+<section class="slide b dark cover">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="brand"><b>Live online course</b><i></i>Cohort Fall 2026</div>
+  <h1>AI &amp; Machine Learning for Civil Engineers</h1>
+  <div class="sess">
+    <div class="k">Session 03 · Linear regression, error metrics &amp; cross-validation</div>
+    <h2>Your First Engineering Prediction Model</h2>
+    <p><b>Can a model learn a useful relationship</b> from the data we prepared, and how would we know?</p>
+    <div class="stg"><span>Data</span>{{i:arrow-right}}<span class="on">Model</span>{{i:arrow-right}}<span class="on">Prediction</span>{{i:arrow-right}}<span class="on">Evaluation</span>{{i:arrow-right}}<span>Decision</span></div>
+  </div>
+  <div class="who">
+    <div class="p"><b>Dr. Abdul Waris</b><span>Research Associate · Universität Siegen, Germany</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo-light}}</div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHERE ARE WE -->
+<style>
+  .where .wrap{display:grid;grid-template-columns:1fr 640px;gap:56px;height:100%}
+  .where ul{list-style:none;border-top:2px solid var(--ink)}
+  .where li{display:grid;grid-template-columns:44px 1fr auto;gap:18px;align-items:center;padding:19px 0;border-bottom:1px solid var(--rule);font-size:27px;color:var(--ink)}
+  .where li svg{width:30px;height:30px;color:var(--Mi)}
+  .where li code{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+  .where .now{border-radius:28px;background:var(--ink);color:#fff;padding:44px;display:flex;flex-direction:column}
+  .where .now .lbl{color:#4FD3A0}
+  .where .now b{display:block;margin-top:16px;color:#fff;font-size:50px;font-weight:800;font-stretch:87.5%;line-height:1.08;letter-spacing:-.02em}
+  .where .now p{margin-top:auto;font-size:25px;color:#C6D2E1}
+  .where .now p b{display:inline;font-size:inherit;color:#fff;font-weight:700}
+</style>
+<section class="slide c s0 where">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Where are we? · from data preparation to prediction</div>
+    <h2>We have prepared the data. Now we predict.</h2>
+    <div class="main">
+      <div class="wrap">
+        <div>
+          <div class="lbl" style="margin-bottom:16px">Sessions 01–02: we already learned to</div>
+          <ul>
+            <li>{{i:check-circle}}<span>Understand an engineering dataset</span><code>data dictionary</code></li>
+            <li>{{i:check-circle}}<span>Identify features and target</span><code>X, y</code></li>
+            <li>{{i:check-circle}}<span>Check data quality</span><code>isna · duplicated</code></li>
+            <li>{{i:check-circle}}<span>Explore relationships</span><code>hist · corr</code></li>
+            <li>{{i:check-circle}}<span>Avoid data leakage</span><code>known in time?</code></li>
+            <li>{{i:check-circle}}<span>Split data into training and test sets</span><code>train_test_split</code></li>
+          </ul>
+        </div>
+        <div class="now"><div class="lbl">Today · Session 03</div><b>Can we use these inputs to predict an engineering response?</b><p>Build our first model, then <b>evaluate it honestly.</b></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ROADMAP -->
+<style>
+  .road .cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .road .ph{display:flex;align-items:center;gap:14px;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .road .ph i{width:14px;height:14px;border-radius:4px}
+  .road .s{display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start;padding:24px 0;border-bottom:1px solid var(--rule)}
+  .road .s .no{font-weight:900;font-stretch:87.5%;font-size:54px;line-height:.9;letter-spacing:-.03em;color:#C9D2DE}
+  .road .s b{display:block;font-size:27px;line-height:1.2}
+  .road .s span{display:block;margin-top:6px;font-size:21px;color:var(--muted)}
+  .road .s.done .no{color:var(--Mi)}
+  .road .s.done b{color:var(--muted)}
+  .road .s .ok{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--surface);border:1px solid var(--surface-line);color:var(--muted);font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s.now{background:var(--Mt);margin:0 -24px;padding:24px 24px;border-radius:18px;border-bottom-color:transparent}
+  .road .s.now .no{color:var(--Mi)}
+  .road .s .tag{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--M);color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s .rs{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:17px;font-weight:700;color:var(--Yi)}
+  .road .s .rs svg{width:18px;height:18px}
+</style>
+<section class="slide c s0 road">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">The course at a glance</div>
+    <h2>Eight sessions. One engineering workflow.</h2>
+    <div class="main">
+      <div class="cols">
+        <div>
+          <div class="ph"><i style="background:var(--X)"></i>Part 1 · Foundations</div>
+          <div class="s done"><span class="no">01</span><div><b>From Engineering Problems to Python<span class="ok">Done</span></b><span>AI/ML basics, Google Colab, NumPy &amp; pandas</span></div></div>
+          <div class="s done"><span class="no">02</span><div><b>From Raw Engineering Data to an ML-Ready Dataset<span class="ok">Done</span></b><span>EDA, data quality, outliers, train/test split, leakage</span></div></div>
+          <div class="s now"><span class="no">03</span><div><b>Your First Engineering Prediction Model<span class="tag">Today</span></b><span>Linear regression, error metrics, cross-validation</span></div></div>
+          <div class="s"><span class="no">04</span><div><b>Nonlinear Engineering Problems: Trees &amp; Ensembles</b><span>Decision trees, Random Forest, boosting</span></div></div>
+        </div>
+        <div>
+          <div class="ph"><i style="background:var(--Y)"></i>Part 2 · Prediction to decision</div>
+          <div class="s"><span class="no">05</span><div><b>From Prediction to Engineering Decision: Classification</b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+          <div class="s"><span class="no">06</span><div><b>Artificial Neural Networks</b><span>Architecture, activations, training, overfitting</span></div></div>
+          <div class="s"><span class="no">07</span><div><b>Can We Trust Our ML Model?</b><span>Feature importance, SHAP, engineering judgement</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+          <div class="s"><span class="no">08</span><div><b>From Prediction to Probability</b><span>Monte Carlo, ML surrogates, probability of failure</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TODAY -->
+<style>
+  .today .wrap{display:grid;grid-template-columns:1fr 560px;gap:64px;height:100%}
+  .today .left{display:flex;flex-direction:column;gap:18px}
+  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:28px 30px;border-radius:24px}
+  .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;letter-spacing:-.04em}
+  .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
+  .today .pt span{display:block;margin-top:8px;font-size:22px;color:var(--ink-2)}
+  .today .lgs{display:flex;gap:10px}
+  .today .lgt svg{width:36px;height:36px}
+  .today .out{background:var(--ink);color:#fff;border-radius:28px;padding:44px 42px 44px}
+  .today .out .lbl{color:#9FB3CC}
+  .today .out ul{margin-top:20px;list-style:none}
+  .today .out li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:24px 0;border-top:1px solid rgba(255,255,255,.14);font-size:25px;line-height:1.35}
+  .today .out li svg{width:28px;height:28px;color:#4FD3A0;stroke-width:2.4;margin-top:2px}
+</style>
+<section class="slide c s0 today">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Today · Session 03</div>
+    <h2>Your first engineering prediction model</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>Build the model</b><span>The question · a baseline · training · linear regression · the maths inside</span></div><div class="lgs"><span class="lgt" style="color:var(--Xi)">{{i:function}}</span><span class="lgt">{{logo:scikitlearn}}</span></div></div>
+          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>How good is it?</b><span>MAE · RMSE · R² · train vs test · parity and residual plots</span></div><div class="lgs"><span class="lgt" style="color:var(--Yi)">{{i:gauge}}</span><span class="lgt">{{logo:matplotlib}}</span></div></div>
+          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Can we trust it?</b><span>Split sensitivity · cross-validation · the test-set rule · engineering judgement</span></div><div class="lgs"><span class="lgt" style="color:var(--Mi)">{{i:seal-check}}</span><span class="lgt">{{logo:googlecolab}}</span></div></div>
+        </div>
+        <div class="out">
+          <div class="lbl">By the end of today you can</div>
+          <ul>
+            <li>{{i:check-circle}}<span>Fit a linear-regression model and compare it with a baseline</span></li>
+            <li>{{i:check-circle}}<span>Explain what training, a cost function and gradient descent do</span></li>
+            <li>{{i:check-circle}}<span>Read MAE, RMSE and R², and diagnose a model with residuals</span></li>
+            <li>{{i:check-circle}}<span>Use cross-validation for decisions and the test set only once</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 1 -->
+<section class="slide dv dv1">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">01</div>
+  <ol><li><span>a</span>Our engineering question</li><li><span>b</span>A baseline to beat</li><li><span>c</span>What “training” means</li><li><span>d</span>Linear regression and its weights</li><li><span>e</span>The maths: cost, gradient descent, scaling</li></ol>
+  <div class="part"><div class="k">Part 01 · Build the model</div><h2>From engineering question to a trained model</h2></div>
+</section>
+
+<!-- ===================================================================== QUESTION -->
+<style>
+  .q3 .wrap{display:grid;grid-template-columns:520px 1fr;gap:56px;height:100%}
+  .q3 .art{border-radius:28px;background:var(--surface);border:1px solid var(--surface-line);display:grid;place-items:center;padding:30px}
+  .q3 .art svg{width:100%;height:auto}
+  .q3 .inputs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .q3 .in{border-radius:16px;background:var(--Xt);border:1px solid var(--Xl);padding:20px 18px}
+  .q3 .in b{display:block;font-size:23px;line-height:1.15}
+  .q3 .in span{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--Xi)}
+  .q3 .flow{display:flex;align-items:center;gap:14px;margin:24px 0;color:var(--muted);font-size:18px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .q3 .flow svg{width:36px;height:36px;color:var(--ink)}
+  .q3 .res{border-radius:22px;background:var(--Y);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:30px 36px}
+  .q3 .res b{color:#fff;font-weight:800;font-stretch:87.5%;font-size:42px}
+  .q3 .res span{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
+  .q3 .ask{margin-top:26px;font-size:30px;font-weight:700;color:var(--ink);line-height:1.3}
+</style>
+<section class="slide c s1 q3">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Our engineering question</div>
+    <h2>Can we predict concrete compressive strength?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="art"><svg viewBox="0 0 460 460" font-family="Archivo">
+          <polygon points="90,170 270,110 380,170 200,230" fill="#E3E8EF"/>
+          <polygon points="90,170 200,230 200,400 90,340" fill="#C9D2DE"/>
+          <polygon points="200,230 380,170 380,340 200,400" fill="#B4C0CF"/>
+          <g fill="#94A3B8" opacity=".55"><circle cx="130" cy="260" r="5"/><circle cx="160" cy="300" r="4"/><circle cx="120" cy="320" r="3"/><circle cx="250" cy="280" r="5"/><circle cx="300" cy="250" r="4"/><circle cx="330" cy="300" r="6"/><circle cx="270" cy="340" r="3"/><circle cx="350" cy="230" r="3"/></g>
+          <path d="M235 40 V100" stroke="#eb6834" stroke-width="8" stroke-linecap="round"/><path d="M215 82 L235 104 L255 82" stroke="#eb6834" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M235 430 V410" stroke="#eb6834" stroke-width="8" stroke-linecap="round"/>
+          <text x="230" y="30" text-anchor="middle" font-size="22" font-weight="800" fill="#B9471B">load</text>
+          <text x="420" y="270" font-size="20" font-weight="700" fill="#334155" text-anchor="end">150 mm cube</text>
+        </svg></div>
+        <div>
+          <p style="margin-bottom:18px">We know the mix and the curing age. Can we estimate the strength <b>without performing the test?</b></p>
+          <div class="inputs">
+            <div class="in"><b>Cement</b><span>kg/m³</span></div><div class="in"><b>Blast-furnace slag</b><span>kg/m³</span></div><div class="in"><b>Fly ash</b><span>kg/m³</span></div><div class="in"><b>Water</b><span>kg/m³</span></div>
+            <div class="in"><b>Super&shy;plasticizer</b><span>kg/m³</span></div><div class="in"><b>Coarse aggregate</b><span>kg/m³</span></div><div class="in"><b>Fine aggregate</b><span>kg/m³</span></div><div class="in"><b>Age</b><span>days</span></div>
+          </div>
+          <div class="flow">{{i:arrow-down}}8 inputs → model →</div>
+          <div class="res"><b><span class="sym" style="font-size:48px">y</span>&nbsp; Compressive strength</b><span>MPa</span></div>
+          <div class="ask">“If I give you a new concrete mix, could you estimate its strength without testing it?”</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DATASET -->
+<style>
+  .ds .top3{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .ds .st{border-radius:22px;padding:28px 30px;background:var(--surface);border:1px solid var(--surface-line)}
+  .ds .st b{display:block;font-size:80px;color:var(--c)}
+  .ds .st span{display:block;margin-top:12px;font-size:23px;color:var(--ink-2)}
+  .ds .st.d{background:var(--Mt);border-color:var(--Ml)}
+  .ds .nl{border-radius:24px;padding:30px 36px;background:#fff;border:1px solid var(--surface-line)}
+  .ds .nl .lbl{color:var(--Yi)}
+  .ds .nl h3{margin-top:8px;font-weight:800;font-stretch:87.5%;font-size:38px}
+  .ds .io{margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .ds .io div{display:flex;align-items:center;gap:18px;padding:22px 26px;border-radius:18px;background:var(--surface);border:1px solid var(--surface-line)}
+  .ds .io b{font-size:27px}
+  .ds .io .d{font-size:21px;color:var(--muted);margin-left:auto}
+  .ds .axis{position:relative;margin:56px 20px 30px;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--Yt),var(--Y))}
+  .ds .axis span{position:absolute;top:22px;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;color:var(--ink)}
+  .ds .axis i{position:absolute;top:-8px;width:3px;height:22px;background:var(--ink);transform:translateX(-50%)}
+  .ds .axis .pin{position:absolute;top:-62px;transform:translateX(-50%);height:44px;padding:0 16px;border-radius:999px;background:var(--Y);color:#fff;font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;display:flex;align-items:center;white-space:nowrap}
+</style>
+<section class="slide c s1 ds">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">The dataset · UCI Concrete Compressive Strength</div>
+    <h2>Our first ML prediction dataset</h2>
+    <div class="main">
+      <div class="top3">
+        <div class="st" style="--c:var(--ink)"><b class="big-n">{{stat:n_raw}}</b><span>concrete mixes in the file</span></div>
+        <div class="st d" style="--c:var(--Mi)"><b class="big-n">{{stat:n}}</b><span>after removing the {{stat:dups}} duplicate rows found in Session 02</span></div>
+        <div class="st" style="--c:var(--Xi)"><b class="big-n">8</b><span>input variables X, no missing values</span></div>
+        <div class="st" style="--c:var(--Yi)"><b class="big-n">1</b><span>target y: compressive strength in MPa</span></div>
+      </div>
+      <div class="nl grow"><div class="lbl">The ML problem</div><h3>A regression problem: the target is a continuous quantity</h3>
+        <div class="axis" style="margin-top:84px"><i style="left:0%"></i><span style="left:0%">20</span><i style="left:20%"></i><span style="left:20%">30</span><i style="left:40%"></i><span style="left:40%">40</span><i style="left:60%"></i><span style="left:60%">50</span><i style="left:80%"></i><span style="left:80%">60</span><i style="left:100%"></i><span style="left:100%">70 MPa</span><div class="pin" style="left:45.4%">ŷ = 42.7 MPa</div></div>
+        <div class="io"><div><span class="chip x">Inputs · X</span><b>Mix proportions + age</b><span class="d">8 numbers per mix</span></div><div><span class="chip y">Target · y</span><b>Compressive strength</b><span class="d">any value on the line, not a category</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Data: UCI Concrete Compressive Strength (Yeh, 1998). From today the notebook uses <span class="mono">df.drop_duplicates()</span> before splitting, as recommended in Session 02.</div>
+</section>
+
+<!-- ===================================================================== REGRESSION IN ONE PICTURE -->
+<style>
+  .one .row{display:grid;grid-template-columns:1fr 80px 300px 80px 1fr;align-items:stretch}
+  .one .mix{border-radius:24px;background:var(--Xt);border:1px solid var(--Xl);padding:28px 30px}
+  .one .mix table{margin-top:12px;width:100%;border-collapse:collapse;font-size:22px}
+  .one .mix td{padding:7px 0;border-bottom:1px solid var(--Xl);color:var(--ink-2)}
+  .one .mix td.v{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--Xi)}
+  .one .ar{display:grid;place-items:center;color:#AAB6C5}
+  .one .ar svg{width:44px;height:44px}
+  .one .md{border-radius:24px;background:var(--ink);color:#fff;padding:30px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+  .one .md svg{width:54px;height:54px;color:#4FD3A0}
+  .one .md b{font-size:34px;font-weight:800;font-stretch:87.5%;color:#fff}
+  .one .md span{font-size:21px;color:#C6D2E1}
+  .one .vals{display:flex;flex-direction:column;gap:14px}
+  .one .v{border-radius:22px;padding:22px 28px;display:flex;justify-content:space-between;align-items:baseline}
+  .one .v span{font-size:22px;font-weight:700}
+  .one .v b{font-weight:900;font-stretch:87.5%;font-size:58px;letter-spacing:-.03em}
+  .one .v.p{background:var(--Mt)}.one .v.p b,.one .v.p span{color:var(--Mi)}
+  .one .v.a{background:var(--surface);border:1px solid var(--surface-line)}
+  .one .v.e{background:var(--Yt)}.one .v.e b,.one .v.e span{color:var(--Yi)}
+</style>
+<section class="slide c s1 one">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Regression in one picture · a real test mix</div>
+    <h2>Regression = predicting a number, then checking it</h2>
+    <div class="main">
+      <div class="row grow">
+        <div class="mix"><div class="lbl" style="color:var(--Xi)">The model receives · X</div>
+          <table><tr><td>Cement</td><td class="v">{{stat:ex_cement}}</td></tr><tr><td>Slag</td><td class="v">{{stat:ex_slag}}</td></tr><tr><td>Fly ash</td><td class="v">{{stat:ex_ash}}</td></tr><tr><td>Water</td><td class="v">{{stat:ex_water}}</td></tr><tr><td>Superplasticizer</td><td class="v">{{stat:ex_sp}}</td></tr><tr><td>Aggregates (coarse · fine)</td><td class="v">{{stat:ex_agg}}</td></tr><tr><td>Age (days)</td><td class="v">{{stat:ex_age}}</td></tr></table></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="md">{{i:brain}}<b>Trained model</b><span>linear regression, fitted on the training mixes</span></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="vals">
+          <div class="v p"><span>Predicted ŷ</span><b>{{stat:ex_pred}} MPa</b></div>
+          <div class="v a"><span>Measured y</span><b>{{stat:ex_actual}} MPa</b></div>
+          <div class="v e"><span>Prediction error ŷ − y</span><b>{{stat:ex_err}} MPa</b></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>Every regression model produces predictions that we must compare against observations.</div>
+    </div>
+  </div>
+  <div class="src">One of the {{stat:n_test}} test mixes in the notebook (inputs in kg/m³). The model never saw it during training.</div>
+</section>
+
+<!-- ===================================================================== BASELINE -->
+<style>
+  .base .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .base .chart{padding:22px 28px 12px}
+  .base .side{display:flex;flex-direction:column;gap:18px}
+  .base .side .card{padding:28px 32px}
+  .base .side .card p{font-size:23px;margin-top:8px}
+  .base .q{border-radius:24px;background:var(--ink);color:#fff;padding:30px 34px}
+  .base .q .lbl{color:#FDB797}
+  .base .q b{display:block;margin-top:10px;color:#fff;font-size:40px;font-weight:800;font-stretch:87.5%}
+  .base .q p{margin-top:10px;font-size:22px;color:#C6D2E1}
+</style>
+<section class="slide c s1 base">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Before ML: establish a baseline</div>
+    <h2>Is our model actually useful? Compared with what?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>The mean baseline ignores all eight inputs</h3><div class="f">It predicts the average training strength for every mix. Dots: the {{stat:n_test}} test mixes.</div>{{chart:baseline}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Yi)">The simplest prediction</div><p>Average training strength = <b>{{stat:base}} MPa</b> → predicted for every concrete mix.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">How wrong is it?</div><p>On the test mixes it is off by <b>{{stat:bt_mae}} MPa</b> on average.</p></div>
+          <div class="q"><div class="lbl">A research habit</div><b>A useful model must beat this.</b><p>Never report “R² = 0.75” without saying: compared with what?</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TRAINING -->
+<style>
+  .train .wrap{display:grid;grid-template-columns:1fr 720px;gap:48px;height:100%}
+  .train .steps{display:flex;flex-direction:column;gap:0}
+  .train .sx{display:grid;grid-template-columns:70px 1fr;gap:20px;align-items:center;padding:24px 28px;border-radius:22px;background:var(--surface);border:1px solid var(--surface-line)}
+  .train .sx .ic{background:#fff}
+  .train .sx b{display:block;font-size:30px}
+  .train .sx span{display:block;margin-top:4px;font-size:22px;color:var(--ink-2)}
+  .train .sx.f{background:var(--Mt);border-color:var(--Ml)}
+  .train .dn{height:44px;display:grid;place-items:center;color:#AAB6C5}
+  .train .dn svg{width:28px;height:28px}
+  .train .right{display:flex;flex-direction:column;gap:22px}
+  .train .card{padding:30px 34px}
+  .train .dk pre{font-size:21px}
+  .train .card ul{margin-top:12px;list-style:none}
+  .train .card li{padding:12px 0;border-top:1px solid var(--surface-line);font-size:24px}
+  .train .card li b{font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--Xi)}
+</style>
+<section class="slide c s1 train">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">What does “training” mean?</div>
+    <h2>Training = learning model parameters from examples</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="steps">
+          <div class="sx"><span class="ic">{{i:table}}</span><div><b>Training examples</b><span>{{stat:n_train}} mixes with their measured strength</span></div></div>
+          <div class="dn">{{i:arrow-down}}</div>
+          <div class="sx"><span class="ic">{{i:sliders-horizontal}}</span><div><b>The model learns its parameters</b><span>values that make predictions as close as possible to the measurements</span></div></div>
+          <div class="dn">{{i:arrow-down}}</div>
+          <div class="sx f"><span class="ic">{{i:brain}}</span><div><b>A fitted model</b><span>ready to predict a mix it has never seen</span></div></div>
+        </div>
+        <div class="right">
+          <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session03_first_model.ipynb</span><span>fit</span></div>
+<pre><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+model = <span class="fn">LinearRegression</span>()
+model.<span class="fn">fit</span>(X_train, y_train)</pre></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">For linear regression the parameters are</div><ul><li><b>intercept_</b> &nbsp;one number: the starting value</li><li><b>coef_</b> &nbsp;one weight for each of the 8 inputs</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TRAIN TEST -->
+<style>
+  .tt .ex{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .tt .ex .card{padding:30px 36px;display:grid;grid-template-columns:70px 1fr;gap:22px;align-items:center}
+  .tt .ex .card p{font-size:25px;margin:0;color:var(--ink)}
+  .tt .parts{display:flex;gap:16px;height:250px}
+  .tt .pt{border-radius:24px;padding:30px 34px;display:flex;flex-direction:column;color:#fff}
+  .tt .pt b{font-size:40px;font-weight:800;font-stretch:87.5%;color:#fff}
+  .tt .pt .n{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;margin-top:4px}
+  .tt .pt ul{margin-top:auto;list-style:none;display:flex;gap:10px;flex-wrap:wrap}
+  .tt .pt li{height:42px;padding:0 16px;border-radius:999px;background:rgba(255,255,255,.18);display:flex;align-items:center;font-size:20px;font-weight:700}
+</style>
+<section class="slide c s1 tt">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Our first protection against overconfidence</div>
+    <h2>Why don’t we train on everything?</h2>
+    <div class="main">
+      <div class="ex">
+        <div class="card"><span class="ic">{{i:exam}}</span><p>Studying with the exact questions that will appear in the exam gives a high score that says little about new questions.</p></div>
+        <div class="card" style="background:var(--Xt);border-color:var(--Xl)"><span class="ic" style="background:#fff">{{i:brain}}</span><p><b>ML models face the same problem.</b> So we hold data back that the model never sees while learning.</p></div>
+      </div>
+      <div class="parts">
+        <div class="pt" style="flex:80;background:var(--M)"><b>80% · Training data</b><span class="n">{{stat:n_train}} mixes</span><ul><li>Fitting the model</li><li>Model development</li><li>Cross-validation</li></ul></div>
+        <div class="pt" style="flex:20;background:var(--Y)"><b>20% · Test</b><span class="n">{{stat:n_test}} mixes</span><ul><li>Final evaluation</li></ul></div>
+      </div>
+      <div class="take"><span class="ti">{{i:lock-key}}</span>The test set represents new data from the model’s perspective.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHY LINEAR -->
+<style>
+  .why .eqb{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:40px 44px}
+  .why .eqb .eq{font-size:46px;margin-top:16px}
+  .why .leg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+  .why .leg div{font-size:22px;color:var(--ink-2)}
+  .why .leg b{display:block;font-size:26px;margin-bottom:4px}
+  .why .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .why .g4 .card{padding:26px 28px}
+  .why .g4 .card h3{margin-top:18px;font-size:32px}
+  .why .g4 .card p{font-size:21px;margin-top:6px}
+</style>
+<section class="slide c s1 why">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Linear regression: our first model</div>
+    <h2>Why start with linear regression?</h2>
+    <div class="main">
+      <div class="eqb"><div class="lbl">The prediction is a weighted sum of the inputs</div>
+        <div class="eq"><i>ŷ</i> = <span class="sh g"><i>β</i><sub>0</sub></span> + <span class="sh b"><i>β</i><sub>1</sub></span><i>x</i><sub>1</sub> + <span class="sh b"><i>β</i><sub>2</sub></span><i>x</i><sub>2</sub> + … + <span class="sh b"><i>β</i><sub>8</sub></span><i>x</i><sub>8</sub></div>
+        <div class="leg"><div><b><i>x</i><sub>j</sub></b>the input variables</div><div><b><i>β</i><sub>j</sub></b>learned coefficients (weights)</div><div><b><i>β</i><sub>0</sub></b>the intercept</div><div><b><i>ŷ</i></b>predicted strength</div></div></div>
+      <div class="g4 grow">
+        <div class="card"><span class="ic">{{i:feather}}</span><h3>Simple</h3><p>One equation you can write on a board.</p></div>
+        <div class="card"><span class="ic">{{i:lightning}}</span><h3>Fast</h3><p>Fits 804 mixes in milliseconds.</p></div>
+        <div class="card"><span class="ic">{{i:magnifying-glass}}</span><h3>Interpretable</h3><p>Every input has a visible weight.</p></div>
+        <div class="card"><span class="ic">{{i:ladder}}</span><h3>A benchmark</h3><p>The reference for trees and neural networks later.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:lightbulb}}</span>Simple does not mean useless.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WEIGHTS -->
+<style>
+  .wts .eqb{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:36px 40px}
+  .wts .eq{font-size:30px;line-height:2;white-space:normal}
+  .wts .eq .sh{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:28px}
+  .wts .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .wts .two .card{padding:30px 34px}
+  .wts .two .card p{margin-top:8px;font-size:24px}
+  .wts .dk pre{font-size:21px}
+</style>
+<section class="slide c s1 wts">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">What does the model learn? · our fitted model</div>
+    <h2>The model learns the weights</h2>
+    <div class="main">
+      <div class="eqb"><div class="lbl">Fitted on {{stat:n_train}} training mixes</div>
+        <div class="eq"><i>Strength</i> = <span class="sh g">{{stat:b0}}</span> + <span class="sh b">{{stat:c_cement}}</span>·cement + <span class="sh b">{{stat:c_slag}}</span>·slag + <span class="sh b">{{stat:c_ash}}</span>·fly ash <span class="sh o">{{stat:c_water}}</span>·water + <span class="sh b">{{stat:c_sp}}</span>·superplasticizer + <span class="sh b">{{stat:c_coarse}}</span>·coarse + <span class="sh b">{{stat:c_fine}}</span>·fine + <span class="sh b">{{stat:c_age}}</span>·age</div></div>
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Xi)">We don’t choose these numbers</div><p>The algorithm estimates them from the examples we provide. This is where <b>the data starts writing the model,</b> instead of us writing the rules.</p></div>
+        <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session03_first_model.ipynb</span><span>weights</span></div>
+<pre>model.<span class="fn">intercept_</span>    <span class="cm"># β0</span>
+model.<span class="fn">coef_</span>         <span class="cm"># β1 … β8</span></pre>
+          <div class="out"><small>Output</small>{{stat:b0}}<br>[{{stat:coef_list}}]</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Units: MPa per kg/m³ for the mix quantities, MPa per day for age; intercept in MPa. Rounded to three decimals.</div>
+</section>
+
+<!-- ===================================================================== COEFFICIENTS -->
+<style>
+  .cf .wrap{display:grid;grid-template-columns:1fr 1fr 560px;gap:24px;height:100%}
+  .cf .chart{padding:22px 26px 12px}
+  .cf .chart h3{font-size:28px}
+  .cf .side{display:flex;flex-direction:column;gap:16px}
+  .cf .side .card{padding:24px 28px}
+  .cf .side .card p{font-size:21px;margin-top:6px}
+  .cf .side .card.w{background:var(--Yt);border-color:var(--Yl)}
+</style>
+<section class="slide c s1 cf">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Looking inside the model</div>
+    <h2>What do the coefficients tell us?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Raw coefficients</h3><div class="f">Change in predicted strength per unit of each input, others held constant.</div>{{chart:coefraw}}</div>
+        <div class="chart"><h3>Same model, standardised inputs</h3><div class="f">Change per one standard deviation of each input.</div>{{chart:coefstd}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Reading one</div><p>Age +{{stat:c_age}}: within this model, one extra day adds about {{stat:c_age}} MPa, holding the other inputs constant.</p></div>
+          <div class="card w"><div class="lbl" style="color:var(--Yi)">But be careful</div><p><b>Units matter:</b> superplasticizer has the largest raw weight but one of the smallest effects per standard deviation.</p></div>
+          <div class="card w"><p>A larger coefficient does not automatically mean greater importance. A coefficient shows <b>association in the fitted model</b>, not causation.</p></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:compass-tool}}</span>This is an important engineering judgement point. More in Session 07.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== MATHS 1 · LINEAR REGRESSION -->
+<style>
+  .m1 .wrap{display:grid;grid-template-columns:740px 1fr;gap:40px;height:100%}
+  .m1 .left{display:flex;flex-direction:column;gap:16px}
+  .m1 .bl{border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line)}
+  .m1 .bl .lbl{color:var(--Xi)}
+  .m1 .bl .eq{margin-top:10px;font-size:32px}
+  .m1 .bl p{font-size:22px;margin-top:6px}
+  .m1 .bl.c{background:var(--Yt);border-color:var(--Yl)}.m1 .bl.c .lbl{color:var(--Yi)}
+  .m1 .bl.g{background:var(--Mt);border-color:var(--Ml)}.m1 .bl.g .lbl{color:var(--Mi)}
+  .m1 .chart{padding:18px 22px 10px}
+  .m1 .chart .stack{aspect-ratio:900/600;margin-top:6px}
+</style>
+<section class="slide c s1 m1">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Some maths behind ML models · 1 of 5</div>
+    <h2>Linear regression: the base model of statistical ML</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="bl"><div class="lbl">The model · one input</div><div class="eq"><i>f</i><sub><i>w,b</i></sub>(<i>x</i><sup>(<i>i</i>)</sup>) = <span class="sh b"><i>w</i></span><i>x</i><sup>(<i>i</i>)</sup> + <span class="sh g"><i>b</i></span></div><p>Parameters: slope <i>w</i> and intercept <i>b</i>.</p></div>
+          <div class="bl c"><div class="lbl">The cost · squared-error cost function</div><div class="eq"><i>J</i>(<i>w</i>,<i>b</i>) = <span class="fr"><span>1</span><span>2<i>m</i></span></span>Σ<sub><i>i</i>=1</sub><sup><i>m</i></sup> ( <i>f</i><sub><i>w,b</i></sub>(<i>x</i><sup>(<i>i</i>)</sup>) − <i>y</i><sup>(<i>i</i>)</sup> )<sup>2</sup></div><p>Square every error, average over the <i>m</i> examples.</p></div>
+          <div class="bl g"><div class="lbl">The goal</div><div class="eq">minimise <i>J</i>(<i>w</i>, <i>b</i>) over <i>w</i>, <i>b</i></div><p>With 8 inputs it is the same idea: one <i>w</i> per input.</p></div>
+        </div>
+        <div class="chart"><h3>26 real 28-day mixes, one input: cement</h3><div class="stack">{{stack:linefit}}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="attr">Notation after DeepLearning.AI (Machine Learning Specialization)</div>
+</section>
+
+<!-- ===================================================================== MATHS 2 · COST BOWL -->
+<style>
+  .m2 .wrap{display:grid;grid-template-columns:1fr 900px;gap:40px;height:100%}
+  .m2 .left{display:flex;flex-direction:column;gap:18px}
+  .m2 .card{padding:28px 32px}
+  .m2 .card p{font-size:24px;margin-top:8px}
+  .m2 .ol{border-radius:24px;background:var(--Yt);border:1px solid var(--Yl);padding:28px 32px}
+  .m2 .ol .lbl{color:var(--Yi)}
+  .m2 .ol ol{margin-top:12px;list-style:none}
+  .m2 .ol li{display:grid;grid-template-columns:44px 1fr;padding:12px 0;border-top:1px solid var(--Yl);font-size:24px;color:var(--ink)}
+  .m2 .ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--Yi);padding-top:4px}
+  .m2 .chart{padding:14px 18px 10px;justify-content:center}
+  .m2 .chart .stack{aspect-ratio:900/640}
+</style>
+<section class="slide c s1 m2">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Some maths behind ML models · 2 of 5</div>
+    <h2>The cost function is a bowl. We walk downhill.</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Convex</div><p>For linear regression, <i>J</i>(<i>w</i>, <i>b</i>) has a single lowest point: no false valleys.</p></div>
+          <div class="ol"><div class="lbl">Gradient descent, in outline</div><ol><li><span>01</span><div>Start with some <i>w</i>, <i>b</i></div></li><li><span>02</span><div>Keep changing <i>w</i>, <i>b</i> to reduce <i>J</i>(<i>w</i>, <i>b</i>)</div></li><li><span>03</span><div>Until we settle at or near a minimum</div></li></ol></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><p>Here: {{stat:gd_steps}} steps take the cost from <b>{{stat:gd_start}}</b> to <b>{{stat:gd_end}}</b> MPa².</p></div>
+        </div>
+        <div class="chart"><div class="stack">{{stack:bowl}}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Cost surface computed from the 26 mixes of the previous slide (cement standardised). Concept after DeepLearning.AI.</div>
+</section>
+
+<!-- ===================================================================== MATHS 3 · GRADIENT DESCENT -->
+<style>
+  .m3 .wrap{display:grid;grid-template-columns:1fr 820px;gap:40px;height:100%}
+  .m3 .left{display:flex;flex-direction:column;gap:18px}
+  .m3 .alg{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:30px 34px}
+  .m3 .alg .eq{font-size:34px;margin-top:14px;line-height:1.7}
+  .m3 .alg .rep{font-size:24px;font-weight:700;color:var(--ink)}
+  .m3 .tags{display:flex;gap:12px;margin-top:16px}
+  .m3 .card{padding:24px 30px}
+  .m3 .card p{font-size:22px;margin-top:6px}
+  .m3 .chart{padding:14px 18px 10px}
+  .m3 .chart .stack{aspect-ratio:820/560}
+</style>
+<section class="slide c s1 m3">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Some maths behind ML models · 3 of 5</div>
+    <h2>Gradient descent: follow the slope downhill</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="alg"><div class="rep">Repeat until convergence:</div>
+            <div class="eq"><i>w</i> = <i>w</i> − <span class="sh o"><i>α</i></span> <span class="sh b"><span class="fr"><span>∂</span><span>∂<i>w</i></span></span><i>J</i>(<i>w</i>,<i>b</i>)</span><br><i>b</i> = <i>b</i> − <span class="sh o"><i>α</i></span> <span class="sh b"><span class="fr"><span>∂</span><span>∂<i>b</i></span></span><i>J</i>(<i>w</i>,<i>b</i>)</span></div>
+            <div class="tags"><span class="chip y"><i>α</i>&nbsp;learning rate: step size</span><span class="chip x">derivative: slope of <i>J</i></span></div></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Why it works</div><p>A negative slope makes <i>w</i> grow; a positive slope makes it shrink. Steps get smaller as the slope flattens near the minimum.</p></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><p>Update <i>w</i> and <i>b</i> <b>together</b>, using the slope at the current point.</p></div>
+        </div>
+        <div class="chart"><h3><i>J</i>(<i>w</i>) with <i>b</i> at its best value</h3><div class="stack">{{stack:gd1d}}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="attr">Notation after DeepLearning.AI; concept also in CS771, IIT Kanpur</div>
+</section>
+
+<!-- ===================================================================== MATHS 4 · LEARNING RATE -->
+<style>
+  .m4 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .m4 .chart{padding:24px 26px 16px}
+  .m4 .chart h3{font-size:32px}
+  .m4 .chart .f{font-size:21px}
+  .m4 .chart svg{flex:none;height:auto;margin-top:14px}
+  .m4 .chart .v{margin-top:12px;padding-top:14px;border-top:1px solid var(--surface-line);font-size:22px;font-weight:700}
+</style>
+<section class="slide c s1 m4">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Some maths behind ML models · 4 of 5 · hyperparameter tuning</div>
+    <h2>The learning rate α decides whether we arrive</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="chart"><div class="lbl" style="color:var(--Xi)"><span style="text-transform:none">α</span> = {{stat:a_small}} · too small</div><h3>Slow</h3><div class="f">Tiny steps: after {{stat:n_small}} steps we have covered only {{stat:pct_small}}% of the way.</div>{{chart:aslow}}<div class="v" style="color:var(--Xi)">Converges, eventually</div></div>
+        <div class="chart" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)"><span style="text-transform:none">α</span> = {{stat:a_good}} · about right</div><h3>Efficient</h3><div class="f">Large steps far away, small steps near the minimum: there in about {{stat:n_good}} steps.</div>{{chart:agood}}<div class="v" style="color:var(--Mi)">Converges quickly</div></div>
+        <div class="chart" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)"><span style="text-transform:none">α</span> = {{stat:a_large}} · too large</div><h3>Overshoots</h3><div class="f">Each step jumps past the minimum and lands higher up the other side.</div>{{chart:abig}}<div class="v" style="color:var(--Yi)">Fails to converge</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:sliders}}</span>α is a hyperparameter: we choose it; the model does not learn it. scikit-learn’s LinearRegression solves for the weights directly, so today we do not tune α.</div>
+    </div>
+  </div>
+  <div class="src">All three runs start from the same point on the same cost curve as the previous slide.</div>
+</section>
+
+<!-- ===================================================================== MATHS 5 · FEATURE SCALING -->
+<style>
+  .m5 .wrap{display:grid;grid-template-columns:520px 1fr;gap:40px;height:100%}
+  .m5 .left{display:flex;flex-direction:column;gap:16px}
+  .m5 .card{padding:24px 30px}
+  .m5 .card p{font-size:22px;margin-top:6px}
+  .m5 .card.w{background:var(--Yt);border-color:var(--Yl)}
+  .m5 .card.g{background:var(--Mt);border-color:var(--Ml)}
+  .m5 code{font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--Mi)}
+  .m5 .pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .m5 .chart{padding:20px 24px 14px}
+  .m5 .chart .stack{aspect-ratio:1/1;max-height:470px;align-self:center;width:470px}
+  .m5 .chart .n{margin-top:10px;text-align:center;font-size:23px;font-weight:700}
+  .m5 .chart .n b{font-family:'JetBrains Mono',monospace;font-size:28px}
+</style>
+<section class="slide c s1 m5">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Some maths behind ML models · 5 of 5 · data pre-processing</div>
+    <h2>Feature scaling: make the bowl round</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="card"><p>Once the features are selected, they may not be on the same scale: cement varies by about 104 kg/m³, superplasticizer by about 6.</p></div>
+          <div class="card w"><div class="lbl" style="color:var(--Yi)">Problematic</div><p>Features with larger scales can dominate comparisons, and gradient descent crawls along a long, narrow valley.</p></div>
+          <div class="card g"><div class="lbl" style="color:var(--Mi)">Therefore, standardise</div><p>Mean 0, standard deviation 1 for every feature. It stabilises the optimisation used in ML algorithms.</p><p><code>StandardScaler().fit(X_train)</code></p></div>
+        </div>
+        <div class="pair">
+          <div class="chart"><div class="lbl" style="color:var(--Yi)">Gradient descent without scaling</div><h3>Raw kg/m³</h3><div class="stack">{{stack:sraw}}</div><div class="n" style="color:var(--Yi)"><b>{{stat:it_raw}}</b> iterations</div></div>
+          <div class="chart"><div class="lbl" style="color:var(--Mi)">Gradient descent after scaling</div><h3>Standardised</h3><div class="stack">{{stack:sstd}}</div><div class="n" style="color:var(--Mi)"><b>{{stat:it_std}}</b> iterations</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Real cost contours for predicting strength from cement and superplasticizer (1,005 mixes), same safe learning rate rule, stopping at 0.1% of the starting cost. Idea after Virginia Tech ECE 5424 (Lec. 03) and DeepLearning.AI.</div>
+</section>
+
+<!-- ===================================================================== DIVIDER 2 -->
+<section class="slide dv dv2">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">02</div>
+  <ol><li><span>a</span>A scorecard: MAE, RMSE, R²</li><li><span>b</span>Which metric should we trust?</li><li><span>c</span>Train vs test performance</li><li><span>d</span>Parity plot</li><li><span>e</span>Residuals: where is it wrong?</li></ol>
+  <div class="logos" style="top:600px">{{logo:scikitlearn}}{{logo:matplotlib}}</div>
+  <div class="part"><div class="k">Part 02 · Evaluation</div><h2>How good is our model?</h2></div>
+</section>
+
+<!-- ===================================================================== SCORECARD -->
+<style>
+  .sc .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .sc .card{padding:34px 36px;display:flex;flex-direction:column}
+  .sc .card .ab{font-weight:900;font-stretch:87.5%;font-size:76px;letter-spacing:-.03em;line-height:.9;color:var(--sec-ink)}
+  .sc .card h3{margin-top:14px;font-size:30px}
+  .sc .card p{margin-top:auto;padding-top:18px;font-size:23px;border-top:1px solid var(--surface-line)}
+  .sc .card .u{margin-top:18px;align-self:flex-start;height:40px;font-size:18px}
+  .sc .lead{font-size:30px;font-weight:600;color:var(--ink)}
+</style>
+<section class="slide c s2 sc">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Prediction is not enough</div>
+    <h2>A model can make predictions. How good are they?</h2>
+    <div class="main">
+      <div class="lead">We need a scorecard. Today: three regression metrics.</div>
+      <div class="g3 grow">
+        <div class="card"><span class="ab">MAE</span><h3>Mean Absolute Error</h3><span class="chip u">unit: MPa · lower is better</span><p>On average, how large is the error?</p></div>
+        <div class="card"><span class="ab">RMSE</span><h3>Root Mean Squared Error</h3><span class="chip u">unit: MPa · lower is better</span><p>How large is the error, with big misses counting more?</p></div>
+        <div class="card"><span class="ab">R²</span><h3>Coefficient of Determination</h3><span class="chip u">no unit · higher is better, max 1</span><p>How much better than predicting the mean?</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:list-checks}}</span>Different metrics answer slightly different questions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== MAE -->
+<style>
+  .met .wrap{display:grid;grid-template-columns:1fr 600px;gap:48px;height:100%}
+  .met .left{display:flex;flex-direction:column;gap:22px}
+  .met .fq{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:32px 36px}
+  .met .fq .eq{font-size:44px;margin-top:14px}
+  .met .fq .q{margin-top:14px;font-size:24px;color:var(--ink-2)}
+  .met .card{padding:26px 32px}
+  .met .card ul{margin-top:10px;list-style:none}
+  .met .card li{padding:10px 0;border-top:1px solid var(--surface-line);font-size:23px}
+  .met .res{border-radius:28px;background:var(--ink);color:#fff;padding:40px;display:flex;flex-direction:column}
+  .met .res .lbl{color:#FDB797}
+  .met .res .n{margin-top:18px;font-weight:900;font-stretch:87.5%;font-size:120px;line-height:.9;letter-spacing:-.04em;color:#fff}
+  .met .res .n small{font-size:42px;margin-left:8px;color:#C6D2E1}
+  .met .res p{margin-top:20px;font-size:25px;color:#E6EDF5}
+  .met .res .cmp{margin-top:auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:22px;color:#C6D2E1}
+  .met .res .cmp b{color:#fff}
+</style>
+<section class="slide c s2 met">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Metric 1 · on our {{stat:n_test}} test mixes</div>
+    <h2>MAE: Mean Absolute Error</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="fq"><div class="lbl" style="color:var(--Yi)">Question · on average, how large is our prediction error?</div><div class="eq">MAE = <span class="fr"><span>1</span><span><i>m</i></span></span>Σ<sub><i>i</i>=1</sub><sup><i>m</i></sup> | <span class="sh b"><i>y</i><sub><i>i</i></sub></span> − <span class="sh g"><i>ŷ</i><sub><i>i</i></sub></span> |</div><div class="q"><span class="sh b">actual target value</span> &nbsp;·&nbsp; <span class="sh g">predicted target</span></div></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Why engineers like MAE</div><ul><li>Same units as the target: MPa</li><li>Easy to interpret</li><li>Every error contributes in proportion to its size</li></ul></div>
+        </div>
+        <div class="res"><div class="lbl">Linear regression · test set</div><div class="n">{{stat:t_mae}}<small>MPa</small></div><p>“Our predictions are off by about {{stat:t_mae}} MPa on average.”</p><div class="cmp">Mean baseline: <b>{{stat:bt_mae}} MPa</b>. The model cuts the average error by {{stat:mae_gain}}%.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RMSE -->
+<style>
+  .rm .ex{display:flex;align-items:center;gap:12px;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--ink)}
+  .rm .ex b{display:inline-flex;align-items:center;justify-content:center;min-width:56px;height:44px;border-radius:10px;font-weight:700}
+</style>
+<section class="slide c s2 met rm">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Metric 2 · large errors are penalised more strongly</div>
+    <h2>RMSE: Root Mean Squared Error</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="fq"><div class="lbl" style="color:var(--Yi)">Squares the errors before averaging</div><div class="eq">RMSE = √<span style="text-decoration:overline;text-decoration-thickness:2px"> <span class="fr"><span>1</span><span><i>m</i></span></span>Σ<sub><i>i</i>=1</sub><sup><i>m</i></sup> ( <span class="sh b"><i>y</i><sub><i>i</i></sub></span> − <span class="sh g"><i>ŷ</i><sub><i>i</i></sub></span> )<sup>2</sup> </span></div></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Why squaring matters · errors of two models on 4 mixes</div>
+            <div class="ex">A&nbsp;<b style="background:var(--Xt)">3</b><b style="background:var(--Xt)">3</b><b style="background:var(--Xt)">3</b><b style="background:var(--Xt)">3</b>&nbsp;→ MAE 3.0 · RMSE 3.0</div>
+            <div class="ex">B&nbsp;<b style="background:var(--Xt)">0</b><b style="background:var(--Xt)">0</b><b style="background:var(--Xt)">0</b><b style="background:var(--Yt);color:var(--Yi)">12</b>&nbsp;→ MAE 3.0 · RMSE 6.0</div>
+            <ul style="margin-top:14px"><li><b>MAE</b> → average error size</li><li><b>RMSE</b> → average error with a greater penalty for large misses</li></ul></div>
+        </div>
+        <div class="res"><div class="lbl">Linear regression · test set</div><div class="n">{{stat:t_rmse}}<small>MPa</small></div><p>RMSE ≥ MAE always. Here the gap ({{stat:t_rmse}} vs {{stat:t_mae}}) says some mixes are missed by a lot.</p><div class="cmp">Mean baseline: <b>{{stat:bt_rmse}} MPa</b>. Lower is better.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== R2 -->
+<style>
+  .r2 .scale{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .r2 .scale div{border-radius:16px;padding:16px 20px;font-size:21px;color:var(--ink-2)}
+  .r2 .scale b{display:block;font-family:'JetBrains Mono',monospace;font-size:24px;color:var(--ink)}
+</style>
+<section class="slide c s2 met r2">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Metric 3 · how much variation does the model explain?</div>
+    <h2>R²: compared with the mean baseline</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="fq"><div class="lbl" style="color:var(--Yi)">Model error relative to baseline error</div><div class="eq">R² = 1 − <span class="fr"><span>Σ ( <i>y</i><sub><i>i</i></sub> − <span class="sh g"><i>ŷ</i><sub><i>i</i></sub></span> )<sup>2</sup></span><span>Σ ( <i>y</i><sub><i>i</i></sub> − <span class="sh o"><i>ȳ</i></span> )<sup>2</sup></span></span></div><div class="q"><span class="sh o"><i>ȳ</i> arithmetic mean of y</span> = the baseline</div></div>
+          <div class="scale"><div style="background:var(--Mt)"><b>R² = 1</b>perfect predictions</div><div style="background:var(--surface)"><b>R² = 0</b>no better than the mean</div><div style="background:var(--Yt)"><b>R² &lt; 0</b>worse than the mean, possible on unseen data</div></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Important · R² is NOT accuracy</div><p style="font-size:23px;margin-top:8px">R² = 0.58 does not mean “58% of predictions are correct”. It means the squared error is 58% smaller than the mean baseline’s.</p></div>
+        </div>
+        <div class="res"><div class="lbl">Linear regression · test set</div><div class="n">{{stat:t_r2}}</div><p>The model explains well over half the variation in strength that the mean leaves unexplained.</p><div class="cmp">Mean baseline: <b>{{stat:bt_r2}}</b>, by construction.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHICH METRIC -->
+<style>
+  .wm table{width:100%;border-collapse:collapse}
+  .wm th{text-align:left;padding:0 24px 14px 0;border-bottom:2px solid var(--ink);font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .wm th.n,.wm td.n{text-align:right;width:220px}
+  .wm td{padding:24px 24px 24px 0;border-bottom:1px solid var(--rule);font-size:25px;color:var(--ink-2)}
+  .wm td.k{font-weight:800;font-size:30px;color:var(--ink);width:160px}
+  .wm td.n{font-family:'JetBrains Mono',monospace;font-size:27px;font-weight:700;color:var(--ink)}
+  .wm td.n.m{color:var(--Mi)}
+  .wm .jd{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:28px 34px;border-radius:24px;background:var(--ink);color:#fff}
+  .wm .jd .lbl{color:#FDB797}
+  .wm .jd p{margin-top:8px;font-size:25px;color:#E6EDF5}
+  .wm .jd b{color:#fff;font-size:34px;font-weight:800;font-stretch:87.5%;white-space:nowrap}
+</style>
+<section class="slide c s2 wm">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Don’t ask “which metric is best?” · ask what each one tells us</div>
+    <h2>Which metric should we trust?</h2>
+    <div class="main">
+      <table>
+        <tr><th>Metric</th><th>What it tells us</th><th class="n">Mean baseline</th><th class="n">Linear regression</th></tr>
+        <tr><td class="k">MAE</td><td>Typical size of the errors</td><td class="n">{{stat:bt_mae}} MPa</td><td class="n m">{{stat:t_mae}} MPa</td></tr>
+        <tr><td class="k">RMSE</td><td>Errors, with greater emphasis on large misses</td><td class="n">{{stat:bt_rmse}} MPa</td><td class="n m">{{stat:t_rmse}} MPa</td></tr>
+        <tr><td class="k">R²</td><td>Variation explained, relative to the mean baseline</td><td class="n">{{stat:bt_r2}}</td><td class="n m">{{stat:t_r2}}</td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="jd"><div><div class="lbl">Engineering judgement</div><p>A good R² can still hide errors too large for the application. Is ±{{stat:t_mae}} MPa acceptable for your design decision?</p></div><b>A metric is evidence, not judgement.</b></div>
+    </div>
+  </div>
+  <div class="src">All values on the {{stat:n_test}} test mixes (random_state = 42).</div>
+</section>
+
+<!-- ===================================================================== TRAIN VS TEST -->
+<style>
+  .tvt .wrap{display:grid;grid-template-columns:860px 1fr;gap:40px;height:100%}
+  .tvt table{width:100%;border-collapse:separate;border-spacing:0 12px}
+  .tvt th{text-align:right;padding:0 22px;font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tvt th:first-child{text-align:left;padding-left:0}
+  .tvt td{padding:24px 22px;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;text-align:right;background:var(--surface)}
+  .tvt td:first-child{font-family:'Archivo';font-size:28px;text-align:left;border-radius:18px 0 0 18px}
+  .tvt td:last-child{border-radius:0 18px 18px 0}
+  .tvt tr.te td{background:var(--Yt);color:var(--Yi)}
+  .tvt tr.tr td{background:var(--Mt);color:var(--Mi)}
+  .tvt .verdict{margin-top:20px;border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line);font-size:25px;color:var(--ink)}
+  .tvt .cases{display:flex;flex-direction:column;gap:14px}
+  .tvt .cs{display:grid;grid-template-columns:1fr;padding:22px 26px;border-radius:20px;background:#fff;border:1px solid var(--surface-line)}
+  .tvt .cs b{font-size:25px}
+  .tvt .cs span{margin-top:6px;font-size:22px;color:var(--ink-2)}
+  .tvt .cs.on{background:var(--Mt);border-color:var(--Ml)}
+</style>
+<section class="slide c s2 tvt">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Training performance ≠ generalisation</div>
+    <h2>Does the model work on new data?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div>
+          <table>
+            <tr><th>Evaluated on</th><th>MAE</th><th>RMSE</th><th>R²</th></tr>
+            <tr class="tr"><td>Training data · seen</td><td>{{stat:tr_mae}}</td><td>{{stat:tr_rmse}}</td><td>{{stat:tr_r2}}</td></tr>
+            <tr class="te"><td>Test data · never seen</td><td>{{stat:t_mae}}</td><td>{{stat:t_rmse}}</td><td>{{stat:t_r2}}</td></tr>
+          </table>
+          <div class="verdict"><b>Our model:</b> similar on both, and modest on both. Not overfitting; more likely <b>too simple</b> for this problem.</div>
+        </div>
+        <div class="cases">
+          <div class="cs"><b>Similar performance</b><span>→ encouraging</span></div>
+          <div class="cs"><b>Much better on training than test</b><span>→ possible overfitting / poor generalisation</span></div>
+          <div class="cs on"><b>Poor or modest on both</b><span>→ model may be too simple, data insufficient, or the problem difficult</span></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>Good training performance alone is not enough.</div>
+    </div>
+  </div>
+  <div class="src">MAE and RMSE in MPa. Training: {{stat:n_train}} mixes; test: {{stat:n_test}} mixes.</div>
+</section>
+
+<!-- ===================================================================== PARITY -->
+<style>
+  .par .wrap{display:grid;grid-template-columns:860px 1fr;gap:44px;height:100%}
+  .par .chart{padding:20px 26px 10px}
+  .par .side{display:flex;flex-direction:column;gap:18px}
+  .par .side .card{padding:28px 32px}
+  .par .side .card p{font-size:24px;margin-top:8px}
+  .par .side ul{margin-top:12px;list-style:none}
+  .par .side li{padding:12px 0;border-top:1px solid var(--surface-line);font-size:23px}
+  .par .side .card.k{background:var(--Yt);border-color:var(--Yl)}
+</style>
+<section class="slide c s2 par">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Visualising predictions</div>
+    <h2>Parity plot: actual vs predicted</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>{{stat:n_test}} test mixes</h3>{{chart:parity}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Mi)">If predictions were perfect</div><p>Every point would lie on the 45° line.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Look for</div><ul><li>How close points are to the line</li><li>Systematic deviations</li><li>Extreme errors</li><li>Different behaviour in different ranges</li></ul></div>
+          <div class="card k"><div class="lbl" style="color:var(--Yi)">Here</div><p>Strong mixes above 60 MPa sit below the line: the model <b>under-predicts high strength.</b></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RESIDUALS -->
+<style>
+  .rs .two{display:grid;grid-template-columns:1fr 1fr 470px;gap:24px}
+  .rs .chart{padding:20px 24px 10px}
+  .rs .chart h3{font-size:28px}
+  .rs .side{display:flex;flex-direction:column;gap:14px}
+  .rs .ws{padding:20px 24px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .rs .ws b{display:block;font-size:24px}
+  .rs .ws span{display:block;margin-top:4px;font-size:20px;color:var(--ink-2)}
+  .rs .ws.on{background:var(--Yt);border-color:var(--Yl)}
+  .rs .eqr{font-size:22px;font-weight:700;color:var(--ink)}
+</style>
+<section class="slide c s2 rs">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Residual = actual − predicted · where and why is the model wrong?</div>
+    <h2>Residuals help us diagnose the model</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="chart"><h3>Against the prediction</h3><div class="f">Ideally: centred on zero, no pattern.</div>{{chart:rpred}}</div>
+        <div class="chart"><h3>Against age: a clear curve</h3><div class="f">Blue: median residual at each test age.</div>{{chart:rage}}</div>
+        <div class="side">
+          <div class="lbl">Warning signs</div>
+          <div class="ws on"><b>Curvature</b><span>→ the linear model misses nonlinear behaviour. Here: {{stat:ra_3}} MPa at 3 days, {{stat:ra_56}} at 56, {{stat:ra_360}} at a year.</span></div>
+          <div class="ws"><b>Increasing spread</b><span>→ the error changes with the target or input range</span></div>
+          <div class="ws"><b>Large isolated residuals</b><span>→ unusual observations or difficult cases</span></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:magnifying-glass}}</span>Don’t just ask “how good is the score?” Ask “where and why is the model wrong?”</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 3 -->
+<section class="slide dv dv3">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">03</div>
+  <ol><li><span>a</span>One split is only one split</li><li><span>b</span>K-fold cross-validation</li><li><span>c</span>Look beyond the mean</li><li><span>d</span>The test-set rule</li><li><span>e</span>From performance to engineering judgement</li><li><span>f</span>Your turn: diagnose the model</li></ol>
+  <div class="logos" style="top:660px">{{logo:scikitlearn}}{{logo:googlecolab}}</div>
+  <div class="part"><div class="k">Part 03 · Validation &amp; judgement</div><h2>Is it consistent, and can we trust it?</h2></div>
+</section>
+
+<!-- ===================================================================== CHANGE THE SPLIT -->
+<style>
+  .chg .seeds{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .chg .sd{border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line);display:flex;justify-content:space-between;align-items:baseline}
+  .chg .sd code{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--ink)}
+  .chg .sd b{font-family:'JetBrains Mono',monospace;font-size:40px;color:var(--Yi)}
+  .chg .chart{padding:20px 28px 12px}
+</style>
+<section class="slide c s3 chg">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">One split is only one split</div>
+    <h2>What if we change the split? Same model, same data.</h2>
+    <div class="main">
+      <div class="seeds">
+        <div class="sd"><code>random_state = 42</code><b>R² {{stat:s42}}</b></div>
+        <div class="sd"><code>random_state = 7</code><b>R² {{stat:s7}}</b></div>
+        <div class="sd"><code>random_state = 21</code><b>R² {{stat:s21}}</b></div>
+      </div>
+      <div class="chart grow"><h3>Test R² from 50 different random splits: {{stat:seed_min}} to {{stat:seed_max}}</h3>{{chart:seeds}}</div>
+      <div class="take"><span class="ti">{{i:shuffle}}</span>Which mixes land in the test set changes the score. A single split gives one estimate of performance.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== K-FOLD -->
+<style>
+  .kf .wrap{display:grid;grid-template-columns:1fr 560px;gap:40px;height:100%}
+  .kf .flow{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+  .kf .flow .bx{height:64px;padding:0 22px;border-radius:16px;display:flex;align-items:center;font-size:23px;font-weight:700}
+  .kf .flow svg{width:30px;height:30px;color:#AAB6C5}
+  .kf .row{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;margin-top:14px}
+  .kf .row .lb{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--muted)}
+  .kf .row .fold{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .kf .row .fold span{height:58px;border-radius:12px;display:grid;place-items:center;font-size:19px;font-weight:700;background:var(--Mt);color:var(--Mi);border:1px solid var(--Ml)}
+  .kf .row .fold span.v{background:var(--Y);color:#fff;border-color:var(--Y)}
+  .kf .row .sc{font-family:'JetBrains Mono',monospace}
+  .kf .avg{margin-top:18px;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center}
+  .kf .avg div{height:64px;border-radius:16px;background:var(--ink);color:#fff;display:flex;align-items:center;padding:0 24px;font-size:23px;font-weight:700}
+  .kf .side{display:flex;flex-direction:column;gap:18px}
+  .kf .side .card{padding:28px 32px}
+  .kf .side .card p{font-size:23px;margin-top:8px}
+  .kf .dk pre{font-size:17px;padding:20px 22px}
+</style>
+<section class="slide c s3 kf">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">A more systematic view</div>
+    <h2>K-fold cross-validation</h2>
+    <div class="main">
+      <div class="wrap">
+        <div>
+          <div class="flow"><span class="bx" style="background:var(--surface)">{{stat:n}} mixes</span>{{i:arrow-right}}<span class="bx" style="background:var(--Mt);color:var(--Mi)">80% training: {{stat:n_train}}</span><span class="bx" style="background:var(--Yt);color:var(--Yi)">{{i:lock-key}}&nbsp;20% test: locked</span></div>
+          <div class="lbl">5-fold CV on the training data only</div>
+          <div class="row f1"><span class="lb">Fold 1</span><div class="fold"><span class="v">validate</span><span>train</span><span>train</span><span>train</span><span>train</span></div></div>
+          <div class="row f2"><span class="lb">Fold 2</span><div class="fold"><span>train</span><span class="v">validate</span><span>train</span><span>train</span><span>train</span></div></div>
+          <div class="row f3"><span class="lb">Fold 3</span><div class="fold"><span>train</span><span>train</span><span class="v">validate</span><span>train</span><span>train</span></div></div>
+          <div class="row f4"><span class="lb">Fold 4</span><div class="fold"><span>train</span><span>train</span><span>train</span><span class="v">validate</span><span>train</span></div></div>
+          <div class="row f5"><span class="lb">Fold 5</span><div class="fold"><span>train</span><span>train</span><span>train</span><span>train</span><span class="v">validate</span></div></div>
+          <div class="avg"><span></span><div>Average performance metric = <span class="mono" style="margin-left:10px">(1/K) Σ score<sub>k</sub></span></div></div>
+        </div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Mi)">Each mix gets one turn</div><p>Every training observation is validated exactly once, by a model that did not see it.</p></div>
+          <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session03_first_model.ipynb</span><span>cv</span></div>
+<pre><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> \
+    cross_val_score, KFold
+cv = <span class="fn">KFold</span>(<span class="nu">5</span>, shuffle=<span class="kw">True</span>, random_state=<span class="nu">42</span>)
+scores = <span class="fn">cross_val_score</span>(model, X_train,
+    y_train, cv=cv, scoring=<span class="st">"r2"</span>)</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CV RESULTS -->
+<style>
+  .cvr .wrap{display:grid;grid-template-columns:780px 1fr;gap:40px;height:100%}
+  .cvr .chart{padding:20px 26px 10px}
+  .cvr .side{display:flex;flex-direction:column;gap:18px}
+  .cvr .mm{border-radius:22px;padding:24px 28px;background:var(--surface);border:1px solid var(--surface-line)}
+  .cvr .mm .hd{display:flex;justify-content:space-between;align-items:baseline}
+  .cvr .mm .hd b{font-size:27px}
+  .cvr .mm .hd span{font-size:22px;font-weight:700}
+  .cvr .mm .sc{margin-top:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .cvr .mm .sc i{font-style:normal;height:48px;border-radius:10px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;background:#fff;border:1px solid var(--surface-line)}
+  .cvr .mm.b .sc i.x{background:var(--Yt);color:var(--Yi);border-color:var(--Yl)}
+  .cvr .mm.a{background:var(--Mt);border-color:var(--Ml)}
+  .cvr .note{font-size:19px;color:var(--muted)}
+</style>
+<section class="slide c s3 cvr">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">What does cross-validation tell us? · look beyond the mean</div>
+    <h2>Average and spread both matter</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Our linear regression: R² {{stat:cv_mean}} ± {{stat:cv_sd}}</h3><div class="f">Five validation folds of the training data.</div>{{chart:cv}}</div>
+        <div class="side">
+          <div class="note">An illustration with two hypothetical models:</div>
+          <div class="mm a"><div class="hd"><b>Model A</b><span style="color:var(--Mi)">mean ≈ 0.90 · consistent</span></div><div class="sc"><i>0.89</i><i>0.91</i><i>0.90</i><i>0.92</i><i>0.88</i></div></div>
+          <div class="mm b"><div class="hd"><b>Model B</b><span style="color:var(--Yi)">mean ≈ 0.90 · much more variable</span></div><div class="sc"><i class="x">0.60</i><i>0.97</i><i>0.91</i><i>1.00</i><i>1.02*</i></div></div>
+          <div class="note">* An R² above 1 is impossible: a value like this signals a bug in the evaluation.</div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:chart-bar}}</span>Similar average, much larger fold-to-fold variation: Model B deserves more investigation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TEST SET RULE -->
+<style>
+  .rule .wrap{display:grid;grid-template-columns:620px 1fr;gap:56px;height:100%}
+  .rule .lock{border-radius:32px;background:var(--ink);color:#fff;padding:48px;display:flex;flex-direction:column}
+  .rule .lock svg{width:110px;height:110px;color:#FDB797}
+  .rule .lock b{margin-top:auto;color:#fff;font-size:54px;font-weight:800;font-stretch:87.5%;line-height:1.05;letter-spacing:-.02em}
+  .rule .lock p{margin-top:16px;font-size:25px;color:#C6D2E1}
+  .rule .lead{font-size:30px;font-weight:600;color:var(--ink)}
+  .rule ul{margin-top:24px;list-style:none;border-top:2px solid var(--ink)}
+  .rule li{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:center;padding:24px 0;border-bottom:1px solid var(--rule);font-size:30px;font-weight:700}
+  .rule li svg{width:36px;height:36px;color:var(--Y)}
+  .rule .end{margin-top:24px;font-size:27px;color:var(--ink-2)}
+</style>
+<section class="slide c s3 rule">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">The most important rule from today</div>
+    <h2>Keep the test set untouched during development</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="lock">{{i:lock-key}}<b>The test set is for the final evaluation.</b><p>Use it once, at the end.</p></div>
+        <div>
+          <div class="lead">Do not use test performance to decide which</div>
+          <ul><li>{{i:prohibit}}Model</li><li>{{i:prohibit}}Features</li><li>{{i:prohibit}}Hyperparameters</li><li>{{i:prohibit}}Pre-processing approach</li></ul>
+          <div class="end">is better. Every peek turns the test set into training data.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BETTER WORKFLOW -->
+<style>
+  .bw .wrap{display:grid;grid-template-columns:1fr 560px;gap:56px;height:100%}
+  .bw .lane{display:grid;grid-template-columns:1fr;gap:0}
+  .bw .s{display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:center;padding:16px 24px;border-radius:16px;font-size:25px;font-weight:700;background:var(--surface);border:1px solid var(--surface-line)}
+  .bw .s span{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+  .bw .s.d{background:var(--Mt);border-color:var(--Ml)}.bw .s.d span{color:var(--Mi)}
+  .bw .s.t{background:var(--Yt);border-color:var(--Yl)}.bw .s.t span{color:var(--Yi)}
+  .bw .dn{height:22px;display:grid;place-items:center;color:#AAB6C5}
+  .bw .dn svg{width:18px;height:18px}
+  .bw .side{display:flex;flex-direction:column;gap:20px}
+  .bw .side .card{padding:30px 34px}
+  .bw .side .card b{display:block;font-size:30px;margin-top:8px}
+  .bw .side .card p{font-size:22px;margin-top:8px}
+</style>
+<section class="slide c s3 bw">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Separate development from final assessment</div>
+    <h2>The better workflow</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="lane">
+          <div class="s d"><span>01</span>Training data</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s d"><span>02</span>Cross-validation</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s d"><span>03</span>Model development and comparison</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s d"><span>04</span>Choose the final approach</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s d"><span>05</span>Train the final model on all training data</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s t"><span>06</span>Evaluate once on the untouched test set</div><div class="dn">{{i:arrow-down}}</div>
+          <div class="s t"><span>07</span>Report the final test performance</div>
+        </div>
+        <div class="side">
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Decisions</div><b>Use cross-validation to make decisions.</b></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Assessment</div><b>Use the test set to make the final assessment.</b></div>
+          <div class="card"><p>This becomes increasingly important when we compare several algorithms in Sessions 04–06.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== JUDGEMENT -->
+<style>
+  .jd5 .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .jd5 .card{padding:28px 26px;display:flex;flex-direction:column}
+  .jd5 .card .n{font-weight:900;font-stretch:87.5%;font-size:60px;line-height:.85;color:var(--sec)}
+  .jd5 .card h3{margin-top:18px;font-size:30px}
+  .jd5 .card p{font-size:21px;margin-top:8px}
+  .jd5 .card .here{margin-top:auto;padding-top:14px;border-top:1px solid var(--surface-line);font-size:19px;color:var(--Mi);font-weight:700}
+  .jd5 .big{font-weight:800;font-stretch:87.5%;font-size:50px;line-height:1.1;letter-spacing:-.02em}
+</style>
+<section class="slide c s3 jd5">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">From model performance to engineering judgement</div>
+    <h2>Accuracy is only part of the story</h2>
+    <div class="main">
+      <div class="g5 grow">
+        <div class="card"><span class="n">1</span><h3>Does it generalise?</h3><p>Was it evaluated on unseen data?</p><div class="here">Test R² {{stat:t_r2}}, CV {{stat:cv_mean}}</div></div>
+        <div class="card"><span class="n">2</span><h3>Is the error acceptable?</h3><p>What do MAE and RMSE mean in engineering terms?</p><div class="here">±{{stat:t_mae}} MPa on average</div></div>
+        <div class="card"><span class="n">3</span><h3>Physically plausible?</h3><p>Does the model produce sensible results?</p><div class="here">Straight-line age effect: no</div></div>
+        <div class="card"><span class="n">4</span><h3>Where does it fail?</h3><p>Are errors concentrated in certain regions?</p><div class="here">Early ages, high strength</div></div>
+        <div class="card"><span class="n">5</span><h3>Are we extrapolating?</h3><p>Is the new mix outside the training range?</p><div class="here">Check against df.describe()</div></div>
+      </div>
+      <div class="big">Machine learning gives us a model. <span class="mk">Engineering judgement tells us whether to trust it.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== EXERCISE -->
+<style>
+  .ex3 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .ex3 .card{padding:32px 34px;display:flex;flex-direction:column}
+  .ex3 .card .n{font-weight:900;font-stretch:87.5%;font-size:72px;line-height:.85;color:var(--sec)}
+  .ex3 .card h3{margin-top:18px;font-size:32px}
+  .ex3 .card p{font-size:22px;margin-top:8px}
+  .ex3 .card ul{margin-top:10px;list-style:none}
+  .ex3 .card li{padding:8px 0;border-top:1px solid var(--surface-line);font-size:21px;color:var(--ink-2)}
+  .ex3 .card code{margin-top:auto;padding-top:16px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+  .ex3 .q{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:28px 34px;border-radius:24px;background:var(--ink);color:#fff}
+  .ex3 .q .lbl{color:#4FD3A0}
+  .ex3 .q b{color:#fff;font-size:32px;font-weight:800;font-stretch:87.5%}
+</style>
+<section class="slide c s3 ex3">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Live exercise · in the notebook</div>
+    <h2>Your turn: diagnose the model</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="card"><span class="n">A</span><h3>Change the random seed</h3><p>Does the test performance change? By how much?</p><code>random_state = 7, 21, …</code></div>
+        <div class="card"><span class="n">B</span><h3>Baseline vs model</h3><p>Did linear regression actually improve on the mean prediction? On which metric, by how much?</p><code>DummyRegressor()</code></div>
+        <div class="card"><span class="n">C</span><h3>Inspect the residuals</h3><ul><li>Centred around zero?</li><li>Any curvature?</li><li>Does the spread change?</li><li>Unusually large residuals?</li></ul><code>plt.scatter(X_test.age, res)</code></div>
+      </div>
+      <div class="q"><div class="lbl">Engineering question</div><b>Is there evidence that our linear model is too simple for this problem?</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHAT WE LEARNED -->
+<style>
+  .lrn .chain{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .lrn .nd{position:relative;border-radius:18px;padding:22px 22px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;background:var(--t);border:1px solid var(--l)}
+  .lrn .nd span{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--c)}
+  .lrn .nd b{font-size:27px;font-weight:800;font-stretch:87.5%;line-height:1.12}
+  .lrn .p1{--c:var(--Xi);--t:var(--Xt);--l:var(--Xl)}.lrn .p2{--c:var(--Yi);--t:var(--Yt);--l:var(--Yl)}.lrn .p3{--c:var(--Mi);--t:var(--Mt);--l:var(--Ml)}.lrn .p0{--c:var(--ink);--t:var(--surface);--l:var(--surface-line)}
+  .lrn .lesson{border-radius:26px;background:var(--ink);color:#fff;padding:36px 42px}
+  .lrn .lesson .lbl{color:#4FD3A0}
+  .lrn .lesson b{display:block;margin-top:12px;color:#fff;font-size:42px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+  .lrn .lesson p{margin-top:12px;font-size:26px;color:#C6D2E1}
+</style>
+<section class="slide c s0 lrn">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">What we learned today · from engineering data to a validated prediction</div>
+    <h2>The complete first modelling workflow</h2>
+    <div class="main">
+      <div class="chain">
+        <div class="nd p0"><span>01</span><b>Engineering question</b></div>
+        <div class="nd p0"><span>02</span><b>Features + target</b></div>
+        <div class="nd p1"><span>03</span><b>Train / test split</b></div>
+        <div class="nd p1"><span>04</span><b>Baseline</b></div>
+        <div class="nd p1"><span>05</span><b>Linear regression</b></div>
+        <div class="nd p1"><span>06</span><b>Predictions</b></div>
+        <div class="nd p2"><span>07</span><b>MAE · RMSE · R²</b></div>
+        <div class="nd p2"><span>08</span><b>Residual diagnostics</b></div>
+        <div class="nd p3"><span>09</span><b>Split sensitivity</b></div>
+        <div class="nd p3"><span>10</span><b>Cross-validation</b></div>
+        <div class="nd p3"><span>11</span><b>Final test assessment</b></div>
+        <div class="nd p3"><span>12</span><b>Engineering judgement</b></div>
+      </div>
+      <div class="grow"></div>
+      <div class="lesson"><div class="lbl">The central lesson</div><b>A prediction is not enough.</b><p>We need to know how well it works, how consistently it works, and whether the result makes engineering sense.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHERE NEXT -->
+<style>
+  .nx4 .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px;height:100%}
+  .nx4 .card{padding:38px 42px;display:flex;flex-direction:column}
+  .nx4 .card p{font-size:25px;margin-top:10px}
+  .nx4 .chips{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px}
+  .nx4 .card .q{margin-top:auto;padding-top:22px;border-top:1px solid var(--surface-line);font-size:28px;font-weight:700;color:var(--ink)}
+  .nx4 .s4{background:var(--ink);border-color:var(--ink)}
+  .nx4 .s4 .lbl{color:#FDB797}
+  .nx4 .s4 h3{margin-top:12px;color:#fff;font-size:52px}
+  .nx4 .s4 .tr{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .nx4 .s4 .tr span{height:52px;padding:0 20px;border-radius:999px;background:#1F2D40;color:#fff;display:inline-flex;align-items:center;font-size:23px;font-weight:700}
+  .nx4 .s4 .tr svg{width:26px;height:26px;color:#FDB797}
+  .nx4 .s4 ul{margin-top:auto;list-style:none}
+  .nx4 .s4 li{padding:14px 0;border-top:1px solid rgba(255,255,255,.14);font-size:25px;color:#E6EDF5}
+</style>
+<section class="slide c s0 nx4">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Where do we go next?</div>
+    <h2>What if the relationship is not linear?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Today’s evidence</div><p>Linear regression assumes a simple, straight-line relationship. Our residuals curve with age. Civil engineering problems are often:</p>
+          <div class="chips"><span class="chip y">Nonlinear</span><span class="chip y">Interactive</span><span class="chip y">Threshold-dependent</span><span class="chip y">Highly coupled</span></div>
+          <div class="q">So what happens when a straight-line model is not enough?</div></div>
+        <div class="card s4"><div class="lbl">Next · Session 04</div><h3>Trees &amp; ensemble models</h3>
+          <div class="tr"><span>Decision trees</span>{{i:arrow-right}}<span>Random Forest</span>{{i:arrow-right}}<span>Boosting</span></div>
+          <ul><li>Same engineering problem. Same data.</li><li>A different modelling approach.</li><li>Compared properly, with today’s workflow.</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BEFORE SESSION 04 -->
+<style>
+  .hw .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .hw .card{padding:38px;min-height:420px;display:flex;flex-direction:column}
+  .hw .card .n{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;color:var(--sec)}
+  .hw .card h3{margin-top:24px;font-size:36px}
+  .hw .card p{font-size:24px}
+  .hw .card code{margin-top:auto;padding-top:20px;font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--muted)}
+  .hw .next{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:30px;padding:30px 36px;border-radius:24px;background:var(--sec-tint);border:1px solid var(--sec-line)}
+  .hw .next .no{font-weight:900;font-stretch:87.5%;font-size:64px;line-height:.9;color:var(--sec-ink)}
+  .hw .next b{font-size:32px;font-weight:800;font-stretch:87.5%}
+  .hw .next span{font-size:22px;color:var(--ink-2);text-align:right;max-width:560px}
+</style>
+<section class="slide c s3 hw">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Before session 04</div>
+    <h2>Three small things to try</h2>
+    <div class="main">
+      <div class="cols">
+        <div class="card"><span class="n">1</span><h3>Ten seeds</h3><p>Repeat the split with ten random seeds. Record the test MAE each time: what is the range?</p><code>for s in range(10): …</code></div>
+        <div class="card"><span class="n">2</span><h3>Add log(age)</h3><p>Add a feature <span class="mono">log(age)</span>. Does cross-validated R² improve? Do the residuals still curve?</p><code>np.log(df["age"])</code></div>
+        <div class="card"><span class="n">3</span><h3>Your acceptable error</h3><p>For one decision in your field, write the error you could accept. Compare it with today’s MAE.</p><code>MAE ≤ ? MPa</code></div>
+      </div>
+      <div class="grow"></div>
+      <div class="next"><span class="no">04</span><b>Nonlinear Engineering Problems: Trees &amp; Ensembles</b><span>Decision trees, Random Forest and boosting on the same data.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== QUESTIONS -->
+<style>
+  .qa .big{position:absolute;left:104px;top:330px;font-weight:900;font-stretch:87.5%;font-size:230px;line-height:.85;letter-spacing:-.05em}
+  .qa .sub{position:absolute;left:120px;top:560px;font-size:34px;line-height:1.4;color:var(--ink-2);max-width:900px}
+  .qa .who{position:absolute;left:120px;bottom:110px;font-size:26px;color:var(--ink-2)}
+  .qa .who b{font-size:32px;display:block;margin-bottom:6px;color:var(--ink)}
+  .qa .disc{left:1250px;top:230px;width:620px;height:620px;background:var(--tint)}
+  .qa .qm{position:absolute;left:1250px;top:230px;width:620px;height:620px;display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:520px;line-height:1;color:var(--accent);padding-bottom:30px}
+  .qa .chips{position:absolute;left:120px;top:700px;display:flex;gap:14px}
+</style>
+<section class="slide b qa s0">
+  {{top:b}}
+  <div class="disc"></div>
+  <div class="qm">?</div>
+  <div class="big">Questions</div>
+  <p class="sub">Unmute, or drop your question in the chat.</p>
+  <div class="chips"><span class="chip">Linear regression</span><span class="chip">Gradient descent</span><span class="chip">Metrics &amp; residuals</span><span class="chip">Cross-validation</span></div>
+  <div class="who"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div>
+</section>
+
+<!-- ===================================================================== CLOSE -->
+<style>
+  .close .t{position:absolute;left:120px;top:200px;width:1040px}
+  .close .t .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .close .t h2{margin-top:18px;color:var(--dk-ink);font-size:150px;line-height:.92;letter-spacing:-.04em;font-weight:900}
+  .close .t p{margin-top:32px;font-size:32px;line-height:1.4;color:var(--dk-muted);max-width:900px}
+  .close .t p b{color:var(--dk-ink);font-weight:700}
+  .close .t .by{margin-top:52px;font-size:26px;color:var(--dk-muted)}
+  .close .t .by b{display:block;font-size:32px;color:var(--dk-ink);margin-bottom:6px}
+  .close .row{position:absolute;left:120px;bottom:84px;display:flex;align-items:center;gap:30px}
+  .close .row img{height:44px}
+  .close .row span{font-size:20px;color:var(--dk-muted);padding-left:30px;border-left:1.5px solid var(--dk-rule);white-space:nowrap}
+  .close .qrcard{position:absolute;right:120px;top:300px;width:460px;padding:40px;border-radius:32px;background:#0F1612;border:1px solid var(--dk-rule);text-align:center}
+  .close .qrcard .code{width:300px;height:300px;margin:0 auto;padding:18px;border-radius:20px;background:#fff}
+  .close .qrcard .code img{width:100%;height:100%}
+  .close .qrcard b{display:block;margin-top:28px;font-size:30px;color:var(--dk-ink)}
+  .close .qrcard span{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--dk-muted)}
+</style>
+<section class="slide b dark close">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="t"><div class="k">End of session 03</div><h2>Thank you.</h2><p>See you in session 04: <b>Nonlinear Engineering Problems: Trees &amp; Ensembles.</b></p><div class="by"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div></div>
+  <div class="qrcard"><div class="code"><img src="../poster/assets/qr-register.svg" alt="QR code to the course page"></div><b>Course page</b><span>qudeltastudios.com/courses</span></div>
+  <div class="row">{{logo-light}}<span>Technology partner</span></div>
+</section>
+
+<!-- ===================================================================== APPENDIX · TIMING -->
+<style>
+  .tm table{width:100%;border-collapse:collapse}
+  .tm th{text-align:left;padding:0 20px 14px 0;border-bottom:2px solid var(--ink);font-size:17px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tm th.r,.tm td.r{text-align:right}
+  .tm td{padding:13px 20px 13px 0;border-bottom:1px solid var(--rule);font-size:23px;color:var(--ink-2)}
+  .tm td.r{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink)}
+  .tm td .chip{height:34px;font-size:16px;padding:0 12px}
+  .tm tr.nb td{background:var(--Mt)}
+  .tm tr.tot td{border-bottom:none;border-top:2px solid var(--ink);font-weight:800;color:var(--ink)}
+</style>
+<section class="slide c s0 tm">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Appendix · for the instructor</div>
+    <h2>Recommended timing for the 90-minute session</h2>
+    <div class="main">
+      <table>
+        <tr><th>Part</th><th>Slides</th><th class="r">Approx. time</th></tr>
+        <tr><td>Problem, dataset, baseline, training, linear regression</td><td>1–14</td><td class="r">12 min</td></tr>
+        <tr class="nb"><td><span class="chip m">Notebook</span>&nbsp; load · drop duplicates · split · baseline · fit</td><td>—</td><td class="r">15 min</td></tr>
+        <tr><td>The maths: cost function, gradient descent, learning rate, scaling</td><td>15–19</td><td class="r">10 min</td></tr>
+        <tr><td>Metrics and train vs test</td><td>21–26</td><td class="r">8 min</td></tr>
+        <tr class="nb"><td><span class="chip m">Notebook</span>&nbsp; predictions · MAE · RMSE · R² · parity and residual plots</td><td>27–28</td><td class="r">15 min</td></tr>
+        <tr><td>Split sensitivity, cross-validation, test-set rule, workflow</td><td>30–34</td><td class="r">10 min</td></tr>
+        <tr class="nb"><td><span class="chip m">Notebook</span>&nbsp; cross-validation · live exercise</td><td>36</td><td class="r">12 min</td></tr>
+        <tr><td>Engineering judgement, summary, next session, questions</td><td>35, 37–41</td><td class="r">8 min</td></tr>
+        <tr class="tot"><td>Total</td><td></td><td class="r">90 min</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

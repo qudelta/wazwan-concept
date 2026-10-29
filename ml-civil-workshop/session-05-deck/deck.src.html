@@ -1,0 +1,1642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session 05 — From Prediction to Engineering Decision: Classification</title>
+<link rel="stylesheet" href="../poster/assets/fonts.css">
+<style>
+  @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(../session-01-deck/assets/Amiri-Regular.woff2) format('woff2')}
+  @page{size:1920px 1080px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always}
+
+  /* =================== BRAND (Qudelta) — cover, welcome, instructor, questions, close =================== */
+  .b{--bg:#FFFFFF;--ink:#0A0F0C;--ink-2:#2F3833;--muted:#5F6A64;--rule:#E2E7E4;--accent:#00BF63;--accent-ink:#008A47;--on-accent:#03140A;
+     --tint:#EBF8F1;--tint-line:#C9EDD8;--surface:#F3F6F4;--surface-line:#E3E8E5;--grid:rgba(10,40,25,.05);
+     --dk:#070A08;--dk-ink:#F2F5F3;--dk-muted:#9AA59F;--dk-rule:rgba(255,255,255,.12);background:var(--bg);color:var(--ink)}
+  .b .kick{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+  .b h2{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1.02;letter-spacing:-.025em}
+  .b .hl{background:var(--accent);color:var(--on-accent);padding:0 14px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .b .body{position:absolute;left:120px;right:120px;top:132px;bottom:84px}
+  .b .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
+  .b .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .b .ic-sq{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
+  .b .ic-sq svg{width:30px;height:30px}
+  .b.dark{background:var(--dk);color:var(--dk-ink)}
+  .b .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
+  .b .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%)}
+  .b.dark .grid-bg{--grid:rgba(255,255,255,.05)}
+  .photo{position:absolute;overflow:hidden;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%)}
+  .photo.crop{-webkit-mask-image:none;mask-image:none}
+  .photo img{display:block;width:100%;height:auto}
+  .disc{position:absolute;border-radius:50%}
+
+  /* running header (shared) */
+  .top{position:absolute;left:120px;right:120px;top:52px;display:flex;align-items:center;justify-content:space-between;font-size:17px;z-index:5}
+  .top .hc{display:flex;align-items:center;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .top .hc span{margin-left:18px;padding-left:18px;border-left:1.5px solid var(--rule);color:var(--muted);font-weight:700;letter-spacing:.12em}
+  .top .hr{display:flex;align-items:center;gap:22px}
+  .top .sp{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:var(--sec-tint);color:var(--sec-ink);font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .top .sp i{width:10px;height:10px;border-radius:50%;background:var(--sec)}
+  .top .n{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;color:var(--muted)}
+  .top .n b{color:var(--ink);font-weight:700}
+
+  /* =================== CONTENT system =================== */
+  .c{--ink:#0E1A2B;--ink-2:#334155;--muted:#64748B;--rule:#E2E8F0;--surface:#F5F7FA;--surface-line:#E3E8EF;
+     --X:#2a78d6;--Xi:#1F5FAF;--Xt:#EAF2FC;--Xl:#CFE0F5;
+     --Y:#eb6834;--Yi:#B9471B;--Yt:#FDEEE7;--Yl:#F7D3C3;
+     --M:#1baf7a;--Mi:#0B7A55;--Mt:#E5F6EF;--Ml:#C3EAD9;
+     background:#fff;color:var(--ink)}
+  .s0{--sec:#0E1A2B;--sec-ink:#0E1A2B;--sec-tint:#EEF1F5;--sec-line:#DCE2EA}
+  .s1{--sec:#2a78d6;--sec-ink:#1F5FAF;--sec-tint:#EAF2FC;--sec-line:#CFE0F5}
+  .s2{--sec:#eb6834;--sec-ink:#B9471B;--sec-tint:#FDEEE7;--sec-line:#F7D3C3}
+  .s3{--sec:#1baf7a;--sec-ink:#0B7A55;--sec-tint:#E5F6EF;--sec-line:#C3EAD9}
+  .c .body{position:absolute;left:120px;right:120px;top:126px;bottom:84px;display:flex;flex-direction:column}
+  .c .kick{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-ink)}
+  .c h2{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:68px;line-height:1.03;letter-spacing:-.025em;max-width:1560px}
+  .c .main{flex:1;min-height:0;margin-top:44px;display:flex;flex-direction:column;gap:28px;position:relative}
+  .c .grow{flex:1;min-height:0}
+  .mk{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sec) 32%,transparent) 60%);padding:0 4px;margin:0 -4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .c p{font-size:27px;line-height:1.45;color:var(--ink-2)}
+  .c b{font-weight:700;color:var(--ink)}
+  .serif{font-weight:600;letter-spacing:-.01em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
+  .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
+  .card p{margin-top:10px;font-size:24px}
+  .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--sec-tint);color:var(--sec-ink);flex:none}
+  .ic svg{width:36px;height:36px}
+  .chip{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .chip.x{background:var(--Xt);border-color:var(--Xl);color:var(--Xi)}
+  .chip.y{background:var(--Yt);border-color:var(--Yl);color:var(--Yi)}
+  .chip.m{background:var(--Mt);border-color:var(--Ml);color:var(--Mi)}
+  .chip.k{background:var(--ink);border-color:var(--ink);color:#fff}
+  .take{display:flex;align-items:center;gap:22px;padding:22px 30px;border-radius:20px;background:var(--sec-tint);border:1px solid var(--sec-line);font-size:27px;font-weight:600;color:var(--ink);flex:none}
+  .take .ti{flex:none;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--sec);color:#fff}
+  .s0 .take .ti{background:var(--ink)}
+  .take .ti svg{width:25px;height:25px;stroke-width:2.2}
+  .src{position:absolute;left:120px;right:120px;bottom:38px;font-size:15px;line-height:1.4;color:var(--muted)}
+  .lbl{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .sym{font-style:italic;font-weight:700}
+  .chart{background:#fff;border:1px solid var(--surface-line);border-radius:24px;padding:26px 30px 18px;display:flex;flex-direction:column}
+  .chart h3{font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.01em;line-height:1.15}
+  .chart .f{margin-top:6px;font-size:21px;color:var(--ink-2);line-height:1.4}
+  .chart svg{margin-top:10px;width:100%;height:0;flex:1 1 auto;min-height:0}
+
+  .lgt{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);flex:none}
+  .lgt img{max-width:40px;max-height:40px}
+  /* =================== DIVIDERS =================== */
+  .dv .gridl{position:absolute;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px}
+  .dv .truss{position:absolute;right:-30px;bottom:-24px;width:860px;color:var(--tc)}
+  .dv .big{position:absolute;left:104px;top:150px;font-weight:900;font-stretch:87.5%;font-size:400px;line-height:.8;letter-spacing:-.06em}
+  .dv .part{position:absolute;left:120px;bottom:120px;width:960px}
+  .dv .part .k{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+  .dv .part h2{margin-top:16px;font-weight:800;font-stretch:87.5%;font-size:96px;line-height:.98;letter-spacing:-.035em}
+  .dv .part .who{margin-top:26px;font-size:24px;opacity:.8}
+  .dv ol{position:absolute;right:120px;top:190px;width:560px;list-style:none;border-top:2px solid currentColor}
+  .dv ol li{display:flex;gap:22px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--lr);font-size:27px;font-weight:600}
+  .dv ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.7}
+  .dv .top .hc span{border-left-color:var(--lr);color:inherit;opacity:.75}
+  .dv .top .n,.dv .top .n b{color:inherit}
+  .dv .logos{position:absolute;right:120px;top:520px;display:flex;gap:16px}
+  .dv .logos img{width:80px;height:80px;padding:15px;background:#fff;border-radius:22px;object-fit:contain;box-shadow:0 10px 24px rgba(14,26,43,.18)}
+  .dv1{background:#1F5FAF;color:#fff;--gl:rgba(255,255,255,.07);--tc:rgba(255,255,255,.22);--lr:rgba(255,255,255,.3)}
+  .dv2{background:#eb6834;color:#0E1A2B;--gl:rgba(14,26,43,.07);--tc:rgba(14,26,43,.18);--lr:rgba(14,26,43,.25)}
+  .dv3{background:#00BF63;color:#03140A;--gl:rgba(3,20,10,.07);--tc:rgba(3,20,10,.18);--lr:rgba(3,20,10,.25)}
+</style>
+</head>
+<body>
+<style>
+  .dk{border-radius:22px;background:#0F1A27;overflow:hidden}
+  .dk .hd{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:16px;color:#7E8FA3}
+  .dk .hd .fl{display:flex;align-items:center;gap:10px;color:#C6D2E1}
+  .dk .hd .fl img{height:20px}
+  .dk pre{padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:23px;line-height:1.6;color:#E6EDF5}
+  .dk .kw{color:#7CB7FF}.dk .st{color:#FDB797}.dk .cm{color:#7E8FA3}.dk .fn{color:#4FD3A0}.dk .nu{color:#FDB797}
+  .dk .out{padding:14px 26px 18px;background:#16263A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:23px;color:#fff;line-height:1.5}
+  .dk .out small{display:block;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4FD3A0;margin-bottom:4px}
+  .stack{position:relative;width:100%}
+  .stack svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .eq{font-family:'Archivo';font-weight:600;font-size:34px;color:var(--ink);letter-spacing:-.005em;white-space:nowrap}
+  .eq i{font-style:italic;font-weight:700}
+  .eq .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;font-size:.8em;line-height:1.15}
+  .eq .fr span:first-child{border-bottom:2px solid currentColor;padding:0 6px 2px}
+  .eq .fr span:last-child{padding-top:2px}
+  .eq sub,.eq sup{font-size:.6em}
+  .sh{padding:2px 8px;border-radius:8px}
+  .sh.g{background:var(--Mt);color:var(--Mi)}.sh.o{background:var(--Yt);color:var(--Yi)}.sh.b{background:var(--Xt);color:var(--Xi)}
+  .big-n{font-weight:900;font-stretch:87.5%;line-height:.9;letter-spacing:-.04em}
+  .attr{position:absolute;right:120px;bottom:38px;font-size:15px;color:var(--muted)}
+</style>
+
+
+<style>
+  .cm{display:grid;grid-template-columns:auto 1fr 1fr;gap:10px;align-items:stretch}
+  .cm .ax{display:grid;place-items:center;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .cm .rl{writing-mode:vertical-rl;transform:rotate(180deg)}
+  .cm .c{border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;justify-content:center;background:var(--surface);border:1px solid var(--surface-line)}
+  .cm .c b{font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;line-height:1;color:var(--ink)}
+  .cm .c span{margin-top:6px;font-size:17px;font-weight:700;color:var(--ink-2)}
+  .cm .c.tn,.cm .c.tp{background:var(--Mt);border-color:var(--Ml)}
+  .cm .c.tn b,.cm .c.tp b{color:var(--Mi)}
+  .cm .c.fp{background:var(--Xt);border-color:var(--Xl)}
+  .cm .c.fp b{color:var(--Xi)}
+  .cm .c.fn{background:var(--Yt);border-color:var(--Y);border-width:3px}
+  .cm .c.fn b{color:var(--Yi)}
+  .cm .hd{font-size:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;padding-bottom:2px}
+  .lgd{display:flex;gap:22px;align-items:center;font-size:19px;font-weight:600;color:var(--ink-2)}
+  .lgd i{display:inline-block;width:16px;height:16px;border-radius:50%;margin-right:8px;vertical-align:-2px}
+  .lgd i.sq{border-radius:4px}
+</style>
+
+<!-- ===================================================================== 01 COVER -->
+<style>
+  .cover .bism{position:absolute;left:0;right:0;top:40px;text-align:center;font-family:'Amiri',serif;font-size:42px;color:var(--dk-ink);opacity:.85;direction:rtl}
+  .cover .brand{position:absolute;left:120px;top:150px;display:flex;align-items:center;gap:22px;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-muted)}
+  .cover .brand b{color:var(--accent);font-weight:800}
+  .cover .brand i{width:1.5px;height:22px;background:var(--dk-rule)}
+  .cover h1{position:absolute;left:120px;top:228px;width:1000px;font-weight:900;font-stretch:87.5%;font-size:108px;line-height:.96;letter-spacing:-.035em;word-spacing:.08em}
+  .cover .sess{position:absolute;left:120px;top:580px;width:1000px}
+  .cover .sess .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .cover .sess h2{margin-top:14px;font-size:56px;color:var(--dk-ink)}
+  .cover .sess p{margin-top:18px;font-size:26px;line-height:1.4;color:var(--dk-muted)}
+  .cover .sess p b{color:var(--dk-ink);font-weight:700}
+  .cover .stg{margin-top:24px;display:flex;align-items:center;gap:10px}
+  .cover .stg span{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;border:1.5px solid var(--dk-rule);font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dk-ink)}
+  .cover .stg span.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .cover .stg svg{width:20px;height:20px;color:var(--dk-muted)}
+  .cover .who{position:absolute;left:120px;bottom:80px;display:flex;align-items:center;gap:56px}
+  .cover .who .p b{display:block;font-size:30px;font-weight:800;color:var(--dk-ink)}
+  .cover .who .p span{display:block;margin-top:6px;font-size:20px;color:var(--dk-muted)}
+  .partner{display:flex;align-items:center;gap:16px;padding-left:56px;border-left:1.5px solid var(--dk-rule)}
+  .partner small{font-size:16px;font-weight:600;color:var(--dk-muted)}
+  .partner img{height:30px;width:auto}
+</style>
+<section class="slide b dark cover">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="brand"><b>Live online course</b><i></i>Cohort Fall 2026</div>
+  <h1>AI &amp; Machine Learning for Civil Engineers</h1>
+  <div class="sess">
+    <div class="k">Session 05 · Binary classification for slope stability</div>
+    <h2>From Prediction to Engineering Decision: Classification</h2>
+    <p><b>Stable or unstable?</b> When the answer is a category, the model, the metrics and the errors that matter all change.</p>
+    <div class="stg"><span>Number</span>{{i:arrow-right}}<span class="on">Probability</span>{{i:arrow-right}}<span class="on">Class</span>{{i:arrow-right}}<span class="on">Decision</span></div>
+  </div>
+  <div class="who">
+    <div class="p"><b>Dr. Abdul Waris</b><span>Research Associate · Universität Siegen, Germany</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo-light}}</div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHERE ARE WE -->
+<style>
+  .where .two{display:grid;grid-template-columns:1fr 120px 1fr;align-items:stretch}
+  .where .card{padding:38px 42px;display:flex;flex-direction:column}
+  .where .card h3{margin-top:14px;font-size:44px}
+  .where .card .big{margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:52px;font-weight:700}
+  .where .card p{margin-top:auto;padding-top:22px;font-size:25px;border-top:1px solid var(--surface-line)}
+  .where .ar{display:grid;place-items:center;color:#AAB6C5}
+  .where .ar svg{width:56px;height:56px}
+  .where .card.n{background:var(--ink);border-color:var(--ink)}
+  .where .card.n h3,.where .card.n .big{color:#fff}
+  .where .card.n .lbl{color:#FDB797}
+  .where .card.n p{color:#C6D2E1;border-top-color:rgba(255,255,255,.14)}
+  .where .chips{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+  .where .card.n .chip{background:#1F2D40;border-color:#1F2D40;color:#fff}
+</style>
+<section class="slide c s0 where">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Where are we?</div>
+    <h2>From predicting a number to making a decision</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Sessions 03–04 · regression</div><h3>How strong will this concrete be?</h3><div class="big" style="color:var(--Xi)">ŷ = 42.7 MPa</div>
+          <div class="chips"><span class="chip">linear regression</span><span class="chip">trees &amp; forests</span><span class="chip">MAE · RMSE · R²</span></div>
+          <p>The answer is a number on a continuous scale.</p></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card n"><div class="lbl">Today · Session 05 · classification</div><h3>Is this slope stable or unstable?</h3><div class="big" style="color:#FDB797">unstable · p = 0.88</div>
+          <div class="chips"><span class="chip">logistic regression</span><span class="chip">trees &amp; forests</span><span class="chip">confusion matrix</span></div>
+          <p>The answer is a category, often with a probability, and the errors are not equally costly.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>Same workflow as before. The target is now a class, so the model output and the metrics change.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ROADMAP -->
+<style>
+  .road .cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .road .ph{display:flex;align-items:center;gap:14px;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .road .ph i{width:14px;height:14px;border-radius:4px}
+  .road .s{display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start;padding:24px 0;border-bottom:1px solid var(--rule)}
+  .road .s .no{font-weight:900;font-stretch:87.5%;font-size:54px;line-height:.9;letter-spacing:-.03em;color:#C9D2DE}
+  .road .s b{display:block;font-size:27px;line-height:1.2}
+  .road .s span{display:block;margin-top:6px;font-size:21px;color:var(--muted)}
+  .road .s.done .no{color:var(--Mi)}
+  .road .s.done b{color:var(--muted)}
+  .road .s .ok{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--surface);border:1px solid var(--surface-line);color:var(--muted);font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s.now{background:var(--Mt);margin:0 -24px;padding:24px 24px;border-radius:18px;border-bottom-color:transparent}
+  .road .s.now .no{color:var(--Mi)}
+  .road .s .tag{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--M);color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s .rs{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:17px;font-weight:700;color:var(--Yi)}
+  .road .s .rs svg{width:18px;height:18px}
+</style>
+<section class="slide c s0 road">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">The course at a glance</div>
+    <h2>Eight sessions. One engineering workflow.</h2>
+    <div class="main">
+      <div class="cols">
+        <div>
+          <div class="ph"><i style="background:var(--X)"></i>Part 1 · Foundations</div>
+          <div class="s done"><span class="no">01</span><div><b>From Engineering Problems to Python<span class="ok">Done</span></b><span>AI/ML basics, Google Colab, NumPy &amp; pandas</span></div></div>
+          <div class="s done"><span class="no">02</span><div><b>From Raw Engineering Data to an ML-Ready Dataset<span class="ok">Done</span></b><span>EDA, data quality, outliers, train/test split, leakage</span></div></div>
+          <div class="s done"><span class="no">03</span><div><b>Your First Engineering Prediction Model<span class="ok">Done</span></b><span>Linear regression, error metrics, cross-validation</span></div></div>
+          <div class="s done"><span class="no">04</span><div><b>Nonlinear Engineering Problems: Trees &amp; Ensembles<span class="ok">Done</span></b><span>Decision trees, Random Forest, boosting</span></div></div>
+        </div>
+        <div>
+          <div class="ph"><i style="background:var(--Y)"></i>Part 2 · Prediction to decision</div>
+          <div class="s now"><span class="no">05</span><div><b>From Prediction to Engineering Decision: Classification<span class="tag">Today</span></b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+          <div class="s"><span class="no">06</span><div><b>Artificial Neural Networks</b><span>Architecture, activations, training, overfitting</span></div></div>
+          <div class="s"><span class="no">07</span><div><b>Can We Trust Our ML Model?</b><span>Feature importance, SHAP, engineering judgement</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+          <div class="s"><span class="no">08</span><div><b>From Prediction to Probability</b><span>Monte Carlo, ML surrogates, probability of failure</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TODAY -->
+<style>
+  .today .wrap{display:grid;grid-template-columns:1fr 560px;gap:64px;height:100%}
+  .today .left{display:flex;flex-direction:column;gap:18px}
+  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:28px 30px;border-radius:24px}
+  .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;letter-spacing:-.04em}
+  .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
+  .today .pt span{display:block;margin-top:8px;font-size:22px;color:var(--ink-2)}
+  .today .lgs{display:flex;gap:10px}
+  .today .lgt svg{width:36px;height:36px}
+  .today .out{background:var(--ink);color:#fff;border-radius:28px;padding:44px 42px 44px}
+  .today .out .lbl{color:#9FB3CC}
+  .today .out ul{margin-top:20px;list-style:none}
+  .today .out li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding:24px 0;border-top:1px solid rgba(255,255,255,.14);font-size:25px;line-height:1.35}
+  .today .out li svg{width:28px;height:28px;color:#4FD3A0;stroke-width:2.4;margin-top:2px}
+</style>
+<section class="slide c s0 today">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Today · Session 05</div>
+    <h2>Classification, then slope stability</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>The language of classification</b><span>Terms · logistic vs linear regression · sigmoid · confusion matrix · recall &amp; precision</span></div><div class="lgs"><span class="lgt" style="color:var(--Xi)">{{i:function}}</span><span class="lgt">{{logo:scikitlearn}}</span></div></div>
+          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>The slope-stability problem</b><span>616 Morgenstern–Price cases · the FOS label · imbalance · three models · stratified CV</span></div><div class="lgs"><span class="lgt" style="color:var(--Yi)">{{i:mountains}}</span><span class="lgt">{{logo:pandas}}</span></div></div>
+          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Results and the engineering decision</b><span>Test metrics · confusion matrices · thresholds · which model, and why</span></div><div class="lgs"><span class="lgt" style="color:var(--Mi)">{{i:scales}}</span><span class="lgt">{{logo:googlecolab}}</span></div></div>
+        </div>
+        <div class="out">
+          <div class="lbl">By the end of today you can</div>
+          <ul>
+            <li>{{i:check-circle}}<span>Explain how logistic regression turns inputs into a probability and a class</span></li>
+            <li>{{i:check-circle}}<span>Read a confusion matrix and choose recall, precision or F1 for the task</span></li>
+            <li>{{i:check-circle}}<span>Define an engineering label and handle class imbalance correctly</span></li>
+            <li>{{i:check-circle}}<span>Select a model from the cost of its errors, not from accuracy alone</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 1 -->
+<section class="slide dv dv1">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">01</div>
+  <ol><li><span>a</span>Regression or classification?</li><li><span>b</span>The vocabulary of classification</li><li><span>c</span>From linear to logistic regression</li><li><span>d</span>Score → probability → class</li><li><span>e</span>The confusion matrix and its metrics</li></ol>
+  <div class="part"><div class="k">Part 01 · Classification fundamentals</div><h2>The language of classification</h2></div>
+</section>
+
+<!-- ===================================================================== REG vs CLS -->
+<style>
+  .rvc .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .rvc .card{padding:34px 40px;display:flex;flex-direction:column}
+  .rvc .vis{height:150px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:24px}
+  .rvc .vis .num{font-family:'JetBrains Mono',monospace;font-size:62px;font-weight:700;color:var(--ink)}
+  .rvc .vis .num small{font-size:28px;color:var(--muted);margin-left:8px}
+  .rvc .card h3{font-size:44px}
+  .rvc .card p{font-size:25px;margin-top:8px}
+  .rvc table{margin-top:20px;width:100%;border-collapse:collapse}
+  .rvc td{padding:13px 0;border-top:1px solid var(--surface-line);font-size:23px;color:var(--ink-2)}
+  .rvc td.v{text-align:right;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--c)}
+  .rvc .vis .chip{height:56px;font-size:24px;padding:0 24px}
+</style>
+<section class="slide c s1 rvc">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">The target decides, every time</div>
+    <h2>Same inputs, different question</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card" style="--c:var(--Xi)"><div class="vis"><span class="num">1.37<small>FOS</small></span></div><div class="lbl" style="color:var(--Xi)">Regression · Sessions 03–04</div><h3>Predict a number</h3><p>From infinitely many possible values.</p>
+          <table><tr><td>Factor of safety of a slope</td><td class="v">1.37</td></tr><tr><td>Settlement of a footing</td><td class="v">24 mm</td></tr><tr><td>Concrete strength</td><td class="v">42.7 MPa</td></tr></table></div>
+        <div class="card" style="--c:var(--Yi)"><div class="vis"><span class="chip">Stable</span><span class="chip y">Unstable</span></div><div class="lbl" style="color:var(--Yi)">Classification · today</div><h3>Predict a category</h3><p>From a small, fixed set of outcomes.</p>
+          <table><tr><td>Slope: FOS below 1.0?</td><td class="v">unstable</td></tr><tr><td>Settlement within the limit?</td><td class="v">acceptable</td></tr><tr><td>Steel plate fault type</td><td class="v">1 of 7</td></tr></table></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>A continuous result can become a class through an engineering threshold, such as FOS &lt; 1.0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== VOCABULARY -->
+<style>
+  .voc .g6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:20px}
+  .voc .card{padding:28px 32px;display:flex;flex-direction:column}
+  .voc .card h3{font-size:34px}
+  .voc .card p{margin-top:10px;font-size:23px}
+  .voc .card code{margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--c)}
+  .voc .card.pos{background:var(--Yt);border-color:var(--Yl)}
+</style>
+<section class="slide c s1 voc">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Words we will use all session</div>
+    <h2>The vocabulary of classification</h2>
+    <div class="main">
+      <div class="g6 grow">
+        <div class="card" style="--c:var(--Xi)"><h3>Class · label</h3><p>One of the possible categories. The training table stores it as y.</p><code>stable = 0 · unstable = 1</code></div>
+        <div class="card pos" style="--c:var(--Yi)"><h3>Positive class</h3><p>The class we want to detect. It defines what recall and precision mean.</p><code>positive = unstable</code></div>
+        <div class="card" style="--c:var(--Xi)"><h3>Binary · multiclass</h3><p>Two classes, or three and more mutually exclusive classes.</p><code>2 slope classes · 7 steel faults</code></div>
+        <div class="card" style="--c:var(--Mi)"><h3>Probability</h3><p>The model’s estimate that a case belongs to the positive class.</p><code>predict_proba() → 0.88</code></div>
+        <div class="card" style="--c:var(--Mi)"><h3>Decision threshold</h3><p>The probability above which we call a case positive.</p><code>p ≥ 0.50 → unstable</code></div>
+        <div class="card" style="--c:var(--Yi)"><h3>Class imbalance</h3><p>One class is much rarer than the other. It changes which metrics matter.</p><code>93 unstable of 616</code></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHY NOT LINEAR -->
+<style>
+  .wnl .wrap{display:grid;grid-template-columns:900px 1fr;gap:40px;height:100%}
+  .wnl .chart{padding:18px 22px 10px}
+  .wnl .chart .stack{aspect-ratio:900/560;margin-top:6px}
+  .wnl .side{display:flex;flex-direction:column;gap:18px}
+  .wnl .side .card{padding:28px 32px}
+  .wnl .side .card p{font-size:23px;margin-top:8px}
+  .wnl .q{border-radius:24px;background:var(--ink);color:#fff;padding:30px 34px}
+  .wnl .q .lbl{color:#4FD3A0}
+  .wnl .q b{display:block;margin-top:8px;color:#fff;font-size:34px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+</style>
+<section class="slide c s1 wnl">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Linear regression vs logistic regression · 1 of 2</div>
+    <h2>Why not fit linear regression to 0/1 labels?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Same binary labels, two models</h3><div class="stack">{{stack:demo}}</div></div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Linear regression</div><p>Predicts values from <b>{{stat:demo_min}}</b> to <b>{{stat:demo_max}}</b>: not valid probabilities, and a straight line ignores the S-shape.</p></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Logistic regression</div><p>Squeezes the same linear score through the sigmoid: every output lies between 0 and 1.</p></div>
+          <div class="q"><div class="lbl">What we want</div><b>P(unstable | β, c/(γH), φ)</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Illustrative one-feature data from the session notebook (180 points, random seed 42); the slope dataset has three inputs.</div>
+</section>
+
+<!-- ===================================================================== FOUR STEPS -->
+<style>
+  .four .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .four .st{position:relative;border-radius:24px;padding:30px 30px;display:flex;flex-direction:column;background:var(--t);border:1px solid var(--l);min-height:400px}
+  .four .st .n{font-weight:900;font-stretch:87.5%;font-size:72px;line-height:.85;color:var(--c)}
+  .four .st h3{margin-top:18px;font-size:36px}
+  .four .st .eq{margin-top:16px;font-size:27px;white-space:normal}
+  .four .st p{margin-top:auto;padding-top:16px;font-size:22px;border-top:1px solid var(--l)}
+  .four .st:not(:last-child)::after{content:"";position:absolute;right:-19px;top:60px;width:14px;height:14px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg)}
+  .four .x{--c:var(--Xi);--t:var(--Xt);--l:var(--Xl)}.four .o{--c:var(--ink);--t:var(--surface);--l:var(--surface-line)}.four .g{--c:var(--Mi);--t:var(--Mt);--l:var(--Ml)}.four .y{--c:var(--Yi);--t:var(--Yt);--l:var(--Yl)}
+</style>
+<section class="slide c s1 four">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Logistic regression in four steps</div>
+    <h2>Inputs → score → probability → class</h2>
+    <div class="main">
+      <div class="chain grow">
+        <div class="st x"><span class="n">1</span><h3>Inputs</h3><div class="eq"><i>β</i>, <i>c</i>/(<i>γH</i>), <i>φ</i></div><p>Slope angle, cohesion term, friction angle.</p></div>
+        <div class="st o"><span class="n">2</span><h3>Linear score</h3><div class="eq"><i>z</i> = <i>b</i><sub>0</sub> + Σ <i>b<sub>j</sub>x<sub>j</sub></i></div><p>Any real number. Same form as linear regression.</p></div>
+        <div class="st g"><span class="n">3</span><h3>Probability</h3><div class="eq"><i>p</i> = 1 / (1 + <i>e</i><sup>−<i>z</i></sup>)</div><p>The sigmoid maps z into (0, 1).</p></div>
+        <div class="st y"><span class="n">4</span><h3>Decision</h3><div class="eq"><i>p</i> ≥ threshold ?</div><p>Yes → unstable · No → stable.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:info}}</span>“Regression” stays in the name because the model is linear on the log-odds scale. The class comes from the threshold.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== STEP 1 SCORE -->
+<style>
+  .s1z .eqb{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:38px 44px}
+  .s1z .eqb .eq{font-size:52px;margin-top:14px}
+  .s1z .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .s1z .g3 .card{padding:28px 32px}
+  .s1z .g3 .card .sy{font-style:italic;font-weight:800;font-size:46px;color:var(--Xi)}
+  .s1z .g3 .card h3{margin-top:8px;font-size:30px}
+  .s1z .g3 .card p{font-size:22px;margin-top:6px}
+  .s1z .g3 .card code{display:block;margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--muted)}
+</style>
+<section class="slide c s1 s1z">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Step 1 · build a linear score</div>
+    <h2>A weighted sum of the inputs, as in Session 03</h2>
+    <div class="main">
+      <div class="eqb"><div class="lbl">For the slope-stability dataset</div><div class="eq"><i>z</i> = <span class="sh g"><i>b</i><sub>0</sub></span> + <span class="sh b"><i>b</i><sub>1</sub></span><i>β</i> + <span class="sh b"><i>b</i><sub>2</sub></span>[<i>c</i>/(<i>γH</i>)] + <span class="sh b"><i>b</i><sub>3</sub></span><i>φ</i></div></div>
+      <div class="g3">
+        <div class="card"><span class="sy">β</span><h3>Slope angle</h3><p>Steepness of the slope face.</p><code>15° – 65° · 11 levels</code></div>
+        <div class="card"><span class="sy">c/(γH)</span><h3>Cohesion term</h3><p>Dimensionless stability number: cohesion over unit weight × height.</p><code>0 – 0.30 · 7 levels</code></div>
+        <div class="card"><span class="sy">φ</span><h3>Friction angle</h3><p>Shear-strength parameter of the soil.</p><code>10° – 45° · 8 levels</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:sliders-horizontal}}</span>z can be any number. The coefficients b are learned from the training cases; their sizes depend on units and scaling.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== STEP 2 SIGMOID -->
+<style>
+  .sg .wrap{display:grid;grid-template-columns:900px 1fr;gap:40px;height:100%}
+  .sg .chart{padding:18px 22px 10px}
+  .sg .chart .stack{aspect-ratio:900/520;margin-top:6px}
+  .sg .side{display:flex;flex-direction:column;gap:18px}
+  .sg .eqc{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:30px 34px}
+  .sg .eqc .eq{font-size:44px;margin-top:10px}
+  .sg ul{list-style:none;border-top:2px solid var(--ink)}
+  .sg li{padding:18px 0;border-bottom:1px solid var(--rule);font-size:25px;color:var(--ink)}
+  .sg li b{font-family:'JetBrains Mono',monospace;font-size:22px}
+</style>
+<section class="slide c s1 sg">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Step 2 · map the score to a probability</div>
+    <h2>The sigmoid squashes any score into (0, 1)</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>p = σ(z)</h3><div class="stack">{{stack:sigmoid}}</div></div>
+        <div class="side">
+          <div class="eqc"><div class="lbl" style="color:var(--Mi)">The sigmoid</div><div class="eq"><i>p</i> = <span class="fr"><span>1</span><span>1 + <i>e</i><sup>−<i>z</i></sup></span></span></div></div>
+          <ul><li><b>z &lt; 0</b> → p &lt; 0.5</li><li><b>z = 0</b> → p = 0.5</li><li><b>z &gt; 0</b> → p &gt; 0.5</li></ul>
+          <div class="card" style="padding:24px 28px;background:var(--Yt);border-color:var(--Yl)"><p style="font-size:22px">A model probability is an estimate. It is not automatically calibrated, and it is not a physical probability of failure.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== STEP 3 ODDS -->
+<style>
+  .odd .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .odd .card{padding:32px 36px;display:flex;flex-direction:column}
+  .odd .card .eq{margin-top:14px;font-size:34px}
+  .odd .card p{margin-top:auto;padding-top:18px;font-size:23px;border-top:1px solid var(--surface-line)}
+  .odd .card .ex{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--c)}
+  .odd .card.k{background:var(--Mt);border-color:var(--Ml)}
+</style>
+<section class="slide c s1 odd">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Step 3 · what the coefficients model</div>
+    <h2>Linear in the log-odds</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="card" style="--c:var(--Xi)"><div class="lbl" style="color:var(--Xi)">Probability</div><div class="eq"><i>p</i> ∈ (0, 1)</div><div class="ex">p = 0.80</div><p>Bounded, so a straight line cannot model it directly.</p></div>
+        <div class="card" style="--c:var(--Yi)"><div class="lbl" style="color:var(--Yi)">Odds</div><div class="eq"><span class="fr"><span><i>p</i></span><span>1 − <i>p</i></span></span> ∈ (0, ∞)</div><div class="ex">0.80 / 0.20 = 4 : 1</div><p>“Four times as likely to be unstable as stable.”</p></div>
+        <div class="card k" style="--c:var(--Mi)"><div class="lbl" style="color:var(--Mi)">Log-odds · logit</div><div class="eq">log <span class="fr"><span><i>p</i></span><span>1 − <i>p</i></span></span> = <i>z</i></div><div class="ex">log 4 = 1.39</div><p>Unbounded in both directions, so a linear model can describe it.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>A coefficient is the change in log-odds per unit of an input, others held fixed. It is an association in this numerical dataset, not a physical cause.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== STEP 4 THRESHOLD -->
+<style>
+  .thr4 .bar{position:relative;margin:70px 30px 20px;height:90px;border-radius:20px;overflow:hidden;display:flex}
+  .thr4 .bar div{display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800}
+  .thr4 .ticks{position:relative;margin:0 30px;height:40px}
+  .thr4 .ticks span{position:absolute;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--ink-2)}
+  .thr4 .pin{position:absolute;left:50%;top:-60px;transform:translateX(-50%);height:46px;padding:0 18px;border-radius:999px;background:var(--ink);color:#fff;display:flex;align-items:center;font-size:21px;font-weight:700;white-space:nowrap}
+  .thr4 .wrapb{position:relative;margin-top:56px}
+  .thr4 .wrapb .ln{position:absolute;left:calc(30px + (100% - 60px) * .5);top:60px;width:4px;height:110px;background:var(--ink);transform:translateX(-50%)}
+  .thr4 .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .thr4 .two .card{padding:28px 32px}
+  .thr4 .two .card p{margin-top:8px;font-size:23px}
+</style>
+<section class="slide c s1 thr4">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Step 4 · probability becomes a class</div>
+    <h2>A threshold turns p into a decision</h2>
+    <div class="main">
+      <div class="wrapb"><div class="pin">default rule: unstable if p ≥ 0.50</div><div class="ln"></div>
+        <div class="bar"><div style="flex:50;background:var(--Xt);color:var(--Xi)">p &lt; 0.50 → predict stable</div><div style="flex:50;background:var(--Y);color:#fff">p ≥ 0.50 → predict unstable</div></div>
+        <div class="ticks"><span style="left:0%">0.00</span><span style="left:25%">0.25</span><span style="left:50%">0.50</span><span style="left:75%">0.75</span><span style="left:100%">1.00</span></div></div>
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Lower the threshold</div><p>More cases flagged unstable: fewer missed unstable slopes, more false alarms.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Raise the threshold</div><p>Fewer cases flagged: fewer false alarms, more missed unstable slopes.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:sliders}}</span>0.50 is a software default, not a law of soil mechanics. Choose it on validation data, never on the test set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WORKED EXAMPLE -->
+<style>
+  .wk .chain{display:grid;grid-template-columns:1fr 70px 1.25fr 70px 1fr 70px 1fr;align-items:stretch}
+  .wk .bx{border-radius:24px;padding:30px 30px;min-height:330px;display:flex;flex-direction:column;gap:10px}
+  .wk .bx .lbl{color:inherit;opacity:.9}
+  .wk .bx b{font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;line-height:1}
+  .wk .bx span{font-size:21px;line-height:1.4}
+  .wk .bx table{border-collapse:collapse;font-size:22px}
+  .wk .bx td{padding:6px 0;border-bottom:1px solid var(--Xl)}
+  .wk .bx td.v{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;padding-left:18px}
+  .wk .in{background:var(--Xt);border:1px solid var(--Xl);color:var(--Xi)}
+  .wk .zs{background:var(--surface);border:1px solid var(--surface-line);color:var(--ink)}
+  .wk .zs .eq{font-size:20px;white-space:normal;line-height:1.6;color:var(--ink-2)}
+  .wk .pr{background:var(--Mt);border:1px solid var(--Ml);color:var(--Mi)}
+  .wk .dc{background:var(--Y);color:#fff}
+  .wk .ar{display:grid;place-items:center;color:#AAB6C5}
+  .wk .ar svg{width:40px;height:40px}
+  .wk .chk{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;padding:24px 32px;border-radius:22px;background:var(--surface);border:1px solid var(--surface-line);font-size:24px;color:var(--ink)}
+  .wk .chk b{font-family:'JetBrains Mono',monospace;font-size:30px;color:var(--Yi)}
+</style>
+<section class="slide c s1 wk">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">A worked prediction · the fitted model, a real test case</div>
+    <h2>From inputs to decision, with real numbers</h2>
+    <div class="main">
+      <div class="chain">
+        <div class="bx in"><div class="lbl">1 · Inputs</div><table><tr><td>β</td><td class="v">{{stat:ex_beta}}°</td></tr><tr><td>c/(γH)</td><td class="v">{{stat:ex_c}}</td></tr><tr><td>φ</td><td class="v">{{stat:ex_phi}}°</td></tr></table></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="bx zs"><div class="lbl">2 · Linear score</div><div class="eq">z = {{stat:b0}} + {{stat:b_beta}}·β {{stat:b_c}}·c/(γH) {{stat:b_phi}}·φ</div><b>z = {{stat:ex_z}}</b></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="bx pr"><div class="lbl">3 · Probability</div><b>p = {{stat:ex_p}}</b><span>1 / (1 + e<sup>−{{stat:ex_z}}</sup>)</span></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="bx dc"><div class="lbl">4 · Decision</div><b>unstable</b><span>p ≥ 0.50</span></div>
+      </div>
+      <div class="grow"></div>
+      <div class="chk"><span class="lbl">Check</span><span>Morgenstern–Price gives <b>FOS = {{stat:ex_fos}}</b> for this slope: truly unstable, and correctly flagged.</span></div>
+    </div>
+  </div>
+  <div class="src">Coefficients of the tuned logistic regression (C = 0.1, class_weight = "balanced"), converted from the scaled model to original units. Class weighting shifts the probabilities: read them as scores, not calibrated chances of failure.</div>
+</section>
+
+<!-- ===================================================================== LINEAR vs LOGISTIC TABLE -->
+<style>
+  .lvl table{width:100%;border-collapse:separate;border-spacing:0}
+  .lvl th{text-align:left;padding:20px 26px;font-size:28px;font-weight:800;font-stretch:87.5%;border-bottom:2px solid var(--ink)}
+  .lvl th:first-child{width:300px;padding-left:0;vertical-align:bottom}
+  .lvl th.us{background:var(--Y);color:#fff;border-radius:20px 20px 0 0;border-bottom-color:var(--Y)}
+  .lvl td{padding:20px 26px;font-size:24px;line-height:1.35;color:var(--ink-2);border-bottom:1px solid var(--rule)}
+  .lvl td:first-child{padding-left:0;font-weight:700;color:var(--ink)}
+  .lvl td.us{background:var(--Yt);color:var(--ink);font-weight:600;border-bottom-color:var(--Yl)}
+  .lvl tr:last-child td.us{border-radius:0 0 20px 20px}
+</style>
+<section class="slide c s1 lvl">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Linear regression vs logistic regression · 2 of 2</div>
+    <h2>The essential distinction</h2>
+    <div class="main">
+      <table>
+        <tr><th class="lbl">Question</th><th>Linear regression · Session 03</th><th class="us">Logistic regression · today</th></tr>
+        <tr><td>Typical target</td><td>Continuous quantity</td><td class="us">Class label, often 0 / 1</td></tr>
+        <tr><td>The linear part</td><td>Predicts the response directly</td><td class="us">A score on the log-odds scale</td></tr>
+        <tr><td>Output</td><td>Any real number</td><td class="us">Probability in (0, 1), via the sigmoid</td></tr>
+        <tr><td>Fitting objective</td><td>Minimise squared errors</td><td class="us">Maximise likelihood · minimise log loss</td></tr>
+        <tr><td>Threshold</td><td>Usually not needed</td><td class="us">Turns a probability into a class</td></tr>
+        <tr><td>Evaluation</td><td>MAE · RMSE · R²</td><td class="us">Confusion matrix · recall · precision · F1</td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:info}}</span>With a fixed threshold, logistic regression draws a straight boundary in the input space, unless we transform the features.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CONFUSION MATRIX -->
+<style>
+  .cmx .wrap{display:grid;grid-template-columns:900px 1fr;gap:48px;height:100%}
+  .cmx .cm{grid-template-rows:auto 1fr 1fr;height:100%}
+  .cmx .cm .c{padding:24px 28px}
+  .cmx .cm .c b{font-size:40px;font-family:'Archivo';font-weight:900;font-stretch:87.5%}
+  .cmx .cm .c span{font-size:22px}
+  .cmx .cm .c em{font-style:normal;margin-top:10px;font-size:20px;color:var(--ink-2);line-height:1.35}
+  .cmx .side{display:flex;flex-direction:column;gap:18px}
+  .cmx .side .card{padding:28px 32px}
+  .cmx .side .card p{font-size:23px;margin-top:8px}
+</style>
+<section class="slide c s1 cmx">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Positive class = unstable (FOS &lt; 1.0)</div>
+    <h2>The confusion matrix: where every prediction lands</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="cm">
+          <span></span><span class="hd">Predicted: stable</span><span class="hd">Predicted: unstable</span>
+          <span class="ax rl">Actual: stable</span>
+          <div class="c tn"><b>TN</b><span>True negative</span><em>Stable, predicted stable. Correct.</em></div>
+          <div class="c fp"><b>FP</b><span>False positive · false alarm</span><em>Stable, flagged unstable. Costs an unnecessary check.</em></div>
+          <span class="ax rl">Actual: unstable</span>
+          <div class="c fn"><b>FN</b><span>False negative · missed warning</span><em>Unstable, predicted stable. Potentially consequential.</em></div>
+          <div class="c tp"><b>TP</b><span>True positive</span><em>Unstable, flagged unstable. Detected.</em></div>
+        </div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">How to read it</div><p>Rows are the truth, columns are the prediction. The diagonal is correct.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">For safety screening</div><p>Inspect the <b>bottom-left cell</b> first: unstable slopes the model called stable.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== METRICS -->
+<style>
+  .mt .g4{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:22px}
+  .mt .card{padding:28px 34px;display:flex;flex-direction:column}
+  .mt .card .eq{margin-top:12px;font-size:32px}
+  .mt .card p{margin-top:auto;padding-top:14px;font-size:22px;border-top:1px solid var(--surface-line)}
+  .mt .card.k{background:var(--Yt);border-color:var(--Yl)}
+  .mt .fn{color:var(--Yi);font-weight:800}.mt .fp{color:var(--Xi);font-weight:800}.mt .tp{color:var(--Mi);font-weight:800}
+</style>
+<section class="slide c s1 mt">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Definitions before scores</div>
+    <h2>Four metrics, four different questions</h2>
+    <div class="main">
+      <div class="g4 grow">
+        <div class="card k"><div class="lbl" style="color:var(--Yi)">Recall (unstable) · sensitivity</div><div class="eq">Recall = <span class="fr"><span><span class="tp">TP</span></span><span><span class="tp">TP</span> + <span class="fn">FN</span></span></span></div><p>Of all unstable cases, what fraction did we detect?</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Precision (unstable)</div><div class="eq">Precision = <span class="fr"><span><span class="tp">TP</span></span><span><span class="tp">TP</span> + <span class="fp">FP</span></span></span></div><p>Of all cases flagged unstable, what fraction really were?</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Mi)">F1 score</div><div class="eq">F1 = <span class="fr"><span>2 · P · R</span><span>P + R</span></span></div><p>One number that balances precision and recall (harmonic mean).</p></div>
+        <div class="card"><div class="lbl">Balanced accuracy</div><div class="eq">BA = <span class="fr"><span>Recall<sub>unstable</sub> + Recall<sub>stable</sub></span><span>2</span></span></div><p>Gives both classes equal weight, unlike ordinary accuracy.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>Our priority today: do not miss unstable slopes. So recall for the unstable class comes first, with precision in view.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ACCURACY MISLEADS -->
+<style>
+  .acc .wrap{display:grid;grid-template-columns:600px 1fr;gap:56px;height:100%}
+  .acc .cm{grid-template-rows:auto 1fr 1fr;height:420px}
+  .acc .big{font-weight:900;font-stretch:87.5%;font-size:150px;line-height:.85;letter-spacing:-.04em;color:var(--ink)}
+  .acc .big small{font-size:56px}
+  .acc .zero{margin-top:26px;font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.9;color:var(--Yi)}
+  .acc p{margin-top:16px;font-size:27px}
+</style>
+<section class="slide c s1 acc">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Why accuracy alone can mislead</div>
+    <h2>A model that never warns can still look “accurate”</h2>
+    <div class="main">
+      <div class="wrap">
+        <div><div class="lbl" style="margin-bottom:14px">Always predict “stable” · {{stat:n_test}} test slopes</div>
+          <div class="cm">
+            <span></span><span class="hd">Pred. stable</span><span class="hd">Pred. unstable</span>
+            <span class="ax rl">Stable</span><div class="c tn"><b>{{stat:bl_tn}}</b><span>TN</span></div><div class="c fp"><b>0</b><span>FP</span></div>
+            <span class="ax rl">Unstable</span><div class="c fn"><b>{{stat:bl_fn}}</b><span>FN · all missed</span></div><div class="c tp"><b>0</b><span>TP</span></div>
+          </div></div>
+        <div>
+          <div class="lbl">Accuracy</div><div class="big">{{stat:bl_acc}}<small>%</small></div><p>It looks good, because 85% of slopes are stable anyway.</p>
+          <div class="lbl" style="margin-top:36px;color:var(--Yi)">Recall for unstable</div><div class="zero">0 of {{stat:bl_fn}}</div><p>It detects none of the unstable slopes. Balanced accuracy is 0.50: no better than chance.</p>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>With imbalanced classes, read the confusion matrix and the recall of the rare class, not accuracy alone.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 2 -->
+<section class="slide dv dv2">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">02</div>
+  <ol><li><span>a</span>The engineering question</li><li><span>b</span>616 Morgenstern–Price cases</li><li><span>c</span>The FOS label and class imbalance</li><li><span>d</span>The stability boundary</li><li><span>e</span>Three models, stratified CV</li></ol>
+  <div class="logos" style="top:600px">{{logo:pandas}}{{logo:scikitlearn}}</div>
+  <div class="part"><div class="k">Part 02 · The slope-stability problem</div><h2>From factor of safety to a classification</h2></div>
+</section>
+
+<!-- ===================================================================== QUESTION -->
+<style>
+  .eqn .wrap{display:grid;grid-template-columns:860px 1fr;gap:44px;height:100%}
+  .eqn .art{border-radius:24px;background:var(--surface);border:1px solid var(--surface-line);display:grid;place-items:center;padding:24px}
+  .eqn .art svg{width:100%;height:auto}
+  .eqn .side{display:flex;flex-direction:column;gap:18px}
+  .eqn .q{font-weight:800;font-stretch:87.5%;font-size:42px;line-height:1.12;letter-spacing:-.015em}
+  .eqn .side .card{padding:24px 30px}
+  .eqn .side .card p{font-size:22px;margin-top:6px}
+  .eqn .lab{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .eqn .lab div{border-radius:16px;padding:16px 20px;font-size:21px;font-weight:700}
+</style>
+<section class="slide c s2 eqn">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">The engineering question</div>
+    <h2>Can three inputs classify a slope as stable or unstable?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="art">{{chart:slope}}</div>
+        <div class="side">
+          <div class="q">Can <span class="mk">β, c/(γH) and φ</span> classify cases below the limiting-equilibrium threshold?</div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Inputs X</div><p>Slope angle β (°), dimensionless c/(γH), friction angle φ (°).</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">The label y</div><p>From the factor of safety of a Morgenstern–Price analysis:</p>
+            <div class="lab" style="margin-top:12px"><div style="background:var(--Y);color:#fff">unstable = 1 · FOS &lt; 1.0</div><div style="background:var(--Xt);color:var(--Xi)">stable = 0 · FOS ≥ 1.0</div></div></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><p>The labels reproduce a numerical analysis. They are not independent field failures.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DATASET -->
+<style>
+  .dset .top3{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .dset .sx{border-radius:22px;padding:26px 30px;background:var(--surface);border:1px solid var(--surface-line)}
+  .dset .sx b{display:block;font-size:76px;color:var(--c)}
+  .dset .sx span{display:block;margin-top:10px;font-size:22px;color:var(--ink-2)}
+  .dset .low{display:grid;grid-template-columns:1fr 760px;gap:28px}
+  .dset .dk pre{font-size:19px}
+  .dset .dk .out{font-size:19px}
+  .dset .card{padding:26px 32px}
+  .dset .card ul{margin-top:10px;list-style:none}
+  .dset .card li{padding:11px 0;border-top:1px solid var(--surface-line);font-size:22px}
+</style>
+<section class="slide c s2 dset">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">The instructor’s dataset · first audit, as in Session 02</div>
+    <h2>616 cases on a structured grid</h2>
+    <div class="main">
+      <div class="top3">
+        <div class="sx" style="--c:var(--ink)"><b class="big-n">616</b><span>slope cases, one Morgenstern–Price analysis each</span></div>
+        <div class="sx" style="--c:var(--Xi)"><b class="big-n">11×7×8</b><span>levels of β × c/(γH) × φ: every combination once</span></div>
+        <div class="sx" style="--c:var(--Mi)"><b class="big-n">0</b><span>missing values · 0 repeated input combinations</span></div>
+        <div class="sx" style="--c:var(--Yi)"><b class="big-n">{{stat:fos_range}}</b><span>range of the factor of safety</span></div>
+      </div>
+      <div class="low grow">
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Data-quality decisions</div><ul><li><b>itr</b> is a row identifier: never a predictor</li><li>Blank helper columns in the spreadsheet are dropped</li><li>Slip-surface columns (Xmp, Ymp, Rmp) are outputs of the analysis: using them would leak the answer</li><li>A grid means test cases sit between familiar training levels</li></ul></div>
+        <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session_05_Integrated…Slope_Stability.ipynb</span><span>audit</span></div>
+<pre>df = raw[[<span class="st">"itr"</span>, <span class="st">"Beta"</span>, <span class="st">"CbygammaH"</span>, <span class="st">"phi"</span>, <span class="st">"fmp"</span>]]
+df.<span class="fn">shape</span>, df.<span class="fn">isna</span>().<span class="fn">sum</span>().<span class="fn">sum</span>()
+df.<span class="fn">duplicated</span>([<span class="st">"beta_deg"</span>, <span class="st">"c_by_gammaH"</span>, <span class="st">"phi_deg"</span>]).<span class="fn">sum</span>()</pre>
+          <div class="out"><small>Output</small>((616, 5), 0)<br>0</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== FOS THRESHOLD -->
+<style>
+  .fth .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .fth .chart{padding:20px 26px 10px}
+  .fth table{width:100%;border-collapse:separate;border-spacing:0 12px}
+  .fth th{text-align:right;padding:0 16px;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .fth th:first-child{text-align:left;padding-left:0}
+  .fth td{padding:20px 16px;font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;text-align:right;background:var(--surface)}
+  .fth td:first-child{text-align:left;border-radius:16px 0 0 16px;font-family:'Archivo'}
+  .fth td:last-child{border-radius:0 16px 16px 0}
+  .fth tr.on td{background:var(--Yt);color:var(--Yi)}
+  .fth .card{margin-top:14px;padding:24px 28px}
+  .fth .card p{font-size:22px;margin-top:6px}
+</style>
+<section class="slide c s2 fth">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">The label is an engineering choice</div>
+    <h2>Where we cut the factor of safety defines the problem</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Factor of safety of all 616 cases</h3><div class="f">Orange: below 1.0. No case has FOS exactly 1.0.</div>{{chart:foshist}}</div>
+        <div>
+          <table>
+            <tr><th>Label threshold</th><th>Below</th><th>At / above</th></tr>
+            <tr class="on"><td>FOS &lt; 1.0</td><td>{{stat:n_un}}</td><td>{{stat:n_st}}</td></tr>
+            <tr><td>FOS &lt; 1.5</td><td>{{stat:n_un15}}</td><td>{{stat:n_st15}}</td></tr>
+          </table>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">1.0 · our primary label</div><p>The limiting-equilibrium threshold.</p></div>
+          <div class="card"><div class="lbl">1.5 · a different question</div><p>A design or screening threshold, not automatically physical failure.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== IMBALANCE -->
+<style>
+  .imb .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px;height:100%}
+  .imb .bars{display:flex;flex-direction:column;gap:18px;justify-content:center}
+  .imb .row{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+  .imb .row b{font-size:30px}
+  .imb .row .bar{height:96px;border-radius:16px;display:flex;align-items:center;padding:0 24px;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#fff}
+  .imb table{width:100%;border-collapse:collapse}
+  .imb th{text-align:left;padding:0 0 12px;border-bottom:2px solid var(--ink);font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .imb td{padding:12px 0;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--ink)}
+  .imb td .b{display:inline-block;height:20px;border-radius:5px;background:var(--Y);vertical-align:-3px;margin-right:12px}
+  .imb .card{padding:28px 32px}
+  .imb .card p{font-size:23px;margin-top:8px}
+</style>
+<section class="slide c s2 imb">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Primary label: unstable = FOS &lt; 1.0</div>
+    <h2>Class imbalance: unstable slopes are the minority</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="bars">
+          <div class="row"><b>Stable</b><div class="bar" style="width:100%;background:var(--X)">{{stat:n_st}} · {{stat:pct_st}}%</div></div>
+          <div class="row"><b>Unstable</b><div class="bar" style="width:{{stat:w_un}}%;min-width:230px;background:var(--Y)">{{stat:n_un}} · {{stat:pct_un}}%</div></div>
+          <div class="card" style="margin-top:26px"><p>Enough for a teaching exercise, but the minority-class metrics need careful reading. Imbalance is not a data defect: it changes which metrics matter.</p></div>
+        </div>
+        <div><div class="lbl" style="margin-bottom:6px">Unstable cases at each friction angle</div>
+          <table><tr><th>φ</th><th>Unstable of 77</th></tr>{{phirows}}</table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TWO THRESHOLDS -->
+<style>
+  .two-t .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .two-t .card{padding:38px 42px;display:flex;flex-direction:column}
+  .two-t .card h3{margin-top:12px;font-size:42px}
+  .two-t .card .eq{margin-top:20px;font-size:36px}
+  .two-t .card ul{margin-top:22px;list-style:none}
+  .two-t .card li{padding:14px 0;border-top:1px solid var(--surface-line);font-size:24px}
+  .two-t .exs{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:28px 34px;border-radius:24px;background:var(--Yt);border:1px solid var(--Yl);font-size:26px;color:var(--ink);line-height:1.4}
+  .two-t .exs b.o{color:var(--Yi)}
+  .two-t .card.p{background:var(--Mt);border-color:var(--Ml)}
+</style>
+<section class="slide c s2 two-t">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Two different thresholds: do not confuse them</div>
+    <h2>One defines the target. One defines the decision.</h2>
+    <div class="main">
+      <div class="two">
+        <div class="card"><div class="lbl" style="color:var(--Yi)">The FOS label threshold</div><h3>What “unstable” means</h3><div class="eq">FOS &lt; <b>1.0</b> → y = 1</div>
+          <ul><li>Set before modelling, from engineering meaning</li><li>Changing it changes the target and the class balance</li></ul></div>
+        <div class="card p"><div class="lbl" style="color:var(--Mi)">The probability threshold</div><h3>When the model says “unstable”</h3><div class="eq"><i>p</i> ≥ <b>0.50</b> → predict 1</div>
+          <ul><li>Set after modelling, on validation data</li><li>Changing it trades precision against recall for the same target</li></ul></div>
+      </div>
+      <div class="exs"><span class="lbl" style="color:var(--Yi)">Example</span><div>A slope with <b>FOS = 0.95</b> is labelled unstable (y = 1). The model gives <b>p = 0.42</b>. At threshold 0.50 it predicts stable: <b class="o">a false negative</b>. At 0.30 it would be flagged.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BOUNDARY -->
+<style>
+  .bd .wrap{display:grid;grid-template-columns:1140px 1fr;gap:36px;height:100%}
+  .bd .chart{padding:20px 22px 10px}
+  .bd .side{display:flex;flex-direction:column;gap:18px}
+  .bd .side .card{padding:26px 30px}
+  .bd .side .card p{font-size:22px;margin-top:6px}
+</style>
+<section class="slide c s2 bd">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">The stability boundary is not a single cut-off</div>
+    <h2>FOS on one slice of the grid: φ = 25°</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Factor of safety for every β and c/(γH) at φ = 25°</h3><div class="f">Orange: FOS &lt; 1.0 (unstable). The black line is the FOS = 1 boundary in this slice.</div>{{chart:slice}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Read it</div><p>The boundary depends on β and c/(γH) <b>together</b>: steeper slopes need more cohesion.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Third input</div><p>φ shifts the whole surface: from 25 unstable cases at φ = 10° to 3 at φ = 45°.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><p>A slice is illustrative: the real boundary lives in three dimensions.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== THREE MODELS -->
+<style>
+  .tm3 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .tm3 .chart{padding:20px 22px 10px}
+  .tm3 .chart h3{font-size:30px}
+  .tm3 .chart .f{font-size:19px}
+  .tm3 .chart svg{flex:none;height:auto;margin-top:8px}
+  .tm3 .chart .bias{margin-top:6px;padding-top:12px;border-top:1px solid var(--surface-line);font-size:20px;font-weight:700;color:var(--ink)}
+</style>
+<section class="slide c s2 tm3">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Three models, three inductive biases · tuned models on the φ = 25° slice</div>
+    <h2>Each model draws a different kind of boundary</h2>
+    <div class="main">
+      <div class="lgd"><span><i style="background:var(--Y)"></i>unstable case</span><span><i style="background:var(--X)"></i>stable case</span><span><i class="sq" style="background:var(--Yl)"></i>region predicted unstable</span></div>
+      <div class="g3 grow">
+        <div class="chart"><h3>Logistic regression</h3><div class="f">Probability-based; scaling in a pipeline.</div>{{chart:rlr}}<div class="bias">A straight boundary</div></div>
+        <div class="chart"><h3>Decision tree</h3><div class="f">Threshold rules; can overfit.</div>{{chart:rdt}}<div class="bias">Axis-aligned steps</div></div>
+        <div class="chart"><h3>Random forest</h3><div class="f">Many trees combined; lower variance.</div>{{chart:rrf}}<div class="bias">A flexible, stepped boundary</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:info}}</span>The orange regions reaching stable cases are the models’ false alarms. Class weighting makes all three cautious.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== HANDLING IMBALANCE -->
+<style>
+  .him .wrap{display:grid;grid-template-columns:1fr 760px;gap:40px;height:100%}
+  .him ul{list-style:none;border-top:2px solid var(--ink)}
+  .him li{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--rule)}
+  .him li b{display:block;font-size:27px}
+  .him li span.d{display:block;margin-top:4px;font-size:21px;color:var(--ink-2)}
+  .him .ev{border-radius:26px;background:#fff;border:1px solid var(--surface-line);padding:28px 30px;display:flex;flex-direction:column;gap:16px}
+  .him .ev .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .him .ev .cm{grid-template-rows:auto 1fr 1fr;height:200px;gap:6px}
+  .him .ev .cm .c{padding:8px 12px}
+  .him .ev .cm .c b{font-size:30px}
+  .him .ev .cm .c span{font-size:14px;margin-top:2px}
+  .him .ev .cm .hd{font-size:12px}
+  .him .ev .cm .ax{font-size:12px}
+  .him .ev .r{font-size:21px;font-weight:700;margin-bottom:8px}
+</style>
+<section class="slide c s2 him">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Ways to handle class imbalance</div>
+    <h2>Make the rare class count, inside the training data</h2>
+    <div class="main">
+      <div class="wrap">
+        <ul>
+          <li><span class="ic">{{i:arrows-split}}</span><div><b>Stratify</b><span class="d">Keep 15% unstable in the train/test split and in every CV fold.</span></div></li>
+          <li><span class="ic">{{i:target}}</span><div><b>Prioritise unstable recall</b><span class="d">While watching precision and F1.</span></div></li>
+          <li><span class="ic">{{i:scales}}</span><div><b>class_weight="balanced"</b><span class="d">Errors on the rare class cost more during fitting.</span></div></li>
+          <li><span class="ic">{{i:sliders}}</span><div><b>Adjust the probability threshold</b><span class="d">On validation data, never on the test set.</span></div></li>
+          <li><span class="ic">{{i:copy}}</span><div><b>Resampling, if needed</b><span class="d">Only inside each CV training fold.</span></div></li>
+        </ul>
+        <div class="ev"><div class="lbl" style="color:var(--Yi)">Real effect of class weighting · logistic regression · 5-fold CV, training set</div>
+          <div class="two">
+            <div><div class="r">No weighting · recall {{stat:cw0_rec}}</div><div class="cm"><span></span><span class="hd">Pred. S</span><span class="hd">Pred. U</span><span class="ax rl">S</span><div class="c tn"><b>{{stat:cw0_tn}}</b></div><div class="c fp"><b>{{stat:cw0_fp}}</b></div><span class="ax rl">U</span><div class="c fn"><b>{{stat:cw0_fn}}</b><span>missed</span></div><div class="c tp"><b>{{stat:cw0_tp}}</b></div></div></div>
+            <div><div class="r" style="color:var(--Mi)">Balanced · recall {{stat:cw1_rec}}</div><div class="cm"><span></span><span class="hd">Pred. S</span><span class="hd">Pred. U</span><span class="ax rl">S</span><div class="c tn"><b>{{stat:cw1_tn}}</b></div><div class="c fp"><b>{{stat:cw1_fp}}</b><span>false alarms</span></div><span class="ax rl">U</span><div class="c fn"><b>{{stat:cw1_fn}}</b></div><div class="c tp"><b>{{stat:cw1_tp}}</b></div></div></div>
+          </div>
+          <p style="font-size:21px">Weighting finds all {{stat:train_un}} unstable training cases instead of {{stat:cw0_tp}}, at the price of {{stat:cw1_fp}} false alarms.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== SPLIT AND CV -->
+<style>
+  .scv .flow{display:flex;align-items:center;gap:16px}
+  .scv .flow .bx{border-radius:20px;padding:22px 26px;font-size:24px;font-weight:700}
+  .scv .flow .bx small{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700}
+  .scv .flow svg{width:34px;height:34px;color:#AAB6C5}
+  .scv .low{display:grid;grid-template-columns:1fr 900px;gap:28px}
+  .scv .dk pre{font-size:18px}
+  .scv .card{padding:26px 30px}
+  .scv .card ul{margin-top:10px;list-style:none}
+  .scv .card li{padding:12px 0;border-top:1px solid var(--surface-line);font-size:22px}
+</style>
+<section class="slide c s2 scv">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Same discipline as Session 03, now stratified</div>
+    <h2>Stratified split, then CV on training data only</h2>
+    <div class="main">
+      <div class="flow">
+        <div class="bx" style="background:var(--surface)">616 cases<small>93 unstable</small></div>{{i:arrow-right}}
+        <div class="bx" style="background:var(--Mt);color:var(--Mi);flex:80">Training 80% · {{stat:n_train}}<small>{{stat:train_st}} stable · {{stat:train_un}} unstable</small></div>
+        <div class="bx" style="background:var(--Yt);color:var(--Yi);flex:20">{{i:lock-key}} Test 20% · {{stat:n_test}}<small>{{stat:test_st}} · {{stat:test_un}}</small></div>
+      </div>
+      <div class="low grow">
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Rules</div><ul><li><b>stratify=y</b> keeps 15% unstable in both parts</li><li>5-fold <b>StratifiedKFold</b> on the training set</li><li><b>GridSearchCV</b> tunes each model on the folds</li><li>The test set stays locked until the final evaluation</li><li>On a grid, a random split mostly tests interpolation</li></ul></div>
+        <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session_05_Integrated…Slope_Stability.ipynb</span><span>split · cv</span></div>
+<pre>X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="nu">0.20</span>, random_state=<span class="nu">42</span>, stratify=y)
+cv = <span class="fn">StratifiedKFold</span>(n_splits=<span class="nu">5</span>, shuffle=<span class="kw">True</span>, random_state=<span class="nu">42</span>)
+gs = <span class="fn">GridSearchCV</span>(model, grid, scoring=<span class="st">"recall"</span>, cv=cv)
+gs.<span class="fn">fit</span>(X_train, y_train)            <span class="cm"># training data only</span></pre></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TUNING GRIDS -->
+<style>
+  .tg table{width:100%;border-collapse:collapse}
+  .tg th{text-align:left;padding:0 24px 14px 0;border-bottom:2px solid var(--ink);font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tg td{padding:22px 24px 22px 0;border-bottom:1px solid var(--rule);font-size:23px;color:var(--ink-2);vertical-align:top}
+  .tg td.k{font-weight:800;font-size:28px;color:var(--ink);width:300px}
+  .tg td code{font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--ink)}
+</style>
+<section class="slide c s2 tg">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Tuning strategy · scoring = recall for the unstable class</div>
+    <h2>What each model is allowed to try</h2>
+    <div class="main">
+      <table>
+        <tr><th>Model</th><th>Hyperparameters searched</th><th>Why</th></tr>
+        <tr><td class="k">Logistic regression</td><td><code>C ∈ {0.1, 1, 10}</code><br><code>class_weight ∈ {None, balanced}</code></td><td>C controls regularisation; scaling sits inside the pipeline</td></tr>
+        <tr><td class="k">Decision tree</td><td><code>max_depth ∈ {2, 3, 4, 5, None}</code><br><code>min_samples_leaf ∈ {1, 3, 5, 10}</code> · <code>class_weight</code></td><td>Limits on depth and leaf size control overfitting</td></tr>
+        <tr><td class="k">Random forest</td><td><code>max_depth ∈ {None, 4, 8}</code> · <code>min_samples_leaf ∈ {1, 3, 5}</code><br><code>max_features ∈ {sqrt, 1.0}</code> · <code>class_weight</code> · 100 trees</td><td>Tree diversity and complexity</td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:warning}}</span>Recall-focused tuning can raise false alarms. Always look at precision and the confusion matrix too.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 3 -->
+<section class="slide dv dv3">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">03</div>
+  <ol><li><span>a</span>Baseline and CV results</li><li><span>b</span>Held-out test performance</li><li><span>c</span>Confusion matrices</li><li><span>d</span>Thresholds: the precision–recall trade-off</li><li><span>e</span>Which model, and what the results do not show</li></ol>
+  <div class="logos" style="top:600px">{{logo:scikitlearn}}{{logo:googlecolab}}</div>
+  <div class="part"><div class="k">Part 03 · Results &amp; decision</div><h2>From scores to an engineering decision</h2></div>
+</section>
+
+<!-- ===================================================================== CV RESULTS -->
+<style>
+  .cvt .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .cvt .card{padding:28px 30px;display:flex;flex-direction:column}
+  .cvt .card h3{font-size:30px}
+  .cvt .card .n{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:56px;font-weight:700;color:var(--c)}
+  .cvt .card .n small{display:block;font-family:'Archivo';font-size:18px;font-weight:700;color:var(--muted);margin-top:6px}
+  .cvt .card code{margin-top:auto;padding-top:16px;border-top:1px solid var(--surface-line);font-family:'JetBrains Mono',monospace;font-size:17px;line-height:1.6;color:var(--ink-2)}
+  .cvt .card.b{background:var(--surface)}
+</style>
+<section class="slide c s3 cvt">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Five-fold CV on the training set · used for model selection, not the final score</div>
+    <h2>Baseline first, then the tuned models</h2>
+    <div class="main">
+      <div class="g4 grow">
+        <div class="card b" style="--c:var(--Yi)"><h3>Majority baseline</h3><div class="n">0.000<small>recall · always “stable”</small></div><code>DummyClassifier(<br>&nbsp;strategy="most_frequent")</code></div>
+        <div class="card" style="--c:var(--Mi)"><h3>Logistic regression</h3><div class="n">{{stat:cv_lr}}<small>best mean CV recall</small></div><code>C = 0.1<br>class_weight = "balanced"</code></div>
+        <div class="card" style="--c:var(--Mi)"><h3>Decision tree</h3><div class="n">{{stat:cv_dt}}<small>best mean CV recall</small></div><code>max_depth = 3<br>min_samples_leaf = 1<br>class_weight = "balanced"</code></div>
+        <div class="card" style="--c:var(--Mi)"><h3>Random forest</h3><div class="n">{{stat:cv_rf}}<small>best mean CV recall</small></div><code>max_depth = None<br>min_samples_leaf = 5<br>max_features = 1.0<br>class_weight = "balanced"</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:scales}}</span>All three tuned models chose class_weight = "balanced". CV picks the settings; only the test set gives the final score.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TEST TABLE -->
+<style>
+  .tt5 table{width:100%;border-collapse:collapse}
+  .tt5 th{text-align:right;padding:0 18px 14px;border-bottom:2px solid var(--ink);font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.3}
+  .tt5 th:first-child{text-align:left;padding-left:0}
+  .tt5 th.k{color:var(--Yi)}
+  .tt5 td{padding:22px 18px;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;text-align:right;color:var(--ink)}
+  .tt5 td:first-child{text-align:left;padding-left:0;font-family:'Archivo';font-size:27px}
+  .tt5 td.k{background:var(--Yt);color:var(--Yi)}
+  .tt5 tr.bl td{color:var(--muted)}
+  .tt5 td.lo{color:var(--muted);font-weight:500}
+</style>
+<section class="slide c s3 tt5">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Selected models evaluated once on the {{stat:n_test}} held-out test slopes</div>
+    <h2>Held-out test performance</h2>
+    <div class="main">
+      <table>
+        <tr><th>Model</th><th>Accuracy</th><th>Balanced<br>accuracy</th><th>Precision<br>(unstable)</th><th class="k">Recall<br>(unstable)</th><th>F1<br>(unstable)</th><th>ROC-AUC</th><th>Average<br>precision</th></tr>
+        {{testrows}}
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:info}}</span>ROC-AUC and average precision judge how well a model ranks cases across all thresholds; the others use the 0.50 threshold.</div>
+    </div>
+  </div>
+  <div class="src">Test set: {{stat:test_st}} stable and {{stat:test_un}} unstable slopes. With only {{stat:test_un}} unstable cases, one slope changes recall by about 0.05.</div>
+</section>
+
+<!-- ===================================================================== METRIC CHART -->
+<style>
+  .mc .chart{padding:22px 30px 12px}
+</style>
+<section class="slide c s3 mc">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Compare safety-relevant test metrics</div>
+    <h2>No model wins on every metric</h2>
+    <div class="main">
+      <div class="chart grow"><h3>Test metrics of the three tuned models</h3>{{chart:metrics}}</div>
+      <div class="take"><span class="ti">{{i:chart-bar}}</span>Logistic regression and the tree catch every unstable slope; the forest raises fewer false alarms but misses {{stat:rf_fn}}.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== CONFUSION MATRICES -->
+<style>
+  .cm3 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .cm3 .box{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:24px 26px;display:flex;flex-direction:column;gap:14px}
+  .cm3 .box h3{font-weight:800;font-stretch:87.5%;font-size:32px}
+  .cm3 .box .cm{grid-template-rows:auto 1fr 1fr;height:330px}
+  .cm3 .box .cm .c b{font-size:46px}
+  .cm3 .box .s{font-size:20px;font-weight:700;color:var(--ink-2)}
+</style>
+<section class="slide c s3 cm3">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Rows = actual · columns = predicted · test set</div>
+    <h2>Confusion matrices reveal the error types</h2>
+    <div class="main">
+      <div class="g3 grow">{{cmboxes}}</div>
+      <div class="take"><span class="ti">{{i:warning}}</span>Focus on the orange cell: actual unstable slopes predicted stable. Random forest: {{stat:rf_fn}}. The others: 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== THRESHOLD TRADE-OFF -->
+<style>
+  .tro .chart{padding:20px 28px 10px}
+  .tro table{width:100%;border-collapse:separate;border-spacing:10px 0}
+  .tro th{text-align:center;padding:14px;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tro th:first-child{text-align:left}
+  .tro td{text-align:center;padding:16px;font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;background:var(--surface);color:var(--ink)}
+  .tro td:first-child{text-align:left;font-family:'Archivo';font-size:22px;background:transparent}
+  .tro td.on{background:var(--Mt);color:var(--Mi)}
+</style>
+<section class="slide c s3 tro">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Thresholds and probabilities · logistic regression · out-of-fold, training data</div>
+    <h2>Moving the threshold trades recall for precision</h2>
+    <div class="main">
+      <div class="chart grow"><h3>Predicted probability of “unstable” for every training slope</h3><div class="f">Each case scored by a model that did not see it (5-fold CV). Dashed lines: thresholds 0.3 · 0.5 · 0.7.</div>{{chart:thr}}</div>
+      <table>
+        <tr><th>Threshold</th>{{thr_head}}</tr>
+        <tr><td>Recall (unstable)</td>{{thr_rec}}</tr>
+        <tr><td>Precision (unstable)</td>{{thr_prec}}</tr>
+        <tr><td>Missed · false alarms</td>{{thr_err}}</tr>
+      </table>
+      <div class="take"><span class="ti">{{i:sliders}}</span>Choose the threshold here, on validation data and from the cost of each error. Then evaluate once on the test set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHICH MODEL -->
+<style>
+  .wch .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .wch .card{padding:34px 38px;display:flex;flex-direction:column}
+  .wch .card h3{margin-top:10px;font-size:44px}
+  .wch .card .row{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .wch .card .row div{border-radius:14px;padding:14px 16px;background:#fff;border:1px solid var(--surface-line)}
+  .wch .card .row b{display:block;font-family:'JetBrains Mono',monospace;font-size:30px}
+  .wch .card .row span{font-size:16px;font-weight:700;color:var(--muted)}
+  .wch .card p{margin-top:auto;padding-top:20px;font-size:23px}
+  .wch .card.pick{background:var(--Mt);border-color:var(--M);border-width:3px}
+  .wch .dec{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:26px 34px;border-radius:24px;background:var(--ink);color:#fff}
+  .wch .dec .lbl{color:#4FD3A0}
+  .wch .dec p{color:#E6EDF5;font-size:24px}
+</style>
+<section class="slide c s3 wch">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">The answer depends on the error we most want to avoid</div>
+    <h2>Which model do we choose?</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card pick"><div class="lbl" style="color:var(--Mi)">Provisional screening candidate</div><h3>Logistic regression</h3>
+          <div class="row"><div><b>{{stat:lr_rec}}</b><span>recall</span></div><div><b>{{stat:lr_prec}}</b><span>precision</span></div><div><b>{{stat:lr_f1}}</b><span>F1</span></div><div><b>{{stat:lr_bal}}</b><span>bal. acc.</span></div></div>
+          <p>Detected every unstable test slope, and is comparatively interpretable. Cost: {{stat:lr_fp}} false alarms.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Xi)">The alternative</div><h3>Random forest</h3>
+          <div class="row"><div><b>{{stat:rf_rec}}</b><span>recall</span></div><div><b>{{stat:rf_prec}}</b><span>precision</span></div><div><b>{{stat:rf_f1}}</b><span>F1</span></div><div><b>{{stat:rf_bal}}</b><span>bal. acc.</span></div></div>
+          <p>Better precision and F1, but it missed {{stat:rf_fn}} unstable slopes. Reasonable if false alarms are costly.</p></div>
+      </div>
+      <div class="dec"><div class="lbl">Our stated priority</div><p>Avoid missing unstable slopes → logistic regression, for this split. Not a universal winner: only {{stat:test_un}} unstable test cases on a structured grid.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== LIMITS -->
+<style>
+  .lim .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .lim .card{padding:34px 38px}
+  .lim .card ul{margin-top:14px;list-style:none}
+  .lim .card li{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--surface-line);font-size:24px;color:var(--ink)}
+  .lim .card li svg{width:28px;height:28px;margin-top:2px}
+  .lim .card.y li svg{color:var(--Mi)}
+  .lim .card.n{background:var(--Yt);border-color:var(--Yl)}
+  .lim .card.n li{border-top-color:var(--Yl)}
+  .lim .card.n li svg{color:var(--Yi)}
+</style>
+<section class="slide c s3 lim">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">What these results do, and do not, show</div>
+    <h2>A classifier of a numerical method, not of real slopes</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card y"><div class="lbl" style="color:var(--Mi)">They show</div><ul><li>{{i:check-circle}}<span>How well classifiers reproduce labels from Morgenstern–Price analyses</span></li><li>{{i:check-circle}}<span>How imbalance, class weights and thresholds change the errors</span></li><li>{{i:check-circle}}<span>A disciplined workflow: baseline, stratified CV, one final test</span></li></ul></div>
+        <div class="card n"><div class="lbl" style="color:var(--Yi)">They do not show</div><ul><li>{{i:x-circle}}<span>Independent validation against field failures</span></li><li>{{i:x-circle}}<span>Performance in unseen parameter regions: a random split of a grid tests interpolation</span></li><li>{{i:x-circle}}<span>Real-world slope safety. Decisions still need proper analysis, standards and judgement</span></li></ul></div>
+      </div>
+      <div class="take"><span class="ti">{{i:path}}</span>A stronger follow-up test: hold out whole regions of the grid (for example all φ = 45° cases) and predict them.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== EXERCISES -->
+<style>
+  .ex5 .g3{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:20px}
+  .ex5 .card{padding:26px 30px;display:flex;flex-direction:column}
+  .ex5 .card .no{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--sec-ink)}
+  .ex5 .card p{margin-top:10px;font-size:25px;line-height:1.3;color:var(--ink);font-weight:600}
+  .ex5 .card code{margin-top:auto;padding-top:12px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--muted)}
+</style>
+<section class="slide c s3 ex5">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Hands-on · in the notebook</div>
+    <h2>Your turn: six questions to answer</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="card"><span class="no">01</span><p>Change the FOS label threshold to 1.5 and recompute the class balance. What question does it now answer?</p><code>df.fos &lt; 1.5</code></div>
+        <div class="card"><span class="no">02</span><p>Compare the majority baseline with the tuned models. Why is accuracy insufficient?</p><code>DummyClassifier</code></div>
+        <div class="card"><span class="no">03</span><p>Which model detects the most unstable test cases? What is its precision?</p><code>classification_report</code></div>
+        <div class="card"><span class="no">04</span><p>Explain the false-negative cell of each confusion matrix in engineering terms.</p><code>ConfusionMatrixDisplay</code></div>
+        <div class="card"><span class="no">05</span><p>Turn class weighting off. What happens to recall and to false alarms?</p><code>class_weight=None</code></div>
+        <div class="card"><span class="no">06</span><p>Design a grid-region holdout. Why is it harder than a random split?</p><code>X[df.phi_deg == 45]</code></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== FRAMEWORK -->
+<style>
+  .fw6 .g6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:20px}
+  .fw6 .st{border-radius:22px;padding:26px 30px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--surface-line)}
+  .fw6 .st .n{font-weight:900;font-stretch:87.5%;font-size:58px;line-height:.85;color:var(--sec)}
+  .fw6 .st b{margin-top:auto;padding-top:14px;font-size:27px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+  .fw6 .lesson{border-radius:24px;background:var(--ink);color:#fff;padding:28px 36px}
+  .fw6 .lesson .lbl{color:#4FD3A0}
+  .fw6 .lesson b{display:block;margin-top:10px;color:#fff;font-size:34px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+</style>
+<section class="slide c s0 fw6">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Key takeaways · carry this into every classification problem</div>
+    <h2>A decision framework for classification</h2>
+    <div class="main">
+      <div class="g6 grow">
+        <div class="st"><span class="n">1</span><b>Define the engineering meaning of each class</b></div>
+        <div class="st"><span class="n">2</span><b>Inspect class balance before choosing metrics</b></div>
+        <div class="st"><span class="n">3</span><b>Start from a baseline; stratify; tune only in training CV</b></div>
+        <div class="st"><span class="n">4</span><b>Choose metrics from the consequences of each error</b></div>
+        <div class="st"><span class="n">5</span><b>Select the model from the stated priority, not accuracy</b></div>
+        <div class="st"><span class="n">6</span><b>Report limits and where the result can generalise</b></div>
+      </div>
+      <div class="lesson"><div class="lbl">The central lesson</div><b>High test accuracy is not proof of generalisation, or of engineering safety.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== MULTICLASS -->
+<style>
+  .mcl .wrap{display:grid;grid-template-columns:960px 1fr;gap:40px;height:100%}
+  .mcl .chart{padding:22px 28px 12px}
+  .mcl .side{display:flex;flex-direction:column;gap:16px}
+  .mcl .cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .mcl .cmp div{border-radius:18px;padding:18px 22px;background:var(--surface);border:1px solid var(--surface-line)}
+  .mcl .cmp b{display:block;font-size:24px}
+  .mcl .cmp span{display:block;margin-top:4px;font-size:19px;color:var(--ink-2)}
+  .mcl .card{padding:24px 28px}
+  .mcl .card ul{margin-top:8px;list-style:none}
+  .mcl .card li{padding:9px 0;border-top:1px solid var(--surface-line);font-size:21px}
+</style>
+<section class="slide c s0 mcl">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Extension · Appendix B notebook · UCI Steel Plates Faults</div>
+    <h2>From binary to multiclass classification</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>1,941 steel plates, 7 mutually exclusive fault types</h3><div class="f">Orange: rare classes below 5%. The data we explored in Session 02.</div>{{chart:steel}}</div>
+        <div class="side">
+          <div class="cmp"><div><b>Binary</b><span>stable vs unstable · 2 × 2 matrix</span></div><div style="background:var(--Yt);border-color:var(--Yl)"><b>Multiclass</b><span>7 fault types · 7 × 7 matrix</span></div></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">New concepts</div><ul><li>Per-class precision, recall and F1</li><li><b>Macro</b> average: every class counts equally</li><li><b>Weighted</b> average: common classes count more</li><li>Off-diagonal cells: which faults are confused</li></ul></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><p style="font-size:21px">Same three model families, same stratified CV and test-set discipline. The evaluation becomes class-specific.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">UCI Machine Learning Repository: Steel Plates Faults (Buscema, Terzi &amp; Tastle, 2010), CC BY 4.0. doi:10.24432/C5J88N.</div>
+</section>
+
+<!-- ===================================================================== HOMEWORK -->
+<style>
+  .hw6 .wrap{display:grid;grid-template-columns:1fr 560px;gap:44px;height:100%}
+  .hw6 ol{list-style:none;border-top:2px solid var(--ink)}
+  .hw6 li{display:grid;grid-template-columns:60px 1fr;gap:14px;padding:17px 0;border-bottom:1px solid var(--rule);font-size:24px;color:var(--ink)}
+  .hw6 li span{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--sec-ink);padding-top:3px}
+  .hw6 .del{border-radius:26px;background:var(--ink);color:#fff;padding:36px;display:flex;flex-direction:column}
+  .hw6 .del .lbl{color:#4FD3A0}
+  .hw6 .del ul{margin-top:16px;list-style:none}
+  .hw6 .del li{display:block;padding:14px 0;border-top:1px solid rgba(255,255,255,.14);border-bottom:none;font-size:23px;color:#fff}
+  .hw6 .del p{margin-top:auto;font-size:20px;color:#C6D2E1}
+</style>
+<section class="slide c s0 hw6">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Homework · steel plate fault classification</div>
+    <h2>Apply today’s workflow to seven classes</h2>
+    <div class="main">
+      <div class="wrap">
+        <ol>
+          <li><span>01</span><div>Explore the data and plot the seven-class distribution</div></li>
+          <li><span>02</span><div>Make a stratified train/test split; keep the test set untouched</div></li>
+          <li><span>03</span><div>Fit a majority baseline, logistic regression, a decision tree and a random forest</div></li>
+          <li><span>04</span><div>Tune at least one model with stratified CV on the training data</div></li>
+          <li><span>05</span><div>Report the confusion matrix, balanced accuracy, per-class P/R/F1, macro-F1 and weighted-F1</div></li>
+          <li><span>06</span><div>Explain which faults are confused, and choose a model with explicit criteria</div></li>
+        </ol>
+        <div class="del"><span class="lgt" style="margin-bottom:20px">{{logo:googlecolab}}</span><div class="lbl">Deliverables</div><ul><li>A runnable notebook</li><li>A confusion-matrix plot</li><li>A comparison table</li><li>A short engineering interpretation</li></ul><p>Start from the Appendix B notebook. A high test score alone does not make a model ready for production inspection.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== APPENDIX NOTEBOOKS -->
+<style>
+  .apx .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .apx .card{padding:36px 40px;display:flex;flex-direction:column}
+  .apx .card h3{margin-top:12px;font-size:40px}
+  .apx .card ul{margin-top:18px;list-style:none}
+  .apx .card li{padding:13px 0;border-top:1px solid var(--surface-line);font-size:23px}
+  .apx .card code{margin-top:auto;padding-top:18px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--muted)}
+</style>
+<section class="slide c s0 apx">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Optional · for after the session</div>
+    <h2>Two appendix notebooks</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Appendix A</div><h3>How trees and forests learn</h3><ul><li>Entropy, Gini impurity and information gain</li><li>A decision tree’s boundary, step by step</li><li>Bootstrap samples, feature randomness, voting</li><li>Out-of-bag estimates and feature importance</li></ul><code>Appendix_A_Trees_Entropy_Information_Gain_Random_Forest.ipynb</code></div>
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Appendix B</div><h3>Multiclass classification</h3><ul><li>Steel Plates Faults: 1,941 plates, 7 classes</li><li>A 7 × 7 confusion matrix</li><li>Per-class, macro and weighted metrics</li><li>The starting point for the homework</li></ul><code>Appendix_Multiclass_Classification_Steel_Plates_Faults.ipynb</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:book-open}}</span>Reference slides for Appendix A follow after the closing slides.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== QUESTIONS -->
+<style>
+  .qa .big{position:absolute;left:104px;top:330px;font-weight:900;font-stretch:87.5%;font-size:230px;line-height:.85;letter-spacing:-.05em}
+  .qa .sub{position:absolute;left:120px;top:560px;font-size:34px;line-height:1.4;color:var(--ink-2);max-width:900px}
+  .qa .who{position:absolute;left:120px;bottom:110px;font-size:26px;color:var(--ink-2)}
+  .qa .who b{font-size:32px;display:block;margin-bottom:6px;color:var(--ink)}
+  .qa .disc{left:1250px;top:230px;width:620px;height:620px;background:var(--tint)}
+  .qa .qm{position:absolute;left:1250px;top:230px;width:620px;height:620px;display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:520px;line-height:1;color:var(--accent);padding-bottom:30px}
+  .qa .chips{position:absolute;left:120px;top:700px;display:flex;gap:14px}
+</style>
+<section class="slide b qa s0">
+  {{top:b}}
+  <div class="disc"></div>
+  <div class="qm">?</div>
+  <div class="big">Questions</div>
+  <p class="sub">Unmute, or drop your question in the chat.</p>
+  <div class="chips"><span class="chip">Logistic regression</span><span class="chip">Confusion matrix</span><span class="chip">Imbalance &amp; thresholds</span><span class="chip">Slope stability</span></div>
+  <div class="who"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div>
+</section>
+
+<!-- ===================================================================== CLOSE -->
+<style>
+  .close .t{position:absolute;left:120px;top:200px;width:1040px}
+  .close .t .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .close .t h2{margin-top:18px;color:var(--dk-ink);font-size:150px;line-height:.92;letter-spacing:-.04em;font-weight:900}
+  .close .t p{margin-top:32px;font-size:32px;line-height:1.4;color:var(--dk-muted);max-width:900px}
+  .close .t p b{color:var(--dk-ink);font-weight:700}
+  .close .t .by{margin-top:52px;font-size:26px;color:var(--dk-muted)}
+  .close .t .by b{display:block;font-size:32px;color:var(--dk-ink);margin-bottom:6px}
+  .close .row{position:absolute;left:120px;bottom:84px;display:flex;align-items:center;gap:30px}
+  .close .row img{height:44px}
+  .close .row span{font-size:20px;color:var(--dk-muted);padding-left:30px;border-left:1.5px solid var(--dk-rule);white-space:nowrap}
+  .close .qrcard{position:absolute;right:120px;top:300px;width:460px;padding:40px;border-radius:32px;background:#0F1612;border:1px solid var(--dk-rule);text-align:center}
+  .close .qrcard .code{width:300px;height:300px;margin:0 auto;padding:18px;border-radius:20px;background:#fff}
+  .close .qrcard .code img{width:100%;height:100%}
+  .close .qrcard b{display:block;margin-top:28px;font-size:30px;color:var(--dk-ink)}
+  .close .qrcard span{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--dk-muted)}
+</style>
+<section class="slide b dark close">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="t"><div class="k">End of session 05</div><h2>Thank you.</h2><p>See you in session 06: <b>Artificial Neural Networks.</b></p><div class="by"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div></div>
+  <div class="qrcard"><div class="code"><img src="../poster/assets/qr-register.svg" alt="QR code to the course page"></div><b>Course page</b><span>qudeltastudios.com/courses</span></div>
+  <div class="row">{{logo-light}}<span>Technology partner</span></div>
+</section>
+
+<!-- ===================================================================== A1 IMPURITY -->
+<style>
+  .a1 .wrap{display:grid;grid-template-columns:820px 1fr;gap:40px;height:100%}
+  .a1 .chart{padding:20px 24px 10px}
+  .a1 .side{display:flex;flex-direction:column;gap:16px}
+  .a1 .fq{border-radius:22px;background:#fff;border:1px solid var(--surface-line);padding:22px 28px}
+  .a1 .fq .eq{margin-top:8px;font-size:30px}
+  .a1 .nodes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .a1 .nd{border-radius:18px;padding:16px 18px;background:var(--surface);border:1px solid var(--surface-line)}
+  .a1 .nd .bar{height:16px;border-radius:5px;overflow:hidden;display:flex;margin:6px 0 10px}
+  .a1 .nd b{display:block;font-size:20px}
+  .a1 .nd span{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-2)}
+</style>
+<section class="slide c s0 a1">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A1 · how mixed is a node?</div>
+    <h2>Entropy and Gini measure class impurity</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Both are 0 for a pure node, largest at 50 : 50</h3>{{chart:impurity}}</div>
+        <div class="side">
+          <div class="fq"><div class="lbl" style="color:var(--Yi)">Entropy (bits)</div><div class="eq"><i>H</i> = −Σ<sub><i>k</i></sub> <i>p<sub>k</sub></i> log<sub>2</sub> <i>p<sub>k</sub></i></div></div>
+          <div class="fq"><div class="lbl" style="color:var(--Xi)">Gini impurity</div><div class="eq"><i>G</i> = 1 − Σ<sub><i>k</i></sub> <i>p<sub>k</sub></i><sup>2</sup> = 2<i>p</i>(1 − <i>p</i>)</div></div>
+          <div class="nodes">
+            <div class="nd"><b>Pure</b><div class="bar"><i style="flex:1;background:var(--X)"></i></div><span>H 0.000<br>G 0.000</span></div>
+            <div class="nd"><b>Our data</b><div class="bar"><i style="flex:15;background:var(--Y)"></i><i style="flex:85;background:var(--X)"></i></div><span>H {{stat:h_root}}<br>G {{stat:g_root}}</span></div>
+            <div class="nd"><b>50 : 50</b><div class="bar"><i style="flex:1;background:var(--Y)"></i><i style="flex:1;background:var(--X)"></i></div><span>H 1.000<br>G 0.500</span></div>
+          </div>
+          <div class="card" style="padding:20px 24px"><p style="font-size:20px">Different scales: compare impurity reductions with the same criterion, not raw values. Entropy describes a node’s label mix, not physical uncertainty.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== A2 INFORMATION GAIN -->
+<style>
+  .a2 .eqb{border-radius:22px;background:#fff;border:1px solid var(--surface-line);padding:26px 34px}
+  .a2 .eqb .eq{margin-top:8px;font-size:36px}
+  .a2 .tree{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .a2 .sp{border-radius:24px;padding:24px 28px;background:var(--surface);border:1px solid var(--surface-line)}
+  .a2 .sp.win{background:var(--Mt);border-color:var(--M);border-width:3px}
+  .a2 .sp h3{font-weight:800;font-stretch:87.5%;font-size:30px}
+  .a2 .kids{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .a2 .kid{border-radius:16px;padding:14px 16px;background:#fff;border:1px solid var(--surface-line)}
+  .a2 .kid .bar{height:14px;border-radius:5px;overflow:hidden;display:flex;margin:6px 0 8px}
+  .a2 .kid span{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-2)}
+  .a2 .ig{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--ink)}
+</style>
+<section class="slide c s0 a2">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A2 · does a split reduce impurity?</div>
+    <h2>Information gain compares candidate splits</h2>
+    <div class="main">
+      <div class="eqb"><div class="lbl" style="color:var(--Yi)">Parent impurity minus size-weighted child impurity</div><div class="eq">IG = <i>H</i>(parent) − Σ<sub><i>j</i></sub> <span class="fr"><span><i>n<sub>j</sub></i></span><span><i>n</i></span></span> <i>H</i>(child<sub><i>j</i></sub>)</div></div>
+      <div class="lbl">Parent node: 100 cases · 15 unstable / 85 stable · H = 0.610</div>
+      <div class="tree grow">
+        <div class="sp"><h3>Split A</h3><div class="kids">
+          <div class="kid"><b>50 cases</b><div class="bar"><i style="flex:10;background:var(--Y)"></i><i style="flex:40;background:var(--X)"></i></div><span>10 / 40 · H 0.722</span></div>
+          <div class="kid"><b>50 cases</b><div class="bar"><i style="flex:5;background:var(--Y)"></i><i style="flex:45;background:var(--X)"></i></div><span>5 / 45 · H 0.469</span></div></div>
+          <div class="ig">IG = 0.0144 bits · ΔGini 0.0050</div></div>
+        <div class="sp win"><h3>Split B · preferred</h3><div class="kids">
+          <div class="kid"><b>50 cases</b><div class="bar"><i style="flex:12;background:var(--Y)"></i><i style="flex:38;background:var(--X)"></i></div><span>12 / 38 · H 0.795</span></div>
+          <div class="kid"><b>50 cases</b><div class="bar"><i style="flex:3;background:var(--Y)"></i><i style="flex:47;background:var(--X)"></i></div><span>3 / 47 · H 0.327</span></div></div>
+          <div class="ig" style="color:var(--Mi)">IG = 0.0486 bits · ΔGini 0.0162</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:info}}</span>Information gain scores one split at one node. Feature importance aggregates contributions across a whole model.</div>
+    </div>
+  </div>
+  <div class="src">Illustrative counts from the Appendix A notebook, not measured from the 616-case dataset.</div>
+</section>
+
+<!-- ===================================================================== A3 CRITERION -->
+<style>
+  .a3 table{width:100%;border-collapse:collapse}
+  .a3 th{text-align:left;padding:0 24px 14px 0;border-bottom:2px solid var(--ink);font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .a3 td{padding:26px 24px 26px 0;border-bottom:1px solid var(--rule);font-size:24px;color:var(--ink-2)}
+  .a3 td.k{font-weight:800;font-size:30px;color:var(--ink)}
+  .a3 td code{font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--ink)}
+  .a3 .note{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:26px 34px;border-radius:24px;background:var(--Yt);border:1px solid var(--Yl)}
+  .a3 .note p{font-size:24px;color:var(--ink)}
+</style>
+<section class="slide c s0 a3">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A3 · match the explanation to the code</div>
+    <h2>Entropy or Gini?</h2>
+    <div class="main">
+      <table>
+        <tr><th>Criterion</th><th>Binary formula</th><th>Intuition</th><th>scikit-learn</th></tr>
+        <tr><td class="k">Entropy</td><td><code>−p log₂p − (1−p) log₂(1−p)</code></td><td>Information-theoretic impurity</td><td><code>criterion="entropy"</code></td></tr>
+        <tr><td class="k">Gini</td><td><code>2p(1 − p)</code></td><td>Chance of mislabelling a random case using the node’s proportions</td><td><code>criterion="gini"</code> · default</td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="note"><span class="lbl" style="color:var(--Yi)">Teaching rule</span><p>Today’s notebook uses the default <b>Gini</b> criterion. If you teach entropy, say so explicitly, or set <span class="mono">criterion="entropy"</span> and compare.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== A4 RANDOM FOREST -->
+<style>
+  .a4 .wrap{display:grid;grid-template-columns:1fr 820px;gap:36px;height:100%}
+  .a4 .flow{display:grid;grid-template-columns:200px 1fr 220px;gap:20px;align-items:center}
+  .a4 .src0,.a4 .agg{border-radius:20px;padding:22px;font-size:22px;font-weight:700;text-align:center}
+  .a4 .src0{background:var(--surface);border:1px solid var(--surface-line)}
+  .a4 .agg{background:var(--M);color:#fff}
+  .a4 .trees{display:flex;flex-direction:column;gap:12px}
+  .a4 .tr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .a4 .tr div{border-radius:14px;padding:14px 16px;font-size:19px;font-weight:700}
+  .a4 .tr div:first-child{background:var(--Xt);color:var(--Xi)}
+  .a4 .tr div:last-child{background:var(--Mt);color:var(--Mi)}
+  .a4 .chart{padding:20px 24px 10px}
+  .a4 .ids{margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-2)}
+</style>
+<section class="slide c s0 a4">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A4 · bagging plus random feature subsets</div>
+    <h2>Random forest: many decorrelated trees</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="flow">
+          <div class="src0">Training data<br><span class="mono" style="font-size:18px">N rows</span></div>
+          <div class="trees">
+            <div class="tr"><div>Bootstrap 1</div><div>Tree · random features</div></div>
+            <div class="tr"><div>Bootstrap 2</div><div>Tree · random features</div></div>
+            <div class="tr"><div>Bootstrap …</div><div>…</div></div>
+            <div class="tr"><div>Bootstrap B</div><div>Tree · random features</div></div>
+          </div>
+          <div class="agg">Aggregate<br><span style="font-size:18px;font-weight:600">vote · average probability</span></div>
+        </div>
+        <div class="chart"><h3>One bootstrap sample of 12 rows</h3><div class="ids">drawn: [{{stat:boot}}]</div>{{chart:boot}}</div>
+      </div>
+      <div class="take"><span class="ti">{{i:tree-structure}}</span>Different samples and feature randomness make trees less alike; averaging them reduces variance compared with one deep tree.</div>
+    </div>
+  </div>
+  <div class="src">Bootstrap draw reproduced from the Appendix A notebook (random seed 42). Rows marked “out” are out-of-bag for this tree.</div>
+</section>
+
+<!-- ===================================================================== A5 SETTINGS -->
+<style>
+  .a5 .g5{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:20px}
+  .a5 .card{padding:26px 30px;display:flex;flex-direction:column}
+  .a5 .card code{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--Mi)}
+  .a5 .card p{margin-top:12px;font-size:22px}
+  .a5 .card.w{background:var(--Yt);border-color:var(--Yl)}
+</style>
+<section class="slide c s0 a5">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A5 · what each setting changes</div>
+    <h2>Random forest mechanics</h2>
+    <div class="main">
+      <div class="g5 grow">
+        <div class="card"><code>n_estimators</code><p>Number of trees. More trees stabilise predictions, at more compute.</p></div>
+        <div class="card"><code>max_features</code><p>Features considered at each split. Controls how different the trees are.</p></div>
+        <div class="card"><code>max_depth · min_samples_leaf</code><p>Limit tree complexity; can reduce overfitting.</p></div>
+        <div class="card"><code>class_weight</code><p>Gives the rare class more weight. Check recall and precision, not accuracy.</p></div>
+        <div class="card"><code>oob_score</code><p>Rows left out of a tree’s bootstrap give an internal estimate. It does not replace a held-out test set.</p></div>
+        <div class="card w"><p style="margin-top:0;font-size:23px;color:var(--ink)">Random forest is not automatically superior. Compare on the same held-out data, with metrics aligned to the application.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== A6 READING -->
+<style>
+  .a6 .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .a6 .card{padding:34px 38px}
+  .a6 .card ul{margin-top:14px;list-style:none}
+  .a6 .card li{padding:16px 0;border-top:1px solid var(--surface-line);font-size:23px}
+  .a6 .card li code{display:block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--Xi)}
+</style>
+<section class="slide c s0 a6">
+  {{top:a}}
+  <div class="body">
+    <div class="kick">Appendix A6 · further reading and practical cautions</div>
+    <h2>Where to go next</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Xi)">scikit-learn documentation</div><ul>
+          <li>Decision trees and impurity criteria<code>scikit-learn.org/stable/modules/tree.html</code></li>
+          <li>Random forests<code>scikit-learn.org/stable/modules/ensemble.html#forest</code></li>
+          <li>Classification metrics<code>scikit-learn.org/stable/modules/model_evaluation.html</code></li></ul></div>
+        <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Slope-stability dataset caveat</div><ul>
+          <li>616 cases on a structured grid; labels from Morgenstern–Price FOS</li>
+          <li>A random split tests interpolation among grid points, not field-failure prediction</li>
+          <li>Hold out a parameter region for a stronger test of generalisation</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

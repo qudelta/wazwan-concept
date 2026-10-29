@@ -1,0 +1,7 @@
+__pycache__/
+export/builds/
+charts-preview.html
+charts-preview.html
+charts-preview.html
+# instructor's dataset: not for a public repository (see README)
+data/*.xlsx

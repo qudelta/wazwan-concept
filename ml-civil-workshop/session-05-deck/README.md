@@ -23,8 +23,11 @@ Built from Dr. Waris's 43-slide draft and his three notebooks, in the design sys
   **Use scikit-learn 1.5 or 1.6**: they reproduce the notebook's saved outputs exactly. scikit-learn 1.9 chooses different
   Random Forest settings on this grid (test precision 0.607 instead of 0.680), so participants on a newer Colab image may
   see slightly different Random Forest numbers. Logistic regression and the decision tree are identical across versions.
-- The instructor's dataset `Simplified_static_dataset_616.xlsx` is **not committed** (public repository). Put it in
-  `data/` to re-run `results.py`.
+- The slope dataset `Simplified_static_dataset_616.xlsx` (columns itr, Beta, CbygammaH, phi, fmp) is **not committed**
+  (public repository). Put it in `data/` to re-run `results.py`. Source: Kenue, A.W., Alluri, H.R., Munwar Basha, B. (2025).
+  Prediction of the Critical Failure Surface and Factor of Safety of Finite Slopes Using Machine Learning Algorithms.
+  In: Maheshwari, P., Bhardwaj, A., Sawant, V.A. (eds) Application of Soft Computing Techniques in Geotechnical Engineering
+  and Risk Analysis. IGC 2023. LNCE vol 715. Springer, Singapore. https://doi.org/10.1007/978-981-96-9529-4_3
 - Steel Plates Faults: UCI Machine Learning Repository, CC BY 4.0.
 
 ## Rebuild

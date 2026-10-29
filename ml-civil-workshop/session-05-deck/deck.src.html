@@ -768,6 +768,7 @@
       </div>
     </div>
   </div>
+  <div class="src">Data: Kenue, A.W., Alluri, H.R. &amp; Munwar Basha, B. (2025). Prediction of the critical failure surface and factor of safety of finite slopes using machine learning algorithms. In: <i>Application of Soft Computing Techniques in Geotechnical Engineering and Risk Analysis</i> (IGC 2023), LNCE 715, Springer. doi:10.1007/978-981-96-9529-4_3</div>
 </section>
 
 <!-- ===================================================================== DATASET -->
@@ -786,7 +787,7 @@
 <section class="slide c s2 dset">
   {{top:2}}
   <div class="body">
-    <div class="kick">The instructor’s dataset · first audit, as in Session 02</div>
+    <div class="kick">The session dataset · first audit, as in Session 02</div>
     <h2>616 cases on a structured grid</h2>
     <div class="main">
       <div class="top3">
@@ -796,15 +797,16 @@
         <div class="sx" style="--c:var(--Yi)"><b class="big-n">{{stat:fos_range}}</b><span>range of the factor of safety</span></div>
       </div>
       <div class="low grow">
-        <div class="card"><div class="lbl" style="color:var(--Yi)">Data-quality decisions</div><ul><li><b>itr</b> is a row identifier: never a predictor</li><li>Blank helper columns in the spreadsheet are dropped</li><li>Slip-surface columns (Xmp, Ymp, Rmp) are outputs of the analysis: using them would leak the answer</li><li>A grid means test cases sit between familiar training levels</li></ul></div>
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Data-quality decisions</div><ul><li><b>itr</b> is a row identifier: never a predictor</li><li>Only the five columns needed are distributed</li><li>The slip-surface results of the analysis are left out: as inputs they would leak the answer</li><li>A grid means test cases sit between familiar training levels</li></ul></div>
         <div class="dk"><div class="hd"><span class="fl">{{logo:googlecolab}}Session_05_Integrated…Slope_Stability.ipynb</span><span>audit</span></div>
-<pre>df = raw[[<span class="st">"itr"</span>, <span class="st">"Beta"</span>, <span class="st">"CbygammaH"</span>, <span class="st">"phi"</span>, <span class="st">"fmp"</span>]]
+<pre>df = pd.<span class="fn">read_excel</span>(<span class="st">"Simplified_static_dataset_616.xlsx"</span>)
 df.<span class="fn">shape</span>, df.<span class="fn">isna</span>().<span class="fn">sum</span>().<span class="fn">sum</span>()
-df.<span class="fn">duplicated</span>([<span class="st">"beta_deg"</span>, <span class="st">"c_by_gammaH"</span>, <span class="st">"phi_deg"</span>]).<span class="fn">sum</span>()</pre>
+df.<span class="fn">duplicated</span>([<span class="st">"Beta"</span>, <span class="st">"CbygammaH"</span>, <span class="st">"phi"</span>]).<span class="fn">sum</span>()</pre>
           <div class="out"><small>Output</small>((616, 5), 0)<br>0</div></div>
       </div>
     </div>
   </div>
+  <div class="src">Data: Kenue, A.W., Alluri, H.R. &amp; Munwar Basha, B. (2025). Prediction of the critical failure surface and factor of safety of finite slopes using machine learning algorithms. In: <i>Application of Soft Computing Techniques in Geotechnical Engineering and Risk Analysis</i> (IGC 2023), LNCE 715, Springer. doi:10.1007/978-981-96-9529-4_3</div>
 </section>
 
 <!-- ===================================================================== FOS THRESHOLD -->
@@ -929,6 +931,7 @@ df.<span class="fn">duplicated</span>([<span class="st">"beta_deg"</span>, <span
       </div>
     </div>
   </div>
+  <div class="src">Data: Kenue, A.W., Alluri, H.R. &amp; Munwar Basha, B. (2025). Prediction of the critical failure surface and factor of safety of finite slopes using machine learning algorithms. In: <i>Application of Soft Computing Techniques in Geotechnical Engineering and Risk Analysis</i> (IGC 2023), LNCE 715, Springer. doi:10.1007/978-981-96-9529-4_3</div>
 </section>
 
 <!-- ===================================================================== THREE MODELS -->

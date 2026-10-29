@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The rest of the menu — Qudelta Studios</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/menu.css">
+<style>
+  @page{size:1080px 1350px;margin:0}
+  html,body{width:1080px}
+  .slide{width:1080px;height:1350px}
+  .body{position:absolute;left:72px;right:72px;top:132px;bottom:124px}
+
+  /* 01 hook */
+  .s1 .glow{background:radial-gradient(700px 600px at 100% 0%,rgba(0,191,99,.16),transparent 70%),radial-gradient(640px 520px at 72% 78%,rgba(242,169,59,.10),transparent 70%)}
+  .s1 .dear{font-style:italic;font-weight:500;font-size:40px;color:var(--ink-2);letter-spacing:-.01em}
+  .s1 .h{margin-top:22px;font-size:132px}
+  .s1 .sub{margin-top:30px;max-width:640px;font-weight:700;font-stretch:87.5%;font-size:50px;line-height:1.08;letter-spacing:-.018em;color:var(--ink-2)}
+  .s1 .sub em{font-style:normal;color:var(--saffron)}
+  .plate{position:absolute;border-radius:50%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.7))}
+  .plate img.tr{position:absolute;inset:0;width:100%;height:100%}
+  .plate img.rc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+  .s1 .plate{left:420px;top:640px;width:800px;height:800px}
+  .s1 .plate img.rc{width:300px;height:300px}
+  .ghost{position:absolute;width:130px;height:130px;border-radius:50%;border:2.5px dashed rgba(255,255,255,.22);display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:rgba(255,255,255,.34);letter-spacing:.04em;text-align:center;line-height:1.3}
+  .s1 .callout{position:absolute;left:72px;top:1003px;display:flex;align-items:center;gap:0}
+  .s1 .callout .lbl{padding:14px 22px;border-radius:16px;background:var(--saffron);color:#1A1206;font-weight:800;font-stretch:87.5%;font-size:34px;letter-spacing:-.01em;line-height:1}
+  .s1 .callout .lbl small{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.72}
+  .s1 .callout .ln{width:420px;height:2.5px;background:var(--saffron)}
+  .s1 .callout .dot{width:16px;height:16px;border-radius:50%;background:var(--saffron);box-shadow:0 0 0 7px rgba(242,169,59,.25)}
+  .s1 .shade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(transparent,var(--bg) 78%)}
+
+  /* 02 the order */
+  .s2 .glow{background:radial-gradient(800px 600px at 0% 100%,rgba(0,191,99,.12),transparent 70%)}
+  .chat{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+  .bub{position:relative;padding:22px 30px 20px;border-radius:30px 30px 30px 8px;background:var(--surface-2);border:1px solid var(--surface-line);box-shadow:var(--shadow)}
+  .bub p{font-weight:700;font-stretch:87.5%;font-style:italic;font-size:38px;line-height:1.15;color:var(--ink-2)}
+  .bub small{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--faint)}
+  .bub.big{padding:34px 42px 30px;background:var(--surface);border-color:rgba(255,255,255,.12)}
+  .bub.big p{font-size:60px;line-height:1.02;letter-spacing:-.02em;color:var(--ink)}
+  .bub.dim{opacity:.55;transform:scale(.96);transform-origin:left}
+  .s2 .body{display:flex;flex-direction:column}
+  .s2 .stmt{margin-top:auto;padding-top:44px;border-top:2px solid var(--ink)}
+  .s2 .stmt .h{font-size:96px}
+  .s2 .stmt .lead{margin-top:24px;font-size:52px;color:var(--ink)}
+  .s2 .note{margin-top:38px;display:flex;align-items:center;gap:14px;font-size:28px;color:var(--muted)}
+  .s2 .note .ic{font-size:30px;color:var(--saffron)}
+
+  /* 03 the myth */
+  .s3 .scene{position:relative;height:660px}
+  .s3 .scene .art{width:100%;height:100%}
+  .s3 .count{position:absolute;right:30px;bottom:96px;display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:14px;background:rgba(6,9,7,.82);border:1px solid var(--saffron-line);backdrop-filter:blur(6px)}
+  .s3 .count .ic{font-size:24px;color:var(--saffron)}
+  .s3 .count span{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--ink-2)}
+  .s3 .count b{font-family:'JetBrains Mono',monospace;font-size:28px;color:var(--saffron);margin-left:4px}
+  .s3 .count2{bottom:30px}
+  .s3 .h{margin-top:56px;font-size:92px}
+  .s3 .txt{margin-top:26px;font-size:30px;max-width:900px}
+
+  /* 04 three truths */
+  .truths{margin-top:44px;display:grid;gap:18px}
+  .truth{display:grid;grid-template-columns:96px 1fr;gap:26px;padding:30px 32px 32px;border-radius:26px;background:var(--surface);border:1px solid var(--surface-line)}
+  .truth .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:44px;color:var(--saffron);line-height:1}
+  .truth b{display:block;font-weight:800;font-stretch:87.5%;font-size:42px;line-height:1.05;letter-spacing:-.015em}
+  .truth span{display:block;margin-top:12px;font-size:24px;line-height:1.42;color:var(--muted)}
+  .verdict{margin-top:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:30px 34px;border-radius:26px;background:var(--green);color:var(--on-green)}
+  .verdict p{font-weight:800;font-stretch:87.5%;font-size:44px;line-height:1.04;letter-spacing:-.018em}
+  .verdict .ic{font-size:64px}
+
+  /* 05 pipeline */
+  .pipe{margin-top:40px;position:relative;display:grid;gap:12px}
+  .pipe::before{content:"";position:absolute;left:35px;top:30px;bottom:30px;width:2px;background:linear-gradient(var(--green),rgba(0,191,99,.25))}
+  .st{position:relative;display:grid;grid-template-columns:72px 230px 1fr;gap:20px;align-items:center;padding:16px 22px 16px 0}
+  .st .no{position:relative;z-index:1;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--tint-line);color:var(--green-hi);font-size:32px}
+  .st b{font-weight:800;font-stretch:87.5%;font-size:36px;letter-spacing:-.01em;line-height:1}
+  .st b small{display:block;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--faint);text-transform:uppercase}
+  .st .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .st.here{margin:6px 0;padding:18px 22px 18px 0;border-radius:24px;background:var(--saffron-tint);border:1.5px solid var(--saffron-line)}
+  .st.here .no{border-color:var(--saffron);color:var(--saffron);margin-left:-2px}
+  .st.here .chip.w{background:var(--saffron);color:#1A1206;border-color:var(--saffron)}
+  .st.here .chip.w .ic{color:#1A1206}
+  .here-tag{position:absolute;right:20px;top:-17px;padding:6px 14px;border-radius:999px;background:var(--saffron);color:#1A1206;font-weight:800;font-size:15px;letter-spacing:.1em;text-transform:uppercase}
+  .s5 .end{margin-top:30px;font-weight:700;font-stretch:87.5%;font-size:38px;line-height:1.15;letter-spacing:-.012em;color:var(--ink-2)}
+  .s5 .end em{font-style:normal;color:var(--saffron)}
+
+  /* 06 the menu card */
+  .s6 .glow{background:radial-gradient(700px 520px at 50% 0%,rgba(242,169,59,.10),transparent 70%)}
+  .menu{position:absolute;inset:0;padding:44px 56px 40px;border-radius:30px;background:linear-gradient(180deg,#0F1512,#0B100D);border:1px solid rgba(242,169,59,.30);box-shadow:var(--shadow)}
+  .menu::before{content:"";position:absolute;inset:12px;border-radius:22px;border:1px solid rgba(242,169,59,.16);pointer-events:none}
+  .menu .em{position:absolute;left:50%;top:-58px;transform:translateX(-50%);width:116px;height:116px;border-radius:50%;filter:drop-shadow(0 12px 24px rgba(0,0,0,.7))}
+  .menu .em img{width:100%;height:100%}
+  .menu .hd{text-align:center;margin-top:44px}
+  .menu .hd .kick{color:var(--saffron);letter-spacing:.3em}
+  .menu .hd .h{margin-top:12px;font-size:84px;font-style:italic}
+  .menu .hd p{margin-top:12px;font-size:23px;color:var(--muted)}
+  .orn{display:flex;align-items:center;gap:16px;margin:26px 0 4px;color:var(--saffron)}
+  .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(242,169,59,.5))}
+  .orn::after{background:linear-gradient(90deg,rgba(242,169,59,.5),transparent)}
+  .orn span{font-weight:700;font-size:16px;letter-spacing:.22em;text-transform:uppercase}
+  .dish{display:grid;grid-template-columns:40px auto 1fr auto;gap:14px;align-items:baseline;padding:11px 0}
+  .dish .ic{font-size:30px;color:var(--green-hi);align-self:center}
+  .dish b{font-weight:700;font-size:28px;letter-spacing:-.005em}
+  .dish i{border-bottom:2px dotted rgba(255,255,255,.2);transform:translateY(-6px)}
+  .dish span{font-size:20px;color:var(--muted);text-align:right}
+  .menu .ft{position:absolute;left:56px;right:56px;bottom:40px;display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px dashed rgba(242,169,59,.3)}
+  .menu .ft p{font-size:22px;color:var(--ink-2)}
+  .menu .ft p b{color:var(--saffron)}
+  .menu .ft .mono{font-size:15px;color:var(--faint)}
+
+  /* industry slides */
+  .ind .kick{display:flex;align-items:center;gap:14px;color:var(--green-hi)}
+  .ind .kick .ic{font-size:26px}
+  .ind .h2{margin-top:18px}
+  .ind .row{margin-top:40px;display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start}
+  .ind .row .wins{margin-top:4px}
+  .ind .today-strip{position:absolute;left:0;right:0;bottom:0}
+  .ind .today-strip .badge{align-self:start}
+
+  /* 07 hotel phone */
+  .s7 .phone{height:720px}
+  .s7 .glow{background:radial-gradient(700px 600px at 0% 60%,rgba(0,191,99,.12),transparent 70%)}
+
+  /* 08 export storefront */
+  .s8 .glow{background:radial-gradient(700px 600px at 0% 60%,rgba(242,169,59,.10),transparent 70%)}
+  .shop{width:400px}
+  .shop .pimg{position:relative;height:300px;overflow:hidden}
+  .shop .pimg .art{width:100%;height:100%}
+  .shop .pimg .seal{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:10px;background:rgba(6,9,7,.85);color:var(--green-hi);font-size:14px;font-weight:700}
+  .shop .pimg .seal .ic{font-size:17px}
+  .shop .pd{padding:20px 22px 22px}
+  .shop .pd .ttl{font-weight:800;font-stretch:87.5%;font-size:29px;letter-spacing:-.01em}
+  .shop .pd .org{margin-top:4px;font-size:17px;color:var(--muted)}
+  .cur{margin-top:16px;display:flex;gap:6px}
+  .cur span{padding:6px 11px;border-radius:8px;border:1px solid var(--surface-line);font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--muted)}
+  .cur span.on{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+  .price{margin-top:14px;display:flex;align-items:baseline;justify-content:space-between}
+  .price b{font-weight:800;font-stretch:87.5%;font-size:40px;letter-spacing:-.02em}
+  .price small{font-size:15px;color:var(--muted)}
+  .prov{margin-top:16px;display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;padding:12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--surface-line)}
+  .prov .qr{width:76px;height:76px;border-radius:8px;background:#F2F5F3;display:grid;place-items:center;color:#0A0F0C;font-size:58px}
+  .prov p{font-size:15px;line-height:1.42;color:var(--muted)}
+  .prov p b{display:block;color:var(--ink);font-size:16.5px;margin-bottom:2px}
+  .addcart{margin-top:14px;height:50px;border-radius:12px;background:var(--green);color:var(--on-green);display:flex;align-items:center;justify-content:center;gap:9px;font-weight:800;font-size:18px}
+  .addcart .ic{font-size:22px}
+
+  /* 09 dashboard */
+  .s9 .glow{background:radial-gradient(800px 600px at 100% 40%,rgba(0,191,99,.12),transparent 70%)}
+  .s9 .row{grid-template-columns:1fr}
+  .dash{padding:20px 22px 22px}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .kpi{padding:14px 16px;border-radius:14px;background:var(--surface-2);border:1px solid var(--surface-line)}
+  .kpi small{display:block;font-size:13.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .kpi b{display:block;margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:32px;letter-spacing:-.015em}
+  .kpi b.s{color:var(--saffron)}
+  .kpi span{display:block;margin-top:2px;font-size:14px;color:var(--muted)}
+  .lots{margin-top:14px;width:100%;border-collapse:collapse;font-size:16px}
+  .lots th{text-align:left;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:8px 10px;border-bottom:1px solid var(--surface-line)}
+  .lots td{padding:11px 10px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--ink-2)}
+  .lots td.m{font-family:'JetBrains Mono',monospace;font-size:14.5px;color:var(--muted)}
+  .lots td.r,.lots th.r{text-align:right}
+  .st-pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:13px;font-weight:700}
+  .st-pill.ok{background:var(--tint);color:var(--green-hi)}
+  .st-pill.due{background:var(--saffron-tint);color:var(--saffron)}
+  .bcast{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 12px 12px 16px;border-radius:14px;background:var(--tint);border:1px solid var(--tint-line)}
+  .bcast p{font-size:16px;color:var(--ink-2)}
+  .bcast p b{color:var(--ink)}
+  .bcast .go{display:flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:10px;background:var(--green);color:var(--on-green);font-weight:800;font-size:16px;white-space:nowrap}
+  .bcast .go .ic{font-size:20px}
+  .s9 .wins3{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .mini{padding:20px 20px 22px;border-radius:20px;background:var(--surface);border:1px solid var(--surface-line)}
+  .mini .ic{font-size:34px;color:var(--green-hi)}
+  .mini b{display:block;margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:27px;line-height:1.08;letter-spacing:-.01em}
+  .mini span{display:block;margin-top:7px;font-size:19px;line-height:1.36;color:var(--muted)}
+
+  /* 10 every other business */
+  .biz{margin-top:38px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .bz{padding:24px 24px 24px;border-radius:24px;background:var(--surface);border:1px solid var(--surface-line)}
+  .bz .top{display:flex;align-items:center;gap:14px}
+  .bz .top .ico{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;background:var(--tint);border:1px solid var(--tint-line);color:var(--green-hi);font-size:29px}
+  .bz .top b{font-weight:800;font-stretch:87.5%;font-size:29px;letter-spacing:-.01em;line-height:1.05}
+  .bz ul{margin-top:16px;list-style:none;display:grid;gap:9px}
+  .bz li{display:flex;gap:10px;align-items:flex-start;font-size:20.5px;line-height:1.3;color:var(--ink-2)}
+  .bz li .ic{font-size:20px;color:var(--green-hi);margin-top:2px}
+
+  .tail10{margin-top:30px;font-weight:700;font-stretch:87.5%;font-size:36px;line-height:1.15;letter-spacing:-.01em}
+  .bz li{font-size:22px}
+  /* 11 the better question */
+  .s11 .glow{background:radial-gradient(800px 600px at 50% 40%,rgba(0,191,99,.10),transparent 70%)}
+  .ask{display:grid;gap:12px}
+  .ask .kick{color:var(--muted)}
+  .ask .bub{border-radius:30px 30px 30px 8px}
+  .ask .bub p{font-size:56px;color:var(--ink)}
+  .ask.old .bub{background:transparent;border:1.5px dashed rgba(255,255,255,.2);box-shadow:none}
+  .ask.old .bub p{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--saffron);text-decoration-thickness:4px}
+  .ask.new{margin-top:48px}
+  .ask.new .kick{color:var(--green-hi)}
+  .ask.new .bub{background:var(--green);border-color:var(--green)}
+  .ask.new .bub p{color:var(--on-green);font-size:66px}
+  .checks{margin-top:64px;display:grid;gap:4px}
+  .ck{display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:center;padding:22px 0;border-bottom:1px solid var(--rule)}
+  .ck .bx{width:52px;height:52px;border-radius:14px;border:2px solid rgba(255,255,255,.25);display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;color:var(--muted)}
+  .ck p{font-size:30px;line-height:1.3;color:var(--ink-2)}
+  .s11 .tail{margin-top:40px;font-weight:700;font-stretch:87.5%;font-size:42px;letter-spacing:-.01em}
+
+  /* 12 cta: the full wazwan */
+  .s12 .glow{background:radial-gradient(760px 620px at 50% 30%,rgba(0,191,99,.18),transparent 70%)}
+  .feast{position:absolute;left:50%;top:420px;width:0;height:0}
+  .feast .plate{left:-190px;top:-190px;width:380px;height:380px}
+  .feast .plate img.rc{width:146px;height:146px}
+  .feast .d{position:absolute;left:0;top:0;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%,#1B2A22,#0C1410);border:2px solid var(--tint-line);color:var(--green-hi);font-size:40px;
+    box-shadow:0 14px 30px rgba(0,0,0,.55);transform:rotate(var(--a)) translate(258px) rotate(calc(-1 * var(--a)))}
+  .feast .d.w{background:var(--saffron);border-color:var(--saffron);color:#1A1206}
+  .s12 .txtb{position:absolute;left:0;right:0;top:616px}
+  .s12 .h{font-size:100px}
+  .s12 .txt{margin-top:26px;font-size:30px;max-width:860px}
+  .cta{margin-top:40px;display:flex;align-items:center;gap:18px}
+  .cta .btn{display:flex;align-items:center;gap:14px;height:84px;padding:0 34px;border-radius:22px;background:var(--green);color:var(--on-green);font-weight:800;font-stretch:87.5%;font-size:36px;letter-spacing:-.01em}
+  .cta .btn .ic{font-size:38px}
+  .cta .or{font-size:24px;color:var(--muted)}
+  .cta .or b{display:block;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- 01 · HOOK -->
+<section class="frame slide s1">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">An open letter</span><span class="r">Swipe {{i:arrow-right:bold}}</span></header>
+  <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
+  <div class="ghost" style="left:394px;top:614px">CRM?</div>
+  <div class="ghost" style="left:270px;top:817px">Ads?</div>
+  <div class="ghost" style="left:253px;top:1064px">App?</div>
+  <div class="ghost" style="left:755px;top:470px">AI?</div>
+  <div class="ghost" style="left:930px;top:600px">+31</div>
+  <div class="shade"></div>
+  <div class="callout"><div class="lbl">Website<small>the rice</small></div><div class="ln"></div><div class="dot"></div></div>
+  <div class="body">
+    <div class="dear">Dear Kashmir,</div>
+    <div class="h">Wazwan has <span class="g">36 courses.</span></div>
+    <p class="sub">So why does your business keep ordering <em>only the rice?</em></p>
+  </div>
+  {{foot:1/12}}
+</section>
+
+<!-- 02 · THE ORDER -->
+<section class="frame slide s2">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">What we hear every week <i>· 02</i></span></header>
+  <div class="body">
+    <div class="chat">
+      <div class="bub dim"><p>“Kitne ka padega?”</p></div>
+      <div class="bub dim"><p>“Instagram page bhi bana dena.”</p></div>
+      <div class="bub big"><p>“Bhai, bas ek website bana do.”</p><small>Srinagar · Anantnag · Baramulla · Sopore · Jammu</small></div>
+    </div>
+    <div class="stmt">
+      <div class="h">Kashmir doesn’t think small.</div>
+      <p class="lead">Nobody ever showed Kashmir <span class="g">the rest of the menu.</span></p>
+      <p class="note">{{i:lightbulb}}You can’t order a dish you have never seen.</p>
+    </div>
+  </div>
+  {{foot:2/12}}
+</section>
+
+<!-- 03 · THE MYTH -->
+<section class="frame slide s3">
+  <div class="grain"></div>
+  <header class="sh"><span class="tag">The website myth <i>· 03</i></span></header>
+  <div class="body">
+    <div class="scene">{{svg:night-road}}
+      <div class="count">{{i:users-three}}<span>Visitors today</span><b>0</b></div>
+      <div class="count count2">{{i:chat-circle-dots}}<span>Enquiries</span><b>0</b></div>
+    </div>
+    <div class="h">A website doesn’t bring customers. <span class="s">It never has.</span></div>
+    <p class="txt">Without a road leading to it, a website is a beautiful shop on a street nobody walks down. <b>The lights are on. Nobody is coming.</b></p>
+  </div>
+  {{foot:3/12}}
+</section>
+
+<!-- 04 · THREE TRUTHS -->
+<section class="frame slide s4">
+  <div class="grain"></div>
+  <header class="sh"><span class="tag">Before you pay for a website <i>· 04</i></span></header>
+  <div class="body">
+    <div class="h2">Three things nobody tells you.</div>
+    <div class="truths">
+      <div class="truth"><span class="n">01</span><div><b>Google doesn’t rank you because you exist.</b><span>Ranking takes SEO: useful content, reviews, a Google Business Profile and months of steady work.</span></div></div>
+      <div class="truth"><span class="n">02</span><div><b>Nobody types your URL by accident.</b><span>Visitors come from Instagram, ads, search and people who already know you. No road, no visitors.</span></div></div>
+      <div class="truth"><span class="n">03</span><div><b>A website talks. It never follows up.</b><span>The enquiry at 11 pm, the visitor who left, last year’s customer: nobody calls them back.</span></div></div>
+    </div>
+    <div class="verdict"><p>A website is a touchpoint.<br>Not a salesman.</p>{{i:hand-coins}}</div>
+  </div>
+  {{foot:4/12}}
+</section>
+
+<!-- 05 · THE PIPELINE -->
+<section class="frame slide s5">
+  <div class="grain"></div>
+  <header class="sh"><span class="tag">Where revenue actually comes from <i>· 05</i></span></header>
+  <div class="body">
+    <div class="h2">Money doesn’t come from a website. <span class="g">It comes from a pipeline.</span></div>
+    <div class="pipe">
+      <div class="st"><span class="no">{{i:megaphone}}</span><b>Attention<small>Stage 1</small></b><div class="chips"><span class="chip">{{i:instagram-logo}}Instagram</span><span class="chip">{{i:google-logo}}Search</span><span class="chip">{{i:lightning}}Ads</span><span class="chip">{{i:users-three}}Referrals</span></div></div>
+      <div class="st here"><span class="here-tag">Most businesses stop here</span><span class="no">{{i:storefront}}</span><b>Touchpoint<small>Stage 2</small></b><div class="chips"><span class="chip w">{{i:globe}}Website</span><span class="chip">{{i:whatsapp-logo}}WhatsApp</span><span class="chip">{{i:map-pin}}Google profile</span></div></div>
+      <div class="st"><span class="no">{{i:funnel}}</span><b>Capture<small>Stage 3</small></b><div class="chips"><span class="chip">Enquiry forms</span><span class="chip">{{i:robot}}WhatsApp bot</span><span class="chip">Missed-call alerts</span></div></div>
+      <div class="st"><span class="no">{{i:address-book}}</span><b>Follow-up<small>Stage 4</small></b><div class="chips"><span class="chip">CRM</span><span class="chip">Auto-replies</span><span class="chip">{{i:bell-ringing}}Reminders</span></div></div>
+      <div class="st"><span class="no">{{i:receipt}}</span><b>Conversion<small>Stage 5</small></b><div class="chips"><span class="chip">Quotes</span><span class="chip">{{i:calendar-check}}Bookings</span><span class="chip">Payment links</span></div></div>
+      <div class="st"><span class="no">{{i:arrows-clockwise}}</span><b>Return<small>Stage 6</small></b><div class="chips"><span class="chip">{{i:star}}Reviews</span><span class="chip">Loyalty</span><span class="chip">Win-back offers</span></div></div>
+    </div>
+    <p class="end">A website is <em>one counter</em> in the shop. Revenue comes from the whole line.</p>
+  </div>
+  {{foot:5/12}}
+</section>
+
+<!-- 06 · THE MENU -->
+<section class="frame slide s6">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">What can actually be built <i>· 06</i></span></header>
+  <div class="body" style="top:196px">
+    <div class="menu">
+      <div class="em"><img src="assets/traem.png" alt=""></div>
+      <div class="hd"><div class="kick">Qudelta Studios · Wazwan</div><div class="h">The rest of the menu</div></div>
+      <div class="orn"><span>To bring people in</span></div>
+      <div class="dish">{{i:magnifying-glass}}<b>SEO &amp; Google Business Profile</b><i></i><span>be found</span></div>
+      <div class="dish">{{i:megaphone}}<b>Content &amp; ad campaigns</b><i></i><span>be seen</span></div>
+      <div class="orn"><span>To turn them into customers</span></div>
+      <div class="dish">{{i:address-book}}<b>Lead pipelines &amp; CRM</b><i></i><span>never lose an enquiry</span></div>
+      <div class="dish">{{i:whatsapp-logo}}<b>WhatsApp automation</b><i></i><span>reply in seconds</span></div>
+      <div class="dish">{{i:robot}}<b>AI assistants</b><i></i><span>awake at 2 am</span></div>
+      <div class="dish">{{i:calendar-check}}<b>Bookings, quotes &amp; payments</b><i></i><span>close on the spot</span></div>
+      <div class="orn"><span>To run the business</span></div>
+      <div class="dish">{{i:receipt}}<b>Billing, GST &amp; inventory</b><i></i><span>no more registers</span></div>
+      <div class="dish">{{i:chart-line-up}}<b>Owner dashboards</b><i></i><span>the day, in one screen</span></div>
+      <div class="dish">{{i:device-mobile}}<b>Custom apps &amp; portals</b><i></i><span>built around you</span></div>
+      <div class="dish">{{i:globe}}<b>Export storefronts</b><i></i><span>sell to the world</span></div>
+      <div class="ft"><p><b>Website:</b> served with every course.</p><span class="mono">Ask for the chef’s special</span></div>
+    </div>
+  </div>
+  {{foot:6/12}}
+</section>
+
+<!-- 07 · HOTELS & HOUSEBOATS -->
+<section class="frame slide ind s7">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">For your industry <i>· 07</i></span></header>
+  <div class="body">
+    <div class="kick">{{i:boat}}Hotels, houseboats &amp; homestays</div>
+    <div class="h2">Stop paying commission on <span class="g">your own guests.</span></div>
+    <div class="row">
+      <div class="phone"><div class="scr"><div class="notch"></div>
+        <div class="wa-top"><span class="av">{{i:boat}}</span><div><b>Your Houseboat {{i:seal-check:fill}}</b><span>Business account · online</span></div></div>
+        <div class="wa-body">
+          <span class="day">TODAY</span>
+          <div class="msg in">Hi! Room for 2 adults, 12 to 15 Dec? Lake view if possible.<span class="t">11:48 pm</span></div>
+          <div class="msg out"><span class="auto">{{i:lightning:fill}} AUTO-REPLY · 6 SEC</span>Assalamu alaikum! Yes, it’s available.
+            <div class="offer"><div class="ph"><svg viewBox="0 0 300 96" preserveAspectRatio="none"><path d="M0,58 L300,58 L300,96 L0,96 Z" fill="#0F2A26"/><path d="M40,58 L60,40 L180,40 L200,58 Z" fill="#2B1B12"/><path d="M52,40 L66,26 L174,26 L188,40 Z" fill="#3B2617"/><rect x="74" y="44" width="10" height="8" fill="#F2A93B"/><rect x="94" y="44" width="10" height="8" fill="#F2A93B"/><rect x="114" y="44" width="10" height="8" fill="#F2A93B"/><rect x="134" y="44" width="10" height="8" fill="#F2A93B"/><path d="M0,30 L40,12 L80,28 L130,6 L190,26 L240,10 L300,24 L300,36 L0,36 Z" fill="#14303C" opacity=".8"/><path d="M220,64 Q240,72 270,64" stroke="#C38B4E" stroke-width="2" fill="none"/></svg></div>
+              <div class="od"><b>Lake View Deluxe · 3 nights</b>₹19,500 · breakfast &amp; shikara pick-up</div></div>
+            <div class="btn-wa">{{i:link:bold}} Book with ₹3,000 advance</div><span class="t">11:48 pm</span></div>
+          <div class="msg in">Done, booked. Shukriya!<span class="t">11:52 pm</span></div>
+          <div class="sysline">{{i:check:bold}} ₹3,000 received · guest saved</div>
+        </div>
+      </div></div>
+      <div class="wins">
+        <div class="win"><span class="ico">{{i:robot}}</span><div><b>Replies in seconds, even at midnight</b><span>Rates, photos and availability answered on WhatsApp, automatically.</span></div></div>
+        <div class="win"><span class="ico">{{i:calendar-check}}</span><div><b>Direct bookings, paid upfront</b><span>Your own booking page and payment links. No commission on your own guests.</span></div></div>
+        <div class="win"><span class="ico">{{i:arrows-clockwise}}</span><div><b>Guests who come back</b><span>Last summer’s guests get your winter offer on their own.</span></div></div>
+      </div>
+    </div>
+    <div class="today-strip"><span class="badge today">{{i:warning:bold}} Today</span><p>Enquiries rot in Instagram DMs, rates live in one person’s head, and booking sites take <b>a cut of every room.</b></p></div>
+  </div>
+  {{foot:7/12}}
+</section>
+
+<!-- 08 · CRAFTS & EXPORT -->
+<section class="frame slide ind s8">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">For your industry <i>· 08</i></span></header>
+  <div class="body">
+    <div class="kick">{{i:globe}}Pashmina, crafts, saffron &amp; dry fruits</div>
+    <div class="h2">Sell to the world, <span class="g">not to one middleman.</span></div>
+    <div class="row">
+      <div class="browser shop">
+        <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">{{i:lock-simple:fill}}yourbrand.com</div></div>
+        <div class="pimg">{{svg:kani}}<span class="seal">{{i:seal-check:fill}}Origin verified</span></div>
+        <div class="pd">
+          <div class="ttl">Kani Pashmina Shawl</div>
+          <div class="org">Hand-woven in Kanihama, Kashmir</div>
+          <div class="cur"><span class="on">USD</span><span>EUR</span><span>GBP</span><span>AED</span><span>INR</span></div>
+          <div class="price"><b>$1,240</b><small>Ships worldwide</small></div>
+          <div class="prov"><span class="qr">{{i:qr-code:fill}}</span><p><b>Scan to verify</b>Weaver, loom hours and wool origin on every piece.</p></div>
+          <div class="addcart">{{i:shopping-bag:bold}}Add to cart</div>
+        </div>
+      </div>
+      <div class="wins">
+        <div class="win"><span class="ico">{{i:globe}}</span><div><b>Your own export storefront</b><span>Prices in five currencies, international shipping, your brand on the label.</span></div></div>
+        <div class="win"><span class="ico">{{i:qr-code}}</span><div><b>Proof on every piece</b><span>A QR that shows the weaver, the hours and the wool. Fakes can’t copy it.</span></div></div>
+        <div class="win"><span class="ico">{{i:buildings}}</span><div><b>A portal for wholesale buyers</b><span>Repeat orders, price lists and invoices for boutiques abroad.</span></div></div>
+      </div>
+    </div>
+    <div class="today-strip"><span class="badge today">{{i:warning:bold}} Today</span><p>One buyer sets the price, and your craft is sold abroad <b>under someone else’s name.</b></p></div>
+  </div>
+  {{foot:8/12}}
+</section>
+
+<!-- 09 · ORCHARDS & TRADERS -->
+<section class="frame slide ind s9">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">For your industry <i>· 09</i></span></header>
+  <div class="body">
+    <div class="kick">{{i:tree-evergreen}}Orchards, cold storage &amp; traders</div>
+    <div class="h2">Your khata deserves better <span class="g">than a register.</span></div>
+    <div class="row">
+      <div class="browser">
+        <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">{{i:lock-simple:fill}}app.yourstore.in/stock</div></div>
+        <div class="dash">
+          <div class="kpis">
+            <div class="kpi"><small>In cold storage</small><b>18,420</b><span>boxes · 4 chambers</span></div>
+            <div class="kpi"><small>Sold this week</small><b class="g">₹21.4 L</b><span>1,960 boxes</span></div>
+            <div class="kpi"><small>Dues pending</small><b class="s">₹6.8 L</b><span>11 buyers · reminders on</span></div>
+          </div>
+          <table class="lots">
+            <tr><th>Lot</th><th>Variety</th><th>Chamber</th><th class="r">Boxes</th><th class="r">Status</th></tr>
+            <tr><td class="m">A-112</td><td>Delicious</td><td>CA-3</td><td class="r m">1,200</td><td class="r"><span class="st-pill ok">Paid</span></td></tr>
+            <tr><td class="m">A-118</td><td>American</td><td>CA-1</td><td class="r m">860</td><td class="r"><span class="st-pill due">Due in 3 days</span></td></tr>
+            <tr><td class="m">B-204</td><td>Kullu Delicious</td><td>CA-2</td><td class="r m">2,450</td><td class="r"><span class="st-pill ok">In stock</span></td></tr>
+          </table>
+          <div class="bcast"><p><b>Today’s rates</b> · Delicious, American, Kullu</p><span class="go">{{i:whatsapp-logo:fill}}Send to 312 buyers</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="wins3">
+      <div class="mini">{{i:snowflake}}<b>Lot-wise stock</b><span>Every box, every chamber, live.</span></div>
+      <div class="mini">{{i:bell-ringing}}<b>Dues that chase themselves</b><span>WhatsApp reminders on the due date.</span></div>
+      <div class="mini">{{i:whatsapp-logo}}<b>Rates in one tap</b><span>Not fifty phone calls a morning.</span></div>
+    </div>
+    <div class="today-strip"><span class="badge today">{{i:warning:bold}} Today</span><p>Lots on paper, dues in memory, rates over <b>fifty phone calls a morning.</b></p></div>
+  </div>
+  {{foot:9/12}}
+</section>
+
+<!-- 10 · EVERY OTHER BUSINESS -->
+<section class="frame slide s10">
+  <div class="grain"></div>
+  <header class="sh"><span class="tag">For your industry <i>· 10</i></span></header>
+  <div class="body">
+    <div class="h2">And every other business <span class="g">in the valley.</span></div>
+    <div class="biz">
+      <div class="bz"><div class="top"><span class="ico">{{i:first-aid}}</span><b>Clinics &amp; labs</b></div><ul><li>{{i:check:bold}}Appointments booked online</li><li>{{i:check:bold}}Reports sent on WhatsApp</li><li>{{i:check:bold}}Follow-up reminders</li></ul></div>
+      <div class="bz"><div class="top"><span class="ico">{{i:graduation-cap}}</span><b>Schools &amp; coaching</b></div><ul><li>{{i:check:bold}}Online fees and reminders</li><li>{{i:check:bold}}Attendance alerts to parents</li><li>{{i:check:bold}}Admissions pipeline</li></ul></div>
+      <div class="bz"><div class="top"><span class="ico">{{i:cooking-pot}}</span><b>Restaurants &amp; wazwan caterers</b></div><ul><li>{{i:check:bold}}Wedding enquiries tracked</li><li>{{i:check:bold}}Instant quotes per trami</li><li>{{i:check:bold}}Reviews on autopilot</li></ul></div>
+      <div class="bz"><div class="top"><span class="ico">{{i:shopping-bag}}</span><b>Retail &amp; showrooms</b></div><ul><li>{{i:check:bold}}Billing with live stock</li><li>{{i:check:bold}}Loyalty and repeat offers</li><li>{{i:check:bold}}WhatsApp catalogue</li></ul></div>
+      <div class="bz"><div class="top"><span class="ico">{{i:airplane-tilt}}</span><b>Travel agents</b></div><ul><li>{{i:check:bold}}Itinerary &amp; quote builder</li><li>{{i:check:bold}}Leads from DMs, in one place</li><li>{{i:check:bold}}Payment links</li></ul></div>
+      <div class="bz"><div class="top"><span class="ico">{{i:buildings}}</span><b>Real estate &amp; builders</b></div><ul><li>{{i:check:bold}}Lead pipeline by project</li><li>{{i:check:bold}}Site visits scheduled</li><li>{{i:check:bold}}Buyer payment portal</li></ul></div>
+    </div>
+    <p class="tail10">Don’t see yours? <span class="g">Every business leaks somewhere.</span> We’ll find where.</p>
+  </div>
+  {{foot:10/12}}
+</section>
+
+<!-- 11 · THE BETTER QUESTION -->
+<section class="frame slide s11">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">Change one question <i>· 11</i></span></header>
+  <div class="body">
+    <div class="ask old"><span class="kick">Stop asking</span><div class="bub"><p>“Website kitne ka banega?”</p></div></div>
+    <div class="ask new"><span class="kick">Start asking</span><div class="bub"><p>“Mera business customers kahan kho raha hai?”</p></div></div>
+    <div class="checks">
+      <div class="ck"><span class="bx">1</span><p>How many enquiries got a reply within 5 minutes this week?</p></div>
+      <div class="ck"><span class="bx">2</span><p>What happened to the customers who came once and never again?</p></div>
+      <div class="ck"><span class="bx">3</span><p>How many hours did billing and follow-ups eat this month?</p></div>
+    </div>
+    <p class="tail">If you don’t know the answers, <span class="g">that’s where we start.</span></p>
+  </div>
+  {{foot:11/12}}
+</section>
+
+<!-- 12 · CTA -->
+<section class="frame slide s12">
+  <div class="glow"></div><div class="grain"></div>
+  <header class="sh"><span class="tag">The full Wazwan <i>· 12</i></span></header>
+  <div class="feast">
+    <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
+    <span class="d w" style="--a:-90deg">{{i:globe}}</span>
+    <span class="d" style="--a:-60deg">{{i:whatsapp-logo}}</span>
+    <span class="d" style="--a:-30deg">{{i:address-book}}</span>
+    <span class="d" style="--a:0deg">{{i:robot}}</span>
+    <span class="d" style="--a:30deg">{{i:calendar-check}}</span>
+    <span class="d" style="--a:60deg">{{i:receipt}}</span>
+    <span class="d" style="--a:90deg">{{i:chart-line-up}}</span>
+    <span class="d" style="--a:120deg">{{i:device-mobile}}</span>
+    <span class="d" style="--a:150deg">{{i:magnifying-glass}}</span>
+    <span class="d" style="--a:180deg">{{i:megaphone}}</span>
+    <span class="d" style="--a:210deg">{{i:qr-code}}</span>
+    <span class="d" style="--a:240deg">{{i:star}}</span>
+  </div>
+  <div class="body">
+    <div class="txtb">
+      <div class="h">Bring us a problem. <span class="g">Not a website.</span></div>
+      <p class="txt">Tell us one thing that costs your business time or customers. We’ll show you exactly what can be built for it.</p>
+      <div class="cta"><span class="btn">{{i:chat-circle-dots:fill}}DM us “MENU”</span><span class="or">or visit<b>qudeltastudios.com</b></span></div>
+    </div>
+  </div>
+  {{foot:12/12}}
+</section>
+
+</body>
+</html>

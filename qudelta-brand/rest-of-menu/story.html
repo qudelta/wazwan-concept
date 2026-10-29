@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The rest of the menu · Stories — Qudelta Studios</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/menu.css">
+<style>
+  /* Instagram Story 1080x1920. Keep text out of the top 230px (profile bar) and bottom 280px (reply bar). */
+  @page{size:1080px 1920px;margin:0}
+  html,body{width:1080px}
+  .story{width:1080px;height:1920px}
+  .st-h{position:absolute;left:72px;right:72px;top:236px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+  .st-f{position:absolute;left:72px;right:72px;bottom:300px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+  .st-f img{height:22px}
+  .st-f .tap{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:600;color:var(--muted)}
+  .st-f .tap .ic{font-size:24px;color:var(--green-hi)}
+  .st-f .n{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--faint)}
+  .bd{position:absolute;left:72px;right:72px;top:320px;bottom:380px}
+
+  .plate{position:absolute;border-radius:50%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.7))}
+  .plate img.tr{position:absolute;inset:0;width:100%;height:100%}
+  .plate img.rc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+  .ghost{position:absolute;width:140px;height:140px;border-radius:50%;border:2.5px dashed rgba(255,255,255,.22);display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;color:rgba(255,255,255,.34)}
+
+  /* 1 hook */
+  .f1 .glow{background:radial-gradient(800px 700px at 100% 0%,rgba(0,191,99,.16),transparent 70%),radial-gradient(800px 700px at 50% 62%,rgba(242,169,59,.10),transparent 70%)}
+  .f1 .dear{font-style:italic;font-weight:500;font-size:46px;color:var(--ink-2)}
+  .f1 .h{margin-top:20px;font-size:146px}
+  .f1 .plate{left:170px;top:700px;width:740px;height:740px}
+  .f1 .plate img.rc{width:290px;height:290px}
+  .f1 .sub{position:absolute;left:72px;right:72px;top:1430px;font-weight:800;font-stretch:87.5%;font-size:64px;line-height:1.04;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.9)}
+  .f1 .sub em{font-style:normal;color:var(--saffron)}
+  .f1 .shade{position:absolute;left:0;right:0;top:1300px;height:620px;background:linear-gradient(transparent,var(--bg) 30%)}
+  .f1 .lbl{position:absolute;left:300px;top:880px;padding:12px 20px;border-radius:14px;background:var(--saffron);color:#1A1206;font-weight:800;font-stretch:87.5%;font-size:32px;line-height:1;box-shadow:0 10px 30px rgba(0,0,0,.5);transform:rotate(-4deg)}
+  .f1 .lbl small{display:block;margin-top:5px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.72}
+
+  /* 2 the order */
+  .f2 .glow{background:radial-gradient(900px 700px at 0% 100%,rgba(0,191,99,.13),transparent 70%)}
+  .chat{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+  .bub{padding:24px 32px 22px;border-radius:30px 30px 30px 8px;background:var(--surface-2);border:1px solid var(--surface-line);box-shadow:var(--shadow)}
+  .bub p{font-weight:700;font-stretch:87.5%;font-style:italic;font-size:50px;line-height:1.12;color:var(--ink-2)}
+  .bub.dim{opacity:.55}
+  .bub.big{padding:38px 44px 34px;background:var(--surface)}
+  .bub.big p{font-size:96px;line-height:1.0;letter-spacing:-.02em;color:var(--ink)}
+  .bub small{display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--faint)}
+  .f2 .stmt{position:absolute;left:0;right:0;bottom:0;padding-top:48px;border-top:2px solid var(--ink)}
+  .f2 .stmt .h{font-size:124px}
+  .f2 .stmt p{margin-top:30px;font-weight:700;font-stretch:87.5%;font-size:64px;line-height:1.1;letter-spacing:-.015em}
+
+  /* 3 myth */
+  .f3 .scene{position:relative;height:720px}
+  .f3 .scene .art{width:100%;height:100%}
+  .count{position:absolute;right:28px;display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:14px;background:rgba(6,9,7,.82);border:1px solid var(--saffron-line)}
+  .count .ic{font-size:26px;color:var(--saffron)}
+  .count span{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-2)}
+  .count b{font-family:'JetBrains Mono',monospace;font-size:30px;color:var(--saffron);margin-left:4px}
+  .f3 .h{margin-top:64px;font-size:108px}
+  .f3 .txt{margin-top:32px;font-size:36px}
+
+  /* 4 pipeline */
+  .f4 .h{font-size:96px}
+  .pipe{margin-top:70px;position:relative;display:grid;gap:14px}
+  .pipe::before{content:"";position:absolute;left:41px;top:40px;bottom:40px;width:2px;background:linear-gradient(var(--green),rgba(0,191,99,.25))}
+  .stg{position:relative;display:grid;grid-template-columns:84px 1fr;gap:26px;align-items:center;padding:26px 24px 26px 0}
+  .stg .no{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--tint-line);color:var(--green-hi);font-size:38px}
+  .stg b{display:block;font-weight:800;font-stretch:87.5%;font-size:50px;letter-spacing:-.01em;line-height:1}
+  .stg span{display:block;margin-top:9px;font-size:28px;color:var(--muted)}
+  .stg.here{margin:8px 0;border-radius:26px;background:var(--saffron-tint);border:1.5px solid var(--saffron-line)}
+  .stg.here .no{border-color:var(--saffron);color:var(--saffron);margin-left:-2px}
+  .stg.here span b{display:inline;font-size:28px;color:var(--saffron);font-stretch:100%;font-weight:700;letter-spacing:0}
+  .here-tag{position:absolute;right:20px;top:-19px;padding:7px 16px;border-radius:999px;background:var(--saffron);color:#1A1206;font-weight:800;font-size:17px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* 5 menu */
+  .f5 .glow{background:radial-gradient(800px 700px at 50% 10%,rgba(242,169,59,.10),transparent 70%)}
+  .menu{position:absolute;left:0;right:0;top:70px;bottom:0;padding:50px 56px 40px;border-radius:32px;background:linear-gradient(180deg,#0F1512,#0B100D);border:1px solid rgba(242,169,59,.30);box-shadow:var(--shadow)}
+  .menu::before{content:"";position:absolute;inset:12px;border-radius:24px;border:1px solid rgba(242,169,59,.16)}
+  .menu .em{position:absolute;left:50%;top:-66px;transform:translateX(-50%);width:132px;height:132px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.7))}
+  .menu .em img{width:100%;height:100%}
+  .menu .hd{text-align:center;margin-top:46px}
+  .menu .hd .kick{color:var(--saffron);letter-spacing:.3em}
+  .menu .hd .h{margin-top:14px;font-size:96px;font-style:italic}
+  .orn{display:flex;align-items:center;gap:16px;margin:30px 0 6px;color:var(--saffron)}
+  .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(242,169,59,.5))}
+  .orn::after{background:linear-gradient(90deg,rgba(242,169,59,.5),transparent)}
+  .orn span{font-weight:700;font-size:18px;letter-spacing:.22em;text-transform:uppercase}
+  .dish{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:center;padding:12px 0}
+  .dish .ic{font-size:34px;color:var(--green-hi)}
+  .dish b{font-weight:700;font-size:33px}
+  .menu .ft{position:absolute;left:56px;right:56px;bottom:40px;padding-top:24px;border-top:1px dashed rgba(242,169,59,.3);font-size:26px;color:var(--ink-2)}
+  .menu .ft b{color:var(--saffron)}
+
+  /* 6 rapid fire */
+  .f6 .h{font-size:100px}
+  .rf{margin-top:50px;display:grid;gap:14px}
+  .rf .it{display:grid;grid-template-columns:80px 1fr;gap:22px;align-items:center;padding:24px 26px;border-radius:24px;background:var(--surface);border:1px solid var(--surface-line)}
+  .rf .ico{width:80px;height:80px;border-radius:20px;display:grid;place-items:center;background:var(--tint);border:1px solid var(--tint-line);color:var(--green-hi);font-size:42px}
+  .rf small{display:block;font-weight:700;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .rf b{display:block;margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:38px;line-height:1.08;letter-spacing:-.01em}
+
+  /* 7 reply */
+  .f7 .glow{background:radial-gradient(900px 800px at 50% 50%,rgba(0,191,99,.12),transparent 70%)}
+  .f7 .h{font-size:120px}
+  .f7 .sub{margin-top:24px;font-size:36px;color:var(--ink-2)}
+  .opts{margin-top:60px;display:grid;gap:18px}
+  .opt{display:grid;grid-template-columns:96px 1fr;gap:26px;align-items:center;padding:38px 32px;border-radius:28px;background:var(--surface);border:1.5px solid var(--surface-line)}
+  .opt .k{width:96px;height:96px;border-radius:24px;display:grid;place-items:center;background:var(--green);color:var(--on-green);font-weight:800;font-stretch:87.5%;font-size:56px}
+  .opt b{display:block;font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1.06;letter-spacing:-.01em}
+  .opt span{display:block;margin-top:8px;font-size:28px;color:var(--muted)}
+  .f7 .hint{margin-top:56px;display:flex;align-items:center;gap:14px;font-size:30px;font-weight:600;color:var(--ink-2)}
+  .f7 .hint .ic{font-size:38px;color:var(--green-hi)}
+
+  /* 8 cta */
+  .f8 .glow{background:radial-gradient(900px 800px at 50% 30%,rgba(0,191,99,.18),transparent 70%)}
+  .feast{position:absolute;left:50%;top:640px;width:0;height:0}
+  .feast .plate{left:-230px;top:-230px;width:460px;height:460px}
+  .feast .plate img.rc{width:176px;height:176px}
+  .feast .d{position:absolute;left:0;top:0;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%,#1B2A22,#0C1410);border:2px solid var(--tint-line);color:var(--green-hi);font-size:46px;
+    box-shadow:0 14px 30px rgba(0,0,0,.55);transform:rotate(var(--a)) translate(318px) rotate(calc(-1 * var(--a)))}
+  .feast .d.w{background:var(--saffron);border-color:var(--saffron);color:#1A1206}
+  .f8 .txtb{position:absolute;left:72px;right:72px;top:1060px}
+  .f8 .h{font-size:112px}
+  .f8 .txt{margin-top:26px;font-size:34px}
+  .cta{margin-top:40px;display:flex;align-items:center;gap:22px}
+  .cta .btn{display:flex;align-items:center;gap:14px;height:96px;padding:0 38px;border-radius:24px;background:var(--green);color:var(--on-green);font-weight:800;font-stretch:87.5%;font-size:42px}
+  .cta .btn .ic{font-size:44px}
+  .cta .or{font-size:26px;color:var(--muted)}
+  .cta .or b{display:block;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:24px;margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- 1 · hook -->
+<section class="frame story f1">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
+  <div class="ghost" style="left:14px;top:770px">CRM?</div>
+  <div class="ghost" style="left:14px;top:1130px">AI?</div>
+  <div class="ghost" style="left:926px;top:770px">App?</div>
+  <div class="ghost" style="left:926px;top:1130px">Ads?</div>
+  <div class="lbl">Website<small>the rice</small></div>
+  <div class="shade"></div>
+  <div class="st-h"><span class="tag">An open letter</span></div>
+  <div class="bd">
+    <div class="dear">Dear Kashmir,</div>
+    <div class="h">Wazwan has <span class="g">36 courses.</span></div>
+  </div>
+  <p class="sub">So why does your business keep ordering <em>only the rice?</em></p>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="tap">Tap <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></span></div>
+</section>
+
+<!-- 2 · the order -->
+<section class="frame story f2">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="st-h"><span class="tag">What we hear every week</span></div>
+  <div class="bd">
+    <div class="chat">
+      <div class="bub dim"><p>“Kitne ka padega?”</p></div>
+      <div class="bub dim"><p>“Instagram page bhi bana dena.”</p></div>
+      <div class="bub big"><p>“Bhai, bas ek website bana do.”</p><small>Srinagar · Anantnag · Baramulla · Sopore · Jammu</small></div>
+    </div>
+    <div class="stmt">
+      <div class="h">Kashmir doesn’t think small.</div>
+      <p>Nobody ever showed Kashmir <span class="g">the rest of the menu.</span></p>
+    </div>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">02 / 08</span></div>
+</section>
+
+<!-- 3 · the myth -->
+<section class="frame story f3">
+  <div class="grain"></div>
+  <div class="st-h"><span class="tag">The website myth</span></div>
+  <div class="bd">
+    <div class="scene"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 936 620" class="art">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C2620"/><stop offset=".55" stop-color="#08140F"/><stop offset="1" stop-color="#060907"/></linearGradient>
+  <radialGradient id="moonglow"><stop offset="0" stop-color="#CFF3DF" stop-opacity=".22"/><stop offset="1" stop-color="#CFF3DF" stop-opacity="0"/></radialGradient>
+  <radialGradient id="spill" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#F2A93B" stop-opacity=".42"/><stop offset=".6" stop-color="#F2A93B" stop-opacity=".1"/><stop offset="1" stop-color="#F2A93B" stop-opacity="0"/></radialGradient>
+  <linearGradient id="win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE0A3"/><stop offset=".55" stop-color="#F6B04A"/><stop offset="1" stop-color="#C7741D"/></linearGradient>
+  <linearGradient id="road" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121915"/><stop offset="1" stop-color="#0C110E"/></linearGradient>
+  <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E3D36"/><stop offset="1" stop-color="#1A2420"/></linearGradient>
+  <radialGradient id="lamp" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#FFE6B0" stop-opacity=".28"/><stop offset="1" stop-color="#FFE6B0" stop-opacity="0"/></radialGradient>
+  <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset=".6" stop-color="#060907" stop-opacity="0"/><stop offset="1" stop-color="#060907" stop-opacity=".85"/></linearGradient>
+</defs>
+<rect width="936" height="620" fill="url(#sky)"/>
+<circle cx="303.1" cy="35.0" r="0.8" fill="#E6F2EB" opacity="0.29"/><circle cx="501.6" cy="84.8" r="0.8" fill="#E6F2EB" opacity="0.80"/><circle cx="201.0" cy="19.9" r="1.6" fill="#E6F2EB" opacity="0.29"/><circle cx="84.9" cy="98.5" r="0.8" fill="#E6F2EB" opacity="0.82"/><circle cx="590.3" cy="135.3" r="0.8" fill="#E6F2EB" opacity="0.60"/><circle cx="371.3" cy="226.5" r="0.8" fill="#E6F2EB" opacity="0.58"/><circle cx="124.7" cy="97.2" r="0.8" fill="#E6F2EB" opacity="0.59"/><circle cx="524.4" cy="158.2" r="0.8" fill="#E6F2EB" opacity="0.60"/><circle cx="598.0" cy="86.4" r="0.8" fill="#E6F2EB" opacity="0.59"/><circle cx="579.4" cy="115.2" r="1.6" fill="#E6F2EB" opacity="0.72"/><circle cx="435.8" cy="214.2" r="1.2" fill="#E6F2EB" opacity="0.43"/><circle cx="743.5" cy="162.2" r="1.0" fill="#E6F2EB" opacity="0.30"/><circle cx="281.0" cy="114.9" r="1.2" fill="#E6F2EB" opacity="0.69"/><circle cx="269.5" cy="227.4" r="0.8" fill="#E6F2EB" opacity="0.56"/><circle cx="154.4" cy="79.4" r="1.6" fill="#E6F2EB" opacity="0.50"/><circle cx="900.4" cy="18.0" r="1.2" fill="#E6F2EB" opacity="0.45"/><circle cx="327.8" cy="115.2" r="1.6" fill="#E6F2EB" opacity="0.29"/><circle cx="87.6" cy="62.6" r="0.8" fill="#E6F2EB" opacity="0.29"/><circle cx="656.6" cy="150.1" r="1.6" fill="#E6F2EB" opacity="0.42"/><circle cx="361.1" cy="155.1" r="0.8" fill="#E6F2EB" opacity="0.81"/><circle cx="332.7" cy="141.7" r="1.6" fill="#E6F2EB" opacity="0.29"/><circle cx="719.1" cy="30.0" r="1.0" fill="#E6F2EB" opacity="0.49"/><circle cx="858.1" cy="115.2" r="1.0" fill="#E6F2EB" opacity="0.52"/><circle cx="514.3" cy="204.9" r="1.6" fill="#E6F2EB" opacity="0.77"/><circle cx="260.6" cy="96.3" r="1.2" fill="#E6F2EB" opacity="0.66"/><circle cx="356.1" cy="53.5" r="0.8" fill="#E6F2EB" opacity="0.36"/><circle cx="217.1" cy="54.1" r="1.6" fill="#E6F2EB" opacity="0.75"/><circle cx="170.7" cy="65.4" r="1.0" fill="#E6F2EB" opacity="0.50"/><circle cx="345.6" cy="131.4" r="1.0" fill="#E6F2EB" opacity="0.66"/><circle cx="482.5" cy="143.3" r="0.8" fill="#E6F2EB" opacity="0.52"/><circle cx="815.2" cy="220.8" r="1.6" fill="#E6F2EB" opacity="0.49"/><circle cx="368.9" cy="111.7" r="1.6" fill="#E6F2EB" opacity="0.29"/><circle cx="63.0" cy="48.4" r="1.0" fill="#E6F2EB" opacity="0.32"/><circle cx="562.3" cy="23.8" r="1.0" fill="#E6F2EB" opacity="0.57"/><circle cx="888.2" cy="142.4" r="0.8" fill="#E6F2EB" opacity="0.77"/><circle cx="574.8" cy="34.5" r="1.2" fill="#E6F2EB" opacity="0.82"/><circle cx="563.7" cy="110.0" r="0.8" fill="#E6F2EB" opacity="0.76"/><circle cx="929.5" cy="108.1" r="1.6" fill="#E6F2EB" opacity="0.44"/><circle cx="134.9" cy="173.9" r="1.2" fill="#E6F2EB" opacity="0.54"/><circle cx="647.8" cy="119.8" r="1.0" fill="#E6F2EB" opacity="0.82"/><circle cx="494.4" cy="34.0" r="0.8" fill="#E6F2EB" opacity="0.70"/><circle cx="279.0" cy="149.2" r="0.8" fill="#E6F2EB" opacity="0.67"/><circle cx="244.4" cy="85.1" r="1.0" fill="#E6F2EB" opacity="0.46"/><circle cx="208.5" cy="125.6" r="1.2" fill="#E6F2EB" opacity="0.63"/><circle cx="574.0" cy="182.9" r="1.0" fill="#E6F2EB" opacity="0.73"/><circle cx="766.0" cy="171.7" r="1.0" fill="#E6F2EB" opacity="0.37"/><circle cx="461.2" cy="169.6" r="0.8" fill="#E6F2EB" opacity="0.72"/><circle cx="442.0" cy="44.9" r="1.2" fill="#E6F2EB" opacity="0.52"/><circle cx="877.1" cy="229.2" r="1.2" fill="#E6F2EB" opacity="0.30"/><circle cx="95.6" cy="109.1" r="1.2" fill="#E6F2EB" opacity="0.37"/><circle cx="584.1" cy="208.9" r="0.8" fill="#E6F2EB" opacity="0.54"/><circle cx="611.2" cy="185.5" r="0.8" fill="#E6F2EB" opacity="0.75"/><circle cx="112.2" cy="90.1" r="1.0" fill="#E6F2EB" opacity="0.54"/><circle cx="167.1" cy="183.1" r="1.2" fill="#E6F2EB" opacity="0.30"/><circle cx="885.6" cy="167.5" r="1.6" fill="#E6F2EB" opacity="0.49"/><circle cx="886.2" cy="168.2" r="1.0" fill="#E6F2EB" opacity="0.85"/><circle cx="25.8" cy="137.1" r="1.6" fill="#E6F2EB" opacity="0.73"/><circle cx="136.8" cy="191.8" r="1.6" fill="#E6F2EB" opacity="0.64"/><circle cx="328.0" cy="127.3" r="1.0" fill="#E6F2EB" opacity="0.26"/><circle cx="748.2" cy="168.5" r="0.8" fill="#E6F2EB" opacity="0.57"/><circle cx="873.9" cy="100.6" r="1.0" fill="#E6F2EB" opacity="0.75"/><circle cx="197.5" cy="58.4" r="1.2" fill="#E6F2EB" opacity="0.55"/><circle cx="714.8" cy="75.6" r="1.6" fill="#E6F2EB" opacity="0.75"/><circle cx="57.0" cy="171.7" r="1.6" fill="#E6F2EB" opacity="0.65"/><circle cx="762.9" cy="119.9" r="1.0" fill="#E6F2EB" opacity="0.57"/><circle cx="490.0" cy="4.3" r="1.6" fill="#E6F2EB" opacity="0.72"/><circle cx="569.6" cy="180.0" r="1.0" fill="#E6F2EB" opacity="0.35"/><circle cx="443.2" cy="168.2" r="0.8" fill="#E6F2EB" opacity="0.45"/><circle cx="485.2" cy="128.9" r="0.8" fill="#E6F2EB" opacity="0.78"/><circle cx="53.2" cy="44.4" r="0.8" fill="#E6F2EB" opacity="0.71"/>
+<circle cx="790" cy="104" r="130" fill="url(#moonglow)"/>
+<circle cx="790" cy="104" r="30" fill="#EAF4EE"/><circle cx="803" cy="95" r="27" fill="#0C231D"/>
+<path d="M-20,352 L-20,283 L69,268 L163,237 L209,310 L325,281 L386,193 L468,212 L551,235 L604,236 L723,249 L829,231 L875,221 L968,276 L976,352 Z" fill="#10231C"/>
+<path d="M137,246 L163,237 L176,257 L170,253 L163,247 L150,243 Z" fill="#D9E8E0" opacity=".42"/><path d="M369,217 L386,193 L409,198 L397,194 L386,211 L377,214 Z" fill="#D9E8E0" opacity=".42"/><path d="M862,224 L875,221 L901,236 L888,232 L875,228 L869,221 Z" fill="#D9E8E0" opacity=".42"/>
+<path d="M-20,356 L-20,322 L50,298 L115,320 L187,336 L255,313 L338,341 L394,341 L478,310 L520,295 L612,312 L685,338 L726,319 L769,336 L822,344 L887,323 L973,319 L976,356 Z" fill="#0B1813"/>
+<g fill="#0A1612"><circle cx="37" cy="249" r="16"/><circle cx="26" cy="244" r="22"/><circle cx="15" cy="275" r="24"/><circle cx="36" cy="291" r="24"/><circle cx="16" cy="260" r="22"/><circle cx="37" cy="244" r="17"/><circle cx="47" cy="286" r="25"/><circle cx="17" cy="267" r="24"/><circle cx="65" cy="287" r="24"/><circle cx="63" cy="276" r="23"/><circle cx="22" cy="284" r="17"/><circle cx="27" cy="251" r="20"/><circle cx="72" cy="248" r="17"/><circle cx="36" cy="289" r="21"/><circle cx="47" cy="263" r="16"/><circle cx="47" cy="286" r="24"/><path d="M36,358 C37,330 33,308 24,292 L28,290 C38,303 40,308 41,296 L47,296 C46,320 44,336 45,358 Z"/></g><g fill="#0A1612"><circle cx="682" cy="294" r="18"/><circle cx="718" cy="277" r="15"/><circle cx="673" cy="268" r="13"/><circle cx="682" cy="292" r="15"/><circle cx="718" cy="290" r="18"/><circle cx="706" cy="289" r="15"/><circle cx="694" cy="298" r="17"/><circle cx="676" cy="280" r="19"/><circle cx="721" cy="279" r="16"/><circle cx="698" cy="278" r="19"/><circle cx="682" cy="267" r="20"/><circle cx="693" cy="275" r="16"/><circle cx="711" cy="268" r="15"/><circle cx="692" cy="279" r="18"/><circle cx="708" cy="282" r="14"/><circle cx="705" cy="276" r="14"/><path d="M697,356 C698,334 695,316 686,302 L690,300 C698,311 700,316 701,306 L705,306 C704,324 704,338 704,356 Z"/></g><g fill="#0A1612"><circle cx="620" cy="302" r="10"/><circle cx="651" cy="290" r="11"/><circle cx="659" cy="300" r="14"/><circle cx="631" cy="312" r="12"/><circle cx="636" cy="310" r="14"/><circle cx="641" cy="311" r="13"/><circle cx="624" cy="297" r="10"/><circle cx="637" cy="299" r="10"/><circle cx="625" cy="287" r="16"/><circle cx="626" cy="311" r="12"/><circle cx="657" cy="289" r="11"/><circle cx="626" cy="305" r="15"/><circle cx="636" cy="301" r="15"/><circle cx="621" cy="310" r="11"/><circle cx="626" cy="314" r="11"/><circle cx="642" cy="290" r="14"/><path d="M638,358 C638,340 636,326 630,316 L632,315 C639,323 640,326 641,319 L644,319 C644,334 643,344 643,358 Z"/></g>
+<rect y="352" width="936" height="268" fill="#070C0A"/>
+<path d="M300,620 L856,620 L528,352 L512,352 Z" fill="url(#road)"/>
+<path d="M300,620 L512,352" stroke="#2A322E" stroke-width="2"/><path d="M856,620 L528,352" stroke="#2A322E" stroke-width="2"/>
+<path d="M519.5,352.0 L520.5,352.0 L520.7,352.9 L519.7,352.9 Z" fill="#3A433E"/><path d="M520.3,356.1 L521.5,356.1 L522.4,360.3 L521.2,360.3 Z" fill="#3A433E"/><path d="M522.6,367.4 L524.1,367.4 L525.8,374.6 L524.0,374.6 Z" fill="#3A433E"/><path d="M526.1,385.2 L528.3,385.2 L530.6,395.3 L528.2,395.3 Z" fill="#3A433E"/><path d="M531.0,409.4 L533.9,409.4 L536.9,422.3 L533.5,422.3 Z" fill="#3A433E"/><path d="M537.0,439.7 L541.0,439.7 L544.6,455.3 L540.1,455.3 Z" fill="#3A433E"/><path d="M544.3,476.0 L549.4,476.0 L553.7,494.3 L547.9,494.3 Z" fill="#3A433E"/><path d="M552.7,518.2 L559.3,518.2 L564.1,539.1 L556.9,539.1 Z" fill="#3A433E"/><path d="M562.3,566.3 L570.5,566.3 L575.9,589.7 L567.0,589.7 Z" fill="#3A433E"/>
+<ellipse cx="190" cy="506" rx="260" ry="54" fill="url(#spill)"/>
+<!-- the shop -->
+<g>
+  <rect x="70" y="352" width="268" height="148" fill="#2A1F17"/>
+  <g stroke="#201710" stroke-width="2"><line x1="78" y1="352" x2="78" y2="500"/><line x1="92" y1="352" x2="92" y2="500"/><line x1="106" y1="352" x2="106" y2="500"/><line x1="120" y1="352" x2="120" y2="500"/><line x1="134" y1="352" x2="134" y2="500"/><line x1="148" y1="352" x2="148" y2="500"/><line x1="162" y1="352" x2="162" y2="500"/><line x1="176" y1="352" x2="176" y2="500"/><line x1="190" y1="352" x2="190" y2="500"/><line x1="204" y1="352" x2="204" y2="500"/><line x1="218" y1="352" x2="218" y2="500"/><line x1="232" y1="352" x2="232" y2="500"/><line x1="246" y1="352" x2="246" y2="500"/><line x1="260" y1="352" x2="260" y2="500"/><line x1="274" y1="352" x2="274" y2="500"/><line x1="288" y1="352" x2="288" y2="500"/><line x1="302" y1="352" x2="302" y2="500"/><line x1="316" y1="352" x2="316" y2="500"/><line x1="330" y1="352" x2="330" y2="500"/></g>
+  <path d="M46,356 L362,356 L316,284 L92,284 Z" fill="url(#roof)"/>
+  <g stroke="#3B4C44" stroke-width="2" opacity=".8"><line x1="114" y1="284" x2="78" y2="356"/><line x1="137" y1="284" x2="109" y2="356"/><line x1="159" y1="284" x2="141" y2="356"/><line x1="182" y1="284" x2="172" y2="356"/><line x1="204" y1="284" x2="204" y2="356"/><line x1="226" y1="284" x2="236" y2="356"/><line x1="249" y1="284" x2="267" y2="356"/><line x1="271" y1="284" x2="299" y2="356"/><line x1="294" y1="284" x2="330" y2="356"/></g>
+  <path d="M92,284 L316,284" stroke="#4A5C53" stroke-width="3"/>
+  <path d="M176,284 L204,262 L232,284 Z" fill="#24302A"/>
+  <rect x="98" y="376" width="140" height="96" rx="3" fill="#1B130D"/>
+  <rect x="104" y="382" width="128" height="84" fill="url(#win)"/>
+  <g stroke="#7A4614" stroke-width="2" opacity=".75"><line x1="125.3" y1="382" x2="125.3" y2="466"/><line x1="146.7" y1="382" x2="146.7" y2="466"/><line x1="168.0" y1="382" x2="168.0" y2="466"/><line x1="189.3" y1="382" x2="189.3" y2="466"/><line x1="210.7" y1="382" x2="210.7" y2="466"/><line x1="104" y1="403.0" x2="232" y2="403.0"/><line x1="104" y1="424.0" x2="232" y2="424.0"/><line x1="104" y1="445.0" x2="232" y2="445.0"/><path d="M114.7,386.5 L120.7,392.5 L114.7,398.5 L108.7,392.5 Z" fill="none"/><path d="M114.7,407.5 L120.7,413.5 L114.7,419.5 L108.7,413.5 Z" fill="none"/><path d="M114.7,428.5 L120.7,434.5 L114.7,440.5 L108.7,434.5 Z" fill="none"/><path d="M114.7,449.5 L120.7,455.5 L114.7,461.5 L108.7,455.5 Z" fill="none"/><path d="M136.0,386.5 L142.0,392.5 L136.0,398.5 L130.0,392.5 Z" fill="none"/><path d="M136.0,407.5 L142.0,413.5 L136.0,419.5 L130.0,413.5 Z" fill="none"/><path d="M136.0,428.5 L142.0,434.5 L136.0,440.5 L130.0,434.5 Z" fill="none"/><path d="M136.0,449.5 L142.0,455.5 L136.0,461.5 L130.0,455.5 Z" fill="none"/><path d="M157.3,386.5 L163.3,392.5 L157.3,398.5 L151.3,392.5 Z" fill="none"/><path d="M157.3,407.5 L163.3,413.5 L157.3,419.5 L151.3,413.5 Z" fill="none"/><path d="M157.3,428.5 L163.3,434.5 L157.3,440.5 L151.3,434.5 Z" fill="none"/><path d="M157.3,449.5 L163.3,455.5 L157.3,461.5 L151.3,455.5 Z" fill="none"/><path d="M178.7,386.5 L184.7,392.5 L178.7,398.5 L172.7,392.5 Z" fill="none"/><path d="M178.7,407.5 L184.7,413.5 L178.7,419.5 L172.7,413.5 Z" fill="none"/><path d="M178.7,428.5 L184.7,434.5 L178.7,440.5 L172.7,434.5 Z" fill="none"/><path d="M178.7,449.5 L184.7,455.5 L178.7,461.5 L172.7,455.5 Z" fill="none"/><path d="M200.0,386.5 L206.0,392.5 L200.0,398.5 L194.0,392.5 Z" fill="none"/><path d="M200.0,407.5 L206.0,413.5 L200.0,419.5 L194.0,413.5 Z" fill="none"/><path d="M200.0,428.5 L206.0,434.5 L200.0,440.5 L194.0,434.5 Z" fill="none"/><path d="M200.0,449.5 L206.0,455.5 L200.0,461.5 L194.0,455.5 Z" fill="none"/><path d="M221.3,386.5 L227.3,392.5 L221.3,398.5 L215.3,392.5 Z" fill="none"/><path d="M221.3,407.5 L227.3,413.5 L221.3,419.5 L215.3,413.5 Z" fill="none"/><path d="M221.3,428.5 L227.3,434.5 L221.3,440.5 L215.3,434.5 Z" fill="none"/><path d="M221.3,449.5 L227.3,455.5 L221.3,461.5 L215.3,455.5 Z" fill="none"/></g>
+  <rect x="114" y="436" width="50" height="20" rx="5" fill="#0B1310" stroke="#22D47C" stroke-width="1.5"/>
+  <text x="139" y="450.5" text-anchor="middle" font-family="Archivo" font-weight="800" font-size="11.5" letter-spacing="1.2" fill="#22D47C">OPEN</text>
+  <rect x="254" y="386" width="54" height="114" fill="#160F0A"/>
+  <rect x="258" y="390" width="46" height="110" fill="#22180F"/>
+  <rect x="280" y="392" width="2" height="106" fill="#F2A93B" opacity=".55"/>
+  <rect x="88" y="320" width="232" height="30" rx="8" fill="#0D1310" stroke="rgba(255,255,255,.18)"/>
+  <circle cx="102" cy="335" r="3.5" fill="#E26D5C"/><circle cx="114" cy="335" r="3.5" fill="#F2A93B"/><circle cx="126" cy="335" r="3.5" fill="#22D47C"/>
+  <text x="140" y="340" font-family="JetBrains Mono" font-size="13" fill="#B7C3BC">yourbusiness.com</text>
+  <rect x="62" y="498" width="284" height="6" fill="#1A130E"/>
+</g>
+<!-- street lamp -->
+<path d="M410,506 L410,318 Q410,304 424,304 L446,304" stroke="#2C3531" stroke-width="5" fill="none"/>
+<path d="M434,306 L462,306 L456,316 L440,316 Z" fill="#3A453F"/>
+<path d="M440,316 L456,316 L520,506 L376,506 Z" fill="url(#lamp)"/>
+<circle cx="448" cy="317" r="4" fill="#FFE6B0"/>
+<rect width="936" height="620" fill="url(#fade)"/>
+</svg>
+      <div class="count" style="bottom:100px"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M168,144a40,40,0,1,1-40-40A40,40,0,0,1,168,144ZM64,56A32,32,0,1,0,96,88,32,32,0,0,0,64,56Zm128,0a32,32,0,1,0,32,32A32,32,0,0,0,192,56Z" opacity="0.2"/><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1,0-16,24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.85,8,57,57,0,0,0-98.15,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/></svg><span>Visitors today</span><b>0</b></div>
+      <div class="count" style="bottom:30px"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128A96,96,0,0,1,79.93,211.11h0L42.54,223.58a8,8,0,0,1-10.12-10.12l12.47-37.39h0A96,96,0,1,1,224,128Z" opacity="0.2"/><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-4-1.08,7.85,7.85,0,0,0-2.53.42L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,96,128Zm88,0a12,12,0,1,1-12-12A12,12,0,0,1,184,128Z"/></svg><span>Enquiries</span><b>0</b></div>
+    </div>
+    <div class="h">A website doesn’t bring customers. <span class="s">It never has.</span></div>
+    <p class="txt">It’s a beautiful shop on a street nobody walks down. <b>The lights are on. Nobody is coming.</b></p>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">03 / 08</span></div>
+</section>
+
+<!-- 4 · pipeline -->
+<section class="frame story f4">
+  <div class="grain"></div>
+  <div class="st-h"><span class="tag">Where revenue comes from</span></div>
+  <div class="bd">
+    <div class="h">Not a website. <span class="g">A pipeline.</span></div>
+    <div class="pipe">
+      <div class="stg"><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M240,120a40,40,0,0,1-40,40H160V80h40A40,40,0,0,1,240,120Z" opacity="0.2"/><path d="M248,120a48.05,48.05,0,0,0-48-48H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48.07,48.07,0,0,0,248,120ZM48,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C134.65,155,90.84,164.07,48,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z"/></svg></span><div><b>Attention</b><span>Instagram, search, ads, referrals</span></div></div>
+      <div class="stg here"><span class="here-tag">Most stop here</span><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,96v16a32,32,0,0,1-64,0V96H96v16a32,32,0,0,1-64,0V96L46.34,45.8A8,8,0,0,1,54,40H202a8,8,0,0,1,7.69,5.8Z" opacity="0.2"/><path d="M231.69,93.81,217.35,43.6A16.07,16.07,0,0,0,202,32H54A16.07,16.07,0,0,0,38.65,43.6L24.31,93.81A7.94,7.94,0,0,0,24,96v16a40,40,0,0,0,16,32v72a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V144a40,40,0,0,0,16-32V96A7.94,7.94,0,0,0,231.69,93.81ZM54,48H202l11.42,40H42.61Zm98,56v8a24,24,0,0,1-48,0v-8ZM51.06,132.2A24,24,0,0,1,40,112v-8H88v8a24,24,0,0,1-35.12,21.26A7.88,7.88,0,0,0,51.06,132.2ZM200,208H56V151.2a40.57,40.57,0,0,0,8,.8,40,40,0,0,0,32-16,40,40,0,0,0,64,0,40,40,0,0,0,32,16,40.57,40.57,0,0,0,8-.8Zm16-96a24,24,0,0,1-11.07,20.2,8.08,8.08,0,0,0-1.8,1.05A24,24,0,0,1,168,112v-8h48Z"/></svg></span><div><b>Touchpoint</b><span><b>Website</b>, WhatsApp, Google profile</span></div></div>
+      <div class="stg"><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M221.9,61.38,152,136v58.65a8,8,0,0,1-3.56,6.66l-32,21.33A8,8,0,0,1,104,216V136L34.1,61.38A8,8,0,0,1,40,48H216A8,8,0,0,1,221.9,61.38Z" opacity="0.2"/><path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z"/></svg></span><div><b>Capture</b><span>Forms, WhatsApp bot, missed-call alerts</span></div></div>
+      <div class="stg"><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H64a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V40A8,8,0,0,0,208,32ZM136,144a32,32,0,1,1,32-32A32,32,0,0,1,136,144Z" opacity="0.2"/><path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"/></svg></span><div><b>Follow-up</b><span>CRM, auto-replies, reminders</span></div></div>
+      <div class="stg"><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56V208l-32-16-32,16-32-16L96,208,64,192,32,208V56a8,8,0,0,1,8-8H216A8,8,0,0,1,224,56Z" opacity="0.2"/><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></svg></span><div><b>Conversion</b><span>Quotes, bookings, payment links</span></div></div>
+      <div class="stg"><span class="no"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M224,48V96a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h28.69L182.06,73.37a79.56,79.56,0,0,0-56.13-23.43h-.45A79.52,79.52,0,0,0,69.59,72.71,8,8,0,0,1,58.41,61.27a96,96,0,0,1,135,.79L208,76.69V48a8,8,0,0,1,16,0ZM186.41,183.29a80,80,0,0,1-112.47-.66L59.31,168H88a8,8,0,0,0,0-16H40a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V179.31l14.63,14.63A95.43,95.43,0,0,0,130,222.06h.53a95.36,95.36,0,0,0,67.07-27.33,8,8,0,0,0-11.18-11.44Z"/></svg></span><div><b>Return</b><span>Reviews, loyalty, win-back offers</span></div></div>
+    </div>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">04 / 08</span></div>
+</section>
+
+<!-- 5 · the menu -->
+<section class="frame story f5">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="st-h"><span class="tag">What can actually be built</span></div>
+  <div class="bd">
+    <div class="menu">
+      <div class="em"><img src="assets/traem.png" alt=""></div>
+      <div class="hd"><div class="kick">Qudelta Studios · Wazwan</div><div class="h">The rest of the menu</div></div>
+      <div class="orn"><span>Bring people in</span></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M192,112a80,80,0,1,1-80-80A80,80,0,0,1,192,112Z" opacity="0.2"/><path d="M229.66,218.34,179.6,168.28a88.21,88.21,0,1,0-11.32,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><b>SEO &amp; Google Business Profile</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M240,120a40,40,0,0,1-40,40H160V80h40A40,40,0,0,1,240,120Z" opacity="0.2"/><path d="M248,120a48.05,48.05,0,0,0-48-48H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48.07,48.07,0,0,0,248,120ZM48,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C134.65,155,90.84,164.07,48,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z"/></svg><b>Content &amp; ad campaigns</b></div>
+      <div class="orn"><span>Turn them into customers</span></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H64a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V40A8,8,0,0,0,208,32ZM136,144a32,32,0,1,1,32-32A32,32,0,0,1,136,144Z" opacity="0.2"/><path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"/></svg><b>Lead pipelines &amp; CRM</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,32A96,96,0,0,0,44.89,176.07L32.42,213.46a8,8,0,0,0,10.12,10.12l37.39-12.47A96,96,0,1,0,128,32Zm24,152a80,80,0,0,1-80-80,32,32,0,0,1,32-32l16,32-12.32,18.47a48.19,48.19,0,0,0,25.85,25.85L152,136l32,16A32,32,0,0,1,152,184Z" opacity="0.2"/><path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.62-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/></svg><b>WhatsApp automation</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,56H56A24,24,0,0,0,32,80V192a24,24,0,0,0,24,24H200a24,24,0,0,0,24-24V80A24,24,0,0,0,200,56ZM164,184H92a20,20,0,0,1,0-40h72a20,20,0,0,1,0,40Z" opacity="0.2"/><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Zm4,28H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24Z"/></svg><b>AI assistants, awake at 2 am</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V88H40V48a8,8,0,0,1,8-8H208A8,8,0,0,1,216,48Z" opacity="0.2"/><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></svg><b>Bookings, quotes &amp; payments</b></div>
+      <div class="orn"><span>Run the business</span></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56V208l-32-16-32,16-32-16L96,208,64,192,32,208V56a8,8,0,0,1,8-8H216A8,8,0,0,1,224,56Z" opacity="0.2"/><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></svg><b>Billing, GST &amp; inventory</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64V208H32V48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg><b>Owner dashboards</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M192,56V200H64V56Z" opacity="0.2"/><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></svg><b>Custom apps &amp; portals</b></div>
+      <div class="dish"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"/><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm88,104a87.61,87.61,0,0,1-3.33,24H174.16a157.44,157.44,0,0,0,0-48h38.51A87.61,87.61,0,0,1,216,128ZM102,168H154a115.11,115.11,0,0,1-26,45A115.27,115.27,0,0,1,102,168Zm-3.9-16a140.84,140.84,0,0,1,0-48h59.88a140.84,140.84,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.84a157.44,157.44,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154,88H102a115.11,115.11,0,0,1,26-45A115.27,115.27,0,0,1,154,88Zm52.33,0H170.71a135.28,135.28,0,0,0-22.3-45.6A88.29,88.29,0,0,1,206.37,88ZM107.59,42.4A135.28,135.28,0,0,0,85.29,88H49.63A88.29,88.29,0,0,1,107.59,42.4ZM49.63,168H85.29a135.28,135.28,0,0,0,22.3,45.6A88.29,88.29,0,0,1,49.63,168Zm98.78,45.6a135.28,135.28,0,0,0,22.3-45.6h35.66A88.29,88.29,0,0,1,148.41,213.6Z"/></svg><b>Export storefronts</b></div>
+      <div class="ft"><b>Website:</b> served with every course.</div>
+    </div>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">05 / 08</span></div>
+</section>
+
+<!-- 6 · rapid fire -->
+<section class="frame story f6">
+  <div class="grain"></div>
+  <div class="st-h"><span class="tag">For your business</span></div>
+  <div class="bd">
+    <div class="h">What we’d build <span class="g">for you.</span></div>
+    <div class="rf">
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,125.77V152c0,56-96,80-96,80s-96-24-96-80V125.77a8,8,0,0,1,5.47-7.59L128,88l90.53,30.18A8,8,0,0,1,224,125.77Z" opacity="0.2"/><path d="M221.06,110.59,208,106.23V56a16,16,0,0,0-16-16H136V24a8,8,0,0,0-16,0V40H64A16,16,0,0,0,48,56v50.23l-13.06,4.36A16,16,0,0,0,24,125.77V152c0,61.54,97.89,86.72,102.06,87.76a8,8,0,0,0,3.88,0C134.11,238.72,232,213.54,232,152V125.77A16,16,0,0,0,221.06,110.59ZM64,56H192v44.9L130.53,80.41a8,8,0,0,0-5.06,0L64,100.9Zm152,96c0,24.91-23.68,43-43.55,53.83A228.13,228.13,0,0,1,128,223.72,226.85,226.85,0,0,1,83.81,206C47.6,186.35,40,165.79,40,152V125.77L120,99.1V168a8,8,0,0,0,16,0V99.1l80,26.67Z"/></svg></span><div><small>Houseboat or hotel</small><b>Bookings answered on WhatsApp in 6 seconds</b></div></div>
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"/><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm88,104a87.61,87.61,0,0,1-3.33,24H174.16a157.44,157.44,0,0,0,0-48h38.51A87.61,87.61,0,0,1,216,128ZM102,168H154a115.11,115.11,0,0,1-26,45A115.27,115.27,0,0,1,102,168Zm-3.9-16a140.84,140.84,0,0,1,0-48h59.88a140.84,140.84,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.84a157.44,157.44,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154,88H102a115.11,115.11,0,0,1,26-45A115.27,115.27,0,0,1,154,88Zm52.33,0H170.71a135.28,135.28,0,0,0-22.3-45.6A88.29,88.29,0,0,1,206.37,88ZM107.59,42.4A135.28,135.28,0,0,0,85.29,88H49.63A88.29,88.29,0,0,1,107.59,42.4ZM49.63,168H85.29a135.28,135.28,0,0,0,22.3,45.6A88.29,88.29,0,0,1,49.63,168Zm98.78,45.6a135.28,135.28,0,0,0,22.3-45.6h35.66A88.29,88.29,0,0,1,148.41,213.6Z"/></svg></span><div><small>Pashmina or saffron</small><b>Your own export store in 5 currencies</b></div></div>
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M32,192l56-72H48L128,16l80,104H168l56,72Z" opacity="0.2"/><path d="M230.31,187.09,184.36,128H208a8,8,0,0,0,6.34-12.88l-80-104a8,8,0,0,0-12.68,0l-80,104A8,8,0,0,0,48,128H71.64L25.69,187.09A8,8,0,0,0,32,200h88v40a8,8,0,0,0,16,0V200h88a8,8,0,0,0,6.31-12.91ZM48.36,184l46-59.09A8,8,0,0,0,88,112H64.25L128,29.12,191.75,112H168a8,8,0,0,0-6.31,12.91L207.64,184Z"/></svg></span><div><small>Orchard or cold storage</small><b>Today’s rates to 312 buyers in one tap</b></div></div>
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,104v48a8,8,0,0,1-8,8H160v56a8,8,0,0,1-8,8H104a8,8,0,0,1-8-8V160H40a8,8,0,0,1-8-8V104a8,8,0,0,1,8-8H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8V96h56A8,8,0,0,1,224,104Z" opacity="0.2"/><path d="M216,88H168V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V88H40a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16H88v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V168h48a16,16,0,0,0,16-16V104A16,16,0,0,0,216,88Zm0,64H160a8,8,0,0,0-8,8v56H104V160a8,8,0,0,0-8-8H40V104H96a8,8,0,0,0,8-8V40h48V96a8,8,0,0,0,8,8h56Z"/></svg></span><div><small>Clinic or lab</small><b>Reports on WhatsApp, reminders on time</b></div></div>
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,113.07v53.22a8,8,0,0,1-2,5.31c-11.3,12.59-38.9,36.4-86,36.4s-74.68-23.81-86-36.4a8,8,0,0,1-2-5.31V113.07L128,160Z" opacity="0.2"/><path d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87v48.42a15.91,15.91,0,0,0,4.06,10.65C49.16,191.53,78.51,216,128,216a130,130,0,0,0,48-8.76V240a8,8,0,0,0,16,0V199.51a115.63,115.63,0,0,0,27.94-22.57A15.91,15.91,0,0,0,224,166.29V117.87l27.76-14.81a8,8,0,0,0,0-14.12ZM128,200c-43.27,0-68.72-21.14-80-33.71V126.4l76.24,40.66a8,8,0,0,0,7.52,0L176,143.47v46.34C163.4,195.69,147.52,200,128,200Zm80-33.75a97.83,97.83,0,0,1-16,14.25V134.93l16-8.53ZM188,118.94l-.22-.13-56-29.87a8,8,0,0,0-7.52,14.12L171,128l-43,22.93L25,96,128,41.07,231,96Z"/></svg></span><div><small>School or coaching</small><b>Fee reminders that send themselves</b></div></div>
+      <div class="it"><span class="ico"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,80V184a24,24,0,0,1-24,24H64a24,24,0,0,1-24-24V80Z" opacity="0.2"/><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></svg></span><div><small>Wazwan caterer</small><b>A quote per trami in under a minute</b></div></div>
+    </div>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">06 / 08</span></div>
+</section>
+
+<!-- 7 · reply -->
+<section class="frame story f7">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="st-h"><span class="tag">Quick question</span></div>
+  <div class="bd">
+    <div class="h">Where is your business <span class="s">leaking?</span></div>
+    <div class="opts">
+      <div class="opt"><span class="k">1</span><div><b>Enquiries I reply to late</b><span>or never reply to at all</span></div></div>
+      <div class="opt"><span class="k">2</span><div><b>Customers who never come back</b><span>they came once, then nothing</span></div></div>
+      <div class="opt"><span class="k">3</span><div><b>Hours lost to registers</b><span>billing, stock, dues, follow-ups</span></div></div>
+    </div>
+    <p class="hint"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128A96,96,0,0,1,79.93,211.11h0L42.54,223.58a8,8,0,0,1-10.12-10.12l12.47-37.39h0A96,96,0,1,1,224,128Z" opacity="0.2"/><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-4-1.08,7.85,7.85,0,0,0-2.53.42L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm-44,0a12,12,0,1,1-12-12A12,12,0,0,1,96,128Zm88,0a12,12,0,1,1-12-12A12,12,0,0,1,184,128Z"/></svg>Reply with 1, 2 or 3. We’ll tell you what fixes it.</p>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">07 / 08</span></div>
+</section>
+
+<!-- 8 · cta -->
+<section class="frame story f8">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="st-h"><span class="tag">The full Wazwan</span></div>
+  <div class="feast">
+    <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
+    <span class="d w" style="--a:-90deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"/><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm88,104a87.61,87.61,0,0,1-3.33,24H174.16a157.44,157.44,0,0,0,0-48h38.51A87.61,87.61,0,0,1,216,128ZM102,168H154a115.11,115.11,0,0,1-26,45A115.27,115.27,0,0,1,102,168Zm-3.9-16a140.84,140.84,0,0,1,0-48h59.88a140.84,140.84,0,0,1,0,48ZM40,128a87.61,87.61,0,0,1,3.33-24H81.84a157.44,157.44,0,0,0,0,48H43.33A87.61,87.61,0,0,1,40,128ZM154,88H102a115.11,115.11,0,0,1,26-45A115.27,115.27,0,0,1,154,88Zm52.33,0H170.71a135.28,135.28,0,0,0-22.3-45.6A88.29,88.29,0,0,1,206.37,88ZM107.59,42.4A135.28,135.28,0,0,0,85.29,88H49.63A88.29,88.29,0,0,1,107.59,42.4ZM49.63,168H85.29a135.28,135.28,0,0,0,22.3,45.6A88.29,88.29,0,0,1,49.63,168Zm98.78,45.6a135.28,135.28,0,0,0,22.3-45.6h35.66A88.29,88.29,0,0,1,148.41,213.6Z"/></svg></span>
+    <span class="d" style="--a:-60deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,32A96,96,0,0,0,44.89,176.07L32.42,213.46a8,8,0,0,0,10.12,10.12l37.39-12.47A96,96,0,1,0,128,32Zm24,152a80,80,0,0,1-80-80,32,32,0,0,1,32-32l16,32-12.32,18.47a48.19,48.19,0,0,0,25.85,25.85L152,136l32,16A32,32,0,0,1,152,184Z" opacity="0.2"/><path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155l14.62-9.74,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/></svg></span>
+    <span class="d" style="--a:-30deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H64a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V40A8,8,0,0,0,208,32ZM136,144a32,32,0,1,1,32-32A32,32,0,0,1,136,144Z" opacity="0.2"/><path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"/></svg></span>
+    <span class="d" style="--a:0deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M200,56H56A24,24,0,0,0,32,80V192a24,24,0,0,0,24,24H200a24,24,0,0,0,24-24V80A24,24,0,0,0,200,56ZM164,184H92a20,20,0,0,1,0-40h72a20,20,0,0,1,0,40Z" opacity="0.2"/><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Zm4,28H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24Z"/></svg></span>
+    <span class="d" style="--a:30deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V88H40V48a8,8,0,0,1,8-8H208A8,8,0,0,1,216,48Z" opacity="0.2"/><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-38.34-85.66a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L116,164.69l42.34-42.35A8,8,0,0,1,169.66,122.34Z"/></svg></span>
+    <span class="d" style="--a:60deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,56V208l-32-16-32,16-32-16L96,208,64,192,32,208V56a8,8,0,0,1,8-8H216A8,8,0,0,1,224,56Z" opacity="0.2"/><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></svg></span>
+    <span class="d" style="--a:90deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,64V208H32V48H208A16,16,0,0,1,224,64Z" opacity="0.2"/><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></svg></span>
+    <span class="d" style="--a:120deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M192,56V200H64V56Z" opacity="0.2"/><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></svg></span>
+    <span class="d" style="--a:150deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M192,112a80,80,0,1,1-80-80A80,80,0,0,1,192,112Z" opacity="0.2"/><path d="M229.66,218.34,179.6,168.28a88.21,88.21,0,1,0-11.32,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></span>
+    <span class="d" style="--a:180deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M240,120a40,40,0,0,1-40,40H160V80h40A40,40,0,0,1,240,120Z" opacity="0.2"/><path d="M248,120a48.05,48.05,0,0,0-48-48H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48.07,48.07,0,0,0,248,120ZM48,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C134.65,155,90.84,164.07,48,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z"/></svg></span>
+    <span class="d" style="--a:210deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M112,56v48a8,8,0,0,1-8,8H56a8,8,0,0,1-8-8V56a8,8,0,0,1,8-8h48A8,8,0,0,1,112,56Zm-8,88H56a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V152A8,8,0,0,0,104,144Zm96-96H152a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V56A8,8,0,0,0,200,48Z" opacity="0.2"/><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm0,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48ZM200,40H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-64,72V144a8,8,0,0,1,16,0v32a8,8,0,0,1-16,0Zm80-16a8,8,0,0,1-8,8H184v40a8,8,0,0,1-8,8H144a8,8,0,0,1,0-16h24V144a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,160Zm0,32v16a8,8,0,0,1-16,0V192a8,8,0,0,1,16,0Z"/></svg></span>
+    <span class="d" style="--a:240deg"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.06,108.79l-48.7,42,14.88,62.79a8.4,8.4,0,0,1-12.52,9.17L128,189.09,73.28,222.74a8.4,8.4,0,0,1-12.52-9.17l14.88-62.79-48.7-42A8.46,8.46,0,0,1,31.73,94L95.64,88.8l24.62-59.6a8.36,8.36,0,0,1,15.48,0l24.62,59.6L224.27,94A8.46,8.46,0,0,1,229.06,108.79Z" opacity="0.2"/><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"/></svg></span>
+  </div>
+  <div class="txtb">
+    <div class="h">Bring us a problem. <span class="g">Not a website.</span></div>
+    <p class="txt">One thing that costs you time or customers. We’ll show you what can be built for it.</p>
+    <div class="cta"><span class="btn"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z"/></svg>DM “MENU”</span><span class="or">or visit<b>qudeltastudios.com</b></span></div>
+  </div>
+  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">08 / 08</span></div>
+</section>
+
+</body>
+</html>

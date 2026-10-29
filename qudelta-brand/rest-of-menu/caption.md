@@ -1,35 +1,45 @@
 # The rest of the menu: captions
 
-## Carousel caption (Instagram / LinkedIn)
+## Instagram caption
 
-Dear Kashmir,
+Dear Kashmir, Wazwan has 36 courses. 🍽️
 
-Wazwan has 36 courses. Nobody would serve a guest only the rice.
+So why does your business keep ordering only the rice?
 
-But that is what most businesses here order from technology: "Bhai, bas ek website bana do."
+"Bhai, bas ek website bana do."
+We hear it every week. And we get it. A website is the rice: everything sits on it.
 
-A website is the rice. It matters, everything sits on it. But on its own, it doesn't bring customers. Without SEO, content, ads or a reason to visit, it is a beautiful shop on a road nobody drives down.
+But a website alone brings nobody.
+It's a beautiful shop on a road nobody walks down. Lights on. Visitors: 0.
 
-Revenue comes from the whole pipeline:
-→ people finding you
-→ every enquiry captured and answered in seconds
-→ follow-ups that happen on their own
-→ bookings, quotes and payments closed on the spot
-→ customers who come back
+The money is in the other 35 courses:
+🔎 Getting found on Google and Instagram
+💬 Replying to every enquiry in seconds, even at 2 am
+🔁 Following up without anyone remembering to
+💳 Getting paid on the spot
+⭐ Customers who come back next season
 
-That is what we build at Qudelta Studios: lead pipelines and CRMs, WhatsApp automation, AI assistants, booking and payment systems, billing, GST and inventory, owner dashboards, export storefronts and custom apps.
-
-For houseboats and hotels. For pashmina, saffron and dry-fruit exporters. For orchards and cold storage. For clinics, schools, caterers, showrooms and travel agents.
+Houseboat, pashmina, orchard, clinic, school, caterer, showroom: every business here has its own 36 courses. We build them, from WhatsApp automation and CRMs to booking systems, dashboards and custom apps.
 
 Kashmir doesn't think small. Nobody showed Kashmir the rest of the menu.
 
-Bring us a problem, not a website. DM us "MENU".
+So stop asking "Website kitne ka?"
+Start asking "Customers kahan kho rahe hain?"
 
-#Kashmir #Srinagar #KashmirBusiness #SmallBusiness #BusinessAutomation #WhatsAppAutomation #CRM #CustomSoftware #DigitalKashmir #QudeltaStudios
+Bring us a problem. Not a website.
+DM us "MENU" 👇
+
+#Kashmir #Srinagar #KashmirBusiness #Wazwan #SmallBusiness #BusinessAutomation #WhatsAppAutomation #CRM #CustomSoftware #DigitalKashmir #QudeltaStudios
+
+## Short version (stories, or a tighter post)
+
+Wazwan has 36 courses. Your business keeps ordering only the rice. 🍚
+A website alone brings nobody. The money is in the other 35.
+Bring us a problem, not a website. DM "MENU".
 
 ## Posting notes
 
-- **Carousel:** 12 slides, 1080 × 1350, cut from one continuous panorama: the plate on slides 1 and 2 and the lime pipeline on slides 4 to 6 run across the swipe, so post them in order and don't crop. `export/Qudelta_The-rest-of-the-menu_panorama-preview.png` shows the whole strip.
+- **Carousel:** 12 slides, 1080 × 1350, cut from one continuous panorama: the plate on slides 1 and 2 and the green pipeline on slides 4 to 6 run across the swipe, so post them in order and don't crop. `export/Qudelta_The-rest-of-the-menu_panorama-preview.png` shows the whole strip.
 - **Stories:** 7 frames, 1080 × 1920, text clear of the top 240 px and bottom 300 px.
-- Story 6 ("Customers kahan kho rahe hain?"): add a **Question** sticker ("What's your business?") or a **Poll** under the lime card.
+- Story 6 ("Customers kahan kho rahe hain?"): add a **Question** sticker ("What's your business?") or a **Poll** under the green card.
 - Story 7: add a **Link** sticker to qudeltastudios.com.

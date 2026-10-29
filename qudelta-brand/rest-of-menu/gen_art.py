@@ -158,3 +158,25 @@ if __name__ == "__main__":
     (OUT / "night-road.svg").write_text(night_road())
     (OUT / "kani.svg").write_text(kani())
     print("art written")
+
+
+def night_full(W: int, H: int, s: float = 1.3, dx: float = -30, base: float | None = None) -> str:
+    """The night-road scene as a full-bleed poster: extra sky and stars above, scene anchored to the bottom."""
+    import re
+    inner = re.sub(r"^<svg[^>]*>|</svg>$", "", night_road().strip())
+    top = (base or H) - 620 * s
+    rnd = random.Random(21)
+    stars = "".join(f'<circle cx="{rnd.uniform(0, W):.1f}" cy="{rnd.uniform(0, top + 40):.1f}" r="{rnd.choice([.8, 1, 1.3, 1.7])}" '
+                    f'fill="#E6F2EB" opacity="{rnd.uniform(.2, .8):.2f}"/>' for _ in range(int(W * top / 9000)))
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">'
+            f'<defs><linearGradient id="topsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050806"/>'
+            f'<stop offset="1" stop-color="#0C2620"/></linearGradient></defs>'
+            f'<rect width="{W}" height="{top + 2:.0f}" fill="url(#topsky)"/>{stars}'
+            f'<rect y="{top:.0f}" width="{W}" height="{H - top:.0f}" fill="#060907"/>'
+            f'<g transform="translate({dx},{top:.1f}) scale({s:.4f})">{inner}</g></svg>')
+
+
+if __name__ == "__main__":
+    (OUT / "night-poster.svg").write_text(night_full(1080, 1350))
+    (OUT / "night-story.svg").write_text(night_full(1080, 1920, 1.3, -30, 1700))
+    print("posters written")

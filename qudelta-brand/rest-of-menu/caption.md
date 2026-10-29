@@ -27,8 +27,9 @@ Bring us a problem, not a website. DM us "MENU".
 
 #Kashmir #Srinagar #KashmirBusiness #SmallBusiness #BusinessAutomation #WhatsAppAutomation #CRM #CustomSoftware #DigitalKashmir #QudeltaStudios
 
-## Story notes
+## Posting notes
 
-- 8 frames, 1080 × 1920. Text stays clear of the top 230 px and bottom 280 px.
-- Frame 7 ("Where is your business leaking?") has room under the options for an Instagram **Poll** or **Quiz** sticker with the same three answers, if you'd rather collect taps than replies.
-- Frame 8: add a **Link** sticker to qudeltastudios.com, or a "DM us" sticker.
+- **Carousel:** 12 slides, 1080 × 1350, cut from one continuous panorama: the plate on slides 1 and 2 and the lime pipeline on slides 4 to 6 run across the swipe, so post them in order and don't crop. `export/Qudelta_The-rest-of-the-menu_panorama-preview.png` shows the whole strip.
+- **Stories:** 7 frames, 1080 × 1920, text clear of the top 240 px and bottom 300 px.
+- Story 6 ("Customers kahan kho rahe hain?"): add a **Question** sticker ("What's your business?") or a **Poll** under the lime card.
+- Story 7: add a **Link** sticker to qudeltastudios.com.

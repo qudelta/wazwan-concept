@@ -6,288 +6,130 @@
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/menu.css">
 <style>
-  /* Instagram Story 1080x1920. Keep text out of the top 230px (profile bar) and bottom 280px (reply bar). */
-  @page{size:1080px 1920px;margin:0}
+  /* Instagram Story 1080 × 1920. Text stays out of the top 240 px (profile bar) and bottom 300 px (reply bar). */
   html,body{width:1080px}
-  .story{width:1080px;height:1920px}
-  .st-h{position:absolute;left:72px;right:72px;top:236px;display:flex;align-items:center;justify-content:space-between;z-index:5}
-  .st-f{position:absolute;left:72px;right:72px;bottom:300px;display:flex;align-items:center;justify-content:space-between;z-index:5}
-  .st-f img{height:22px}
-  .st-f .tap{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:600;color:var(--muted)}
-  .st-f .tap .ic{font-size:24px;color:var(--green-hi)}
-  .st-f .n{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--faint)}
-  .bd{position:absolute;left:72px;right:72px;top:320px;bottom:380px}
-
-  .plate{position:absolute;border-radius:50%;filter:drop-shadow(0 40px 60px rgba(0,0,0,.7))}
-  .plate img.tr{position:absolute;inset:0;width:100%;height:100%}
-  .plate img.rc{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
-  .ghost{position:absolute;width:140px;height:140px;border-radius:50%;border:2.5px dashed rgba(255,255,255,.22);display:grid;place-items:center;
-    font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;color:rgba(255,255,255,.34)}
-
-  /* 1 hook */
-  .f1 .glow{background:radial-gradient(800px 700px at 100% 0%,rgba(0,191,99,.16),transparent 70%),radial-gradient(800px 700px at 50% 62%,rgba(242,169,59,.10),transparent 70%)}
-  .f1 .dear{font-style:italic;font-weight:500;font-size:46px;color:var(--ink-2)}
-  .f1 .h{margin-top:20px;font-size:146px}
-  .f1 .plate{left:170px;top:700px;width:740px;height:740px}
-  .f1 .plate img.rc{width:290px;height:290px}
-  .f1 .sub{position:absolute;left:72px;right:72px;top:1430px;font-weight:800;font-stretch:87.5%;font-size:64px;line-height:1.04;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.9)}
-  .f1 .sub em{font-style:normal;color:var(--saffron)}
-  .f1 .shade{position:absolute;left:0;right:0;top:1300px;height:620px;background:linear-gradient(transparent,var(--bg) 30%)}
-  .f1 .lbl{position:absolute;left:300px;top:880px;padding:12px 20px;border-radius:14px;background:var(--saffron);color:#1A1206;font-weight:800;font-stretch:87.5%;font-size:32px;line-height:1;box-shadow:0 10px 30px rgba(0,0,0,.5);transform:rotate(-4deg)}
-  .f1 .lbl small{display:block;margin-top:5px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.72}
-
-  /* 2 the order */
-  .f2 .glow{background:radial-gradient(900px 700px at 0% 100%,rgba(0,191,99,.13),transparent 70%)}
-  .chat{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
-  .bub{padding:24px 32px 22px;border-radius:30px 30px 30px 8px;background:var(--surface-2);border:1px solid var(--surface-line);box-shadow:var(--shadow)}
-  .bub p{font-weight:700;font-stretch:87.5%;font-style:italic;font-size:50px;line-height:1.12;color:var(--ink-2)}
-  .bub.dim{opacity:.55}
-  .bub.big{padding:38px 44px 34px;background:var(--surface)}
-  .bub.big p{font-size:96px;line-height:1.0;letter-spacing:-.02em;color:var(--ink)}
-  .bub small{display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--faint)}
-  .f2 .stmt{position:absolute;left:0;right:0;bottom:0;padding-top:48px;border-top:2px solid var(--ink)}
-  .f2 .stmt .h{font-size:124px}
-  .f2 .stmt p{margin-top:30px;font-weight:700;font-stretch:87.5%;font-size:64px;line-height:1.1;letter-spacing:-.015em}
-
-  /* 3 myth */
-  .f3 .scene{position:relative;height:720px}
-  .f3 .scene .art{width:100%;height:100%}
-  .count{position:absolute;right:28px;display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:14px;background:rgba(6,9,7,.82);border:1px solid var(--saffron-line)}
-  .count .ic{font-size:26px;color:var(--saffron)}
-  .count span{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-2)}
-  .count b{font-family:'JetBrains Mono',monospace;font-size:30px;color:var(--saffron);margin-left:4px}
-  .f3 .h{margin-top:64px;font-size:108px}
-  .f3 .txt{margin-top:32px;font-size:36px}
-
-  /* 4 pipeline */
-  .f4 .h{font-size:96px}
-  .pipe{margin-top:70px;position:relative;display:grid;gap:14px}
-  .pipe::before{content:"";position:absolute;left:41px;top:40px;bottom:40px;width:2px;background:linear-gradient(var(--green),rgba(0,191,99,.25))}
-  .stg{position:relative;display:grid;grid-template-columns:84px 1fr;gap:26px;align-items:center;padding:26px 24px 26px 0}
-  .stg .no{position:relative;z-index:1;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:2px solid var(--tint-line);color:var(--green-hi);font-size:38px}
-  .stg b{display:block;font-weight:800;font-stretch:87.5%;font-size:50px;letter-spacing:-.01em;line-height:1}
-  .stg span{display:block;margin-top:9px;font-size:28px;color:var(--muted)}
-  .stg.here{margin:8px 0;border-radius:26px;background:var(--saffron-tint);border:1.5px solid var(--saffron-line)}
-  .stg.here .no{border-color:var(--saffron);color:var(--saffron);margin-left:-2px}
-  .stg.here span b{display:inline;font-size:28px;color:var(--saffron);font-stretch:100%;font-weight:700;letter-spacing:0}
-  .here-tag{position:absolute;right:20px;top:-19px;padding:7px 16px;border-radius:999px;background:var(--saffron);color:#1A1206;font-weight:800;font-size:17px;letter-spacing:.1em;text-transform:uppercase}
-
-  /* 5 menu */
-  .f5 .glow{background:radial-gradient(800px 700px at 50% 10%,rgba(242,169,59,.10),transparent 70%)}
-  .menu{position:absolute;left:0;right:0;top:70px;bottom:0;padding:50px 56px 40px;border-radius:32px;background:linear-gradient(180deg,#0F1512,#0B100D);border:1px solid rgba(242,169,59,.30);box-shadow:var(--shadow)}
-  .menu::before{content:"";position:absolute;inset:12px;border-radius:24px;border:1px solid rgba(242,169,59,.16)}
-  .menu .em{position:absolute;left:50%;top:-66px;transform:translateX(-50%);width:132px;height:132px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.7))}
-  .menu .em img{width:100%;height:100%}
-  .menu .hd{text-align:center;margin-top:46px}
-  .menu .hd .kick{color:var(--saffron);letter-spacing:.3em}
-  .menu .hd .h{margin-top:14px;font-size:96px;font-style:italic}
-  .orn{display:flex;align-items:center;gap:16px;margin:30px 0 6px;color:var(--saffron)}
-  .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(242,169,59,.5))}
-  .orn::after{background:linear-gradient(90deg,rgba(242,169,59,.5),transparent)}
-  .orn span{font-weight:700;font-size:18px;letter-spacing:.22em;text-transform:uppercase}
-  .dish{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:center;padding:12px 0}
-  .dish .ic{font-size:34px;color:var(--green-hi)}
-  .dish b{font-weight:700;font-size:33px}
-  .menu .ft{position:absolute;left:56px;right:56px;bottom:40px;padding-top:24px;border-top:1px dashed rgba(242,169,59,.3);font-size:26px;color:var(--ink-2)}
-  .menu .ft b{color:var(--saffron)}
-
-  /* 6 rapid fire */
-  .f6 .h{font-size:100px}
-  .rf{margin-top:50px;display:grid;gap:14px}
-  .rf .it{display:grid;grid-template-columns:80px 1fr;gap:22px;align-items:center;padding:24px 26px;border-radius:24px;background:var(--surface);border:1px solid var(--surface-line)}
-  .rf .ico{width:80px;height:80px;border-radius:20px;display:grid;place-items:center;background:var(--tint);border:1px solid var(--tint-line);color:var(--green-hi);font-size:42px}
-  .rf small{display:block;font-weight:700;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  .rf b{display:block;margin-top:6px;font-weight:800;font-stretch:87.5%;font-size:38px;line-height:1.08;letter-spacing:-.01em}
-
-  /* 7 reply */
-  .f7 .glow{background:radial-gradient(900px 800px at 50% 50%,rgba(0,191,99,.12),transparent 70%)}
-  .f7 .h{font-size:120px}
-  .f7 .sub{margin-top:24px;font-size:36px;color:var(--ink-2)}
-  .opts{margin-top:60px;display:grid;gap:18px}
-  .opt{display:grid;grid-template-columns:96px 1fr;gap:26px;align-items:center;padding:38px 32px;border-radius:28px;background:var(--surface);border:1.5px solid var(--surface-line)}
-  .opt .k{width:96px;height:96px;border-radius:24px;display:grid;place-items:center;background:var(--green);color:var(--on-green);font-weight:800;font-stretch:87.5%;font-size:56px}
-  .opt b{display:block;font-weight:800;font-stretch:87.5%;font-size:46px;line-height:1.06;letter-spacing:-.01em}
-  .opt span{display:block;margin-top:8px;font-size:28px;color:var(--muted)}
-  .f7 .hint{margin-top:56px;display:flex;align-items:center;gap:14px;font-size:30px;font-weight:600;color:var(--ink-2)}
-  .f7 .hint .ic{font-size:38px;color:var(--green-hi)}
-
-  /* 8 cta */
-  .f8 .glow{background:radial-gradient(900px 800px at 50% 30%,rgba(0,191,99,.18),transparent 70%)}
-  .feast{position:absolute;left:50%;top:640px;width:0;height:0}
-  .feast .plate{left:-230px;top:-230px;width:460px;height:460px}
-  .feast .plate img.rc{width:176px;height:176px}
-  .feast .d{position:absolute;left:0;top:0;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;display:grid;place-items:center;
-    background:radial-gradient(circle at 35% 30%,#1B2A22,#0C1410);border:2px solid var(--tint-line);color:var(--green-hi);font-size:46px;
-    box-shadow:0 14px 30px rgba(0,0,0,.55);transform:rotate(var(--a)) translate(318px) rotate(calc(-1 * var(--a)))}
-  .feast .d.w{background:var(--saffron);border-color:var(--saffron);color:#1A1206}
-  .f8 .txtb{position:absolute;left:72px;right:72px;top:1060px}
-  .f8 .h{font-size:112px}
-  .f8 .txt{margin-top:26px;font-size:34px}
-  .cta{margin-top:40px;display:flex;align-items:center;gap:22px}
-  .cta .btn{display:flex;align-items:center;gap:14px;height:96px;padding:0 38px;border-radius:24px;background:var(--green);color:var(--on-green);font-weight:800;font-stretch:87.5%;font-size:42px}
-  .cta .btn .ic{font-size:44px}
-  .cta .or{font-size:26px;color:var(--muted)}
-  .cta .or b{display:block;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:24px;margin-top:4px}
+  .story{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+  .story>*{position:absolute}
+  .blob{border-radius:50%;pointer-events:none}
+  .foot{left:72px;right:72px;top:1600px;display:flex;align-items:center;justify-content:space-between;z-index:6}
+  .foot img{height:24px}
+  .foot span{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--muted)}
+  .foot span .ic{font-size:24px;color:var(--lime)}
+  .z{z-index:5}
+  .wire{left:0;top:0;z-index:1}
 </style>
 </head>
 <body>
 
-<!-- 1 · hook -->
-<section class="frame story f1">
-  <div class="glow"></div><div class="grain"></div>
-  <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
-  <div class="ghost" style="left:14px;top:770px">CRM?</div>
-  <div class="ghost" style="left:14px;top:1130px">AI?</div>
-  <div class="ghost" style="left:926px;top:770px">App?</div>
-  <div class="ghost" style="left:926px;top:1130px">Ads?</div>
-  <div class="lbl">Website<small>the rice</small></div>
-  <div class="shade"></div>
-  <div class="st-h"><span class="tag">An open letter</span></div>
-  <div class="bd">
-    <div class="dear">Dear Kashmir,</div>
-    <div class="h">Wazwan has <span class="g">36 courses.</span></div>
-  </div>
-  <p class="sub">So why does your business keep ordering <em>only the rice?</em></p>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="tap">Tap {{i:arrow-right:bold}}</span></div>
+<!-- 1 · Dear Kashmir -->
+<section class="story">
+  <div class="blob" style="left:-300px;top:-200px;width:1300px;height:1100px;background:radial-gradient(closest-side,rgba(0,191,99,.22),transparent)"></div>
+  <div class="blob" style="left:0;top:700px;width:1080px;height:1000px;background:radial-gradient(closest-side,rgba(198,255,61,.08),transparent)"></div>
+  <div class="it z" style="left:72px;top:270px;font-size:52px">Dear Kashmir,</div>
+  <div class="hx z" style="left:68px;top:340px;font-size:196px">Wazwan has<br><span class="l">36 courses.</span></div>
+  <span class="ghost" style="left:130px;top:860px;--d:150px">CRM?</span>
+  <span class="ghost" style="left:950px;top:850px;--d:140px">AI?</span>
+  <span class="ghost" style="left:90px;top:1390px;--d:130px">App?</span>
+  <span class="ghost" style="left:990px;top:1400px;--d:130px">Ads?</span>
+  <div class="plate" style="left:540px;top:1090px;--d:740px;z-index:3"><img class="p" src="assets/traem.png" alt=""><img class="rice" src="assets/rice.png" alt=""></div>
+  <span class="pill z" style="left:600px;top:960px;transform:rotate(-6deg)">Your website</span>
+  <div class="hx z" style="left:72px;top:1494px;width:936px;text-align:center;font-size:82px;text-shadow:0 6px 30px rgba(0,0,0,.9)">You only order <span class="l">the rice.</span></div>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>Tap {{i:arrow-right:bold}}</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
 <!-- 2 · the order -->
-<section class="frame story f2">
-  <div class="glow"></div><div class="grain"></div>
-  <div class="st-h"><span class="tag">What we hear every week</span></div>
-  <div class="bd">
-    <div class="chat">
-      <div class="bub dim"><p>“Kitne ka padega?”</p></div>
-      <div class="bub dim"><p>“Instagram page bhi bana dena.”</p></div>
-      <div class="bub big"><p>“Bhai, bas ek website bana do.”</p><small>Srinagar · Anantnag · Baramulla · Sopore · Jammu</small></div>
-    </div>
-    <div class="stmt">
-      <div class="h">Kashmir doesn’t think small.</div>
-      <p>Nobody ever showed Kashmir <span class="g">the rest of the menu.</span></p>
-    </div>
+<section class="story">
+  <div class="blob" style="left:-200px;top:900px;width:1400px;height:1100px;background:radial-gradient(closest-side,rgba(0,191,99,.16),transparent)"></div>
+  <div class="ui z" style="left:72px;top:330px;width:880px;padding:44px 50px 40px;border-radius:44px 44px 44px 12px;transform:rotate(-3deg)">
+    <p style="font-weight:900;font-stretch:87.5%;font-style:italic;font-size:92px;line-height:.98;letter-spacing:-.02em">“Bhai, bas ek website bana do.”</p>
+    <p class="sm" style="margin-top:18px;font-size:24px">Every week · Srinagar to Jammu</p>
   </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">02 / 08</span></div>
+  <div class="hx z" style="left:72px;top:900px;font-size:150px">Kashmir doesn’t<br>think small.</div>
+  <div class="hx z" style="left:72px;top:1240px;font-size:96px;width:936px"><span class="l">Nobody showed it the rest of the menu.</span></div>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>02 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
 <!-- 3 · the myth -->
-<section class="frame story f3">
-  <div class="grain"></div>
-  <div class="st-h"><span class="tag">The website myth</span></div>
-  <div class="bd">
-    <div class="scene">{{svg:night-road}}
-      <div class="count" style="bottom:100px">{{i:users-three}}<span>Visitors today</span><b>0</b></div>
-      <div class="count" style="bottom:30px">{{i:chat-circle-dots}}<span>Enquiries</span><b>0</b></div>
-    </div>
-    <div class="h">A website doesn’t bring customers. <span class="s">It never has.</span></div>
-    <p class="txt">It’s a beautiful shop on a street nobody walks down. <b>The lights are on. Nobody is coming.</b></p>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">03 / 08</span></div>
+<section class="story">
+  <div style="inset:0">{{svg:night-story}}</div>
+  <div class="hx z" style="left:72px;top:290px;font-size:160px">A website<br>alone brings<br><span class="l">nobody.</span></div>
+  <span class="pill dark z" style="left:520px;top:1240px;transform:rotate(3deg)">{{i:users-three}}Visitors today: <span class="l">0</span></span>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>03 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
-<!-- 4 · pipeline -->
-<section class="frame story f4">
-  <div class="grain"></div>
-  <div class="st-h"><span class="tag">Where revenue comes from</span></div>
-  <div class="bd">
-    <div class="h">Not a website. <span class="g">A pipeline.</span></div>
-    <div class="pipe">
-      <div class="stg"><span class="no">{{i:megaphone}}</span><div><b>Attention</b><span>Instagram, search, ads, referrals</span></div></div>
-      <div class="stg here"><span class="here-tag">Most stop here</span><span class="no">{{i:storefront}}</span><div><b>Touchpoint</b><span><b>Website</b>, WhatsApp, Google profile</span></div></div>
-      <div class="stg"><span class="no">{{i:funnel}}</span><div><b>Capture</b><span>Forms, WhatsApp bot, missed-call alerts</span></div></div>
-      <div class="stg"><span class="no">{{i:address-book}}</span><div><b>Follow-up</b><span>CRM, auto-replies, reminders</span></div></div>
-      <div class="stg"><span class="no">{{i:receipt}}</span><div><b>Conversion</b><span>Quotes, bookings, payment links</span></div></div>
-      <div class="stg"><span class="no">{{i:arrows-clockwise}}</span><div><b>Return</b><span>Reviews, loyalty, win-back offers</span></div></div>
-    </div>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">04 / 08</span></div>
+<!-- 4 · the pipeline -->
+<section class="story">
+  <div class="blob" style="left:0;top:500px;width:1080px;height:1300px;background:radial-gradient(closest-side,rgba(0,191,99,.14),transparent)"></div>
+  <svg class="wire" width="1080" height="1920"><g fill="none" stroke="#C6FF3D" stroke-linecap="round">
+    <path d="M330,640 C330,800 760,800 760,990 C760,1180 330,1180 330,1360 L330,1560" stroke-width="22" opacity=".3" style="filter:blur(8px)"/>
+    <path d="M330,640 C330,800 760,800 760,990 C760,1180 330,1180 330,1360 L330,1560" stroke-width="6"/></g></svg>
+  <div class="hx z" style="left:72px;top:280px;font-size:118px">The money is in the<br><span class="l">other 35 courses.</span></div>
+  <div class="plate cu" style="left:330px;top:700px;--d:340px;z-index:3"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:magnifying-glass}}</span></div>
+  <div class="lab z" style="left:540px;top:640px"><small>COURSE 02</small><b>Get found.</b></div>
+  <div class="plate cu" style="left:760px;top:1000px;--d:340px;z-index:3"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:whatsapp-logo}}</span></div>
+  <div class="lab z" style="left:72px;top:940px"><small>COURSE 03</small><b>Reply in<br>6 seconds.</b></div>
+  <div class="plate cu" style="left:330px;top:1340px;--d:340px;z-index:3"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:currency-inr}}</span></div>
+  <div class="lab z" style="left:540px;top:1280px"><small>COURSE 04 → 36</small><b>Paid. Back<br>next season.</b></div>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>04 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
-<!-- 5 · the menu -->
-<section class="frame story f5">
-  <div class="glow"></div><div class="grain"></div>
-  <div class="st-h"><span class="tag">What can actually be built</span></div>
-  <div class="bd">
-    <div class="menu">
-      <div class="em"><img src="assets/traem.png" alt=""></div>
-      <div class="hd"><div class="kick">Qudelta Studios · Wazwan</div><div class="h">The rest of the menu</div></div>
-      <div class="orn"><span>Bring people in</span></div>
-      <div class="dish">{{i:magnifying-glass}}<b>SEO &amp; Google Business Profile</b></div>
-      <div class="dish">{{i:megaphone}}<b>Content &amp; ad campaigns</b></div>
-      <div class="orn"><span>Turn them into customers</span></div>
-      <div class="dish">{{i:address-book}}<b>Lead pipelines &amp; CRM</b></div>
-      <div class="dish">{{i:whatsapp-logo}}<b>WhatsApp automation</b></div>
-      <div class="dish">{{i:robot}}<b>AI assistants, awake at 2 am</b></div>
-      <div class="dish">{{i:calendar-check}}<b>Bookings, quotes &amp; payments</b></div>
-      <div class="orn"><span>Run the business</span></div>
-      <div class="dish">{{i:receipt}}<b>Billing, GST &amp; inventory</b></div>
-      <div class="dish">{{i:chart-line-up}}<b>Owner dashboards</b></div>
-      <div class="dish">{{i:device-mobile}}<b>Custom apps &amp; portals</b></div>
-      <div class="dish">{{i:globe}}<b>Export storefronts</b></div>
-      <div class="ft"><b>Website:</b> served with every course.</div>
-    </div>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">05 / 08</span></div>
+<!-- 5 · houseboat -->
+<section class="story">
+  <div class="blob" style="left:-100px;top:700px;width:1300px;height:1300px;background:radial-gradient(closest-side,rgba(0,191,99,.16),transparent)"></div>
+  <div class="kx z" style="left:72px;top:280px">For houseboats &amp; hotels</div>
+  <div class="hx z" style="left:72px;top:330px;font-size:160px">Booked while<br><span class="l">you sleep.</span></div>
+  <div class="plate cu" style="left:560px;top:1260px;--d:1000px;z-index:3"><img class="p" src="assets/traem.png" alt=""></div>
+  <div class="phone z" style="left:330px;top:720px;transform:rotate(-7deg)"><div class="scr"><div class="notch"></div>
+    <div class="top"><span class="av">{{i:boat}}</span><div><b>Your Houseboat</b><span>online</span></div></div>
+    <div class="chat">
+      <div class="m in">Hi! Room for 2 adults, 12 to 15 Dec? Lake view if possible.<small>2:13 am</small></div>
+      <div class="m out">Assalamu alaikum! Yes, it’s available.
+        <div class="room"><div class="ph"><svg viewBox="0 0 300 120" preserveAspectRatio="none"><rect width="300" height="120" fill="#24506A"/><path d="M0,44 L50,18 L100,40 L160,8 L220,36 L300,16 L300,64 L0,64 Z" fill="#183A4E"/><rect y="64" width="300" height="56" fill="#2D6E7E"/><path d="M50,74 L74,52 L226,52 L250,74 Z" fill="#3B2617"/><path d="M66,52 L84,36 L216,36 L234,52 Z" fill="#5A3A22"/><g fill="#F7C46A"><rect x="94" y="58" width="12" height="10"/><rect x="120" y="58" width="12" height="10"/><rect x="146" y="58" width="12" height="10"/><rect x="172" y="58" width="12" height="10"/></g></svg></div>
+          <div><b>Lake View Deluxe · 3 nights</b>₹19,500 · breakfast included</div></div>
+        <span class="lk">{{i:link:bold}}Book with ₹3,000 advance</span><small>2:13 am ✓✓</small></div>
+      <div class="m in">Booked! Shukriya.<small>2:16 am</small></div>
+      <span class="sys">{{i:check:bold}}₹3,000 received</span>
+    </div></div></div>
+  <span class="pill z" style="left:620px;top:860px;transform:rotate(6deg)">{{i:lightning:fill}}Replied in 6 sec</span>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>05 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
-<!-- 6 · rapid fire -->
-<section class="frame story f6">
-  <div class="grain"></div>
-  <div class="st-h"><span class="tag">For your business</span></div>
-  <div class="bd">
-    <div class="h">What we’d build <span class="g">for you.</span></div>
-    <div class="rf">
-      <div class="it"><span class="ico">{{i:boat}}</span><div><small>Houseboat or hotel</small><b>Bookings answered on WhatsApp in 6 seconds</b></div></div>
-      <div class="it"><span class="ico">{{i:globe}}</span><div><small>Pashmina or saffron</small><b>Your own export store in 5 currencies</b></div></div>
-      <div class="it"><span class="ico">{{i:tree-evergreen}}</span><div><small>Orchard or cold storage</small><b>Today’s rates to 312 buyers in one tap</b></div></div>
-      <div class="it"><span class="ico">{{i:first-aid}}</span><div><small>Clinic or lab</small><b>Reports on WhatsApp, reminders on time</b></div></div>
-      <div class="it"><span class="ico">{{i:graduation-cap}}</span><div><small>School or coaching</small><b>Fee reminders that send themselves</b></div></div>
-      <div class="it"><span class="ico">{{i:cooking-pot}}</span><div><small>Wazwan caterer</small><b>A quote per trami in under a minute</b></div></div>
-    </div>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">06 / 08</span></div>
+<!-- 6 · the better question -->
+<section class="story">
+  <div class="blob" style="left:-100px;top:700px;width:1300px;height:1100px;background:radial-gradient(closest-side,rgba(198,255,61,.08),transparent)"></div>
+  <div class="kx z" style="left:72px;top:300px;color:var(--muted)">Stop asking</div>
+  <div class="z" style="left:72px;top:350px;padding:36px 42px;border-radius:40px 40px 40px 12px;border:3px dashed rgba(255,255,255,.22);transform:rotate(-2deg)">
+    <p class="hx" style="font-size:112px;color:var(--faint);text-decoration:line-through;text-decoration-color:var(--lime);text-decoration-thickness:9px">“Website kitne ka?”</p></div>
+  <div class="kx z" style="left:72px;top:690px">Start asking</div>
+  <div class="z" style="left:72px;top:740px;width:936px;padding:50px 52px 56px;border-radius:44px 44px 44px 12px;background:var(--lime);color:var(--on-lime);transform:rotate(1.5deg);box-shadow:0 40px 80px rgba(0,0,0,.5)">
+    <p class="hx" style="font-size:150px">“Customers kahan kho rahe hain?”</p></div>
+  <div class="z" style="left:72px;top:1390px;display:flex;align-items:center;gap:16px;font-weight:700;font-size:34px;color:var(--ink-2)">{{i:chat-circle-dots:fill}}Reply with your business. We’ll show you its menu.</div>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>06 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
-<!-- 7 · reply -->
-<section class="frame story f7">
-  <div class="glow"></div><div class="grain"></div>
-  <div class="st-h"><span class="tag">Quick question</span></div>
-  <div class="bd">
-    <div class="h">Where is your business <span class="s">leaking?</span></div>
-    <div class="opts">
-      <div class="opt"><span class="k">1</span><div><b>Enquiries I reply to late</b><span>or never reply to at all</span></div></div>
-      <div class="opt"><span class="k">2</span><div><b>Customers who never come back</b><span>they came once, then nothing</span></div></div>
-      <div class="opt"><span class="k">3</span><div><b>Hours lost to registers</b><span>billing, stock, dues, follow-ups</span></div></div>
-    </div>
-    <p class="hint">{{i:chat-circle-dots}}Reply with 1, 2 or 3. We’ll tell you what fixes it.</p>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">07 / 08</span></div>
-</section>
-
-<!-- 8 · cta -->
-<section class="frame story f8">
-  <div class="glow"></div><div class="grain"></div>
-  <div class="st-h"><span class="tag">The full Wazwan</span></div>
-  <div class="feast">
-    <div class="plate"><img class="tr" src="assets/traem.png" alt=""><img class="rc" src="assets/rice.png" alt=""></div>
-    <span class="d w" style="--a:-90deg">{{i:globe}}</span>
-    <span class="d" style="--a:-60deg">{{i:whatsapp-logo}}</span>
-    <span class="d" style="--a:-30deg">{{i:address-book}}</span>
-    <span class="d" style="--a:0deg">{{i:robot}}</span>
-    <span class="d" style="--a:30deg">{{i:calendar-check}}</span>
-    <span class="d" style="--a:60deg">{{i:receipt}}</span>
-    <span class="d" style="--a:90deg">{{i:chart-line-up}}</span>
-    <span class="d" style="--a:120deg">{{i:device-mobile}}</span>
-    <span class="d" style="--a:150deg">{{i:magnifying-glass}}</span>
-    <span class="d" style="--a:180deg">{{i:megaphone}}</span>
-    <span class="d" style="--a:210deg">{{i:qr-code}}</span>
-    <span class="d" style="--a:240deg">{{i:star}}</span>
-  </div>
-  <div class="txtb">
-    <div class="h">Bring us a problem. <span class="g">Not a website.</span></div>
-    <p class="txt">One thing that costs you time or customers. We’ll show you what can be built for it.</p>
-    <div class="cta"><span class="btn">{{i:chat-circle-dots:fill}}DM “MENU”</span><span class="or">or visit<b>qudeltastudios.com</b></span></div>
-  </div>
-  <div class="st-f"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span class="n">08 / 08</span></div>
+<!-- 7 · the full wazwan -->
+<section class="story">
+  <div class="blob" style="left:-200px;top:100px;width:1500px;height:1300px;background:radial-gradient(closest-side,rgba(0,191,99,.24),transparent)"></div>
+  <div class="plate" style="left:540px;top:690px;--d:460px;z-index:3"><img class="p" src="assets/traem.png" alt=""><img class="rice" src="assets/rice.png" alt=""></div>
+  <div class="plate cu" style="left:540px;top:340px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:whatsapp-logo}}</span></div>
+  <div class="plate cu" style="left:787px;top:443px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:address-book}}</span></div>
+  <div class="plate cu" style="left:890px;top:690px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:robot}}</span></div>
+  <div class="plate cu" style="left:787px;top:937px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:receipt}}</span></div>
+  <div class="plate cu" style="left:540px;top:1040px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:chart-line-up}}</span></div>
+  <div class="plate cu" style="left:293px;top:937px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:calendar-check}}</span></div>
+  <div class="plate cu" style="left:190px;top:690px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:device-mobile}}</span></div>
+  <div class="plate cu" style="left:293px;top:443px;--d:160px"><img class="p" src="assets/traem.png" alt=""><span class="on glyph">{{i:megaphone}}</span></div>
+  <div class="hx z" style="left:72px;top:1190px;font-size:124px">Bring us a problem.<br><span class="l">Not a website.</span></div>
+  <span class="pill z" style="left:72px;top:1440px;height:80px;font-size:36px;padding:0 32px">{{i:chat-circle-dots:fill}}DM us “MENU”</span>
+  <span class="z mono" style="left:440px;top:1466px;font-size:26px;font-weight:700;color:var(--ink-2)">qudeltastudios.com</span>
+  <div class="foot"><img src="assets/qudelta-logo-light.png" alt="Qudelta Studios"><span>07 / 07</span></div>
+  <div class="vig"></div><div class="grain"></div>
 </section>
 
 </body>

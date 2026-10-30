@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Session 06 — Artificial Neural Networks for Engineering Prediction</title>
+<link rel="stylesheet" href="../poster/assets/fonts.css">
+<style>
+  @font-face{font-family:'Amiri';font-weight:400;font-display:block;src:url(../session-01-deck/assets/Amiri-Regular.woff2) format('woff2')}
+  @page{size:1920px 1080px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#888}
+  body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal}
+  svg{display:block}
+  .slide{position:relative;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always}
+
+  /* =================== BRAND (Qudelta) — cover, welcome, instructor, questions, close =================== */
+  .b{--bg:#FFFFFF;--ink:#0A0F0C;--ink-2:#2F3833;--muted:#5F6A64;--rule:#E2E7E4;--accent:#00BF63;--accent-ink:#008A47;--on-accent:#03140A;
+     --tint:#EBF8F1;--tint-line:#C9EDD8;--surface:#F3F6F4;--surface-line:#E3E8E5;--grid:rgba(10,40,25,.05);
+     --dk:#070A08;--dk-ink:#F2F5F3;--dk-muted:#9AA59F;--dk-rule:rgba(255,255,255,.12);background:var(--bg);color:var(--ink)}
+  .b .kick{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+  .b h2{margin-top:14px;font-weight:800;font-stretch:87.5%;font-size:72px;line-height:1.02;letter-spacing:-.025em}
+  .b .hl{background:var(--accent);color:var(--on-accent);padding:0 14px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .b .body{position:absolute;left:120px;right:120px;top:132px;bottom:84px}
+  .b .chip{display:inline-flex;align-items:center;height:48px;padding:0 20px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink)}
+  .b .chip.g{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:800}
+  .b .ic-sq{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--ink);color:var(--accent)}
+  .b .ic-sq svg{width:30px;height:30px}
+  .b.dark{background:var(--dk);color:var(--dk-ink)}
+  .b .glow{position:absolute;inset:0;background:radial-gradient(900px 760px at 80% 62%,rgba(0,191,99,.22),transparent 70%)}
+  .b .grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:48px 48px;
+    -webkit-mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%);mask-image:radial-gradient(900px 700px at 78% 55%,#000 20%,transparent 75%)}
+  .b.dark .grid-bg{--grid:rgba(255,255,255,.05)}
+  .photo{position:absolute;overflow:hidden;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%)}
+  .photo.crop{-webkit-mask-image:none;mask-image:none}
+  .photo img{display:block;width:100%;height:auto}
+  .disc{position:absolute;border-radius:50%}
+
+  /* running header (shared) */
+  .top{position:absolute;left:120px;right:120px;top:52px;display:flex;align-items:center;justify-content:space-between;font-size:17px;z-index:5}
+  .top .hc{display:flex;align-items:center;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .top .hc span{margin-left:18px;padding-left:18px;border-left:1.5px solid var(--rule);color:var(--muted);font-weight:700;letter-spacing:.12em}
+  .top .hr{display:flex;align-items:center;gap:22px}
+  .top .sp{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 12px;border-radius:999px;background:var(--sec-tint);color:var(--sec-ink);font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .top .sp i{width:10px;height:10px;border-radius:50%;background:var(--sec)}
+  .top .n{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:17px;color:var(--muted)}
+  .top .n b{color:var(--ink);font-weight:700}
+
+  /* =================== CONTENT system =================== */
+  .c{--ink:#0E1A2B;--ink-2:#334155;--muted:#64748B;--rule:#E2E8F0;--surface:#F5F7FA;--surface-line:#E3E8EF;
+     --X:#2a78d6;--Xi:#1F5FAF;--Xt:#EAF2FC;--Xl:#CFE0F5;
+     --Y:#eb6834;--Yi:#B9471B;--Yt:#FDEEE7;--Yl:#F7D3C3;
+     --M:#1baf7a;--Mi:#0B7A55;--Mt:#E5F6EF;--Ml:#C3EAD9;
+     background:#fff;color:var(--ink)}
+  .s0{--sec:#0E1A2B;--sec-ink:#0E1A2B;--sec-tint:#EEF1F5;--sec-line:#DCE2EA}
+  .s1{--sec:#2a78d6;--sec-ink:#1F5FAF;--sec-tint:#EAF2FC;--sec-line:#CFE0F5}
+  .s2{--sec:#eb6834;--sec-ink:#B9471B;--sec-tint:#FDEEE7;--sec-line:#F7D3C3}
+  .s3{--sec:#1baf7a;--sec-ink:#0B7A55;--sec-tint:#E5F6EF;--sec-line:#C3EAD9}
+  .c .body{position:absolute;left:120px;right:120px;top:126px;bottom:84px;display:flex;flex-direction:column}
+  .c .kick{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sec-ink)}
+  .c h2{margin-top:12px;font-weight:800;font-stretch:87.5%;font-size:68px;line-height:1.03;letter-spacing:-.025em;max-width:1560px}
+  .c .main{flex:1;min-height:0;margin-top:44px;display:flex;flex-direction:column;gap:28px;position:relative}
+  .c .grow{flex:1;min-height:0}
+  .mk{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--sec) 32%,transparent) 60%);padding:0 4px;margin:0 -4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .c p{font-size:27px;line-height:1.45;color:var(--ink-2)}
+  .c b{font-weight:700;color:var(--ink)}
+  .serif{font-weight:600;letter-spacing:-.01em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .card{background:var(--surface);border:1px solid var(--surface-line);border-radius:24px;padding:34px 36px}
+  .card h3{font-weight:800;font-stretch:87.5%;font-size:36px;line-height:1.1;letter-spacing:-.015em}
+  .card p{margin-top:10px;font-size:24px}
+  .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:var(--sec-tint);color:var(--sec-ink);flex:none}
+  .ic svg{width:36px;height:36px}
+  .chip{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--surface-line);font-size:22px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .chip.x{background:var(--Xt);border-color:var(--Xl);color:var(--Xi)}
+  .chip.y{background:var(--Yt);border-color:var(--Yl);color:var(--Yi)}
+  .chip.m{background:var(--Mt);border-color:var(--Ml);color:var(--Mi)}
+  .chip.k{background:var(--ink);border-color:var(--ink);color:#fff}
+  .take{display:flex;align-items:center;gap:22px;padding:22px 30px;border-radius:20px;background:var(--sec-tint);border:1px solid var(--sec-line);font-size:27px;font-weight:600;color:var(--ink);flex:none}
+  .take .ti{flex:none;width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--sec);color:#fff}
+  .s0 .take .ti{background:var(--ink)}
+  .take .ti svg{width:25px;height:25px;stroke-width:2.2}
+  .src{position:absolute;left:120px;right:120px;bottom:38px;font-size:15px;line-height:1.4;color:var(--muted)}
+  .lbl{font-size:17px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .sym{font-style:italic;font-weight:700}
+  .chart{background:#fff;border:1px solid var(--surface-line);border-radius:24px;padding:26px 30px 18px;display:flex;flex-direction:column}
+  .chart h3{font-weight:800;font-stretch:87.5%;font-size:31px;letter-spacing:-.01em;line-height:1.15}
+  .chart .f{margin-top:6px;font-size:21px;color:var(--ink-2);line-height:1.4}
+  .chart svg{margin-top:10px;width:100%;height:0;flex:1 1 auto;min-height:0}
+
+  .lgt{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#fff;border:1px solid var(--surface-line);flex:none}
+  .lgt img{max-width:40px;max-height:40px}
+  /* =================== DIVIDERS =================== */
+  .dv .gridl{position:absolute;inset:0;background-image:linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);background-size:60px 60px}
+  .dv .truss{position:absolute;right:-30px;bottom:-24px;width:860px;color:var(--tc)}
+  .dv .big{position:absolute;left:104px;top:150px;font-weight:900;font-stretch:87.5%;font-size:400px;line-height:.8;letter-spacing:-.06em}
+  .dv .part{position:absolute;left:120px;bottom:120px;width:960px}
+  .dv .part .k{font-size:19px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+  .dv .part h2{margin-top:16px;font-weight:800;font-stretch:87.5%;font-size:96px;line-height:.98;letter-spacing:-.035em}
+  .dv .part .who{margin-top:26px;font-size:24px;opacity:.8}
+  .dv ol{position:absolute;right:120px;top:190px;width:560px;list-style:none;border-top:2px solid currentColor}
+  .dv ol li{display:flex;gap:22px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--lr);font-size:27px;font-weight:600}
+  .dv ol li span{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;opacity:.7}
+  .dv .top .hc span{border-left-color:var(--lr);color:inherit;opacity:.75}
+  .dv .top .n,.dv .top .n b{color:inherit}
+  .dv .logos{position:absolute;right:120px;top:520px;display:flex;gap:16px}
+  .dv .logos img{width:80px;height:80px;padding:15px;background:#fff;border-radius:22px;object-fit:contain;box-shadow:0 10px 24px rgba(14,26,43,.18)}
+  .dv1{background:#1F5FAF;color:#fff;--gl:rgba(255,255,255,.07);--tc:rgba(255,255,255,.22);--lr:rgba(255,255,255,.3)}
+  .dv2{background:#eb6834;color:#0E1A2B;--gl:rgba(14,26,43,.07);--tc:rgba(14,26,43,.18);--lr:rgba(14,26,43,.25)}
+  .dv3{background:#00BF63;color:#03140A;--gl:rgba(3,20,10,.07);--tc:rgba(3,20,10,.18);--lr:rgba(3,20,10,.25)}
+</style>
+</head>
+<body>
+<style>
+  .dk{border-radius:22px;background:#0F1A27;overflow:hidden}
+  .dk .hd{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:16px;color:#7E8FA3}
+  .dk .hd .fl{display:flex;align-items:center;gap:10px;color:#C6D2E1}
+  .dk .hd .fl img{height:20px}
+  .dk pre{padding:22px 26px;font-family:'JetBrains Mono',monospace;font-size:23px;line-height:1.6;color:#E6EDF5}
+  .dk .kw{color:#7CB7FF}.dk .st{color:#FDB797}.dk .cm{color:#7E8FA3}.dk .fn{color:#4FD3A0}.dk .nu{color:#FDB797}
+  .dk .out{padding:14px 26px 18px;background:#16263A;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:23px;color:#fff;line-height:1.5}
+  .dk .out small{display:block;font-family:'Archivo';font-size:14px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#4FD3A0;margin-bottom:4px}
+  .stack{position:relative;width:100%}
+  .stack svg{position:absolute;left:0;top:0;width:100%;height:100%}
+  .eq{font-family:'Archivo';font-weight:600;font-size:34px;color:var(--ink);letter-spacing:-.005em;white-space:nowrap}
+  .eq i{font-style:italic;font-weight:700}
+  .eq .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 6px;font-size:.8em;line-height:1.15}
+  .eq .fr span:first-child{border-bottom:2px solid currentColor;padding:0 6px 2px}
+  .eq .fr span:last-child{padding-top:2px}
+  .eq sub,.eq sup{font-size:.6em}
+  .sh{padding:2px 8px;border-radius:8px}
+  .sh.g{background:var(--Mt);color:var(--Mi)}.sh.o{background:var(--Yt);color:var(--Yi)}.sh.b{background:var(--Xt);color:var(--Xi)}
+  .big-n{font-weight:900;font-stretch:87.5%;line-height:.9;letter-spacing:-.04em}
+  .attr{position:absolute;right:120px;bottom:38px;font-size:15px;color:var(--muted)}
+</style>
+
+
+<!-- ===================================================================== 01 COVER -->
+<style>
+  .cover .bism{position:absolute;left:0;right:0;top:40px;text-align:center;font-family:'Amiri',serif;font-size:42px;color:var(--dk-ink);opacity:.85;direction:rtl}
+  .cover .brand{position:absolute;left:120px;top:150px;display:flex;align-items:center;gap:22px;font-size:17px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dk-muted)}
+  .cover .brand b{color:var(--accent);font-weight:800}
+  .cover .brand i{width:1.5px;height:22px;background:var(--dk-rule)}
+  .cover h1{position:absolute;left:120px;top:228px;width:1000px;font-weight:900;font-stretch:87.5%;font-size:108px;line-height:.96;letter-spacing:-.035em;word-spacing:.08em}
+  .cover .sess{position:absolute;left:120px;top:580px;width:1000px}
+  .cover .sess .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .cover .sess h2{margin-top:14px;font-size:56px;color:var(--dk-ink)}
+  .cover .sess p{margin-top:18px;font-size:26px;line-height:1.4;color:var(--dk-muted)}
+  .cover .sess p b{color:var(--dk-ink);font-weight:700}
+  .cover .stg{margin-top:24px;display:flex;align-items:center;gap:10px}
+  .cover .stg span{height:40px;padding:0 16px;display:inline-flex;align-items:center;border-radius:999px;border:1.5px solid var(--dk-rule);font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dk-ink)}
+  .cover .stg span.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .cover .stg svg{width:20px;height:20px;color:var(--dk-muted)}
+  .cover .who{position:absolute;left:120px;bottom:80px;display:flex;align-items:center;gap:56px}
+  .cover .who .p b{display:block;font-size:30px;font-weight:800;color:var(--dk-ink)}
+  .cover .who .p span{display:block;margin-top:6px;font-size:20px;color:var(--dk-muted)}
+  .partner{display:flex;align-items:center;gap:16px;padding-left:56px;border-left:1.5px solid var(--dk-rule)}
+  .partner small{font-size:16px;font-weight:600;color:var(--dk-muted)}
+  .partner img{height:30px;width:auto}
+</style>
+<section class="slide b dark cover">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+  <div class="disc" style="left:1180px;top:250px;width:760px;height:760px;background:#0E3B24"></div>
+  <div class="photo" style="left:1150px;top:170px;width:820px;height:910px"><img src="../poster/assets/instructor.webp" alt="Dr. Abdul Waris"></div>
+  <div class="brand"><b>Live online course</b><i></i>Cohort Fall 2026</div>
+  <h1>AI &amp; Machine Learning for Civil Engineers</h1>
+  <div class="sess">
+    <div class="k">Session 06 · Artificial neural networks</div>
+    <h2>Artificial Neural Networks for Engineering Prediction</h2>
+    <p><b>From neurons to defensible predictions.</b> How a network learns, how we validate it, and when it is worth its complexity.</p>
+    <div class="stg"><span>Data</span>{{i:arrow-right}}<span class="on">Model</span>{{i:arrow-right}}<span class="on">Validate</span>{{i:arrow-right}}<span class="on">Decide</span></div>
+  </div>
+  <div class="who">
+    <div class="p"><b>Dr. Abdul Waris</b><span>Research Associate · Universität Siegen, Germany</span></div>
+    <div class="partner"><small>Technology partner</small>{{logo-light}}</div>
+  </div>
+</section>
+
+<!-- ===================================================================== WHERE ARE WE -->
+<style>
+  .where .two{display:grid;grid-template-columns:1fr 120px 1fr;align-items:stretch}
+  .where .card{padding:38px 42px;display:flex;flex-direction:column}
+  .where .card h3{margin-top:14px;font-size:44px}
+  .where .card .big{margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:46px;font-weight:700}
+  .where .card p{margin-top:auto;padding-top:22px;font-size:25px;border-top:1px solid var(--surface-line)}
+  .where .ar{display:grid;place-items:center;color:#AAB6C5}
+  .where .ar svg{width:56px;height:56px}
+  .where .card.n{background:var(--ink);border-color:var(--ink)}
+  .where .card.n h3,.where .card.n .big{color:#fff}
+  .where .card.n .lbl{color:#4FD3A0}
+  .where .card.n p{color:#C6D2E1;border-top-color:rgba(255,255,255,.14)}
+  .where .chips{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+  .where .card.n .chip{background:#1F2D40;border-color:#1F2D40;color:#fff}
+</style>
+<section class="slide c s0 where">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Where are we?</div>
+    <h2>Same concrete question, a more flexible model</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Sessions 03–05</div><h3>Linear models, trees, classification</h3><div class="big" style="color:var(--Xi)">ŷ = b₀ + Σ bⱼxⱼ</div>
+          <div class="chips"><span class="chip">linear regression</span><span class="chip">random forest</span><span class="chip">MAE · RMSE · R²</span></div>
+          <p>Concrete strength from mix and age, then slope stability as a class.</p></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card n"><div class="lbl">Today · Session 06</div><h3>An artificial neural network</h3><div class="big" style="color:#4FD3A0">8 → 32 → 16 → 1</div>
+          <div class="chips"><span class="chip">neurons &amp; layers</span><span class="chip">activations</span><span class="chip">training &amp; validation</span></div>
+          <p>Back to concrete strength: does the extra flexibility actually help?</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>The ANN is one more candidate model. It has to earn its place against the baselines on the same test set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ROADMAP -->
+<style>
+  .road .cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .road .ph{display:flex;align-items:center;gap:14px;font-size:19px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .road .ph i{width:14px;height:14px;border-radius:4px}
+  .road .s{display:grid;grid-template-columns:96px 1fr;gap:20px;align-items:start;padding:24px 0;border-bottom:1px solid var(--rule)}
+  .road .s .no{font-weight:900;font-stretch:87.5%;font-size:54px;line-height:.9;letter-spacing:-.03em;color:#C9D2DE}
+  .road .s b{display:block;font-size:27px;line-height:1.2}
+  .road .s span{display:block;margin-top:6px;font-size:21px;color:var(--muted)}
+  .road .s.done .no{color:var(--Mi)}
+  .road .s.done b{color:var(--muted)}
+  .road .s .ok{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--surface);border:1px solid var(--surface-line);color:var(--muted);font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s.now{background:var(--Mt);margin:0 -24px;padding:24px 24px;border-radius:18px;border-bottom-color:transparent}
+  .road .s.now .no{color:var(--Mi)}
+  .road .s .tag{display:inline-block;margin-left:12px;vertical-align:4px;height:30px;line-height:30px;padding:0 12px;border-radius:999px;background:var(--M);color:#fff;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .road .s .rs{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:17px;font-weight:700;color:var(--Yi)}
+  .road .s .rs svg{width:18px;height:18px}
+</style>
+<section class="slide c s0 road">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">The course at a glance</div>
+    <h2>Eight sessions. One engineering workflow.</h2>
+    <div class="main">
+      <div class="cols">
+        <div>
+          <div class="ph"><i style="background:var(--X)"></i>Part 1 · Foundations</div>
+          <div class="s done"><span class="no">01</span><div><b>From Engineering Problems to Python<span class="ok">Done</span></b><span>AI/ML basics, Google Colab, NumPy &amp; pandas</span></div></div>
+          <div class="s done"><span class="no">02</span><div><b>From Raw Engineering Data to an ML-Ready Dataset<span class="ok">Done</span></b><span>EDA, data quality, outliers, train/test split, leakage</span></div></div>
+          <div class="s done"><span class="no">03</span><div><b>Your First Engineering Prediction Model<span class="ok">Done</span></b><span>Linear regression, error metrics, cross-validation</span></div></div>
+          <div class="s done"><span class="no">04</span><div><b>Nonlinear Engineering Problems: Trees &amp; Ensembles<span class="ok">Done</span></b><span>Decision trees, Random Forest, boosting</span></div></div>
+        </div>
+        <div>
+          <div class="ph"><i style="background:var(--Y)"></i>Part 2 · Prediction to decision</div>
+          <div class="s done"><span class="no">05</span><div><b>From Prediction to Engineering Decision: Classification<span class="ok">Done</span></b><span>Logistic regression, confusion matrix, precision &amp; recall</span></div></div>
+          <div class="s now"><span class="no">06</span><div><b>Artificial Neural Networks<span class="tag">Today</span></b><span>Architecture, activations, training, overfitting</span></div></div>
+          <div class="s"><span class="no">07</span><div><b>Can We Trust Our ML Model?</b><span>Feature importance, SHAP, engineering judgement</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+          <div class="s"><span class="no">08</span><div><b>From Prediction to Probability</b><span>Monte Carlo, ML surrogates, probability of failure</span><span class="rs">{{i:microscope}}Instructor’s research area</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TODAY / OBJECTIVES -->
+<style>
+  .today .wrap{display:grid;grid-template-columns:1fr 600px;gap:56px;height:100%}
+  .today .left{display:flex;flex-direction:column;gap:18px}
+  .today .pt{flex:1;display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:center;padding:24px 30px;border-radius:24px}
+  .today .pt .no{font-weight:900;font-stretch:87.5%;font-size:76px;line-height:.85;letter-spacing:-.04em}
+  .today .pt b{display:block;font-size:34px;font-weight:800;font-stretch:87.5%;letter-spacing:-.01em}
+  .today .pt span{display:block;margin-top:8px;font-size:22px;color:var(--ink-2)}
+  .today .lgs{display:flex;gap:10px}
+  .today .lgt svg{width:36px;height:36px}
+  .today .out{background:var(--ink);color:#fff;border-radius:28px;padding:36px 40px}
+  .today .out .lbl{color:#9FB3CC}
+  .today .out ul{margin-top:14px;list-style:none}
+  .today .out li{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:16px 0;border-top:1px solid rgba(255,255,255,.14);font-size:23px;line-height:1.35}
+  .today .out li b{color:#4FD3A0;font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+</style>
+<section class="slide c s0 today">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Today · Session 06</div>
+    <h2>One regression problem, three steps</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="pt" style="background:var(--Xt)"><span class="no" style="color:var(--Xi)">01</span><div><b>ANN intuition</b><span>Neurons · layers · activations · learning its own features · epoch, batch, learning rate</span></div><div class="lgs"><span class="lgt" style="color:var(--Xi)">{{i:brain}}</span></div></div>
+          <div class="pt" style="background:var(--Yt)"><span class="no" style="color:var(--Yi)">02</span><div><b>Build &amp; train an ANN</b><span>One neuron · the (32, 16) architecture · scaling · training · validation</span></div><div class="lgs"><span class="lgt">{{logo:scikitlearn}}</span></div></div>
+          <div class="pt" style="background:var(--Mt)"><span class="no" style="color:var(--Mi)">03</span><div><b>Results &amp; judgement</b><span>MAE · RMSE · R² · residuals · ANN vs baselines · limits</span></div><div class="lgs"><span class="lgt" style="color:var(--Mi)">{{i:scales}}</span></div></div>
+        </div>
+        <div class="out">
+          <div class="lbl">What you should leave understanding</div>
+          <ul>
+            <li><b>Explain</b><span>Neurons, weights, biases, layers and activations</span></li>
+            <li><b>Train</b><span>Scaling, loss, iterations and parameter updates</span></li>
+            <li><b>Validate</b><span>Training, validation and test data, and their roles</span></li>
+            <li><b>Compare</b><span>ANN predictions against simpler baselines</span></li>
+            <li><b>Judge</b><span>Overfitting, extrapolation risk and limitations</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RECAP: QUESTION -->
+<style>
+  .eqq .chain{display:grid;grid-template-columns:1fr 70px 1fr 70px 1fr;align-items:stretch}
+  .eqq .card{padding:34px 36px;display:flex;flex-direction:column}
+  .eqq .card h3{margin-top:12px;font-size:40px}
+  .eqq .card .big{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:40px;font-weight:700;color:var(--c)}
+  .eqq .card p{margin-top:auto;padding-top:18px;font-size:23px;border-top:1px solid var(--surface-line)}
+  .eqq .ar{display:grid;place-items:center;color:#AAB6C5}
+  .eqq .ar svg{width:46px;height:46px}
+  .eqq .chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .eqq .chips .chip{height:38px;font-size:18px;padding:0 14px}
+</style>
+<section class="slide c s0 eqq">
+  {{top:r}}
+  <div class="body">
+    <div class="kick">Recap · start with an engineering question</div>
+    <h2>Can mix and age predict concrete strength?</h2>
+    <div class="main">
+      <div class="chain grow">
+        <div class="card" style="--c:var(--Xi)"><div class="lbl" style="color:var(--Xi)">Inputs · X</div><h3>Eight variables</h3>
+          <div class="chips"><span class="chip x">cement</span><span class="chip x">slag</span><span class="chip x">fly ash</span><span class="chip x">water</span><span class="chip x">superplasticizer</span><span class="chip x">coarse agg.</span><span class="chip x">fine agg.</span><span class="chip x">age</span></div>
+          <p>Mix quantities in kg/m³, age in days.</p></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card" style="--c:var(--ink)"><div class="lbl">Model</div><h3>Learn the mapping</h3><div class="big">X → ŷ</div><p>Linear regression, random forest, or an ANN.</p></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card" style="--c:var(--Mi)"><div class="lbl" style="color:var(--Mi)">Output · ŷ</div><h3>Compressive strength</h3><div class="big">42.7 MPa</div><p>One predicted number per mix.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:function}}</span>This is regression: the target is a continuous number, not a category.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RECAP: DATASET -->
+<style>
+  .dset .wrap{display:grid;grid-template-columns:1fr 900px;gap:40px;height:100%}
+  .dset .left{display:flex;flex-direction:column;gap:18px}
+  .dset .g4{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .dset .stp{border-radius:20px;background:var(--surface);border:1px solid var(--surface-line);padding:20px 24px}
+  .dset .stp b{display:block;font-weight:900;font-stretch:87.5%;font-size:56px;line-height:1;letter-spacing:-.02em;color:var(--ink)}
+  .dset .stp span{display:block;margin-top:6px;font-size:20px;font-weight:600;color:var(--ink-2)}
+  .dset .stp.t{background:var(--Yt);border-color:var(--Yl)}.dset .stp.t b{color:var(--Yi)}
+  .dset .card{padding:24px 28px}
+  .dset .card p{font-size:22px;margin-top:6px}
+  .dset .chart{padding:20px 26px 10px}
+</style>
+<section class="slide c s0 dset">
+  {{top:r}}
+  <div class="body">
+    <div class="kick">Recap · the dataset and target</div>
+    <h2>1,030 concrete mixes from the UCI repository</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="left">
+          <div class="g4">
+            <div class="stp"><b>{{stat:n}}</b><span>observations</span></div>
+            <div class="stp"><b>{{stat:nf}}</b><span>predictor features</span></div>
+            <div class="stp"><b>{{stat:miss}}</b><span>missing values</span></div>
+            <div class="stp t"><b>{{stat:n_test}}</b><span>held-out test mixes (20%)</span></div>
+          </div>
+          <div class="card"><div class="lbl" style="color:var(--Mi)">Target</div><p>Compressive strength in MPa, from {{stat:s_lo}} to {{stat:s_hi}} MPa.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Caution</div><p>The data support a prediction exercise. They are not, by themselves, a physical model of concrete behaviour.</p></div>
+        </div>
+        <div class="chart"><h3>Strength of all {{stat:n}} mixes</h3>{{chart:strength}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Yeh, I.-C. (1998). Concrete Compressive Strength. UCI Machine Learning Repository, CC BY 4.0. doi:10.24432/C5PK67. Original data, all 1,030 rows.</div>
+</section>
+
+<!-- ===================================================================== RECAP: WHY COMPARE -->
+<style>
+  .cmp3 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .cmp3 .card{padding:34px 36px;display:flex;flex-direction:column}
+  .cmp3 .card h3{margin-top:18px;font-size:38px}
+  .cmp3 .card p{margin-top:12px;font-size:24px}
+  .cmp3 .card .tg{margin-top:auto;padding-top:18px;border-top:1px solid var(--surface-line);font-size:20px;font-weight:700;color:var(--c)}
+  .cmp3 .card.a{background:var(--Mt);border-color:var(--Ml)}
+</style>
+<section class="slide c s0 cmp3">
+  {{top:r}}
+  <div class="body">
+    <div class="kick">Recap · why compare more than one model?</div>
+    <h2>The ANN is one candidate, not the default winner</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="card" style="--c:var(--ink-2)"><span class="ic" style="background:var(--surface);color:var(--ink);border:1px solid var(--surface-line)">{{i:function}}</span><h3>Multiple linear regression</h3><p>A simple baseline with an additive linear form.</p><div class="tg">Session 03 · baseline</div></div>
+        <div class="card" style="--c:var(--Xi)"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:tree-structure}}</span><h3>Random forest</h3><p>A nonlinear ensemble of trees that captures complex patterns.</p><div class="tg">Session 04 · ensemble</div></div>
+        <div class="card a" style="--c:var(--Mi)"><span class="ic" style="background:#fff;color:var(--Mi)">{{i:graph}}</span><h3>Artificial neural network</h3><p>A flexible function approximator, trained iteratively.</p><div class="tg">Today</div></div>
+      </div>
+      <div class="take"><span class="ti">{{i:scales}}</span>We compare fitted configurations on the same held-out test set. The baselines are not exhaustively tuned.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RECAP: MLR BASELINE -->
+<style>
+  .mlr .eqb{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:40px 46px}
+  .mlr .eqb .eq{font-size:56px;margin-top:16px}
+  .mlr .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .mlr .g3 .card{padding:30px 34px}
+  .mlr .g3 .card p{font-size:24px;margin-top:10px}
+</style>
+<section class="slide c s0 mlr">
+  {{top:r}}
+  <div class="body">
+    <div class="kick">Recap · the baseline</div>
+    <h2>Multiple linear regression</h2>
+    <div class="main">
+      <div class="eqb"><div class="lbl">A reference for asking whether extra flexibility is useful</div><div class="eq"><i>ŷ</i> = <span class="sh g"><i>β</i><sub>0</sub></span> + <span class="sh b"><i>β</i><sub>1</sub></span><i>x</i><sub>1</sub> + <span class="sh b"><i>β</i><sub>2</sub></span><i>x</i><sub>2</sub> + ··· + <span class="sh b"><i>β</i><sub>8</sub></span><i>x</i><sub>8</sub></div></div>
+      <div class="g3 grow">
+        <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Strength</div><p>Simple to fit and to interpret as a baseline.</p></div>
+        <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Limitation</div><p>Without added nonlinear terms or interactions, its functional form is restricted.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Role</div><p>A reference against which to judge more flexible models.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:target}}</span>On today’s {{stat:n_test}} test mixes the baseline reaches R² = {{stat:lin_r2}} (RMSE {{stat:lin_rmse}} MPa). That is the bar to beat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 1 -->
+<section class="slide dv dv1">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">01</div>
+  <ol><li><span>a</span>Where neural networks came from</li><li><span>b</span>From a brain neuron to a simple model</li><li><span>c</span>Demand prediction: layers and activations</li><li><span>d</span>A network learns its own features</li><li><span>e</span>Multilayer perceptrons</li><li><span>f</span>Epoch, batch size, learning rate</li></ol>
+  <div class="part"><div class="k">Done with the recap · Part 01 · ANN intuition</div><h2>Here comes the ANN…</h2></div>
+</section>
+
+<!-- ===================================================================== HISTORY -->
+<style>
+  .hist .era{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .hist .era .card{padding:26px 30px;position:relative}
+  .hist .era .card .yr{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--sec-ink)}
+  .hist .era .card b{display:block;margin-top:8px;font-size:30px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+  .hist .era .card p{margin-top:6px;font-size:22px}
+  .hist .era .card.dn{background:var(--surface)}
+  .hist .era .card.up{background:var(--Xt);border-color:var(--Xl)}
+  .hist .apps{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hist .apps .chip{height:54px;font-size:23px;padding:0 22px}
+  .hist .apps svg{width:26px;height:26px;color:#8A99AD}
+  .hist .apps .chip svg{color:var(--Xi)}
+  .hist .now{border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line);font-size:25px;line-height:1.4;color:var(--ink)}
+  .hist .take{background:var(--Yt);border-color:var(--Yl)}
+  .hist .take .ti{background:var(--Y)}
+</style>
+<section class="slide c s1 hist">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Artificial neural network intuition</div>
+    <h2>Where neural networks came from</h2>
+    <div class="main">
+      <div class="era">
+        <div class="card"><div class="yr">Origin</div><b>Algorithms that try to mimic the brain</b><p>The first motivation was biological.</p></div>
+        <div class="card dn"><div class="yr">1980s – early 1990s</div><b>Widely used, then out of favour</b><p>Fell out of favour in the late 1990s.</p></div>
+        <div class="card up"><div class="yr">From around 2005</div><b>Resurgence</b><p>More data, more computing power, better training methods.</p></div>
+      </div>
+      <div class="apps"><span class="chip">{{i:waveform}}Speech recognition</span>{{i:arrow-right}}<span class="chip">{{i:image}}Image recognition (computer vision)</span>{{i:arrow-right}}<span class="chip">{{i:chat-text}}Text (natural language processing)</span>{{i:arrow-right}}<span class="chip">…</span></div>
+      <div class="now">Today neural networks are used in almost everything: <b>climate change</b>, <b>medical imaging</b>, <b>online advertising</b>, <b>product recommendations</b>. Many application areas of machine learning now use them.</div>
+      <div class="take"><span class="ti">{{i:warning}}</span>Today’s neural networks have almost nothing to do with how the brain learns. Mimicking the brain was only the early motivation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BRAIN vs NEURON MODEL -->
+<style>
+  .bio .wrap{display:grid;grid-template-columns:1fr 2px 1fr;gap:44px;height:100%}
+  .bio .col{display:flex;flex-direction:column;gap:18px;min-height:0}
+  .bio .rule{background:var(--rule)}
+  .bio .q{border-radius:22px;padding:22px 28px;background:var(--Xt);border:1px solid var(--Xl);font-size:25px;line-height:1.4;color:var(--ink)}
+  .bio .q b{color:var(--Xi)}
+  .bio .pic{flex:1;min-height:0;display:flex;align-items:center}
+  .bio .pic svg{width:100%;height:auto}
+  .bio .mm{flex:1;border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:26px 30px;display:flex;flex-direction:column}
+  .bio .net{flex:1;position:relative}
+  .bio .net > *{position:absolute}
+  .bio .net .nv{font-family:'JetBrains Mono',monospace;font-weight:700}
+  .bio .net .nr{width:120px;height:120px;border-radius:50%;border:5px solid var(--Mi);background:var(--Mt)}
+  .bio .net .on{width:76px;height:76px;border-radius:50%;border:4px solid var(--ink);background:#fff}
+  .bio .net .tl{font-size:22px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;width:200px;text-align:center}
+  .bio .net svg{left:0;top:0;width:740px;height:330px}
+  .bio .msg{border-radius:22px;padding:22px 28px;background:var(--ink);color:#E6EDF5;font-size:23px;line-height:1.4}
+  .bio .msg b{color:#fff}
+  .bio .msg em{font-style:normal;color:#FDB797;font-weight:800}
+</style>
+<section class="slide c s1 bio">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Artificial neural network intuition</div>
+    <h2>From a brain neuron to a simple model</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="col">
+          <div class="q"><b>So how does the brain work?</b> Here is a diagram of what a neuron in the brain looks like.</div>
+          <div class="pic">{{chart:neuron}}</div>
+        </div>
+        <div class="rule"></div>
+        <div class="col">
+          <div class="mm"><div class="lbl">Simplified mathematical model of a neuron</div>
+            <div class="net">
+              <svg viewBox="0 0 740 330">{{arrows:bio}}</svg>
+              <span class="tl" style="left:0;top:40px;color:var(--Xi)">Input</span>
+              <span class="nv" style="left:60px;top:132px;font-size:60px;color:var(--Xi)">2</span>
+              <span class="tl" style="left:210px;top:10px;color:var(--Mi)">Neuron</span>
+              <span class="nr" style="left:250px;top:115px"></span>
+              <span class="nv" style="left:440px;top:100px;font-size:40px;color:var(--ink)">0.7</span>
+              <span class="tl" style="left:520px;top:40px;color:var(--ink)">Output</span>
+              <span class="on" style="left:582px;top:137px"></span>
+            </div>
+          </div>
+          <div class="msg">With these <b>extremely simplified models</b> of a neuron we can build really powerful deep-learning algorithms. The origins were biological, but <em>don’t take the biological motivation too seriously.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Neuron drawn schematically after the standard textbook diagram.</div>
+</section>
+
+<!-- ===================================================================== DEMAND PREDICTION (shared styles) -->
+<style>
+  .dp{position:relative;width:1680px;height:640px}
+  .dp > *{position:absolute}
+  .dp svg.ar{left:0;top:0;width:1680px;height:640px}
+  .dp .in{width:250px;text-align:right;font-size:30px;font-weight:700;color:var(--Xi)}
+  .dp .nr{width:72px;height:72px;border-radius:50%;border:4px solid var(--Mi);background:#fff}
+  .dp .nr.o{border-color:var(--ink)}
+  .dp .act{font-size:27px;font-weight:700;color:var(--Mi);white-space:nowrap}
+  .dp .ck{width:40px;height:40px;color:var(--Mi)}
+  .dp .ck svg{width:40px;height:40px}
+  .dp .box{border:3px solid var(--ink);border-radius:20px}
+  .dp .lay{width:200px;text-align:center;font-size:26px;font-weight:800;color:var(--ink)}
+  .dp .acts{font-size:26px;font-weight:800;font-style:italic;color:var(--Mi)}
+  .dp .pr{width:270px;font-size:28px;font-weight:800;line-height:1.2;color:var(--ink)}
+  .dp .num{width:220px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--muted)}
+  .dp .av{font-size:22px;font-weight:700;font-style:italic;color:var(--Mi)}
+  .dp .ptr{font-size:23px;font-weight:700;font-style:italic;color:var(--sec-ink);white-space:nowrap}
+  .dpx .src{left:120px}
+</style>
+<section class="slide c s1 dpx dp1">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Demand prediction · will this T-shirt be a top seller?</div>
+    <h2>Layers and activations, one step at a time</h2>
+    <div class="main">{{dp:build}}</div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI).</div>
+</section>
+
+<section class="slide c s1 dpx dp2">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Demand prediction · will this T-shirt be a top seller?</div>
+    <h2>We chose which inputs feed which neuron</h2>
+    <div class="main">{{dp:full}}</div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI).</div>
+</section>
+
+<section class="slide c s1 dpx dp3">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Demand prediction · will this T-shirt be a top seller?</div>
+    <h2>In practice, every input feeds every neuron</h2>
+    <div class="main">{{dp:dense}}</div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI).</div>
+</section>
+
+<!-- ===================================================================== HIDDEN LAYER, ABSTRACTED -->
+<style>
+  .abs .flow{flex:1;display:flex;align-items:center;justify-content:space-between;padding:0 10px}
+  .abs .vec{border-radius:24px;background:var(--Xt);border:1px solid var(--Xl);padding:24px 30px}
+  .abs .vec .v{font-size:56px;font-weight:800;font-style:italic;color:var(--Xi);line-height:1}
+  .abs .vec ul{margin-top:12px;list-style:none}
+  .abs .vec li{padding:6px 0;font-size:25px;font-weight:700;color:var(--Xi)}
+  .abs .lyr{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .abs .lyr .k{font-size:22px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+  .abs .dash{border:3px dashed var(--ink);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:22px}
+  .abs .dash i{display:block;width:76px;height:76px;border-radius:50%;border:4px solid var(--Mi);background:#fff}
+  .abs .dash.o i{border-color:var(--ink)}
+  .abs .fa{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .abs .fa span{font-size:24px;font-weight:700;font-style:italic;color:var(--Mi);white-space:nowrap}
+  .abs .fa svg{width:220px;height:40px}
+  .abs .fa.s svg{width:120px}
+  .abs .pr{font-size:30px;font-weight:800;line-height:1.2;color:var(--ink);width:230px}
+  .abs .msg{border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line);font-size:26px;line-height:1.45;color:var(--ink)}
+  .abs .msg b{color:var(--Mi)}
+  .abs .msg em{font-style:normal;font-weight:800;color:var(--Xi)}
+</style>
+<section class="slide c s1 abs">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Demand prediction · the same network, abstracted</div>
+    <h2>A hidden layer turns inputs into new features</h2>
+    <div class="main">
+      <div class="flow">
+        <div class="vec"><div class="v">x</div><ul><li>Price</li><li>Shipping cost</li><li>Marketing</li><li>Material</li></ul></div>
+        <div class="fa s"><span>&nbsp;</span><svg viewBox="0 0 120 40">{{fat:120}}</svg></div>
+        <div class="lyr"><div class="k">Hidden layer</div><div class="dash"><i></i><i></i><i></i></div></div>
+        <div class="fa"><span>activation values, vector <b>a</b></span><svg viewBox="0 0 220 40">{{fat:220}}</svg></div>
+        <div class="lyr"><div class="k">Output layer</div><div class="dash o"><i></i></div></div>
+        <div class="fa s"><span>a</span><svg viewBox="0 0 120 40">{{fat:120}}</svg></div>
+        <div class="pr">Probability of being a top seller</div>
+      </div>
+      <div class="msg">Instead of you engineering the features by hand, the network <b>learns its own features</b> to make prediction easier. This is what makes neural networks <em>one of the most powerful learning algorithms</em>.</div>
+    </div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI).</div>
+</section>
+
+<!-- ===================================================================== MLP ARCHITECTURE -->
+<style>
+  .mlp .msg{border-radius:22px;padding:24px 30px;background:var(--surface);border:1px solid var(--surface-line);font-size:26px;line-height:1.45;color:var(--ink)}
+  .mlp .msg b.y{color:var(--Yi)}.mlp .msg b.g{color:var(--Mi)}.mlp .msg b.x{color:var(--Xi)}
+  .mlp .two{display:grid;grid-template-columns:1fr 3px 1fr;gap:40px;flex:1;min-height:0}
+  .mlp .two .rule{background:var(--ink);opacity:.8}
+  .mlp .net{display:flex;align-items:center;justify-content:center;gap:10px}
+  .mlp .net .x{font-size:54px;font-weight:800;font-style:italic;color:var(--Xi)}
+  .mlp .net .v{font-size:26px;font-weight:800;font-style:italic;color:var(--Mi)}
+  .mlp .net .ar{display:flex;flex-direction:column;align-items:center}
+  .mlp .net .ar svg{width:90px;height:34px}
+  .mlp .col{display:flex;flex-direction:column;align-items:center}
+  .mlp .dash{border:3px dashed var(--ink);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:10px}
+  .mlp .dash i{display:block;width:64px;height:64px;border-radius:50%;border:4px solid var(--Mi);background:#fff}
+  .mlp .dash.o i{border-color:var(--ink)}
+  .mlp .cap{display:flex;justify-content:center;gap:10px;margin-top:16px}
+  .mlp .cap span{width:118px;text-align:center;font-size:19px;font-weight:700;line-height:1.2;color:var(--ink-2)}
+  .mlp .side{display:flex;flex-direction:column;justify-content:center}
+  .mlp .side .lbl{text-align:center;margin-bottom:18px}
+  .mlp .col .k{margin-top:12px;font-size:18px;font-weight:700;line-height:1.2;color:var(--ink-2);text-align:center}
+</style>
+<section class="slide c s1 mlp">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Multilayer perceptron (MLP)</div>
+    <h2>Architecture: how many layers, how many neurons?</h2>
+    <div class="main">
+      <div class="msg">When we build our own network, we decide <b class="y">how many hidden layers</b> it has and <b class="y">how many neurons</b> each hidden layer has. That choice is the <b class="x">architecture of the network</b>.</div>
+      <div class="two">
+        <div class="side"><div class="lbl">Architecture A · 3 → 2 → 1</div>{{mlp:3,2}}</div>
+        <div class="rule"></div>
+        <div class="side"><div class="lbl">Architecture B · 3 → 5 → 1</div>{{mlp:3,5}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI). Networks of several layers like these are often called multilayer perceptrons.</div>
+</section>
+
+<!-- ===================================================================== MLP EQUATIONS -->
+<style>
+  .mle .wrap{display:grid;grid-template-columns:860px 1fr;gap:44px;height:100%}
+  .mle .net{display:flex;align-items:center;gap:12px;justify-content:center}
+  .mle .net .x{font-size:52px;font-weight:800;font-style:italic;color:var(--Xi)}
+  .mle .net .v{font-size:26px;font-weight:800;font-style:italic;color:var(--Mi);white-space:nowrap}
+  .mle .net .v sup,.mle .net .v sub{font-size:.62em}
+  .mle .ar{display:flex;flex-direction:column;align-items:center}
+  .mle .ar svg{width:74px;height:28px}
+  .mle .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .mle .col .k{font-size:17px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;line-height:1.25}
+  .mle .dash{border:3px dashed var(--ink);border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:14px}
+  .mle .dash > i{display:grid;place-items:center;width:132px;height:132px;border-radius:50%;border:4px solid var(--Mi);background:#fff;font-style:normal;font-size:22px;font-weight:700;color:var(--ink)}
+  .mle .dash.s > i{width:62px;height:62px}
+  .mle .dash.o > i{width:62px;height:62px;border-color:var(--ink)}
+  .mle .dash i sup,.mle .dash i sub{font-size:.62em}
+  .mle .card{padding:30px 34px;display:flex;flex-direction:column}
+  .mle .eqs{margin-top:10px}
+  .mle .eqs .eq{padding:18px 0;border-bottom:1px solid var(--surface-line);font-size:32px;white-space:nowrap}
+  .mle .eqs .eq sup,.mle .eqs .eq sub{font-size:.6em}
+  .mle .eqs .eq .j{display:inline-block;width:34px;height:34px;border-radius:50%;background:var(--Mt);color:var(--Mi);font-size:20px;font-weight:800;text-align:center;line-height:34px;margin-right:14px;vertical-align:4px}
+  .mle .card p{margin-top:auto;padding-top:18px;font-size:22px}
+  .mle .v{font-weight:800;font-style:normal}
+</style>
+<section class="slide c s1 mle">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Multilayer perceptron (MLP) · inside a layer</div>
+    <h2>Every neuron has its own weights and bias</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="net">
+          <span class="x">x</span>
+          <span class="ar"><svg viewBox="0 0 74 28">{{fat:74}}</svg></span>
+          <div class="col"><div class="dash"><i><span><b class="v">w</b><sub>1</sub><sup>[1]</sup>, <i>b</i><sub>1</sub><sup>[1]</sup></span></i><i><span><b class="v">w</b><sub>2</sub><sup>[1]</sup>, <i>b</i><sub>2</sub><sup>[1]</sup></span></i><i><span><b class="v">w</b><sub>3</sub><sup>[1]</sup>, <i>b</i><sub>3</sub><sup>[1]</sup></span></i></div><div class="k">1st hidden<br>layer</div></div>
+          <span class="ar"><span class="v"><b>a</b><sup>[1]</sup></span><svg viewBox="0 0 74 28">{{fat:74}}</svg></span>
+          <div class="col"><div class="dash s"><i></i><i></i></div><div class="k">2nd hidden<br>layer</div></div>
+          <span class="ar"><span class="v"><b>a</b><sup>[2]</sup></span><svg viewBox="0 0 74 28">{{fat:74}}</svg></span>
+          <div class="col"><div class="dash o"><i></i></div><div class="k">Output<br>layer</div></div>
+          <span class="ar"><span class="v">ŷ</span><svg viewBox="0 0 74 28">{{fat:74}}</svg></span>
+        </div>
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Layer 1, neuron by neuron</div>
+          <div class="eqs">
+            <div class="eq"><span class="j">1</span><i>a</i><sub>1</sub><sup>[1]</sup> = <i>g</i>(<b class="v">w</b><sub>1</sub><sup>[1]</sup> · <b class="v">x</b> + <i>b</i><sub>1</sub><sup>[1]</sup>)</div>
+            <div class="eq"><span class="j">2</span><i>a</i><sub>2</sub><sup>[1]</sup> = <i>g</i>(<b class="v">w</b><sub>2</sub><sup>[1]</sup> · <b class="v">x</b> + <i>b</i><sub>2</sub><sup>[1]</sup>)</div>
+            <div class="eq"><span class="j">3</span><i>a</i><sub>3</sub><sup>[1]</sup> = <i>g</i>(<b class="v">w</b><sub>3</sub><sup>[1]</sup> · <b class="v">x</b> + <i>b</i><sub>3</sub><sup>[1]</sup>)</div>
+          </div>
+          <p><b class="v">a</b><sup>[1]</sup> = (<i>a</i><sub>1</sub>, <i>a</i><sub>2</sub>, <i>a</i><sub>3</sub>) is the input of layer 2. Superscript [<i>l</i>] = layer, subscript <i>j</i> = neuron, <i>g</i> = activation function, bold = vector.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Illustration adapted from Prof. Andrew Ng’s lecture (Stanford Online and DeepLearning.AI).</div>
+</section>
+
+<!-- ===================================================================== TRAINING TERMS (shared styles) -->
+<style>
+  .term .wrap{display:grid;grid-template-columns:520px 1fr;gap:36px;height:100%}
+  .term .tp{border-radius:28px;background:var(--ink);color:#fff;padding:36px 38px;display:flex;flex-direction:column}
+  .term .tp .no{font-weight:900;font-stretch:87.5%;font-size:120px;line-height:.85;color:#4FD3A0}
+  .term .tp .ic{margin-top:26px;width:76px;height:76px;border-radius:20px;background:#1F2D40;color:#4FD3A0}
+  .term .tp .ic svg{width:44px;height:44px}
+  .term .tp h3{margin-top:20px;font-weight:900;font-stretch:87.5%;font-size:64px;line-height:1;letter-spacing:-.02em}
+  .term .tp p{margin-top:auto;font-size:22px;line-height:1.4;color:#C6D2E1}
+  .term .tp p b{color:#fff}
+  .term .tp .rows{margin-top:auto;display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .term .tp .rows i{height:18px;border-radius:4px;background:#4FD3A0}
+  .term .tp .rows i.b2{background:#7CB7FF}.term .tp .rows i.b3{background:#FDB797}
+  .term .tp .rows + p{margin-top:16px}
+  .term .rt{display:flex;flex-direction:column;gap:18px}
+  .term .card{padding:26px 32px;flex:1}
+  .term .card p{margin-top:8px;font-size:25px}
+  .term .card ul{margin-top:8px;list-style:none}
+  .term .card li{padding:6px 0;font-size:24px;color:var(--ink-2)}
+  .term .card li b{color:var(--ink)}
+  .term .card.d{background:var(--Xt);border-color:var(--Xl)}
+  .term .card.a{background:var(--Yt);border-color:var(--Yl)}
+  .term .card.p{background:var(--Mt);border-color:var(--Ml)}
+  .term .lr3{margin-top:10px}
+  .term .lr3 svg{width:100%;height:auto;max-height:190px}
+</style>
+<section class="slide c s1 term ep">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Key training terms in an ANN (MLP) · 1 of 3</div>
+    <h2>How long do we train?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="tp"><span class="no">1</span><span class="ic">{{i:book-open}}</span><h3>Epoch</h3>
+          <div class="rows">{{rows:epoch}}</div><p>One epoch: <b>every training row is used once.</b></p></div>
+        <div class="rt">
+          <div class="card d"><div class="lbl" style="color:var(--Xi)">Definition</div><p>An epoch is <b>one complete pass</b> through the entire training dataset by the model.</p></div>
+          <div class="card a"><div class="lbl" style="color:var(--Yi)">Analogy</div><p>Like reading the <b>whole book once</b>.</p></div>
+          <div class="card p"><div class="lbl" style="color:var(--Mi)">In practice</div><ul><li>We train for <b>many epochs</b> (10, 50, 100, …) so the model keeps improving.</li><li>Within each epoch the weights are updated again and again, once per batch.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide c s1 term bs">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Key training terms in an ANN (MLP) · 2 of 3</div>
+    <h2>How much data per update?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="tp"><span class="no">2</span><span class="ic">{{i:stack}}</span><h3>Batch size</h3>
+          <div class="rows">{{rows:batch}}</div><p>Example: <b>800 rows, batch size 32 → 25 weight updates</b> per epoch.</p></div>
+        <div class="rt">
+          <div class="card d"><div class="lbl" style="color:var(--Xi)">Definition</div><p>The <b>number of training samples</b> the model processes <b>before updating the weights once</b>.</p></div>
+          <div class="card a"><div class="lbl" style="color:var(--Yi)">Why it matters</div><ul><li>The model does not always look at the whole dataset at once.</li><li>It breaks the data into <b>smaller batches</b>. Common values: <b>32, 64, 128</b>.</li></ul></div>
+          <div class="card p"><div class="lbl" style="color:var(--Mi)">In practice</div><ul><li><b>Small batch:</b> more updates, noisier learning, but faster to start.</li><li><b>Large batch:</b> smoother updates, more memory.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide c s1 term lrt">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Key training terms in an ANN (MLP) · 3 of 3</div>
+    <h2>How big is each step?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="tp"><span class="no">3</span><span class="ic">{{i:footprints}}</span><h3>Learning rate</h3><p>Each update moves the weights a step <b>downhill on the loss</b>. The learning rate sets the step size.</p></div>
+        <div class="rt">
+          <div class="card d"><div class="lbl" style="color:var(--Xi)">Definition</div><p>A small number that controls <b>how big a step</b> the model takes while updating the weights during training.</p></div>
+          <div class="card a"><div class="lbl" style="color:var(--Yi)">Why it matters</div><ul><li><b>Too high:</b> the model may overshoot the optimum and not converge.</li><li><b>Too low:</b> the model learns very slowly and may get stuck.</li></ul><div class="lr3">{{chart:lr3}}</div></div>
+          <div class="card p"><div class="lbl" style="color:var(--Mi)">Analogy</div><p>Like your <b>pace while hiking</b> towards a goal: not too fast, not too slow.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TERMS SUMMARY -->
+<style>
+  .tsum table{width:100%;border-collapse:collapse}
+  .tsum th{text-align:left;padding:0 20px 16px 0;border-bottom:2px solid var(--ink);font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tsum th.k{color:var(--Mi)}
+  .tsum td{padding:28px 20px 28px 0;border-bottom:1px solid var(--rule);font-size:26px;color:var(--ink-2);vertical-align:top;line-height:1.35}
+  .tsum td:first-child{font-weight:800;font-stretch:87.5%;font-size:32px;color:var(--ink)}
+  .tsum td code{font-family:'JetBrains Mono',monospace;font-size:21px;color:var(--Mi);font-weight:700}
+  .tsum td small{display:block;margin-top:4px;font-size:19px;color:var(--muted)}
+</style>
+<section class="slide c s1 tsum">
+  {{top:1}}
+  <div class="body">
+    <div class="kick">Key training terms · summary</div>
+    <h2>Three settings that shape training</h2>
+    <div class="main">
+      <table>
+        <tr><th>Term</th><th>What it means</th><th>Analogy</th><th class="k">In scikit-learn’s MLPRegressor</th></tr>
+        <tr><td>Epoch</td><td>One full pass through the training data</td><td>Reading the whole book once</td><td><code>max_iter</code><small>maximum number of epochs (adam, sgd)</small></td></tr>
+        <tr><td>Batch size</td><td>Samples used in one weight update</td><td>Reading one chapter at a time</td><td><code>batch_size="auto"</code><small>min(200, number of rows)</small></td></tr>
+        <tr><td>Learning rate</td><td>Step size for updating the weights</td><td>How big a step you take</td><td><code>learning_rate_init=0.001</code><small>the default</small></td></tr>
+      </table>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:sliders}}</span>These are hyperparameters: we choose them, the network does not learn them. Choose them on validation data.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 2 -->
+<section class="slide dv dv2">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">02</div>
+  <ol><li><span>a</span>What an ANN is, and one neuron</li><li><span>b</span>Reading the (32, 16) architecture</li><li><span>c</span>Why nonlinear activations matter</li><li><span>d</span>Scaling the inputs</li><li><span>e</span>How the network learns</li><li><span>f</span>Data roles and choosing the architecture</li></ol>
+  <div class="logos" style="top:640px">{{logo:scikitlearn}}{{logo:googlecolab}}</div>
+  <div class="part"><div class="k">Part 02 · Build &amp; train</div><h2>An ANN for concrete strength</h2></div>
+</section>
+
+<!-- ===================================================================== WHAT IS AN ANN -->
+<style>
+  .wann .chain{display:grid;grid-template-columns:1fr 70px 1fr 70px 1fr;align-items:stretch}
+  .wann .card{padding:34px 36px;display:flex;flex-direction:column}
+  .wann .card h3{margin-top:18px;font-size:40px}
+  .wann .card p{margin-top:12px;font-size:24px}
+  .wann .card code{margin-top:auto;padding-top:16px;border-top:1px solid var(--surface-line);font-family:'JetBrains Mono',monospace;font-size:19px;color:var(--c)}
+  .wann .ar{display:grid;place-items:center;color:#AAB6C5}
+  .wann .ar svg{width:46px;height:46px}
+</style>
+<section class="slide c s2 wann">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">What is an artificial neural network?</div>
+    <h2>A parameterised function built from connected units</h2>
+    <div class="main">
+      <div class="chain grow">
+        <div class="card" style="--c:var(--Xi)"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:sliders-horizontal}}</span><h3>Inputs</h3><p>The measured features enter the network.</p><code>8 mix and age variables</code></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card" style="--c:var(--Mi)"><span class="ic" style="background:var(--Mt);color:var(--Mi)">{{i:graph}}</span><h3>Hidden layers</h3><p>Weighted combinations, then nonlinear activations.</p><code>32 and 16 neurons</code></div>
+        <div class="ar">{{i:arrow-right}}</div>
+        <div class="card" style="--c:var(--Yi)"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:target}}</span><h3>Output</h3><p>One predicted strength value.</p><code>ŷ in MPa</code></div>
+      </div>
+      <div class="take"><span class="ti">{{i:info}}</span>The network learns its weights and biases from examples. It is not handed an explicit engineering equation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ONE NEURON -->
+<style>
+  .one .wrap{display:grid;grid-template-columns:1fr 860px;gap:40px}
+  .one .eqb{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:30px 36px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+  .one .eqb .eq{font-size:42px}
+  .one .eqb .eq sub{font-size:.6em}
+  .one .dg{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:16px 20px}
+  .one .dg svg{width:100%;height:auto}
+  .one .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .one .g3 .card{padding:24px 30px}
+  .one .g3 .card p{font-size:22px;margin-top:6px}
+</style>
+<section class="slide c s2 one">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Inside one neuron</div>
+    <h2>Combine the inputs, add a bias, apply an activation</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="eqb"><div class="lbl">Two steps</div>
+          <div class="eq"><i>z</i> = <span class="sh b"><i>w</i><sub>1</sub></span><i>x</i><sub>1</sub> + <span class="sh b"><i>w</i><sub>2</sub></span><i>x</i><sub>2</sub> + ··· + <span class="sh b"><i>w</i><sub>n</sub></span><i>x</i><sub>n</sub> + <span class="sh o"><i>b</i></span></div>
+          <div class="eq"><i>a</i> = <span class="sh g"><i>g</i></span>(<i>z</i>)</div></div>
+        <div class="dg">{{chart:unit}}</div>
+      </div>
+      <div class="g3 grow">
+        <div class="card"><div class="lbl" style="color:var(--Xi)">Weights w</div><p>Control how much each input contributes.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Yi)">Bias b</div><p>Shifts the pre-activation value z.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Activation g</div><p>Bends the response, so layers can model curves.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:sliders}}</span>Training adjusts every weight and every bias. The same z appeared in Session 05 as the logistic-regression score.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== (32, 16) -->
+<style>
+  .a32 .wrap{display:grid;grid-template-columns:1fr 520px;gap:40px;height:100%}
+  .a32 .dg{border-radius:24px;background:#fff;border:1px solid var(--surface-line);padding:18px 22px;display:flex;align-items:center}
+  .a32 .dg svg{width:100%;height:auto}
+  .a32 .side{display:flex;flex-direction:column;gap:16px}
+  .a32 .pc{border-radius:24px;background:var(--surface);border:1px solid var(--surface-line);padding:26px 30px}
+  .a32 .pc .r{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 0;border-top:1px solid var(--surface-line);font-size:22px;color:var(--ink-2)}
+  .a32 .pc .r b{font-family:'JetBrains Mono',monospace;font-size:24px;color:var(--ink)}
+  .a32 .pc .r.t{border-top:2px solid var(--ink)}
+  .a32 .pc .r.t b{color:var(--Yi);font-size:30px}
+  .a32 .note{border-radius:22px;background:var(--Yt);border:1px solid var(--Yl);padding:22px 28px;font-size:22px;line-height:1.4;color:var(--ink)}
+</style>
+<section class="slide c s2 a32">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Reading an ANN architecture</div>
+    <h2>Our selected network is (32, 16)</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="dg">{{chart:net}}</div>
+        <div class="side">
+          <div class="pc"><div class="lbl">Weights and biases to learn</div>
+            <div class="r"><span>Inputs → 32 · 8 × 32 + 32</span><b>288</b></div>
+            <div class="r"><span>32 → 16 · 32 × 16 + 16</span><b>528</b></div>
+            <div class="r"><span>16 → output · 16 × 1 + 1</span><b>17</b></div>
+            <div class="r t"><span>Total parameters</span><b>833</b></div></div>
+          <div class="note"><b>(32, 16)</b> gives the neurons in each hidden layer, not the number of parameters. Two hidden layers here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ACTIVATIONS -->
+<style>
+  .actv .wrap{display:grid;grid-template-columns:900px 1fr;gap:40px;height:100%}
+  .actv .chart{padding:18px 22px 10px}
+  .actv .chart .stack{aspect-ratio:900/560;margin-top:6px}
+  .actv .side{display:flex;flex-direction:column;gap:18px}
+  .actv .side .card{padding:26px 30px}
+  .actv .side .card p{font-size:23px;margin-top:8px}
+  .actv .side .card .eq{margin-top:12px;font-size:26px;white-space:normal}
+  .actv .side .card .eq sub{font-size:.6em}
+</style>
+<section class="slide c s2 actv">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Why nonlinear activation functions matter</div>
+    <h2>Without them, stacked layers stay linear</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Three common activation functions</h3><div class="stack">{{stack:act}}</div></div>
+        <div class="side">
+          <div class="card" style="background:var(--Xt);border-color:var(--Xl)"><div class="lbl" style="color:var(--Xi)">In our fitted ANN</div><p>Both hidden layers use <b>ReLU</b>. The output neuron is linear, so ŷ can be any strength.</p></div>
+          <div class="card"><div class="lbl">Why not linear everywhere?</div><div class="eq"><i>W</i><sub>2</sub>(<i>W</i><sub>1</sub><b>x</b> + <i>b</i><sub>1</sub>) + <i>b</i><sub>2</sub> = <i>W</i><b>x</b> + <i>b</i></div><p>Two linear layers collapse into one linear model.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><p>Sigmoid and tanh are shown for comparison; they are not used in this fitted model.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== SCALING -->
+<style>
+  .scl .g2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .scl .chart{padding:18px 24px 8px}
+  .scl .flow{display:flex;align-items:center;gap:14px}
+  .scl .flow .chip{height:52px;font-size:22px;padding:0 20px}
+  .scl .flow svg{width:26px;height:26px;color:#8A99AD}
+  .scl .flow .chip svg{color:inherit}
+</style>
+<section class="slide c s2 scl">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Why scale the inputs?</div>
+    <h2>Our features use very different ranges and units</h2>
+    <div class="main">
+      <div class="g2 grow">
+        <div class="chart"><h3>Raw inputs</h3><div class="f">Superplasticizer spans 0–{{stat:sp_hi}} kg/m³; coarse aggregate {{stat:ca_lo}}–{{stat:ca_hi}} kg/m³.</div>{{chart:scraw}}</div>
+        <div class="chart"><h3>After StandardScaler</h3><div class="f">Each feature centred and scaled with the training mean and standard deviation.</div>{{chart:scstd}}</div>
+      </div>
+      <div class="flow"><span class="chip x">Raw inputs</span>{{i:arrow-right}}<span class="chip">StandardScaler · fit on training data</span>{{i:arrow-right}}<span class="chip m">ANN · optimisation better behaved</span></div>
+      <div class="take"><span class="ti">{{i:flow-arrow}}</span>The scaler sits inside a Pipeline, so it is fitted on the training data, never on the held-out test set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== HOW AN ANN LEARNS -->
+<style>
+  .lrn .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .lrn .st{position:relative;border-radius:24px;padding:30px 30px;display:flex;flex-direction:column;background:var(--t);border:1px solid var(--l);min-height:340px}
+  .lrn .st .n{font-weight:900;font-stretch:87.5%;font-size:72px;line-height:.85;color:var(--c)}
+  .lrn .st h3{margin-top:18px;font-size:34px}
+  .lrn .st p{margin-top:auto;padding-top:16px;font-size:22px;border-top:1px solid var(--l)}
+  .lrn .st:not(:last-child)::after{content:"";position:absolute;right:-19px;top:60px;width:14px;height:14px;border-top:3px solid #8A99AD;border-right:3px solid #8A99AD;transform:rotate(45deg)}
+  .lrn .x{--c:var(--Xi);--t:var(--Xt);--l:var(--Xl)}.lrn .o{--c:var(--Yi);--t:var(--Yt);--l:var(--Yl)}.lrn .k{--c:var(--ink);--t:var(--surface);--l:var(--surface-line)}.lrn .g{--c:var(--Mi);--t:var(--Mt);--l:var(--Ml)}
+  .lrn .rep{display:flex;align-items:center;gap:14px;font-size:22px;font-weight:700;color:var(--muted)}
+  .lrn .rep svg{width:30px;height:30px;color:var(--sec)}
+</style>
+<section class="slide c s2 lrn">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">How does an ANN learn?</div>
+    <h2>Adjust weights and biases to reduce a loss</h2>
+    <div class="main">
+      <div class="chain">
+        <div class="st x"><span class="n">1</span><h3>Forward pass</h3><p>The inputs flow through the layers and produce a prediction ŷ.</p></div>
+        <div class="st o"><span class="n">2</span><h3>Calculate loss</h3><p>Compare ŷ with the observed strength y: squared error for regression.</p></div>
+        <div class="st k"><span class="n">3</span><h3>Backpropagate</h3><p>Compute the gradient of the loss for every weight and bias.</p></div>
+        <div class="st g"><span class="n">4</span><h3>Update</h3><p>The optimiser (Adam by default) takes a step of size set by the learning rate.</p></div>
+      </div>
+      <div class="rep">{{i:arrows-clockwise}}Repeat for every batch, epoch after epoch, until the loss stops improving.</div>
+      <div class="grow"></div>
+      <div class="take"><span class="ti">{{i:info}}</span>This is optimisation, the same gradient descent as Session 03. It is not the discovery of a guaranteed physical law.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== LOSS vs VALIDATION -->
+<style>
+  .tlv .wrap{display:grid;grid-template-columns:900px 1fr;gap:40px;height:100%}
+  .tlv .chart{padding:18px 22px 10px}
+  .tlv .side{display:flex;flex-direction:column;gap:16px}
+  .tlv .side .card{padding:24px 28px}
+  .tlv .side .card p{font-size:22px;margin-top:6px}
+  .tlv ul{list-style:none;border-top:2px solid var(--ink)}
+  .tlv li{padding:13px 0;border-bottom:1px solid var(--rule);font-size:22px;color:var(--ink)}
+</style>
+<section class="slide c s2 tlv">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Training loss and validation score</div>
+    <h2>They answer different questions</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>What the notebook’s training plot shows</h3><div class="f">Early stopping keeps the iteration with the best validation score.</div>{{chart:curves}}</div>
+        <div class="side">
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Training loss</div><p>Tracks the optimisation objective on training batches. It is not the test RMSE.</p></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Internal validation R²</div><p>Performance on a held-out part of the training data, used by early stopping.</p></div>
+          <ul><li>A falling training loss is not evidence of generalisation.</li><li>Inspect both curves; note if training hit the iteration limit.</li><li>The internal validation subset is not the final test set.</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DATA ROLES -->
+<style>
+  .roles .bar{display:flex;height:96px;border-radius:20px;overflow:hidden;font-size:24px;font-weight:800}
+  .roles .bar div{display:flex;align-items:center;justify-content:center;gap:12px}
+  .roles .bar .tr{flex:{{stat:n_train}};background:var(--Xt);color:var(--Xi)}
+  .roles .bar .tr span{display:flex;align-items:center;height:62px;padding:0 18px;border-radius:14px;background:var(--Mt);color:var(--Mi);border:2px dashed var(--M);font-size:20px}
+  .roles .bar .te{flex:{{stat:n_test}};background:var(--Y);color:#fff}
+  .roles .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .roles .card{padding:28px 32px}
+  .roles .card h3{font-size:34px}
+  .roles .card p{font-size:23px;margin-top:8px}
+</style>
+<section class="slide c s2 roles">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Three data roles · do not mix them up</div>
+    <h2>Train, validate, then test once</h2>
+    <div class="main">
+      <div class="bar"><div class="tr">Training · {{stat:n_train}} mixes <span>validation subset</span></div><div class="te">Test · {{stat:n_test}}</div></div>
+      <div class="g3 grow">
+        <div class="card" style="background:var(--Xt);border-color:var(--Xl)"><div class="lbl" style="color:var(--Xi)">Training data</div><h3>Fit the parameters</h3><p>Weights and biases are learned here.</p></div>
+        <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Validation data</div><h3>Monitor and choose</h3><p>Early stopping, and comparing candidate architectures.</p></div>
+        <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Test data</div><h3>Final evaluation</h3><p>Used once, after every choice is made.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:lock}}</span>The architecture is chosen on validation RMSE. The held-out test set plays no part in that choice.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== BIGGER ANN? -->
+<style>
+  .big4 .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .big4 .chart{padding:20px 24px 10px}
+  .big4 .side{display:flex;flex-direction:column;gap:16px}
+  .big4 .side .card{padding:26px 30px}
+  .big4 .side .card .n{margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;color:var(--Mi)}
+  .big4 .side .card p{font-size:22px;margin-top:8px}
+</style>
+<section class="slide c s2 big4">
+  {{top:2}}
+  <div class="body">
+    <div class="kick">Candidate architectures, compared on validation data</div>
+    <h2>Does a bigger ANN automatically do better?</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Four architectures, one validation subset</h3>{{chart:arch}}</div>
+        <div class="side">
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Selected</div><div class="n">(32, 16)</div><p>Lowest validation RMSE of the four candidates: <b>{{stat:a_best}} MPa</b>.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Bigger is not always better</div><p>Adding a third layer, (32, 16, 8), gave {{stat:a_deep}} MPa: no improvement.</p></div>
+          <div class="card" style="background:var(--surface)"><p>Best of four tried. Not proof of a global optimum.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== DIVIDER 3 -->
+<section class="slide dv dv3">
+  <div class="gridl"></div>
+  {{truss}}
+  {{top:d}}
+  <div class="big">03</div>
+  <ol><li><span>a</span>Measuring regression performance</li><li><span>b</span>Results on the held-out test set</li><li><span>c</span>What R² does and does not tell us</li><li><span>d</span>Actual vs predicted, and residuals</li><li><span>e</span>Does an ANN understand concrete?</li><li><span>f</span>Transfer to geotechnical problems</li></ol>
+  <div class="part"><div class="k">Part 03 · Results &amp; judgement</div><h2>Is the ANN worth its complexity?</h2></div>
+</section>
+
+<!-- ===================================================================== METRICS -->
+<style>
+  .mtr .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .mtr .card{padding:32px 36px;display:flex;flex-direction:column}
+  .mtr .card h3{font-size:46px}
+  .mtr .card .eq{margin-top:22px;font-size:40px;white-space:normal}
+  .mtr .card .eq sub,.mtr .card .eq sup{font-size:.6em}
+  .mtr .card p{margin-top:auto;padding-top:18px;font-size:23px;border-top:1px solid var(--surface-line)}
+  .mtr .res{display:grid;grid-template-columns:auto 1fr 1fr;gap:20px;align-items:center;border-radius:22px;background:var(--ink);color:#fff;padding:24px 32px}
+  .mtr .res .eq{color:#fff;font-size:34px}
+  .mtr .res span{font-size:22px;color:#C6D2E1}
+  .mtr .res span b{color:#fff}
+</style>
+<section class="slide c s3 mtr">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">How do we measure regression performance?</div>
+    <h2>Complementary metrics, not one number</h2>
+    <div class="main">
+      <div class="g3 grow">
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Mean absolute error</div><h3>MAE</h3><div class="eq">mean |<i>y</i> − <i>ŷ</i>|</div><p>The average size of an error, in MPa.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Root mean squared error</div><h3>RMSE</h3><div class="eq">√ mean (<i>y</i> − <i>ŷ</i>)²</div><p>Also in MPa; penalises large errors more strongly.</p></div>
+        <div class="card"><div class="lbl" style="color:var(--Mi)">Coefficient of determination</div><h3>R²</h3><div class="eq">1 − SS<sub>res</sub> / SS<sub>tot</sub></div><p>Compared with always predicting the mean; can be negative.</p></div>
+      </div>
+      <div class="res"><div class="eq"><i>e</i> = <i>y</i> − <i>ŷ</i></div><span><b>Residual &gt; 0</b>: actual above predicted, the model underpredicts.</span><span><b>Residual &lt; 0</b>: actual below predicted, the model overpredicts.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TEST RESULTS -->
+<style>
+  .tres .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .tres .chart{padding:20px 24px 10px}
+  .tres .side{display:flex;flex-direction:column;gap:16px}
+  .tres .side .card{padding:24px 28px}
+  .tres .side .card p{font-size:22px;margin-top:8px}
+  .tres .side .card .m{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--ink)}
+</style>
+<section class="slide c s3 tres">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">One fixed 80/20 split · the same {{stat:n_test}} test mixes for all three models</div>
+    <h2>Results on the held-out test set</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Test errors</h3>{{chart:err}}</div>
+        <div class="side">
+          <div class="card" style="background:var(--Xt);border-color:var(--Xl)"><div class="lbl" style="color:var(--Xi)">Random forest</div><div class="m">MAE {{stat:rf_mae}} · RMSE {{stat:rf_rmse}}</div><p>Best of these configurations in this run.</p></div>
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">ANN (32, 16)</div><div class="m">MAE {{stat:ann_mae}} · RMSE {{stat:ann_rmse}}</div><p>Competitive, but not the best.</p></div>
+          <div class="card"><div class="lbl">Linear regression</div><div class="m">MAE {{stat:lin_mae}} · RMSE {{stat:lin_rmse}}</div><p>Both nonlinear models clearly improve on it.</p></div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:scales}}</span>One split, one run. These results do not prove which model family is best in general.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== R² -->
+<style>
+  .rsq .wrap{display:grid;grid-template-columns:1000px 1fr;gap:40px;height:100%}
+  .rsq .chart{padding:20px 24px 10px}
+  .rsq .side{display:flex;flex-direction:column;gap:16px}
+  .rsq .side .card{padding:26px 30px}
+  .rsq .side .card .n{margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:700;color:var(--Xi)}
+  .rsq .side .card p{font-size:22px;margin-top:8px}
+  .rsq .side ul{list-style:none;margin-top:8px}
+  .rsq .side li{padding:8px 0;border-top:1px solid var(--Yl);font-size:22px}
+</style>
+<section class="slide c s3 rsq">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">What does R² tell us here?</div>
+    <h2>Useful, but not a complete measure of quality</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Share of strength variance explained on the test mixes</h3>{{chart:r2}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Best observed R²</div><div class="n">{{stat:rf_r2}}</div><p>Random forest; the ANN reaches {{stat:ann_r2}}.</p></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">R² alone does not show</div><ul><li>Error patterns</li><li>Performance near critical thresholds</li><li>Validity outside the training domain</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== ACTUAL vs PREDICTED -->
+<style>
+  .avp .wrap{display:grid;grid-template-columns:720px 1fr;gap:40px;height:100%}
+  .avp .chart{padding:18px 22px 8px}
+  .avp .side{display:flex;flex-direction:column;gap:16px}
+  .avp .side .card{padding:26px 30px}
+  .avp .side .card ul{list-style:none;margin-top:8px}
+  .avp .side .card li{padding:10px 0;border-top:1px solid var(--surface-line);font-size:23px;color:var(--ink)}
+  .avp .side .card p{font-size:23px;margin-top:8px}
+</style>
+<section class="slide c s3 avp">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Actual versus predicted · inspect the pattern</div>
+    <h2>Points near the dashed 1 : 1 line are accurate</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Linear-regression baseline, {{stat:n_test}} test mixes</h3>{{chart:parity}}</div>
+        <div class="side">
+          <div class="card" style="background:var(--Mt);border-color:var(--Ml)"><div class="lbl" style="color:var(--Mi)">Look for</div><ul><li>Scatter around the 1 : 1 line</li><li>Systematic under- or overprediction</li><li>Different spread at low and high strength</li></ul></div>
+          <div class="card" style="background:var(--Yt);border-color:var(--Yl)"><div class="lbl" style="color:var(--Yi)">Do not overread</div><p>Plots complement the metrics. They do not establish physical validity, or generalisation to a new population.</p></div>
+          <div class="take"><span class="ti">{{i:notebook}}</span>Live: the ANN and random-forest plots in the notebook.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== RESIDUALS -->
+<style>
+  .rsd .wrap{display:grid;grid-template-columns:780px 1fr;gap:40px;height:100%}
+  .rsd .chart{padding:18px 22px 8px}
+  .rsd .side{display:flex;flex-direction:column;gap:14px}
+  .rsd .side .card{padding:22px 28px}
+  .rsd .side .card p{font-size:22px;margin-top:6px}
+  .rsd .side .fact{border-radius:22px;background:var(--ink);color:#E6EDF5;padding:22px 28px;font-size:22px;line-height:1.4}
+  .rsd .side .fact .lbl{color:#4FD3A0}
+  .rsd .side .fact b{color:#fff;font-family:'JetBrains Mono',monospace}
+</style>
+<section class="slide c s3 rsd">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Residuals · actual minus predicted, for every test mix</div>
+    <h2>Residuals reveal systematic errors</h2>
+    <div class="main">
+      <div class="wrap">
+        <div class="chart"><h3>Linear-regression residuals, test mixes</h3>{{chart:resid}}</div>
+        <div class="side">
+          <div class="card"><div class="lbl" style="color:var(--Mi)">Positive residual</div><p>Actual strength above predicted: underprediction.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Yi)">Negative residual</div><p>Actual strength below predicted: overprediction.</p></div>
+          <div class="card"><div class="lbl" style="color:var(--Xi)">Patterned residuals</div><p>May show systematic error, or unequal error spread.</p></div>
+          <div class="fact"><div class="lbl">In this baseline</div>Weak mixes (actual &lt; 20 MPa) are overpredicted by <b>{{stat:r_lo}}</b> MPa on average; strong mixes (≥ 60 MPa) underpredicted by <b>{{stat:r_hi}}</b> MPa.</div>
+        </div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>A good average score can hide weak performance in parts of the strength range.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== UNDERSTAND CONCRETE? -->
+<style>
+  .und .wrap{display:grid;grid-template-columns:1fr 600px;gap:40px;height:100%}
+  .und ul{list-style:none;border-top:2px solid var(--ink)}
+  .und li{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--rule);font-size:25px;color:var(--ink-2);line-height:1.35}
+  .und li b{font-size:27px;color:var(--c)}
+  .und .dom{border-radius:24px;background:var(--surface);border:1px solid var(--surface-line);padding:28px 32px}
+  .und .dom table{margin-top:12px;width:100%;border-collapse:collapse}
+  .und .dom td{padding:14px 0;border-top:1px solid var(--surface-line);font-size:22px;color:var(--ink-2)}
+  .und .dom td:last-child{text-align:right;font-family:'JetBrains Mono',monospace;font-size:21px;font-weight:700;color:var(--ink)}
+  .und .dom p{margin-top:14px;font-size:21px}
+</style>
+<section class="slide c s3 und">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Does an ANN understand concrete?</div>
+    <h2>No: it learns a statistical mapping from examples</h2>
+    <div class="main">
+      <div class="wrap">
+        <ul>
+          <li style="--c:var(--Mi)"><b>Interpolation</b><span>Prediction in a region reasonably represented by the training data.</span></li>
+          <li style="--c:var(--Yi)"><b>Extrapolation</b><span>Prediction beyond the domain of the training data: particularly risky.</span></li>
+          <li style="--c:var(--Xi)"><b>Physical validity</b><span>Not established by a high test score alone.</span></li>
+          <li style="--c:var(--ink)"><b>Deployment</b><span>Needs representative validation, plausible behaviour, and attention to the consequences of errors.</span></li>
+        </ul>
+        <div class="dom"><div class="lbl">The training domain</div>
+          <table>
+            <tr><td>Cement</td><td>{{stat:d_cement}} kg/m³</td></tr>
+            <tr><td>Water</td><td>{{stat:d_water}} kg/m³</td></tr>
+            <tr><td>Superplasticizer</td><td>{{stat:d_sp}} kg/m³</td></tr>
+            <tr><td>Age</td><td>{{stat:d_age}} days</td></tr>
+            <tr><td>Strength</td><td>{{stat:d_str}} MPa</td></tr>
+          </table>
+          <p>A mix outside these ranges, or an unusual combination inside them, is extrapolation.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== GEOTECH TRANSFER -->
+<style>
+  .geo .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .geo .card{padding:34px 38px;display:flex;flex-direction:column}
+  .geo .card h3{margin-top:16px;font-size:40px}
+  .geo .card .fl{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .geo .card .fl span{font-size:24px;color:var(--ink)}
+  .geo .card .fl b{font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--c)}
+  .geo .card p{margin-top:auto;padding-top:18px;font-size:21px;color:var(--muted);border-top:1px solid var(--surface-line)}
+</style>
+<section class="slide c s3 geo">
+  {{top:3}}
+  <div class="body">
+    <div class="kick">Illustrative applications · not trained or validated models</div>
+    <h2>The same idea transfers to geotechnical engineering</h2>
+    <div class="main">
+      <div class="two grow">
+        <div class="card" style="--c:var(--Yi)"><span class="ic" style="background:var(--Yt);color:var(--Yi)">{{i:mountains}}</span><h3>Slope-stability surrogate</h3>
+          <div class="fl"><span>Geometry + soil parameters + hydraulic conditions</span><b>→ approximate factor of safety</b></div><p>Like the 616 Morgenstern–Price slopes of Session 05, as a regression on FOS.</p></div>
+        <div class="card" style="--c:var(--Xi)"><span class="ic" style="background:var(--Xt);color:var(--Xi)">{{i:cpu}}</span><h3>Expensive numerical model</h3>
+          <div class="fl"><span>Validated inputs</span><b>→ rapid approximate response after training</b></div><p>The basis of the ML surrogates in Session 08.</p></div>
+      </div>
+      <div class="take"><span class="ti">{{i:warning}}</span>A surrogate speeds up repeated predictions. It does not validate the underlying numerical model or justify extrapolation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== TAKE-HOME -->
+<style>
+  .thm .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .thm .st{border-radius:22px;padding:26px 26px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--surface-line)}
+  .thm .st .n{font-weight:900;font-stretch:87.5%;font-size:58px;line-height:.85;color:var(--sec)}
+  .thm .st b{margin-top:18px;font-size:28px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+  .thm .st span{margin-top:auto;padding-top:16px;font-size:20px;line-height:1.4;color:var(--ink-2)}
+  .thm .lesson{border-radius:24px;background:var(--ink);color:#fff;padding:28px 36px}
+  .thm .lesson .lbl{color:#4FD3A0}
+  .thm .lesson b{display:block;margin-top:10px;color:#fff;font-size:34px;font-weight:800;font-stretch:87.5%;line-height:1.15}
+</style>
+<section class="slide c s0 thm">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">Take-home messages</div>
+    <h2>ANNs are useful tools, not automatic upgrades</h2>
+    <div class="main">
+      <div class="g5 grow">
+        <div class="st"><span class="n">1</span><b>Understand the mapping</b><span>Inputs → weighted combinations → nonlinear activations → output.</span></div>
+        <div class="st"><span class="n">2</span><b>Training is optimisation</b><span>Loss, gradients and parameter updates shape the learned model.</span></div>
+        <div class="st"><span class="n">3</span><b>Validate correctly</b><span>Validation data for choices; the test set only for the final evaluation.</span></div>
+        <div class="st"><span class="n">4</span><b>Compare honestly</b><span>Here, the random forest beat the selected ANN on the held-out test set.</span></div>
+        <div class="st"><span class="n">5</span><b>Keep claims proportional</b><span>Scores do not establish causation, physical validity or safe extrapolation.</span></div>
+      </div>
+      <div class="lesson"><div class="lbl">The central lesson</div><b>Choose the model the evidence supports, not the most sophisticated one.</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== AFTER THE SESSION -->
+<style>
+  .aft .wrap{display:grid;grid-template-columns:1fr 560px;gap:44px;height:100%}
+  .aft ol{list-style:none;border-top:2px solid var(--ink)}
+  .aft li{display:grid;grid-template-columns:60px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid var(--rule);font-size:25px;color:var(--ink)}
+  .aft li span{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--sec-ink);padding-top:3px}
+  .aft .del{border-radius:26px;background:var(--ink);color:#fff;padding:36px;display:flex;flex-direction:column}
+  .aft .del .lbl{color:#4FD3A0}
+  .aft .del p{margin-top:14px;font-size:23px;color:#E6EDF5}
+  .aft .del .ref{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);font-size:18px;line-height:1.5;color:#C6D2E1}
+</style>
+<section class="slide c s0 aft">
+  {{top:0}}
+  <div class="body">
+    <div class="kick">After the session · use the notebook to reinforce the workflow</div>
+    <h2>Five things to do in the notebook</h2>
+    <div class="main">
+      <div class="wrap">
+        <ol>
+          <li><span>01</span><div>Compare the three fitted models using MAE, RMSE and R²</div></li>
+          <li><span>02</span><div>Inspect the actual-versus-predicted plots and the ANN residual plot</div></li>
+          <li><span>03</span><div>Explain why (32, 16) was selected using validation RMSE</div></li>
+          <li><span>04</span><div>Discuss whether a more complex model is justified by its performance</div></li>
+          <li><span>05</span><div>Name two limitations before considering real engineering use</div></li>
+        </ol>
+        <div class="del"><span class="lgt" style="margin-bottom:20px">{{logo:googlecolab}}</span><div class="lbl">Session 06 notebook</div><p>{{notebook_link}}</p>
+          <div class="ref">Dataset: Yeh, I.-C. (1998). Concrete Compressive Strength. UCI Machine Learning Repository. doi:10.24432/C5PK67</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== QUESTIONS -->
+<style>
+  .qa .big{position:absolute;left:104px;top:330px;font-weight:900;font-stretch:87.5%;font-size:230px;line-height:.85;letter-spacing:-.05em}
+  .qa .sub{position:absolute;left:120px;top:560px;font-size:34px;line-height:1.4;color:var(--ink-2);max-width:900px}
+  .qa .who{position:absolute;left:120px;bottom:110px;font-size:26px;color:var(--ink-2)}
+  .qa .who b{font-size:32px;display:block;margin-bottom:6px;color:var(--ink)}
+  .qa .disc{left:1250px;top:230px;width:620px;height:620px;background:var(--tint)}
+  .qa .qm{position:absolute;left:1250px;top:230px;width:620px;height:620px;display:grid;place-items:center;font-weight:900;font-stretch:87.5%;font-size:520px;line-height:1;color:var(--accent);padding-bottom:30px}
+  .qa .chips{position:absolute;left:120px;top:700px;display:flex;gap:14px}
+</style>
+<section class="slide b qa s0">
+  {{top:b}}
+  <div class="disc"></div>
+  <div class="qm">?</div>
+  <div class="big">Questions</div>
+  <p class="sub">Unmute, or drop your question in the chat.</p>
+  <div class="chips"><span class="chip">Neurons &amp; layers</span><span class="chip">Activations</span><span class="chip">Training &amp; validation</span><span class="chip">ANN vs baselines</span></div>
+  <div class="who"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div>
+</section>
+
+<!-- ===================================================================== CLOSE -->
+<style>
+  .close .t{position:absolute;left:120px;top:200px;width:1040px}
+  .close .t .k{font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .close .t h2{margin-top:18px;color:var(--dk-ink);font-size:150px;line-height:.92;letter-spacing:-.04em;font-weight:900}
+  .close .t p{margin-top:32px;font-size:32px;line-height:1.4;color:var(--dk-muted);max-width:900px}
+  .close .t p b{color:var(--dk-ink);font-weight:700}
+  .close .t .by{margin-top:52px;font-size:26px;color:var(--dk-muted)}
+  .close .t .by b{display:block;font-size:32px;color:var(--dk-ink);margin-bottom:6px}
+  .close .row{position:absolute;left:120px;bottom:84px;display:flex;align-items:center;gap:30px}
+  .close .row img{height:44px}
+  .close .row span{font-size:20px;color:var(--dk-muted);padding-left:30px;border-left:1.5px solid var(--dk-rule);white-space:nowrap}
+  .close .qrcard{position:absolute;right:120px;top:300px;width:460px;padding:40px;border-radius:32px;background:#0F1612;border:1px solid var(--dk-rule);text-align:center}
+  .close .qrcard .code{width:300px;height:300px;margin:0 auto;padding:18px;border-radius:20px;background:#fff}
+  .close .qrcard .code img{width:100%;height:100%}
+  .close .qrcard b{display:block;margin-top:28px;font-size:30px;color:var(--dk-ink)}
+  .close .qrcard span{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--dk-muted)}
+</style>
+<section class="slide b dark close">
+  <div class="glow"></div><div class="grid-bg"></div>
+  <div class="t"><div class="k">End of session 06</div><h2>Thank you.</h2><p>See you in session 07: <b>Can We Trust Our ML Model?</b></p><div class="by"><b>Dr. Abdul Waris</b>Research Associate · Universität Siegen, Germany</div></div>
+  <div class="qrcard"><div class="code"><img src="../poster/assets/qr-register.svg" alt="QR code to the course page"></div><b>Course page</b><span>qudeltastudios.com/courses</span></div>
+  <div class="row">{{logo-light}}<span>Technology partner</span></div>
+</section>
+
+</body>
+</html>

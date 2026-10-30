@@ -1,0 +1,477 @@
+{
+ "_comment": "Click-by-click reveals. Key = slide number (1-based). Each list item is one click: a list of CSS selectors (scoped to that slide) for what appears on that click, or {\"fx\": \"float\" | \"fade\" | \"wipe\" | \"exit\", \"sel\": [...]} to choose the effect. An exit click removes elements that are on the slide from the start. Slides 10-16 and 18-20 follow the instructor's draft click order.",
+ "2": [
+  [
+   ".ar",
+   ".card.n"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "5": [
+  [
+   ".chain > :nth-child(2)",
+   ".chain > :nth-child(3)"
+  ],
+  [
+   ".chain > :nth-child(4)",
+   ".chain > :nth-child(5)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "6": [
+  [
+   ".left > .card:nth-child(2)"
+  ],
+  [
+   ".left > .card:nth-child(3)"
+  ]
+ ],
+ "7": [
+  [
+   ".g3 .card:nth-child(2)"
+  ],
+  [
+   ".g3 .card:nth-child(3)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "8": [
+  [
+   ".g3 .card:nth-child(1)"
+  ],
+  [
+   ".g3 .card:nth-child(2)"
+  ],
+  [
+   ".g3 .card:nth-child(3)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "10": [
+  [
+   ".era .card:nth-child(1)"
+  ],
+  [
+   ".era .card:nth-child(2)"
+  ],
+  [
+   ".era .card:nth-child(3)"
+  ],
+  [
+   ".apps"
+  ],
+  [
+   ".now"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "11": [
+  [
+   ".q"
+  ],
+  [
+   ".msg"
+  ]
+ ],
+ "12": [
+  {
+   "fx": "float",
+   "sel": [
+    ".k1"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k2"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".k3"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k4"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".k5"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k6"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".k7"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k8"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".k9"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k10"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".k11"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k12"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k13"
+   ]
+  },
+  {
+   "fx": "fade",
+   "sel": [
+    ".k14"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k15"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k16"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k17"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k18"
+   ]
+  },
+  {
+   "fx": "float",
+   "sel": [
+    ".k19"
+   ]
+  }
+ ],
+ "13": [
+  {
+   "fx": "exit",
+   "sel": [
+    ".sparse"
+   ]
+  }
+ ],
+ "14": [
+  {
+   "fx": "wipe",
+   "sel": [
+    ".d1"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".d2"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".d3"
+   ]
+  },
+  {
+   "fx": "wipe",
+   "sel": [
+    ".d4"
+   ]
+  }
+ ],
+ "15": [
+  [
+   ".msg"
+  ]
+ ],
+ "16": [
+  [
+   ".msg"
+  ]
+ ],
+ "18": [
+  [
+   ".tp"
+  ],
+  [
+   ".rt .card:nth-child(1)"
+  ],
+  [
+   ".rt .card:nth-child(2)"
+  ],
+  [
+   ".rt .card:nth-child(3)"
+  ]
+ ],
+ "19": [
+  [
+   ".tp"
+  ],
+  [
+   ".rt .card:nth-child(1)"
+  ],
+  [
+   ".rt .card:nth-child(2)"
+  ],
+  [
+   ".rt .card:nth-child(3)"
+  ]
+ ],
+ "20": [
+  [
+   ".tp"
+  ],
+  [
+   ".rt .card:nth-child(1)"
+  ],
+  [
+   ".rt .card:nth-child(2)"
+  ],
+  [
+   ".rt .card:nth-child(3)"
+  ]
+ ],
+ "23": [
+  [
+   ".chain > :nth-child(2)",
+   ".chain > :nth-child(3)"
+  ],
+  [
+   ".chain > :nth-child(4)",
+   ".chain > :nth-child(5)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "24": [
+  [
+   ".g3 .card:nth-child(1)"
+  ],
+  [
+   ".g3 .card:nth-child(2)"
+  ],
+  [
+   ".g3 .card:nth-child(3)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "25": [
+  [
+   ".pc .r:nth-child(2)"
+  ],
+  [
+   ".pc .r:nth-child(3)"
+  ],
+  [
+   ".pc .r:nth-child(4)"
+  ],
+  [
+   ".pc .r:nth-child(5)",
+   ".note"
+  ]
+ ],
+ "26": [
+  [
+   ".stack .L1",
+   ".side .card:nth-child(2)"
+  ],
+  [
+   ".stack .L2",
+   ".side .card:nth-child(3)"
+  ]
+ ],
+ "27": [
+  [
+   ".g2 .chart:nth-child(2)"
+  ],
+  [
+   ".flow"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "28": [
+  [
+   ".chain .st:nth-child(2)"
+  ],
+  [
+   ".chain .st:nth-child(3)"
+  ],
+  [
+   ".chain .st:nth-child(4)"
+  ],
+  [
+   ".rep"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "29": [
+  [
+   ".side .card:nth-child(2)"
+  ],
+  [
+   ".side ul"
+  ]
+ ],
+ "30": [
+  [
+   ".g3 .card:nth-child(2)"
+  ],
+  [
+   ".g3 .card:nth-child(3)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "31": [
+  [
+   ".side .card:nth-child(1)"
+  ],
+  [
+   ".side .card:nth-child(2)"
+  ],
+  [
+   ".side .card:nth-child(3)"
+  ]
+ ],
+ "33": [
+  [
+   ".g3 .card:nth-child(2)"
+  ],
+  [
+   ".g3 .card:nth-child(3)"
+  ],
+  [
+   ".res"
+  ]
+ ],
+ "34": [
+  [
+   ".side .card:nth-child(1)"
+  ],
+  [
+   ".side .card:nth-child(2)"
+  ],
+  [
+   ".side .card:nth-child(3)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "35": [
+  [
+   ".side .card:nth-child(2)"
+  ]
+ ],
+ "36": [
+  [
+   ".side .card:nth-child(2)"
+  ],
+  [
+   ".side .take"
+  ]
+ ],
+ "37": [
+  [
+   ".side .fact"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "38": [
+  [
+   "ul li:nth-child(2)"
+  ],
+  [
+   "ul li:nth-child(3)"
+  ],
+  [
+   "ul li:nth-child(4)"
+  ],
+  [
+   ".dom"
+  ]
+ ],
+ "39": [
+  [
+   ".two .card:nth-child(2)"
+  ],
+  [
+   ".take"
+  ]
+ ],
+ "40": [
+  [
+   ".g5 .st:nth-child(n+2):nth-child(-n+3)"
+  ],
+  [
+   ".g5 .st:nth-child(n+4)"
+  ],
+  [
+   ".lesson"
+  ]
+ ]
+}
